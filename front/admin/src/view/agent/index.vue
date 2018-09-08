@@ -4,6 +4,9 @@
       <div slot="title">
         <Button type="primary" @click="onAdd" v-if="accessAdd()">
           新增 <Icon type="md-add" /></Button>
+
+        <Button type="primary" @click="refresh" v-if="accessAdd()">
+          刷新 <Icon type="md-add" /></Button>
       </div>
       <agent-search ref="search" @on-search="onSearch"></agent-search>
       <tables ref="tables" :loading="loading" editable search-place="top" v-model="list" :columns="columns" @on-delete="handleDelete"/>
@@ -11,8 +14,8 @@
       <Page :current="page" :total="total" show-elevator @on-change="toPage" />
       <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>
     </Card>
-    <agent-add ref="add"></agent-add>
-    <agent-edit ref="edit"></agent-edit>
+    <agent-add ref="add" @refresh="refresh"></agent-add>
+    <agent-edit ref="edit"  @refresh="refreshWithPage"></agent-edit>
     <Button @click="onOpen()">开启</Button>
   </div>
 </template>
@@ -38,10 +41,12 @@ export default {
   mixins: [listMixin],
   data () {
     return {
+      url: 'agent',
       access: {
         add: 'agent_add',
         view: 'agent_view',
-        edit: 'agent_edit'
+        edit: 'agent_edit',
+        remove: 'agent_remove',
       },
       columns: [
         {title: 'Name', key: 'name', sortable: true},

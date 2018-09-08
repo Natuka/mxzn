@@ -88,8 +88,9 @@ export default {
   },
   methods: {
     onSubmit (e) {
-      console.log('onsubmit', e)
-      setTimeout(_ => e(), 2000)
+        //   console.log('onsubmit', e)
+        // ....
+      this.withRefresh(e)
     },
     onCancel (e) {
       console.log('oncancel', e)

@@ -22,9 +22,16 @@ export const hasChild = (item) => {
 // 验证时，路由需要一个验证ID
 const showThisMenuEle = (item, access) => {
   if (item.meta && item.meta.access && item.meta.access.length) {
-    if (hasOneOf(item.meta.access, access)) return true
-    else return false
-  } else return true
+    // 新增支持多个角色多个权限
+    if (Array.isArray(access)) {
+      return access.some(_ => hasOneOf(item.meta.access, _))
+    }
+    if (hasOneOf(item.meta.access, access)) {
+      return true
+    }
+    return false
+  }
+  return true
 }
 /**
  * @param {Array} list 通过路由列表得到菜单列表
