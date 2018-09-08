@@ -49,6 +49,10 @@ export default {
     },
     getModal () {
       return this.$refs[this.refName]
+    },
+    withRefresh (e) {
+      e && e()
+      this.$emit('refresh')
     }
   }
 }
