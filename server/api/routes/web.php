@@ -11,6 +11,17 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/agent', function () {
     return view('welcome');
+});
+
+
+Route::group([
+    'prefix' => 'agent',
+    'namespace' => 'Admin\Agent'
+], function () {
+    Route::get('/', [
+        'uses' => 'IndexController@index',
+        'as' => 'agent_list'
+    ]);
 });
