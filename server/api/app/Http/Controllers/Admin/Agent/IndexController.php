@@ -12,7 +12,7 @@ class IndexController extends Controller
 {
     //
 
-    public function index(Request $request, Agent, $agent)
+    public function index(Request $request, Agent $agent)
     {
         $agent = $this->search($request, $agent);
        return success_json($agent->paginate(10));
