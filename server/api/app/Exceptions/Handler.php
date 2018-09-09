@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Http\Requests\ApiRequest;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -46,6 +47,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof ApiException) {
+            return error_json($exception->getMessage());
+        }
+
         return parent::render($request, $exception);
     }
 }
