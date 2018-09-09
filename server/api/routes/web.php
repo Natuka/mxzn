@@ -16,12 +16,7 @@ Route::get('/agent', function () {
 });
 
 
-Route::group([
-    'prefix' => 'agent',
-    'namespace' => 'Admin\Agent'
-], function () {
-    Route::get('/', [
-        'uses' => 'IndexController@index',
-        'as' => 'agent_list'
-    ]);
-});
+
+foreach (glob(__DIR__ . '/admin/*.php') as $file) {
+    require($file);
+}
