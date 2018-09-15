@@ -26,7 +26,7 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name.required' => '客户名称必填',
+            'name.required' => '公司名称必填',
         ];
     }
 }

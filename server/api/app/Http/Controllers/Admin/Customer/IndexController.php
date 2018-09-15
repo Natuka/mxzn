@@ -34,12 +34,8 @@ class IndexController extends Controller
      */
     public function create(CreateRequest $request, Customer $customer)
     {
-        //$request['source'] = $request->get('source', 3);
-        $request['created_by'] = '新增';
-        $request['updated_by'] = '新增';
-        $ret = $customer->forceFill($request->only([
+        $data = $request->only([
             'erp_cust_id',
-            'number',
             'name',
             'name_short',
             'industry',
@@ -66,9 +62,13 @@ class IndexController extends Controller
             'blacklist',
             'status',
             'syn_datetime',
-            'created_by',
-            'updated_by',
-        ]))->save();
+        ]);
+        //$request['source'] = $request->get('source', 3);
+        $data['created_by'] = '新增';
+        $data['updated_by'] = '新增';
+        $data['number'] = Customer::customerCode(date('Y-m-d')); //(系统自动编号)
+
+        $ret = $customer->forceFill($data)->save();
 
         if ($ret) {
             return success_json($customer, '');
@@ -120,10 +120,8 @@ class IndexController extends Controller
     public function update(UpdateRequest $request, Customer $customer)
     {
 //        dd($request->getContent(), $request->all());
-        $request['updated_by'] = '修改';
-        $ret = $customer->forceFill($request->only([
+        $data = $request->only([
             'erp_cust_id',
-            'number',
             'name',
             'name_short',
             'industry',
@@ -150,8 +148,9 @@ class IndexController extends Controller
             'blacklist',
             'status',
             'syn_datetime',
-            'updated_by',
-        ]))->save();
+        ]);
+        $data['updated_by'] = '修改';
+        $ret = $customer->forceFill()->save();
 
         if ($ret) {
             return success_json($customer, '');
