@@ -42,7 +42,7 @@ class CreateCustomersTable extends Migration
             $table->string('remark',255)->nullable()->comment('备注');
             $table->tinyInteger('blacklist')->default(0)->index()->comment('是否黑名单：否 0，是 1');
             $table->tinyInteger('status')->default(0)->index()->comment('单据状态：制单中 0，已审核 1');
-            $table->datetime('syn_datetime')->nullable()->comment('最近联系时间');
+            $table->datetime('syn_datetime')->nullable()->comment('同步时间');
             $table->string('created_by',20)->nullable()->comment('创建人员');
             $table->string('updated_by',20)->nullable()->comment('修改人员');
             $table->softDeletes();
