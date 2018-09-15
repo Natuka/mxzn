@@ -20,10 +20,10 @@ class CreateServiceOrdersTable extends Migration
             $table->tinyInteger('type')->length(1)->default(1)->comment('服务类别: 安装工单 1,保养工单 2,维修工单 3,投诉工单 4,巡检工单 5,移机调试 6，工艺调试 7，试焊申请 8，设备整改 9，培训工单 10');
             $table->tinyInteger('source')->length(1)->default(0)->comment('服务来源: 公司计划安排 1,PC WEB 2,微信 3, 400客服电话 4，其他 5');
             $table->integer('customer_id')->nullable()->comment('客户id');
-            $table->string('equipment_ids',50)->default(0)->comment('机器ids');
+            $table->string('equipment_ids',50)->nullable()->comment('机器ids');
             $table->tinyInteger('level')->default(3)->comment('服务级别,A级 1，B级 2，C级 3，D级 4');
-            $table->datetime('feedback_at')->nullable()->comment('反馈时间');
-            $table->integer('feedback_staff_id')->nullable()->comment('报修人员id,关联客户联系人员id');
+            $table->datetime('feedback_at')->nullable()->comment('反馈报修时间');
+            $table->integer('feedback_staff_id')->nullable()->comment('反馈报修人员id,关联客户联系人员id');
             $table->datetime('receive_at')->nullable()->comment('受理时间');
             $table->integer('receive_staff_id')->nullable()->comment('受理人id');
             $table->timestamp('confirm_at')->nullable()->comment('工单确认时间');
