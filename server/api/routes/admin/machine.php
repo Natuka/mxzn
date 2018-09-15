@@ -1,19 +1,19 @@
 <?php
 /**
  * Created by IntelliJ IDEA.
- * User: natusi
- * Date: 2018/9/9
+ * User: FangTi
+ * Date: 2018/9/10
  * Time: 下午4:30
- * 代理商管理
+ * 机台档案
  */
 
 
 Route::group([
-    'prefix' => 'agent',
-    'namespace' => 'Admin\Agent'
+    'prefix' => 'machine',
+    'namespace' => 'Admin\Machine'
 ], function () {
     Route::get('/', [
         'uses' => 'IndexController@index',
-        'as' => 'agent_list'
+        'as' => 'machine_list'
     ]);
 });

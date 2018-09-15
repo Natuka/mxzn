@@ -15,7 +15,7 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('no', 10)->index()->default('')->comment('订单编号');
+            $table->string('no', 10)->index()->default('')->comment('工单编号');
             // 工单类别
             $table->integer('service_type')->index()->default(0)->comment('服务类别');
             $table->integer('service_from')->index()->default(0)->comment('服务来源');
@@ -28,7 +28,7 @@ class CreateOrdersTable extends Migration
             $table->string('customer_addr')->index()->comment('客户联系地址');
             $table->integer('service_level')->default(0)->comment('服务级别');
             $table->integer('staff_id')->default(0)->index()->comment('值班工程师');
-            
+
             $table->integer('service_out')->default(0)->comment('是否上门服务');
             $table->timestamp('service_out_at')->comment('预计上门时间');
             $table->timestamp('service_plane_at')->comment('预计完成时间');
@@ -44,9 +44,9 @@ class CreateOrdersTable extends Migration
 
             $table->tinyInteger('order_status')->default(1)->comment('单据状态 已受理|待派单|处理中|已取消|已关闭|无法处理');
             $table->tinyInteger('repair_status')->default(0)->comment('维修结果, 0 维修中 1 已完成');
-            
+
             $table->tinyInteger('settle_status')->default(0)->comment('结算 未结算|结算中|已结算|免费');
-            
+
             $table->timestamp('staff_received_at')->index()->comment('响应时间, 值班工程师 确认');
             $table->timestamp('repair_received_at')->index()->comment('维修工程师 确认');
 

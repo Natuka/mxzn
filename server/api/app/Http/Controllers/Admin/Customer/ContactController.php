@@ -13,9 +13,15 @@ class ContactController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, CustomerContact $customerContact)
     {
-        //
+        $customerContact = $this->search($request, $customerContact);
+        return success_json($customerContact->paginate( config('pageinfo.per_page') ));
+    }
+
+    public function search(Request $request, CustomerContact $customerContact)
+    {
+        return $customerContact;
     }
 
     /**
@@ -23,9 +29,17 @@ class ContactController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(CreateRequest $request, CustomerContact $customerContact)
     {
-        //
+        $ret = $customerContact->forceFill($request->only([
+            'name',
+        ]))->save();
+
+        if ($ret) {
+            return success_json($customerContact, '');
+        }
+
+        return error_json('新增失败，请检查');
     }
 
     /**
@@ -68,9 +82,17 @@ class ContactController extends Controller
      * @param  \App\Models\CustomerContact  $customerContact
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CustomerContact $customerContact)
+    public function update(UpdateRequest $request, CustomerContact $customerContact)
     {
-        //
+        $ret = $customerContact->forceFill($request->only([
+            'name',
+        ]))->save();
+
+        if ($ret) {
+            return success_json($customerContact, '');
+        }
+
+        return error_json('修改失败，请检查');
     }
 
     /**

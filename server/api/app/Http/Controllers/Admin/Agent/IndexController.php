@@ -15,7 +15,7 @@ class IndexController extends Controller
     public function index(Request $request, Agent $agent)
     {
         $agent = $this->search($request, $agent);
-       return success_json($agent->paginate(10));
+       return success_json($agent->paginate( config('pageinfo.per_page') ));
     }
 
     public function search(Request $request, Agent $agent)

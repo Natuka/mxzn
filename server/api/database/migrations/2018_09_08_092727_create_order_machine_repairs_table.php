@@ -15,10 +15,10 @@ class CreateOrderMachineRepairsTable extends Migration
     {
         Schema::create('order_machine_repairs', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('order_id')->default(0)->index()->comment('订单ID');
+            $table->integer('order_id')->default(0)->index()->comment('工单ID');
             $table->tinyInteger('type')->default(0)->index()->comment('处理方式');
             $table->integer('engineer_id')->index()->default(0)->comment('工程师ID');
-            $table->string('engineer')->comment('订单ID');
+            $table->string('engineer')->comment('工程师IDS');
             $table->timestamp('arrived_at')->index()->comment('到达时间');
             $table->timestamp('complete_at')->index()->comment('完成时间');
             $table->integer('fault_id')->default(0)->index()->comment('故障原因');
