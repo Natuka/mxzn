@@ -14,6 +14,43 @@ Route::group([
 ], function () {
     Route::get('/', [
         'uses' => 'IndexController@index',
-        'as' => 'customer_list'
+        'as' => 'customer_list',
+        'display_name' => '1 客户管理',
     ]);
+
+/*    Route::get('/', [
+        'uses' => 'IndexController@index',
+        'as' => 'customer_list',
+        'display_name' => '1.客户管理',
+        'visible' => true,
+    ]);*/
+
+    Route::post('/', [
+        'uses' => 'IndexController@create',
+        'as' => 'customer_create',
+        'display_name' => '客户新增',
+        'visible' => false,
+    ]);
+
+    Route::put('/{customer}', [
+        'uses' => 'IndexController@update',
+        'as' => 'customer_update',
+        'display_name' => '客户修改',
+        'visible' => false,
+    ]);
+
+    Route::delete('/{customer}', [
+        'uses' => 'IndexController@destroy',
+        'as' => 'customer_delete',
+        'display_name' => '客户删除',
+        'visible' => false,
+    ]);
+    Route::post('/remove-list', [
+        'uses' => 'IndexController@destroyList',
+        'as' => 'customer_list_delete',
+        'display_name' => '客户批量删除',
+        'visible' => false,
+    ]);
+
+
 });
