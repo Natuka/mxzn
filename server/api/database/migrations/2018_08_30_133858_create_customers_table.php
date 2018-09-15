@@ -23,9 +23,9 @@ class CreateCustomersTable extends Migration
             $table->tinyInteger('type')->default(2)->index()->comment('客户类别: 代理商 1,终端客户 2');
             $table->tinyInteger('level')->default(2)->index()->comment('客户级别: A重要客户 1,B普通客户 2,C低价值客户 3');
             $table->tinyInteger('follow_up_status')->default(0)->index()->comment('跟进状态: 初访 0,意向 1,报价 2, 成交 3, 暂时搁置 4');
-            $table->tinyInteger('source')->defualt(0)->index()->comment('客户来源: 广告 1,社交推广 2,研讨会 3, 搜索引擎 4, 客户介绍 5, 独立开发 6, 代理商 7, 其他 0');
+            $table->tinyInteger('source')->default(0)->index()->comment('客户来源: 广告 1,社交推广 2,研讨会 3, 搜索引擎 4, 客户介绍 5, 独立开发 6, 代理商 7, 其他 0');
             $table->tinyInteger('staff_scale')->default(0)->comment('人员规模: <10人 1,10-20人 2,20-50人 3, 50-100人 4, 100-500人 5, 500人以上 6, 未知 0 ');
-            $table->tinyInteger('purchasing_power')->defualt(0)->index()->comment('购买力: 强 1，中 2，弱 3，未知 0');
+            $table->tinyInteger('purchasing_power')->default(0)->index()->comment('购买力: 强 1，中 2，弱 3，未知 0');
             $table->datetime('follow_up_nexttime')->nullable()->comment('下次跟进时间');
             $table->datetime('contact_lasttime')->nullable()->comment('最近联系时间');
             $table->integer('province_id')->nullable()->comment('所在省');
