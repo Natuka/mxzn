@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin\Customer;
 
-use App\Http\Requests\Admin\Customer\CreateRequest;
-use App\Http\Requests\Admin\Customer\UpdateRequest;
+use App\Http\Requests\Admin\CustomerContact\CreateRequest;
+use App\Http\Requests\Admin\CustomerContact\UpdateRequest;
 use App\Models\CustomerContact;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
