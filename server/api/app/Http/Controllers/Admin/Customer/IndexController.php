@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin\Customer;
 
+use App\Http\Requests\Admin\Customer\CreateRequest;
+use App\Http\Requests\Admin\Customer\UpdateRequest;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -32,8 +34,40 @@ class IndexController extends Controller
      */
     public function create(CreateRequest $request, Customer $customer)
     {
+        //$request['source'] = $request->get('source', 3);
+        $request['created_by'] = '新增';
+        $request['updated_by'] = '新增';
         $ret = $customer->forceFill($request->only([
+            'erp_cust_id',
+            'number',
             'name',
+            'name_short',
+            'industry',
+            'type',
+            'level',
+            'follow_up_status',
+            'source',
+            'staff_scale',
+            'purchasing_power',
+            'follow_up_nexttime',
+            'contact_lasttime',
+            'province_id',
+            'city_id',
+            'district_county_id',
+            'address',
+            'tel',
+            'fax',
+            'zip_code',
+            'salesman_id',
+            'ent_code',
+            'bank',
+            'account',
+            'remark',
+            'blacklist',
+            'status',
+            'syn_datetime',
+            'created_by',
+            'updated_by',
         ]))->save();
 
         if ($ret) {
@@ -85,8 +119,38 @@ class IndexController extends Controller
      */
     public function update(UpdateRequest $request, Customer $customer)
     {
+//        dd($request->getContent(), $request->all());
+        $request['updated_by'] = '修改';
         $ret = $customer->forceFill($request->only([
+            'erp_cust_id',
+            'number',
             'name',
+            'name_short',
+            'industry',
+            'type',
+            'level',
+            'follow_up_status',
+            'source',
+            'staff_scale',
+            'purchasing_power',
+            'follow_up_nexttime',
+            'contact_lasttime',
+            'province_id',
+            'city_id',
+            'district_county_id',
+            'address',
+            'tel',
+            'fax',
+            'zip_code',
+            'salesman_id',
+            'ent_code',
+            'bank',
+            'account',
+            'remark',
+            'blacklist',
+            'status',
+            'syn_datetime',
+            'updated_by',
         ]))->save();
 
         if ($ret) {

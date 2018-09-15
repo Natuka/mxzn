@@ -29,7 +29,6 @@ Route::group([
         'uses' => 'IndexController@create',
         'as' => 'customer_create',
         'display_name' => '客户新增',
-        'visible' => false,
     ]);
 
     Route::put('/{customer}', [
