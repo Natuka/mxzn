@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin\Customer;
 
+use App\Http\Requests\Admin\Customer\CreateRequest;
+use App\Http\Requests\Admin\Customer\UpdateRequest;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -32,9 +34,41 @@ class IndexController extends Controller
      */
     public function create(CreateRequest $request, Customer $customer)
     {
-        $ret = $customer->forceFill($request->only([
+        $data = $request->only([
+            'erp_cust_id',
             'name',
-        ]))->save();
+            'name_short',
+            'industry',
+            'type',
+            'level',
+            'follow_up_status',
+            'source',
+            'staff_scale',
+            'purchasing_power',
+            'follow_up_nexttime',
+            'contact_lasttime',
+            'province_id',
+            'city_id',
+            'district_county_id',
+            'address',
+            'tel',
+            'fax',
+            'zip_code',
+            'salesman_id',
+            'ent_code',
+            'bank',
+            'account',
+            'remark',
+            'blacklist',
+            'status',
+            'syn_datetime',
+        ]);
+        //$request['source'] = $request->get('source', 3);
+        $data['created_by'] = '新增';
+        $data['updated_by'] = '新增';
+        $data['number'] = Customer::customerCode(date('Y-m-d')); //(系统自动编号)
+
+        $ret = $customer->forceFill($data)->save();
 
         if ($ret) {
             return success_json($customer, '');
@@ -85,9 +119,38 @@ class IndexController extends Controller
      */
     public function update(UpdateRequest $request, Customer $customer)
     {
-        $ret = $customer->forceFill($request->only([
+//        dd($request->getContent(), $request->all());
+        $data = $request->only([
+            'erp_cust_id',
             'name',
-        ]))->save();
+            'name_short',
+            'industry',
+            'type',
+            'level',
+            'follow_up_status',
+            'source',
+            'staff_scale',
+            'purchasing_power',
+            'follow_up_nexttime',
+            'contact_lasttime',
+            'province_id',
+            'city_id',
+            'district_county_id',
+            'address',
+            'tel',
+            'fax',
+            'zip_code',
+            'salesman_id',
+            'ent_code',
+            'bank',
+            'account',
+            'remark',
+            'blacklist',
+            'status',
+            'syn_datetime',
+        ]);
+        $data['updated_by'] = '修改';
+        $ret = $customer->forceFill()->save();
 
         if ($ret) {
             return success_json($customer, '');

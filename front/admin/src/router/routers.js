@@ -49,4 +49,8 @@ export default [
   ...require('./multi-page').default,
   ...require('./erros').default,
   ...require('./tool').default,
+  ...require('./repair-logs').default,
+  ...require('./order').default,
+  ...require('./customer').default,
+  ...require('./machine').default,
 ]

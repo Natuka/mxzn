@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin\Customer;
 
+use App\Http\Requests\Admin\Customer\CreateRequest;
+use App\Http\Requests\Admin\Customer\UpdateRequest;
 use App\Models\CustomerContact;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -31,9 +33,14 @@ class ContactController extends Controller
      */
     public function create(CreateRequest $request, CustomerContact $customerContact)
     {
-        $ret = $customerContact->forceFill($request->only([
+        $data = $request->only([
             'name',
-        ]))->save();
+        ]);
+        //$request['source'] = $request->get('source', 3);
+        $data['created_by'] = '新增';
+        $data['updated_by'] = '新增';
+
+        $ret = $customerContact->forceFill($data)->save();
 
         if ($ret) {
             return success_json($customerContact, '');
@@ -84,9 +91,11 @@ class ContactController extends Controller
      */
     public function update(UpdateRequest $request, CustomerContact $customerContact)
     {
-        $ret = $customerContact->forceFill($request->only([
+        $data = $request->only([
             'name',
-        ]))->save();
+        ]);
+        $data['updated_by'] = '修改';
+        $ret = $customerContact->forceFill($data)->save();
 
         if ($ret) {
             return success_json($customerContact, '');
@@ -103,6 +112,7 @@ class ContactController extends Controller
      */
     public function destroy(CustomerContact $customerContact)
     {
-        //
+        $customerContact->delete();
+        return success_json($customerContact, '删除成功');
     }
 }
