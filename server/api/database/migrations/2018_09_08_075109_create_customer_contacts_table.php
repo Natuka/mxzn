@@ -15,7 +15,7 @@ class CreateCustomerContactsTable extends Migration
     {
         Schema::create('customer_contacts', function (Blueprint $table) {
             $table->increments('id');
-            $table->interger('cust_id')->comment('隶属客户');
+            $table->integer('cust_id')->comment('隶属客户');
             $table->string('name',20)->nullable()->comment('姓名');
             $table->tinyInteger('sex')->nullable()->comment('性别, 男 1, 女 0');
             $table->date('birthday')->nullable()->comment('生日');
