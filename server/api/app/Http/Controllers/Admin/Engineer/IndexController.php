@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin\Engineer;
 
+use App\Http\Requests\Admin\Engineer\CreateRequest;
+use App\Http\Requests\Admin\Engineer\UpdateRequest;
 use App\Models\Engineer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -13,9 +15,15 @@ class IndexController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, Engineer $engineer)
     {
-        //
+        $engineer = $this->search($request, $engineer);
+        return success_json($engineer->paginate( config('pageinfo.per_page') ));
+    }
+
+    public function search(Request $request, Engineer $engineer)
+    {
+        return $engineer;
     }
 
     /**
@@ -23,9 +31,22 @@ class IndexController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(CreateRequest $request, Engineer $engineer)
     {
-        //
+        $data = $request->only([
+            'name',
+        ]);
+        //$request['source'] = $request->get('source', 3);
+        $data['created_by'] = '新增';
+        $data['updated_by'] = '新增';
+
+        $ret = $engineer->forceFill($data)->save();
+
+        if ($ret) {
+            return success_json($engineer, '');
+        }
+
+        return error_json('新增失败，请检查');
     }
 
     /**
@@ -68,9 +89,19 @@ class IndexController extends Controller
      * @param  \App\Models\Engineer  $engineer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Engineer $engineer)
+    public function update(UpdateRequest $request, Engineer $engineer)
     {
-        //
+        $data = $request->only([
+            'name',
+        ]);
+        $data['updated_by'] = '修改';
+        $ret = $engineer->forceFill($data)->save();
+
+        if ($ret) {
+            return success_json($engineer, '');
+        }
+
+        return error_json('修改失败，请检查');
     }
 
     /**
@@ -81,6 +112,7 @@ class IndexController extends Controller
      */
     public function destroy(Engineer $engineer)
     {
-        //
+        $engineer->delete();
+        return success_json($engineer, '删除成功');
     }
 }
