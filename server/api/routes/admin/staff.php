@@ -16,4 +16,31 @@ Route::group([
         'uses' => 'IndexController@index',
         'as' => 'staff_list'
     ]);
+
+    /*    Route::get('/', [
+            'uses' => 'IndexController@index',
+            'as' => 'staff_list',
+            'display_name' => '1.员工管理',
+            'visible' => true,
+        ]);*/
+
+    Route::post('/', [
+        'uses' => 'IndexController@create',
+        'as' => 'staff_create',
+        'display_name' => '员工新增',
+    ]);
+
+    Route::put('/{staff}', [
+        'uses' => 'IndexController@update',
+        'as' => 'staff_update',
+        'display_name' => '员工修改',
+        'visible' => false,
+    ]);
+
+    Route::delete('/{staff}', [
+        'uses' => 'IndexController@destroy',
+        'as' => 'staff_delete',
+        'display_name' => '员工删除',
+        'visible' => false,
+    ]);
 });
