@@ -24,7 +24,14 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => '名称必填',
         ];
     }
 }

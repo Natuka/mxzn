@@ -2,10 +2,12 @@
 
 namespace App\Http\Requests\Admin\MachinePart;
 
+use App\Traits\RequestTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRequest extends FormRequest
 {
+    use RequestTrait;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -13,7 +15,7 @@ class UpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +26,14 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => '名称必填',
         ];
     }
 }

@@ -26,7 +26,14 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name.required' => '姓名必填',
+            'name' => 'required',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => '名称必填',
         ];
     }
 }
