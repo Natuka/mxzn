@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin\Document;
 
+use App\Http\Requests\Admin\Document\CreateRequest;
+use App\Http\Requests\Admin\Document\UpdateRequest;
 use App\Models\Document;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -13,9 +15,15 @@ class IndexController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, Document $document)
     {
-        //
+        $document = $this->search($request, $document);
+        return success_json($document->paginate( config('pageinfo.per_page') ));
+    }
+
+    public function search(Request $request, Document $document)
+    {
+        return $document;
     }
 
     /**
@@ -23,9 +31,22 @@ class IndexController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(CreateRequest $request, Document $document)
     {
-        //
+        $data = $request->only([
+            'name',
+        ]);
+        //$request['source'] = $request->get('source', 3);
+        $data['created_by'] = '新增';
+        $data['updated_by'] = '新增';
+
+        $ret = $document->forceFill($data)->save();
+
+        if ($ret) {
+            return success_json($document, '');
+        }
+
+        return error_json('新增失败，请检查');
     }
 
     /**
@@ -68,9 +89,19 @@ class IndexController extends Controller
      * @param  \App\Models\Document  $document
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Document $document)
+    public function update(UpdateRequest $request, Document $document)
     {
-        //
+        $data = $request->only([
+            'name',
+        ]);
+        $data['updated_by'] = '修改';
+        $ret = $document->forceFill($data)->save();
+
+        if ($ret) {
+            return success_json($document, '');
+        }
+
+        return error_json('修改失败，请检查');
     }
 
     /**
@@ -81,6 +112,7 @@ class IndexController extends Controller
      */
     public function destroy(Document $document)
     {
-        //
+        $document->delete();
+        return success_json($document, '删除成功');
     }
 }
