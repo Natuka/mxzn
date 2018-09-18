@@ -16,6 +16,7 @@ class CreateBaseDepartmentsTable extends Migration
     {
         Schema::create('base_departments', function (Blueprint $table) {
             $table->increments('id');
+            $table->tinyInteger('org_id')->nullable()->comment('组织/公司id');
             $table->integer('parent_id')->nullable()->comment('parent id');
             $table->string('number',20)->nullable()->comment('编号');
             $table->string('name',20)->nullable()->comment('部门名称');

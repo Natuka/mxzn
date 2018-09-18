@@ -16,7 +16,7 @@ class CreateBaseStaffsTable extends Migration
     {
         Schema::create('base_staffs', function (Blueprint $table) {
             $table->increments('id');
-            $table->tinyInteger('org_id')->nullable()->comment('组织id');
+            $table->tinyInteger('org_id')->nullable()->comment('组织/公司id');
             $table->string('number',20)->nullable()->comment('编号');
             $table->string('name',20)->nullable()->comment('姓名');
             $table->tinyInteger('sex')->nullable()->comment('性别, 男 1, 女 0');
