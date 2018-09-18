@@ -17,7 +17,8 @@ class CreateBaseOrganizationsTable extends Migration
         Schema::create('base_organizations', function (Blueprint $table) {
             $table->increments('id');
             $table->string('number',20)->nullable()->comment('编号');
-            $table->string('name',50)->nullable()->comment('名字');
+            $table->string('name',50)->nullable()->comment('名称');
+            $table->string('name_short',30)->nullable()->comment('简称');
             $table->tinyInteger('type')->nullable()->comment('类别');
             $table->string('created_by',20)->nullable()->comment('创建人员');
             $table->string('updated_by',20)->nullable()->comment('修改人员');

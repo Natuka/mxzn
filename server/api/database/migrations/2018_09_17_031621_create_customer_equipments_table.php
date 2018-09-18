@@ -18,6 +18,8 @@ class CreateCustomerEquipmentsTable extends Migration
             $table->increments('id');
             $table->integer('cust_id')->nullable()->comment('客户id');
             $table->integer('item_id')->nullable()->comment('物料id');
+            $table->string('name',20)->nullable()->comment('名称');
+            $table->string('model',200)->nullable()->comment('规格型号');
             $table->tinyInteger('type')->nullable()->comment('类别: 系统 1，单机 2, 配件 3，损耗件 4，其他 5');
             $table->integer('code_id')->nullable()->comment('code id');
             $table->string('contract_number',20)->nullable()->comment('合同编号');
