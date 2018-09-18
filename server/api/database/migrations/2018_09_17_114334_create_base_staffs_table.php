@@ -16,12 +16,12 @@ class CreateBaseStaffsTable extends Migration
     {
         Schema::create('base_staffs', function (Blueprint $table) {
             $table->increments('id');
-            $table->tinyInter('ent_id')->nullable()->comment('公司id');
-            $table->string('number')->nullable()->comment('编号');
-            $table->string('name')->nullable()->comment('姓名');
-            $table->tinyInter('sex')->nullable()->comment('性别, 男 1, 女 0');
+            $table->tinyInteger('org_id')->nullable()->comment('组织id');
+            $table->string('number',20)->nullable()->comment('编号');
+            $table->string('name',20)->nullable()->comment('姓名');
+            $table->tinyInteger('sex')->nullable()->comment('性别, 男 1, 女 0');
             $table->date('birthday')->nullable()->comment('出生日期');
-            $table->tinyInter('dep_id')->nullable()->comment('部门id');
+            $table->tinyInteger('dep_id')->nullable()->comment('部门id');
             $table->string('department',20)->nullable()->comment('部门');
             $table->string('post',10)->nullable()->comment('职位');
             $table->string('job',20)->nullable()->comment('职务');

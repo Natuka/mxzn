@@ -22,9 +22,9 @@ class CreateBaseCodesTable extends Migration
             $table->string('model',200)->nullable()->comment('规格型号');
             $table->date('manufacture_date')->nullable()->comment('制造日期');
             $table->date('purchase_date')->nullable()->comment('采购日期');
-            $table->string('qr_code',255)->nullable->comment('二维码');
-            $table->string('serial_number',30)->nullable->comment('系列号');
-            $table->string('remark',200)->nullable->comment('备注');
+            $table->string('qr_code',255)->nullable()->comment('二维码');
+            $table->string('serial_number',30)->nullable()->comment('系列号');
+            $table->string('remark',200)->nullable()->comment('备注');
             $table->string('created_by',20)->nullable()->comment('建立人员');
             $table->string('updated_by',20)->nullable()->comment('修改人员');
             $table->softDeletes();

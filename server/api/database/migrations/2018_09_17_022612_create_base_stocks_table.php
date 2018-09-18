@@ -15,7 +15,7 @@ class CreateBaseStocksTable extends Migration
     {
         Schema::create('base_stocks', function (Blueprint $table) {
             $table->increments('id');
-            $table->interger('erp_itemid')->nullable()->comment('ERP物料ID');
+            $table->integer('erp_itemid')->nullable()->comment('ERP物料ID');
             $table->string('number',20)->nullable()->comment('物料编号');
             $table->string('name',30)->nullable()->comment('物料名称');
             $table->string('model',200)->nullable()->comment('规格型号');
