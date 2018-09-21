@@ -8,7 +8,8 @@ class CreateServiceOrderRepairsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
+     * Table
+     * 处理过程
      * @return void
      */
     public function up()
@@ -29,6 +30,7 @@ class CreateServiceOrderRepairsTable extends Migration
             $table->string('cause_doc_ids',50)->nullable()->comment('故障原因附件ids');
             $table->string('created_by',20)->nullable()->comment('建立人员');
             $table->string('updated_by',20)->nullable()->comment('修改人员');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

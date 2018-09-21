@@ -8,7 +8,8 @@ class CreateServiceOrdersTable extends Migration
 {
     /**
      * Run the migrations.
-     *
+     * Table
+     * 服务工单
      * @return void
      */
     public function up()

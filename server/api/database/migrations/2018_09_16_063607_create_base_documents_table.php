@@ -24,6 +24,7 @@ class CreateBaseDocumentsTable extends Migration
             $table->bigInteger('size')->comment('档案大小，Byte');
             $table->string('created_by',20)->nullable()->comment('建立人员');
             $table->string('updated_by',20)->nullable()->comment('修改人员');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
