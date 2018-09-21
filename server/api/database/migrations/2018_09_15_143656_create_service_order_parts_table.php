@@ -8,7 +8,8 @@ class CreateServiceOrderPartsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
+     * Table
+     * 配件耗材
      * @return void
      */
     public function up()

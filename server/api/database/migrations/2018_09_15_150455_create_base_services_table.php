@@ -25,7 +25,7 @@ class CreateBaseServicesTable extends Migration
             $table->char('unit',4)->nullable()->comment('单位');
             $table->tinyInteger('is_land_traffic')->nullable()->comment('是否含陆路交通费: 否 0,是 1');
             $table->tinyInteger('is_hotel')->nullable()->comment('是否含住宿: 否 0,是 1');
-            $table->date('effective_date')->nullable()->comment('有效日期');
+            $table->date('effective_date')->nullable()->comment('生效日期');
             $table->date('expiration_date')->nullable()->comment('失效日期');
             $table->string('remark',200)->nullable()->comment('备注');
             $table->string('created_by',20)->nullable()->comment('建立人员');
