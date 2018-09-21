@@ -11,32 +11,32 @@ export default [
     },
     redirect: '/customer/doc',
     children: [
+      {
+        path: '/',
+        name: 'customer_list',
+        meta: {
+          icon: '_qq',
+          title: '客户管理',
+          access: ['customer_list']
+        },
+        component: () => import('@/view/customer/index.vue')
+      },
       // {
       //   path: '/',
-      //   name: 'customer_list',
+      //   name: 'docs',
       //   meta: {
       //     icon: '_qq',
       //     title: '客户管理',
-      //     access: ['customer_list']
+      //     access: ['customer_docs']
       //   },
       //   component: () => import('@/view/customer/index.vue')
       // },
       {
         path: '/',
-        name: 'docs',
-        meta: {
-          icon: '_qq',
-          title: '客户档案',
-          access: ['customer_docs']
-        },
-        component: () => import('@/view/customer/index.vue')
-      },
-      {
-        path: '/',
         name: 'contact',
         meta: {
           icon: '_qq',
-          title: '客户管理',
+          title: '客户联系人',
           access: ['customer_contact']
         },
         component: () => import('@/view/customer/index.vue')
