@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Admin\User;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Hash;
+
+use App\Http\Requests\Admin\User\LoginRequest;
+use App\Http\Requests\Admin\User\CreateRequest;
 
 class IndexController extends Controller
 {
@@ -34,9 +38,56 @@ class IndexController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request, User $user)
     {
-        //
+        $data = $request->only(['mobile', 'qq', 'wechat', 'code', 'email', 'valid', 'name', 'password']);
+
+        $data['valid'] = $request->get('valid', 1);
+
+        $data['code'] = str_random(6);
+
+        $data['password'] = bcrypt($data['password']);
+
+        if (empty($data['wechat'])) {
+            $data['wechat'] = str_random(6);
+        }
+
+        if (empty($data['qq'])) {
+            $data['qq'] = str_random(6);
+        }
+
+        // return $data;
+
+        $user->forceFill($data)->save();
+
+        // $user->saveRoles($request->get('roles', []));
+
+        return success_json($user, '创建成功');
+
+    }
+
+    /**
+     * 登录
+     *
+     * @param  LoginRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function login(LoginRequest $request)
+    {
+        $user = User::findByEmailMobileName($request->get('account'));
+
+        if (!$user) {
+            return error_json('账号不存在');
+        }
+
+        $password = e($request->get('password', ''));
+         if (!Hash::check($password, $user->password)) {
+            return error_json('密码错误');
+        }
+        $token = $user->createToken('MyToken')->accessToken;
+
+         // 登录成功
+        return success_json(compact('token'), '登录成功');
     }
 
     /**
