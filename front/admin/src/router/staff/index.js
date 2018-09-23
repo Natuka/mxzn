@@ -40,7 +40,7 @@ export default [
           access: ['staff_contact']
         },
         component: () => import('@/view/staff/index.vue')
-      },
+      }
     ]
   }
 ]

@@ -1,15 +1,15 @@
 import {getApi, postApi, deleteApi, patchApi} from '../libs/api.request'
 
 export function getRoleList (params) {
-  return getApi('role', params)
+  return getApi('agent', params)
 }
 
 export function addRole (data) {
-  return postApi('role', data)
+  return postApi('agent', data)
 }
 
 export function updateRole (data, id) {
-  return patchApi('role/' + id, data)
+  return patchApi('agent/' + id, data)
 }
 
 export function deleteRole () {

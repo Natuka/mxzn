@@ -22,7 +22,7 @@
 
 <script>
 import Tables from '_c/tables'
-import { getTablePageData } from '@/api/data'
+import { getRoleList } from '@/api/agent'
 
 import search from './search'
 import add from './add'
@@ -129,7 +129,7 @@ export default {
       e()
     },
     async fetchList() {
-      return getTablePageData().then(res => ({
+      return getRoleList().then(res => ({
         data: res.data.data,
         total: res.data.total
       }))

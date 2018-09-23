@@ -1,11 +1,7 @@
 <template>
   <Form ref="search" :model="data" :rules="ruleInline" inline>
-    <FormItem prop="user">
-      <Input type="text" v-model="data.user" placeholder="Username">
-      </Input>
-    </FormItem>
-    <FormItem prop="password">
-      <Input type="text" v-model="data.password" placeholder="Password">
+    <FormItem prop="name">
+      <Input type="text" v-model="data.name" placeholder="请填写企业名称">
       </Input>
     </FormItem>
     <FormItem>
@@ -20,27 +16,13 @@ export default {
   data () {
     return {
       data: {
-        user: '',
-        password: ''
+        name: ''
       },
       ruleInline: {
-        user: [
+        name: [
           {
             required: true,
-            message: 'Please fill in the user name',
-            trigger: 'blur'
-          }
-        ],
-        password: [
-          {
-            required: true,
-            message: 'Please fill in the password.',
-            trigger: 'blur'
-          },
-          {
-            type: 'string',
-            min: 6,
-            message: 'The password length cannot be less than 6 bits',
+            message: '请填写企业名称',
             trigger: 'blur'
           }
         ]
@@ -53,9 +35,9 @@ export default {
       this.$refs[name].validate(valid => {
         if (valid) {
           this.loading = true
-          this.$emit('on-search', this.data)
+          this.$emit('on-search', JSON.parse(JSON.stringify(this.data)))
         } else {
-          this.$Message.error('Fail!')
+          // this.$Message.error('查询失败')
         }
       })
     },

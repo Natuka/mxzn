@@ -53,4 +53,6 @@ export default [
   ...require('./order').default,
   ...require('./customer').default,
   ...require('./machine').default,
+  ...require('./staff').default,
+  ...require('./organization').default,
 ]

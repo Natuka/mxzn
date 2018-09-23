@@ -1,5 +1,6 @@
 import axios from 'axios'
 // import { Spin } from 'iview'
+import {Modal} from 'iview'
 class HttpRequest {
   constructor (baseUrl = baseURL) {
     this.baseUrl = baseUrl
@@ -32,13 +33,35 @@ class HttpRequest {
     }, error => {
       return Promise.reject(error)
     })
+
     // 响应拦截
     instance.interceptors.response.use(res => {
       this.distroy(url)
-      const { data, status } = res
-      return { data, status }
+      const { data } = res
+      if (data.code > 0) {
+        Modal.error({
+          title: '提示',
+          content: data.message
+        })
+
+        setTimeout(() => {
+          Modal.remove()
+        }, 3000)
+
+        return Promise.reject((data.message))
+      }
+
+      return { data: data.data, message: data.message }
     }, error => {
       this.distroy(url)
+      Modal.error({
+        title: '提示',
+        content: error
+      })
+
+      setTimeout(() => {
+        Modal.remove()
+      }, 3000)
       return Promise.reject(error)
     })
   }

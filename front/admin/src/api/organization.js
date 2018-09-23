@@ -1,17 +1,17 @@
-import {getApi, postApi, deleteApi, patchApi} from '../libs/api.request'
+import {getApi, postApi, deleteApi, putApi} from '../libs/api.request'
 
-export function getStaffList (params) {
-  return getApi('staff', params)
+export function getOrganizationList (params) {
+  return getApi('organization', params)
 }
 
-export function addStaff (data) {
-  return postApi('staff', data)
+export function addOrganization (data) {
+  return postApi('organization', data)
 }
 
-export function updateStaff (data, id) {
-  return patchApi('staff/' + id, data)
+export function updateOrganization (data, id) {
+  return putApi('organization/' + id, data)
 }
 
-export function deleteStaff () {
+export function deleteOrganization () {
   return deleteApi()
 }

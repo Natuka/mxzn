@@ -3,3 +3,15 @@
 @menu-dark-title: #001529;
 @menu-dark-active-bg: #000c17;
 @layout-sider-background: #001529;
+
+.generate-columns(10);
+
+.generate-columns(@n, @i: 1) when (@i =< @n) {
+  .ml-@{i} {
+    margin-left: 2px * @i;
+  }
+  .mr-@{i} {
+    margin-right: 2px * @i;
+  }
+  .generate-columns(@n, (@i + 1));
+}

@@ -2,65 +2,33 @@
   <custom-modal
     ref="ref"
     width="800px"
-    title="2333"
+    title="人事档案修改"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
-    :postable="access"
   >
     <div>
-      <Form :model="formItem" :label-width="80">
-        <FormItem label="Input">
-          <Input v-model="formItem.input" placeholder="Enter something..."></Input>
+      <Form :model="data"
+            ref="addForm"
+            :rules="rules"
+            :label-width="80">
+        <FormItem label="编号" prop="number">
+          <Input v-model="data.number" placeholder="编号"></Input>
         </FormItem>
-        <FormItem label="Select">
-          <Select v-model="formItem.select">
-            <Option value="beijing">New York</Option>
-            <Option value="shanghai">London</Option>
-            <Option value="shenzhen">Sydney</Option>
-          </Select>
+        <FormItem label="姓名" prop="name">
+          <Input v-model="data.name" placeholder="姓名"></Input>
         </FormItem>
-        <FormItem label="DatePicker">
-          <Row>
-            <Col span="11">
-            <DatePicker type="date" placeholder="Select date" v-model="formItem.date"></DatePicker>
-            </Col>
-            <Col span="2" style="text-align: center">
-            -</Col>
-            <Col span="11">
-            <TimePicker type="time" placeholder="Select time" v-model="formItem.time"></TimePicker>
-            </Col>
-          </Row>
+        <FormItem label="简称" prop="name_short">
+          <Input v-model="data.name_short" placeholder="简称"></Input>
         </FormItem>
-        <FormItem label="Radio">
-          <RadioGroup v-model="formItem.radio">
-            <Radio label="male">Male</Radio>
-            <Radio label="female">Female</Radio>
+        <FormItem label="类型">
+          <RadioGroup v-model="data.type">
+            <Radio :label="1">
+              <span>A</span>
+            </Radio>
+            <Radio :label="0">
+              <span>B</span>
+            </Radio>
           </RadioGroup>
-        </FormItem>
-        <FormItem label="Checkbox">
-          <CheckboxGroup v-model="formItem.checkbox">
-            <Checkbox label="Eat"></Checkbox>
-            <Checkbox label="Sleep"></Checkbox>
-            <Checkbox label="Run"></Checkbox>
-            <Checkbox label="Movie"></Checkbox>
-          </CheckboxGroup>
-        </FormItem>
-        <FormItem label="Switch">
-          <i-switch v-model="formItem.switch" size="large">
-            <span slot="open">On</span>
-            <span slot="close">Off</span>
-          </i-switch>
-        </FormItem>
-        <FormItem label="Slider">
-          <Slider v-model="formItem.slider" range></Slider>
-        </FormItem>
-        <FormItem label="Text">
-          <Input v-model="formItem.textarea" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
-                 placeholder="Enter something..."></Input>
-        </FormItem>
-        <FormItem>
-          <Button type="primary">Submit</Button>
-          <Button style="margin-left: 8px">Cancel</Button>
         </FormItem>
       </Form>
     </div>
@@ -71,32 +39,45 @@
 
 import ModalMixin from '@/mixins/modal'
 
+import {updateOrganization} from '../../api/organization'
+
 export default {
-  name: 'agent-edit',
+  name: 'organization-edit',
   mixins: [ModalMixin],
   data () {
     return {
-      formItem: {
-        input: '',
-        select: '',
-        radio: 'male',
-        checkbox: [],
-        switch: true,
-        date: '',
-        time: '',
-        slider: [20, 50],
-        textarea: ''
+      data: {
+        id: 0,
+        name: '',
+        number: '',
+        name_short: '',
+        type: 1
       },
-      data: {}
+      rules: {
+        name: [
+          {required: true, message: '名称不能为空', trigger: 'blur'},
+        ],
+        number: [
+          {required: true, message: '编号不能为空', trigger: 'blur'}
+        ],
+        name_short: [
+          {required: true, message: '简称不能为空', trigger: 'blur'}
+        ]
+      }
     }
   },
   methods: {
     onSubmit (e) {
-      console.log('onsubmit', e)
-      this.withRefresh(e)
+      this.$refs.addForm.validate(async (valid) => {
+        if (valid) {
+          let data = await updateOrganization(this.data, this.data.id)
+          this.withRefresh(e)
+        } else {
+          this.closeLoading()
+        }
+      })
     },
     onCancel (e) {
-      console.log('oncancel', e)
       e()
     }
   }

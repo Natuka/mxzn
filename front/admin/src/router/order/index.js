@@ -7,7 +7,7 @@ export default [
     name: 'order',
     component: Main,
     meta: {
-      access: ['order_list'],
+      access: [ 'order_list' ],
       title: '工单管理',
     },
     redirect: '/order/service',
@@ -28,7 +28,7 @@ export default [
         meta: {
           icon: '_qq',
           title: '工单维护',
-          access: ['order_service']
+          access: [ 'order_service' ]
         },
         component: () => parentView,
         children: [
@@ -38,9 +38,9 @@ export default [
             meta: {
               icon: '_qq',
               title: '维修工单',
-              access: ['order_service_repair']
+              access: [ 'order_service_repair' ]
             },
-            component: () => import('@/view/order/index.vue')
+            component: () => import( '@/view/order/index.vue' )
           },
           {
             path: '/repair',
@@ -48,9 +48,9 @@ export default [
             meta: {
               icon: '_qq',
               title: '安装工单',
-              access: ['order_service_setups']
+              access: [ 'order_service_setups' ]
             },
-            component: () => import('@/view/order/index.vue')
+            component: () => import( '@/view/order/index.vue' )
           },
           {
             path: '/repair',
@@ -58,9 +58,9 @@ export default [
             meta: {
               icon: '_qq',
               title: '保养工单',
-              access: ['order_service_keep']
+              access: [ 'order_service_keep' ]
             },
-            component: () => import('@/view/order/index.vue')
+            component: () => import( '@/view/order/index.vue' )
           },
         ]
       },
@@ -70,9 +70,9 @@ export default [
         meta: {
           icon: '_qq',
           title: '工单确认',
-          access: ['order_confirm']
+          access: [ 'order_confirm' ]
         },
-        component: () => import('@/view/order/index.vue')
+        component: () => import( '@/view/order/index.vue' )
       },
       {
         path: '/',
@@ -80,9 +80,9 @@ export default [
         meta: {
           icon: '_qq',
           title: '工单派工',
-          access: ['order_dispatch']
+          access: [ 'order_dispatch' ]
         },
-        component: () => import('@/view/order/index.vue')
+        component: () => import( '@/view/order/index.vue' )
       },
       {
         path: '/do',
@@ -90,9 +90,9 @@ export default [
         meta: {
           icon: '_qq',
           title: '工单处理',
-          access: ['order_do']
+          access: [ 'order_do' ]
         },
-        component: () => import('@/view/order/index.vue')
+        component: () => import( '@/view/order/index.vue' )
       },
       {
         path: '/settle',
@@ -100,9 +100,9 @@ export default [
         meta: {
           icon: '_qq',
           title: '结算收费',
-          access: ['order_settle']
+          access: [ 'order_settle' ]
         },
-        component: () => import('@/view/order/index.vue')
+        component: () => import( '@/view/order/index.vue' )
       },
       {
         path: '/check',
@@ -110,9 +110,9 @@ export default [
         meta: {
           icon: '_qq',
           title: '审核关闭',
-          access: ['order_check']
+          access: [ 'order_check' ]
         },
-        component: () => import('@/view/order/index.vue')
+        component: () => import( '@/view/order/index.vue' )
       },
       {
         path: '/feedback',
@@ -120,9 +120,9 @@ export default [
         meta: {
           icon: '_qq',
           title: '客户回访',
-          access: ['order_feedback']
+          access: [ 'order_feedback' ]
         },
-        component: () => import('@/view/order/index.vue')
+        component: () => import( '@/view/order/index.vue' )
       },
     ]
   }

@@ -3,26 +3,31 @@
     <Card>
       <div slot="title">
         <Button type="primary" @click="onAdd" v-if="accessAdd()">
-          新增 <Icon type="md-add" /></Button>
+          新增
+          <Icon type="md-add"/>
+        </Button>
 
         <Button type="primary" @click="refresh" v-if="accessAdd()">
-          刷新 <Icon type="md-add" /></Button>
+          刷新
+          <Icon type="md-add"/>
+        </Button>
       </div>
       <agent-search ref="search" @on-search="onSearch"></agent-search>
-      <tables ref="tables" :loading="loading" editable search-place="top" v-model="list" :columns="columns" @on-delete="handleDelete"/>
-      <br />
-      <Page :current="page" :total="total" show-elevator @on-change="toPage" />
+      <tables ref="tables" :loading="loading" editable search-place="top" v-model="list" :columns="columns"
+              @on-delete="handleDelete"/>
+      <br/>
+      <Page :current="page" :total="total" show-elevator @on-change="toPage"/>
       <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>
     </Card>
     <agent-add ref="add" @refresh="refresh"></agent-add>
-    <agent-edit ref="edit"  @refresh="refreshWithPage"></agent-edit>
+    <agent-edit ref="edit" @refresh="refreshWithPage"></agent-edit>
     <Button @click="onOpen()">开启</Button>
   </div>
 </template>
 
 <script>
 import Tables from '_c/tables'
-import { getTablePageData } from '@/api/data'
+import {getTablePageData} from '@/api/data'
 
 import search from './search'
 import add from './add'
@@ -39,7 +44,7 @@ export default {
     [edit.name]: edit
   },
   mixins: [listMixin],
-  data() {
+  data () {
     return {
       url: 'agent',
       access: {
@@ -49,9 +54,9 @@ export default {
         remove: 'agent_remove'
       },
       columns: [
-        { title: 'Name', key: 'name', sortable: true },
-        { title: 'Email', key: 'email', editable: true },
-        { title: 'Create-Time', key: 'createTime' },
+        {title: 'Name', key: 'name', sortable: true},
+        {title: 'Email', key: 'email', editable: true},
+        {title: 'Create-Time', key: 'createTime'},
         {
           title: 'Handle',
           key: 'handle',
@@ -109,33 +114,33 @@ export default {
     }
   },
   methods: {
-    handleDelete(params) {
+    handleDelete (params) {
       console.log(params)
     },
-    exportExcel() {
+    exportExcel () {
       this.$refs.tables.exportCsv({
         filename: `table-${new Date().valueOf()}.csv`
       })
     },
-    onOpen() {
+    onOpen () {
       this.$refs.add.open()
     },
-    onSubmit(e) {
+    onSubmit (e) {
       console.log('onsubmit', e)
       setTimeout(_ => e(), 2000)
     },
-    onCancel(e) {
+    onCancel (e) {
       console.log('oncancel', e)
       e()
     },
-    async fetchList() {
+    async fetchList () {
       return getTablePageData().then(res => ({
         data: res.data.data,
         total: res.data.total
       }))
     }
   },
-  mounted() {
+  mounted () {
     this.refresh()
     // getTablePageData().then(res => {
     //   console.log('res', res)

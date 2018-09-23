@@ -1,5 +1,5 @@
 export default {
-  data () { 
+  data () {
     return {
       refName: 'ref',
       data: {},
@@ -7,22 +7,22 @@ export default {
     }
   },
   methods: {
-    async setData (data, access = true) { 
+    async setData (data, access = true) {
       this.data = data
       this.access = access
       console.log('access', access)
       await this.afterSetData()
     },
     // 设定数据
-    async afterSetData () { 
+    async afterSetData () {
     },
     async beforeOpen () {
       return Promise.resolve(true)
     },
-    afterOpen () { 
+    afterOpen () {
     },
     // 开启页面
-    onOpen () { 
+    onOpen () {
       this.getModal().open()
     },
     async open () {
@@ -35,10 +35,10 @@ export default {
       // 刷新上一层的数据
       // this.$emit('refreshData')
     },
-    async beforeClose () { 
+    async beforeClose () {
       return Promise.resolve(true)
     },
-    afterClose () { 
+    afterClose () {
     },
     async close () {
       let can = await this.beforeClose()
@@ -53,6 +53,9 @@ export default {
     withRefresh (e) {
       e && e()
       this.$emit('refresh')
+    },
+    closeLoading () {
+      this.getModal().closeLoading()
     }
   }
 }

@@ -1,3 +1,5 @@
+import {getApi} from '../libs/api.request'
+
 export default {
   data () {
     return {
@@ -17,11 +19,11 @@ export default {
   },
   methods: {
     // 允许编辑
-    accessEdit () { 
+    accessEdit () {
       return this.$store.getters.hasAccess(this.access.edit)
     },
     // 允许查看
-    accessView () { 
+    accessView () {
       return this.$store.getters.hasAccess(this.access.view)
     },
     // 允许新增
@@ -47,7 +49,7 @@ export default {
     async loadData () {
       let page = this.page
       let params = this.params
-      let res = await this[this.method](this.getUrl(),{ page,...params })
+      let res = await this[this.method](this.getUrl(), {page, ...params})
       // console.log('res', res)
       this.list = res.data
       this.total = res.total
@@ -74,6 +76,12 @@ export default {
     },
     closeSearchLoading () {
       this.$refs.search && this.$refs.search.closeLoading()
+    },
+    async fetchList (url, params = {}) {
+      return getApi(url, params).then(({data}) => ({
+        data: data.data,
+        total: data.total
+      }))
     }
   }
 }

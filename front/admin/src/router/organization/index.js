@@ -2,22 +2,22 @@ import Main from '@/view/main'
 
 export default [
   {
-    path: '/agent',
-    name: 'agent',
+    path: '/organization',
+    name: 'organization',
     component: Main,
     meta: {
-      access: ['agent_list']
+      access: ['organization_list']
     },
     children: [
       {
         path: '/',
-        name: 'agent_list',
+        name: 'organization_list',
         meta: {
           icon: '_qq',
-          title: '代理商管理',
-          access: ['agent_list']
+          title: '公司/组织',
+          access: ['organization_list']
         },
-        component: () => import('@/view/agent/index.vue')
+        component: () => import('@/view/organization/index.vue')
       }
     ]
   }

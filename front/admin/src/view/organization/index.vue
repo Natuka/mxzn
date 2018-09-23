@@ -23,15 +23,14 @@
       <Page :current="page" :total="total" show-elevator @on-change="toPage"/>
       <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>
     </Card>
-    <agent-add ref="add" @refresh="refresh"></agent-add>
-    <agent-edit ref="edit" @refresh="refreshWithPage"></agent-edit>
-    <!--<Button @click="onOpen()">开启</Button>-->
+    <organization-add ref="add" @refresh="refresh"></organization-add>
+    <organization-edit ref="edit" @refresh="refreshWithPage"></organization-edit>
   </div>
 </template>
 
 <script>
 import Tables from '_c/tables'
-import {getStaffList} from '@/api/staff'
+import {getOrganizationList} from '@/api/organization'
 
 import search from './search'
 import add from './add'
@@ -50,17 +49,18 @@ export default {
   mixins: [listMixin],
   data () {
     return {
-      url: 'agent',
+      url: 'organization',
       access: {
-        add: 'agent_add',
-        view: 'agent_view',
-        edit: 'agent_edit',
-        remove: 'agent_remove'
+        add: 'organization_add',
+        view: 'organization_view',
+        edit: 'organization_edit',
+        remove: 'organization_remove'
       },
       columns: [
-        {title: 'Name', key: 'name', sortable: true},
-        {title: 'Email', key: 'email', editable: true},
-        {title: 'Create-Time', key: 'createTime'},
+        {title: '编号', key: 'number', sortable: true},
+        {title: '名称', key: 'name', editable: false},
+        {title: '简称', key: 'name_short', editable: false},
+        {title: '创建时间', key: 'created_at'},
         {
           title: 'Handle',
           key: 'handle',
@@ -104,7 +104,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.onEdit()
+                      this.onEdit(params.row)
                     }
                   }
                 },
@@ -136,12 +136,6 @@ export default {
     onCancel (e) {
       console.log('oncancel', e)
       e()
-    },
-    async fetchList () {
-      return getStaffList().then(({data}) => ({
-        data: data.data,
-        total: data.total
-      }))
     }
   },
   mounted () {
