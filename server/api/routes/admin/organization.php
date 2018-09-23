@@ -9,32 +9,32 @@
 
 
 Route::group([
-    'prefix' => 'staff',
-    'namespace' => 'Admin\Staff',
+    'prefix' => 'organization',
+    'namespace' => 'Admin\Organization',
     'middleware' => ['auth:api', 'admin.api'],
 ], function () {
     Route::get('/', [
         'uses' => 'IndexController@index',
-        'as' => 'staff_list'
+        'as' => 'organization_list'
     ]);
 
     Route::post('/', [
-        'uses' => 'IndexController@create',
-        'as' => 'staff_create',
-        'display_name' => '员工新增',
+        'uses' => 'IndexController@store',
+        'as' => 'organization_create',
+        'display_name' => '公司新增',
     ]);
 
-    Route::put('/{staff}', [
+    Route::put('/{organization}', [
         'uses' => 'IndexController@update',
-        'as' => 'staff_update',
-        'display_name' => '员工修改',
+        'as' => 'organization_update',
+        'display_name' => '公司修改',
         'visible' => false,
     ]);
 
     Route::delete('/{staff}', [
         'uses' => 'IndexController@destroy',
-        'as' => 'staff_delete',
-        'display_name' => '员工删除',
+        'as' => 'organization_delete',
+        'display_name' => '公司删除',
         'visible' => false,
     ]);
 });

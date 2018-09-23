@@ -22,6 +22,15 @@ class IndexController extends Controller
         //
     }
 
+    //
+    public function info()
+    {
+        $user = auth()->user();
+        //TODO 暂时把用户的权限新增在这边
+        $user->access = config('access', []);
+        return success_json($user);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

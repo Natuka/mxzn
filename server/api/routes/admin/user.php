@@ -10,24 +10,29 @@
 
 Route::group([
     'prefix' => 'user',
-    'namespace' => 'Admin\User'
+    'namespace' => 'Admin\User',
+], function () {
+    Route::post('/login', [
+        'uses' => 'IndexController@login',
+        'as' => 'user_login',
+        'display_name' => '用户登录',
+    ]);
+});
+
+
+Route::group([
+    'prefix' => 'user',
+    'namespace' => 'Admin\User',
+    'middleware' => ['auth:api', 'admin.api'],
 ], function () {
     Route::get('/', [
         'uses' => 'IndexController@index',
         'as' => 'user_list'
     ]);
-
-    /*    Route::get('/', [
-            'uses' => 'IndexController@index',
-            'as' => 'agent_list',
-            'display_name' => '1.代理商管理',
-            'visible' => true,
-        ]);*/
-
-    Route::post('/login', [
-        'uses' => 'IndexController@login',
-        'as' => 'user_login',
-        'display_name' => '用户登录',
+    // 用户信息
+    Route::get('/info', [
+        'uses' => 'IndexController@info',
+        'as' => 'user_info'
     ]);
 
     Route::post('/', [
@@ -49,5 +54,4 @@ Route::group([
         'display_name' => '用户删除',
         'visible' => false,
     ]);
-
 });
