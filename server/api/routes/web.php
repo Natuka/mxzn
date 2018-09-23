@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/agent', function () {
+Route::get('/', function () {
     return view('welcome');
 });
 

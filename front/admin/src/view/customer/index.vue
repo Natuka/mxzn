@@ -49,9 +49,14 @@ export default {
         remove: 'agent_remove'
       },
       columns: [
-        { title: 'Name', key: 'name', sortable: true },
-        { title: 'Email', key: 'email', editable: true },
-        { title: 'Create-Time', key: 'createTime' },
+        { title: '公司编号', key: 'number', sortable: true },
+        { title: '公司名称', key: 'name', sortable: true },
+        { title: '所属行业', key: 'industry', editable: true },
+        { title: '客户类别', key: 'type', sortable: true },
+        { title: '客户级别', key: 'level', sortable: true },
+        { title: '跟进状态', key: 'follow_up_status', editable: true },
+        { title: '客户来源', key: 'source', editable: true },
+        { title: '建档日期', key: 'createTime' },
         {
           title: 'Handle',
           key: 'handle',

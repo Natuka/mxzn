@@ -34,7 +34,11 @@ class IndexController extends Controller
     public function create(CreateRequest $request, Department $department)
     {
         $data = $request->only([
+            'org_id',
+            'parent_id',
+            'number',
             'name',
+            'sort_no',
         ]);
         //$request['source'] = $request->get('source', 3);
         $data['created_by'] = '新增';
@@ -92,7 +96,11 @@ class IndexController extends Controller
     public function update(UpdateRequest $request, Department $department)
     {
         $data = $request->only([
+            'org_id',
+            'parent_id',
+            'number',
             'name',
+            'sort_no',
         ]);
         $data['updated_by'] = '修改';
         $ret = $department->forceFill($data)->save();

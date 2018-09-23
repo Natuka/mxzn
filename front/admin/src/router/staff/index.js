@@ -7,7 +7,7 @@ export default [
     component: Main,
     meta: {
       access: ['staff_list'],
-      title: '客户管理',
+      title: '人事管理',
     },
     // redirect: '/staff/doc',
     children: [

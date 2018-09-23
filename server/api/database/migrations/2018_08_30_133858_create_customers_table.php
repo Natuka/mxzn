@@ -39,6 +39,7 @@ class CreateCustomersTable extends Migration
             $table->string('ent_code',20)->nullable()->comment('企业统一信用码');
             $table->string('bank',30)->nullable()->comment('开户行');
             $table->string('account',20)->nullable()->comment('银行帐号');
+            // $table->string()
             $table->integer('credit_line')->nullable()->comment('信用额度');
             $table->tinyInteger('settle_mode')->nullable()->comment('结算方式: 现金 1，电汇 2，信汇 3，商业汇票 4');
             $table->tinyInteger('settle_type')->nullable()->comment('结算类别: 月结1日 1，月结10日 2，信用天数15天 3，信用天数30天 4');

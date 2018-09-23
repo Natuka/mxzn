@@ -34,11 +34,35 @@ class IndexController extends Controller
     public function create(CreateRequest $request, Staff $staff)
     {
         $data = $request->only([
+            'org_id',
             'name',
+            'sex',
+            'birthday',
+            'dep_id',
+            'department',
+            'post',
+            'job',
+            'graduated_school',
+            'education',
+            'skill_expertise',
+            'hobby',
+            'mobile',
+            'weixin',
+            'qq',
+            'email',
+            'status',
+            'entry_date',
+            'leave_date',
+            'province_id',
+            'city_id',
+            'district_id',
+            'address',
+            'remark',
         ]);
         //$request['source'] = $request->get('source', 3);
         $data['created_by'] = '新增';
         $data['updated_by'] = '新增';
+        $data['number'] = Staff::staffCode(date('Y-m-d')); //(系统自动编号)
 
         $ret = $staff->forceFill($data)->save();
 
@@ -92,7 +116,30 @@ class IndexController extends Controller
     public function update(UpdateRequest $request, Staff $staff)
     {
         $data = $request->only([
+            'org_id',
             'name',
+            'sex',
+            'birthday',
+            'dep_id',
+            'department',
+            'post',
+            'job',
+            'graduated_school',
+            'education',
+            'skill_expertise',
+            'hobby',
+            'mobile',
+            'weixin',
+            'qq',
+            'email',
+            'status',
+            'entry_date',
+            'leave_date',
+            'province_id',
+            'city_id',
+            'district_id',
+            'address',
+            'remark',
         ]);
         $data['updated_by'] = '修改';
         $ret = $staff->forceFill($data)->save();

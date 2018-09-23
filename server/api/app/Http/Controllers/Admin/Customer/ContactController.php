@@ -34,7 +34,21 @@ class ContactController extends Controller
     public function create(CreateRequest $request, CustomerContact $customerContact)
     {
         $data = $request->only([
+            'cust_id',
             'name',
+            'sex',
+            'birthday',
+            'department',
+            'post',
+            'job',
+            'mobile',
+            'weixin',
+            'qq',
+            'email',
+            'hobby',
+            'address',
+            'remark',
+            'status',
         ]);
         //$request['source'] = $request->get('source', 3);
         $data['created_by'] = '新增';
@@ -92,7 +106,21 @@ class ContactController extends Controller
     public function update(UpdateRequest $request, CustomerContact $customerContact)
     {
         $data = $request->only([
+            'cust_id',
             'name',
+            'sex',
+            'birthday',
+            'department',
+            'post',
+            'job',
+            'mobile',
+            'weixin',
+            'qq',
+            'email',
+            'hobby',
+            'address',
+            'remark',
+            'status',
         ]);
         $data['updated_by'] = '修改';
         $ret = $customerContact->forceFill($data)->save();
