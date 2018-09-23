@@ -24,6 +24,75 @@ class IndexController extends Controller
 
     public function search(Request $request, Customer $customer)
     {
+        $industry = $request->get('industry', 0); //所属行业
+        $type = $request->get('type', 0); //客户类别
+        $level = $request->get('level', 0); //客户级别
+        $source = $request->get('source', 0); //客户来源
+        $follow_up_status = $request->get('follow_up_status', 0); //跟进状态
+        $customer_number = $request->get('number', ''); // 客户编号
+        $customer_name = $request->get('name', ''); // 客户名称
+        $short_name = $request->get('name_short', ''); // 客户简称
+        $orderField = $request->get('orderField', 0); // 排序栏位
+        $orderBy = $request->get('orderBy', 1); // 排序顺序
+        // 在查寻功能时没有强制必选
+/*        $layerid = $request->input('layerid', 0);
+        if ($layerid) {
+            //判断对应的层级,查询条件是否满足
+            if (($layerid == 1) || ($layerid == 2 && $typeId)){
+
+            }else{
+                return $customer->whereRaw('0');
+            }
+        }*/
+        // 在派遣时是哟经参数 with_params
+/*        $withParams = $request->input('with_params', 0);
+        // 采用类别时，强制是哟经类型搜寻
+        if ($withType) {
+            $customer = $customer->where('customer_type_id', (int) $typeId);
+        } else {
+            // 客户类型
+            if ($customer_type_id) {
+                $customer = $customer->where('customer_type_id', $customer_type_id);
+            }elseif ($typeId) {
+                $customer = $customer->where('customer_type_id', (int) $typeId);
+            }
+        }*/
+
+        if ($industry) {
+            $customer = $customer->where('industry', (int) $industry);
+        }
+        if ($type) {
+            $customer = $customer->where('type', (int) $type);
+        }
+        if ($level) {
+            $customer = $customer->where('level', (int) $level);
+        }
+        if ($source) {
+            $customer = $customer->where('source', (int) $source);
+        }
+        if ($follow_up_status) {
+            $customer = $customer->where('follow_up_status', (int) $follow_up_status);
+        }
+        // 公司编号
+        if ($customer_number) {
+            $customer = $customer->where('number', 'like', $customer_number . '%');
+        }
+        // 客户名称
+        if ($customer_name) {
+            $customer = $customer->where('name', 'like', '%' . $customer_name . '%');
+        }
+        // 公司简称
+        if ($short_name) {
+            $customer = $customer->where('name_short', 'like', '%' . $short_name . '%');
+        }
+
+
+        $orderFieldArray = array('0'=>'number', '1'=>'name', '2'=>'industry', '3'=>'type', '4'=>'level', '5'=>'follow_up_status', '6'=>'source');
+        $orderByArray = array('0'=>'ASC', '1'=>'DESC',);
+        if (!empty($orderFieldArray[$orderField]) && !empty($orderByArray[$orderBy])){
+
+            $customer = $customer->orderBy($orderFieldArray[$orderField], $orderByArray[$orderBy]);
+        }
         return $customer;
     }
 
