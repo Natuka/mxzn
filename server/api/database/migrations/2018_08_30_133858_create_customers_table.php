@@ -45,7 +45,7 @@ class CreateCustomersTable extends Migration
             $table->tinyInteger('settle_type')->nullable()->comment('结算类别: 月结1日 1，月结10日 2，信用天数15天 3，信用天数30天 4');
             $table->string('remark',255)->nullable()->comment('备注');
             $table->tinyInteger('blacklist')->default(0)->index()->comment('是否黑名单：否 0，是 1');
-            $table->tinyInteger('status')->default(0)->index()->comment('单据状态：制单中 0，已审核 1');
+            $table->tinyInteger('status')->default(0)->comment('单据状态：制单中 0，已审核 1');
             $table->datetime('syn_datetime')->nullable()->comment('同步时间');
             $table->string('created_by',20)->nullable()->comment('创建人员');
             $table->string('updated_by',20)->nullable()->comment('修改人员');
