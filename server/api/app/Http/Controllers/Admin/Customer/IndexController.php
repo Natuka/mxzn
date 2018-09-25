@@ -137,10 +137,10 @@ class IndexController extends Controller
         $data['updated_by'] = '新增';
         $data['number'] = Customer::customerCode(date('Y-m-d')); //(系统自动编号)
 
-        $ret = $customer->forceFill($data)->save();
+        $ret = $customer->forceFill($data);
 
-        if ($ret) {
-            return success_json($customer, '');
+        if ($ret->save()) {
+            return success_json($customer, '新增成功');
         }
 
         return error_json('新增失败，请检查');
@@ -219,9 +219,9 @@ class IndexController extends Controller
             'syn_datetime',
         ]);
         $data['updated_by'] = '修改';
-        $ret = $customer->forceFill()->save();
+        $ret = $customer->forceFill($data);
 
-        if ($ret) {
+        if ($ret->save()) {
             return success_json($customer, '');
         }
 
