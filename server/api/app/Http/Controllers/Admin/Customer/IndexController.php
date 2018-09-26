@@ -136,7 +136,7 @@ class IndexController extends Controller
         $data['updated_by'] = '新增';
         $data['number'] = Customer::customerCode(date('Y-m-d')); //(系统自动编号)
 
-        $ret = $customer->forceFill($data)->save();
+        $ret = $customer->forceFill($data);
 
         if ($ret) {
             $this->createLoginAccount($customer);
@@ -212,7 +212,6 @@ class IndexController extends Controller
         ]);
         $data['updated_by'] = '修改';
         $ret = $customer->forceFill($data)->save();
-
         if ($ret) {
 
             $this->updateLoginAccount($customer, $request);

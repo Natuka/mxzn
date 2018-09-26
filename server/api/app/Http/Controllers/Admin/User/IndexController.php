@@ -86,13 +86,14 @@ class IndexController extends Controller
         $user = User::findByEmailMobileName($request->get('account'));
 
         if (!$user) {
-            return error_json('账号不存在');
+            return error_json('帐号不存在');
         }
 
         $password = e($request->get('password', ''));
          if (!Hash::check($password, $user->password)) {
             return error_json('密码错误');
         }
+
         $token = $user->createToken('MyToken')->accessToken;
 
          // 登录成功

@@ -58,9 +58,16 @@ export default {
         remove: 'agent_remove'
       },
       columns: [
-        {title: 'Name', key: 'name', sortable: true},
-        {title: 'Email', key: 'email', editable: true},
-        {title: 'Create-Time', key: 'createTime'},
+        {title: '编号', key: 'number', sortable: true},
+        {title: '姓名', key: 'name', sortable: true},
+        {title: '性别', key: 'sex', sortable: true},
+        {title: '出生日期', key: 'birthday', sortable: true},
+        {title: '部门', key: 'department', sortable: true},
+        {title: '职位', key: 'post', sortable: true},
+        {title: '职务', key: 'job', sortable: true},
+        {title: '手机', key: 'mobile', sortable: true},
+        {title: '在职状态', key: 'status', sortable: true},
+        {title: '建档日期', key: 'created_at', sortable: true},
         {
           title: 'Handle',
           key: 'handle',
@@ -86,7 +93,7 @@ export default {
                     }
                   }
                 },
-                [h('Button', '自定义删除')]
+                [h('Button', '删除')]
               )
             },
             (h, params, vm) => {

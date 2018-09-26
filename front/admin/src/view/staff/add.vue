@@ -1,21 +1,31 @@
 <template>
   <custom-modal
     ref="ref"
-    width="800px"
+    width="1000px"
     title="人事档案新增"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
   >
     <div>
-      <Form :model="formItem" :label-width="80">
+      <Form :model="data"
+            ref="addForm"
+            :rules="rules"
+            :label-width="90">
+        <FormItem label="组织/公司">
+          <Select v-model="data.org_id">
+            <Option value="beijing">New York</Option>
+            <Option value="shanghai">London</Option>
+            <Option value="shenzhen">Sydney</Option>
+          </Select>
+        </FormItem>
         <FormItem label="编号">
-          <Input v-model="formItem.number" placeholder="编号"></Input>
+          <Input v-model="data.number" placeholder="编号" disabled></Input>
         </FormItem>
         <FormItem label="姓名">
-          <Input v-model="formItem.name" placeholder="姓名"></Input>
+          <Input v-model="data.name" placeholder="姓名"></Input>
         </FormItem>
         <FormItem label="性别">
-          <RadioGroup v-model="formItem.sex">
+          <RadioGroup v-model="data.sex">
             <Radio :label="1">
               <Icon type="md-male"></Icon>
               <span>男</span>
@@ -26,50 +36,92 @@
             </Radio>
           </RadioGroup>
         </FormItem>
-        <FormItem label="编号">
-          <Input v-model="formItem.number" placeholder="编号"></Input>
+        <FormItem label="出生日期">
+          <DatePicker type="date" placeholder="生日" v-model="data.birthday"></DatePicker>
         </FormItem>
-        <FormItem label="Select">
-          <Select v-model="formItem.select">
+        <FormItem label="部门">
+          <Select v-model="data.dep_id">
             <Option value="beijing">New York</Option>
             <Option value="shanghai">London</Option>
             <Option value="shenzhen">Sydney</Option>
           </Select>
         </FormItem>
-        <FormItem label="生日">
-          <DatePicker type="date" placeholder="生日" v-model="formItem.birthday"></DatePicker>
+        <FormItem label="职位">
+          <Select v-model="data.post">
+            <Option value="beijing">New York</Option>
+            <Option value="shanghai">London</Option>
+            <Option value="shenzhen">Sydney</Option>
+          </Select>
         </FormItem>
-        <FormItem label="Radio">
-          <RadioGroup v-model="formItem.radio">
-            <Radio label="male">Male</Radio>
-            <Radio label="female">Female</Radio>
+        <FormItem label="职务">
+          <Select v-model="data.job">
+            <Option value="beijing">New York</Option>
+            <Option value="shanghai">London</Option>
+            <Option value="shenzhen">Sydney</Option>
+          </Select>
+        </FormItem>
+        <FormItem label="毕业院校">
+          <Input v-model="data.graduated_school" placeholder="毕业院校"></Input>
+        </FormItem>
+        <FormItem label="学历">
+          <Select v-model="data.education">
+            <Option value="beijing">New York</Option>
+            <Option value="shanghai">London</Option>
+            <Option value="shenzhen">Sydney</Option>
+          </Select>
+        </FormItem>
+        <FormItem label="技能专长">
+          <Input v-model="data.skill_expertise" placeholder="技能专长"></Input>
+        </FormItem>
+        <FormItem label="兴趣爱好">
+          <Input v-model="data.hobby" placeholder="兴趣爱好"></Input>
+        </FormItem>
+        <FormItem label="手机">
+          <Input v-model="data.mobile" placeholder="手机"></Input>
+        </FormItem>
+        <FormItem label="邮箱">
+          <Input v-model="data.email" placeholder="邮箱"></Input>
+        </FormItem>
+        <FormItem label="在职状态">
+          <RadioGroup v-model="data.status">
+            <Radio :label="1">
+              <span>在职</span>
+            </Radio>
+            <Radio :label="0">
+              <span>离职</span>
+            </Radio>
           </RadioGroup>
         </FormItem>
-        <FormItem label="Checkbox">
-          <CheckboxGroup v-model="formItem.checkbox">
-            <Checkbox label="Eat"></Checkbox>
-            <Checkbox label="Sleep"></Checkbox>
-            <Checkbox label="Run"></Checkbox>
-            <Checkbox label="Movie"></Checkbox>
-          </CheckboxGroup>
+        <FormItem label="入职日期">
+          <DatePicker type="date" placeholder="入职日期" v-model="data.entry_date"></DatePicker>
         </FormItem>
-        <FormItem label="Switch">
-          <i-switch v-model="formItem.switch" size="large">
-            <span slot="open">On</span>
-            <span slot="close">Off</span>
-          </i-switch>
+        <FormItem label="离职日期">
+          <DatePicker type="date" placeholder="离职日期" v-model="data.leave_date"></DatePicker>
         </FormItem>
-        <FormItem label="Slider">
-          <Slider v-model="formItem.slider" range></Slider>
+        <FormItem label="所在省">
+          <Input v-model="data.province_id" placeholder="所在省"></Input>
         </FormItem>
-        <FormItem label="Text">
-          <Input v-model="formItem.textarea" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
-                 placeholder="Enter something..."></Input>
+        <FormItem label="详细地址">
+          <Input v-model="data.address" placeholder="详细地址"></Input>
         </FormItem>
-        <FormItem>
-          <Button type="primary">Submit</Button>
-          <Button style="margin-left: 8px">Cancel</Button>
+        <FormItem label="备注">
+          <Input v-model="data.remark" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
+                 placeholder="备注..."></Input>
         </FormItem>
+
+        <FormItem label="建立人员">
+          <Input v-model="data.created_by" placeholder="建立人员" disabled></Input>
+        </FormItem>
+        <FormItem label="建立日期">
+          <Input v-model="data.created_at" placeholder="建立日期" disabled></Input>
+        </FormItem>
+        <FormItem label="最近修改人员">
+          <Input v-model="data.updated_by" placeholder="最近修改人员" disabled></Input>
+        </FormItem>
+        <FormItem label="最近修改日期">
+          <Input v-model="data.updated_at" placeholder="最近修改日期" disabled></Input>
+        </FormItem>
+
       </Form>
     </div>
   </custom-modal>
@@ -84,18 +136,17 @@ export default {
   mixins: [ModalMixin],
   data () {
     return {
-      formItem: {
+      data: {
         input: '',
         select: '',
         radio: 'male',
         checkbox: [],
-        switch: true,
-        date: '',
-        time: '',
-        slider: [20, 50],
-        textarea: '',
+        entry_date: '',
+        leave_date: '',
+        remark: '',
         sex: 1,
-        birthday: ''
+        birthday: '',
+        status: 1
       }
     }
   },
