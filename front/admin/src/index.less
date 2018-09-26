@@ -15,3 +15,32 @@
   }
   .generate-columns(@n, (@i + 1));
 }
+
+// 以下为弹出框样式 start
+.mxcs-two-column .ivu-form-item{
+  width: 50%;
+  float: left;
+}
+
+.mxcs-modal .ivu-form-item{
+  margin-bottom: .8rem;
+}
+
+.mxcs-modal .ivu-modal-body{
+  padding-bottom: 0;
+}
+
+.mxcs-two-column .ivu-form-item.mxcs-one-four-item{
+  width: 25%;
+  float: left;
+}
+
+.mxcs-two-column .ivu-form:before, .mxcs-two-column .ivu-form:after{
+  content: '';
+  clear: both;
+  visibility: hidden;
+  font-size: 0;
+  height: 0;
+  display: table;
+}
+// 弹出框样式结束

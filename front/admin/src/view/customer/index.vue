@@ -5,24 +5,22 @@
         <Button type="primary" @click="onAdd" v-if="accessAdd()">
           新增 <Icon type="md-add" /></Button>
 
-        <Button type="primary" @click="refresh" v-if="accessAdd()">
+        <Button type="primary" @click="refresh" v-if="accessAdd()" class="ml-5">
           刷新 <Icon type="md-add" /></Button>
       </div>
       <agent-search ref="search" @on-search="onSearch"></agent-search>
       <tables ref="tables" :loading="loading" editable search-place="top" v-model="list" :columns="columns" @on-delete="handleDelete"/>
       <br />
       <Page :current="page" :total="total" show-elevator @on-change="toPage" />
-      <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>
+      <!--<Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>-->
     </Card>
-    <agent-add ref="add" @refresh="refresh"></agent-add>
-    <agent-edit ref="edit"  @refresh="refreshWithPage"></agent-edit>
-    <Button @click="onOpen()">开启</Button>
+    <customer-add ref="add" @refresh="refresh"></customer-add>
+    <customer-edit ref="edit"  @refresh="refreshWithPage"></customer-edit>
   </div>
 </template>
 
 <script>
 import Tables from '_c/tables'
-import { getTablePageData } from '@/api/data'
 
 import search from './search'
 import add from './add'
@@ -41,12 +39,12 @@ export default {
   mixins: [listMixin],
   data() {
     return {
-      url: 'agent',
+      url: 'customer',
       access: {
-        add: 'agent_add',
-        view: 'agent_view',
-        edit: 'agent_edit',
-        remove: 'agent_remove'
+        add: 'customer_add',
+        view: 'customer_view',
+        edit: 'customer_edit',
+        remove: 'customer_remove'
       },
       columns: [
         { title: '公司编号', key: 'number', sortable: true },
@@ -132,13 +130,14 @@ export default {
     onCancel(e) {
       console.log('oncancel', e)
       e()
-    },
-    async fetchList() {
-      return getTablePageData().then(res => ({
-        data: res.data.data,
-        total: res.data.total
-      }))
     }
+    // ,
+    // async fetchList() {
+    //   return getTablePageData().then(res => ({
+    //     data: res.data.data,
+    //     total: res.data.total
+    //   }))
+    // }
   },
   mounted() {
     this.refresh()

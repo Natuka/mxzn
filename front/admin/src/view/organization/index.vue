@@ -30,7 +30,6 @@
 
 <script>
 import Tables from '_c/tables'
-import {getOrganizationList} from '@/api/organization'
 
 import search from './search'
 import add from './add'
