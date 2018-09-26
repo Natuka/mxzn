@@ -18,7 +18,7 @@ class IndexController extends Controller
     public function index(Request $request, Staff $staff)
     {
         $staff = $this->search($request, $staff);
-        return success_json($staff->paginate( config('pageinfo.per_page') ));
+        return success_json($staff->paginate(config('pageinfo.per_page')));
     }
 
     public function search(Request $request, Staff $staff)
@@ -67,50 +67,39 @@ class IndexController extends Controller
         $ret = $staff->forceFill($data)->save();
 
         if ($ret) {
+            $this->createLoginAccount($staff, $request);
             return success_json($staff, '');
         }
 
         return error_json('新增失败，请检查');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Staff  $staff
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Staff $staff)
+    public function createLoginAccount(Staff $staff, Request $request)
     {
-        //
-    }
+        $data = [
+            'name' => $staff->name,
+            'email' => $staff->email ?: 'S' . $staff->number . '@mxcs.com',
+            'number' => $staff->number,
+            'mobile' => (int)$staff->mobile,
+            'qq' => $staff->qq ?: '',
+            'wechat' => $staff->wechat ?: '',
+            'valid' => 1,
+            'password' => bcrypt($request->get('password', default_password())),
+        ];
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Staff  $staff
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Staff $staff)
-    {
-        //
+        if ($staff->user()->create($data)) {
+            \Log::info('用户创建成功');
+        } else {
+            \Log::info('用户创建失败');
+        }
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Staff  $staff
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Models\Staff $staff
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateRequest $request, Staff $staff)
@@ -145,6 +134,7 @@ class IndexController extends Controller
         $ret = $staff->forceFill($data)->save();
 
         if ($ret) {
+            $this->updateLoginAccount($staff, $request);
             return success_json($staff, '');
         }
 
@@ -152,9 +142,23 @@ class IndexController extends Controller
     }
 
     /**
+     * 更新用户账号
+     * @param Staff $staff
+     * @param Request $request
+     */
+    public function updateLoginAccount(Staff $staff, Request $request)
+    {
+        if ($request->get('update_password')) {
+            $staff->user()->update([
+                'password' => bcrypt($request->get('password', default_password())),
+            ]);
+        }
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Staff  $staff
+     * @param  \App\Models\Staff $staff
      * @return \Illuminate\Http\Response
      */
     public function destroy(Staff $staff)

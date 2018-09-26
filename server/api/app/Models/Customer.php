@@ -25,4 +25,9 @@ class Customer extends Model
         }
         return $last->number + 1;
     }
+
+    public function user()
+    {
+        return $this->morphOne(User::class, 'userable');
+    }
 }

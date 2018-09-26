@@ -22,3 +22,12 @@ function error_json($message = '', $code = 1)
 {
 	return base_json([], $message, $code);
 }
+
+/**
+ * 获取默认密码
+ * @return string
+ */
+function default_password()
+{
+    return md5(config('password.value'));
+}

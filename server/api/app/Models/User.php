@@ -10,6 +10,14 @@ class User extends Authenticatable
 {
     use Notifiable, HasApiTokens;
 
+    // 登录关联
+    private static $userables = [
+        'App\Models\Engineer',
+        'App\Models\Customer',
+        'App\Models\Staff',
+        'App\Models\OutStaff',
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -39,5 +47,37 @@ class User extends Authenticatable
         ->orWhere('name', $input)
         ->orWhere('mobile', $input)
         ->first();
+    }
+
+    public function userable()
+    {
+        return $this->morphTo();
+    }
+
+    /**
+     * 验证是否是管理者
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        if (empty($this->attributes['userable_type']) || $this->attributes['userable_id'] === 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * 获取第三方登录
+     * @return null
+     */
+    public function getTypeModel()
+    {
+        if (in_array($this->attributes['userable_type'], self::$userables) && $this->attributes['userable_id'] > 0) {
+            $className = $this->attributes['userable_type'];
+            return $className::find($this->attributes['userable_id']);
+        }
+
+        return null;
     }
 }

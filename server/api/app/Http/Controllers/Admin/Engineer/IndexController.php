@@ -18,7 +18,7 @@ class IndexController extends Controller
     public function index(Request $request, Engineer $engineer)
     {
         $engineer = $this->search($request, $engineer);
-        return success_json($engineer->paginate( config('pageinfo.per_page') ));
+        return success_json($engineer->paginate(config('pageinfo.per_page')));
     }
 
     public function search(Request $request, Engineer $engineer)
@@ -52,7 +52,7 @@ class IndexController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -61,32 +61,10 @@ class IndexController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Engineer  $engineer
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Engineer $engineer)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Engineer  $engineer
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Engineer $engineer)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Engineer  $engineer
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Models\Engineer $engineer
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateRequest $request, Engineer $engineer)
@@ -107,7 +85,7 @@ class IndexController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Engineer  $engineer
+     * @param  \App\Models\Engineer $engineer
      * @return \Illuminate\Http\Response
      */
     public function destroy(Engineer $engineer)
