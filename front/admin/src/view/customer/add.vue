@@ -2,7 +2,7 @@
   <custom-modal
     ref="ref"
     width="1000px"
-    title="人事档案新增"
+    title="客户管理-新增"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
     class="mxcs-two-column"
@@ -13,7 +13,7 @@
             :rules="rules"
             :label-width="80">
         <FormItem label="编号" prop="number">
-          <Input v-model="data.number" placeholder="编号"></Input>
+          <Input v-model="data.number" placeholder="编号" disabled></Input>
         </FormItem>
         <FormItem label="姓名" prop="name">
           <Input v-model="data.name" placeholder="姓名"></Input>
@@ -252,9 +252,6 @@ export default {
       rules: {
         name: [
           {required: true, message: '名称不能为空', trigger: 'blur'}
-        ],
-        number: [
-          {required: true, message: '编号不能为空', trigger: 'blur'}
         ],
         name_short: [
           {required: true, message: '简称不能为空', trigger: 'blur'}

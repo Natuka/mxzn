@@ -23,7 +23,9 @@ class Customer extends Model
         if (!$last) {
             return $prefix . sprintf('%0' . $repeat . 'd', 1);
         }
-        return $last->number + 1;
+        $number = substr($last->number, 5);
+        $number = intval($number) +1;
+        return $prefix . sprintf('%0' . $repeat . 'd', $number);
     }
 
     public function user()

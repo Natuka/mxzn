@@ -136,10 +136,10 @@ class IndexController extends Controller
         $data['updated_by'] = '新增';
         $data['number'] = Customer::customerCode(date('Y-m-d')); //(系统自动编号)
 
-        $ret = $customer->forceFill($data);
+        $ret = $customer->forceFill($data)->save();
 
         if ($ret) {
-            $this->createLoginAccount($customer);
+            $this->createLoginAccount($customer, $request);
             return success_json($customer, '');
         }
 
@@ -155,10 +155,11 @@ class IndexController extends Controller
     {
         $data = [
             'name' => $customer->name,
+            'code' => $customer->number,
             'email' => $customer->number . '@mxcs.com',
             'number' => $customer->number,
             'mobile' => (int)$customer->tel,
-            'qq' => '',
+            'qq' => '0',
             'wechat' => '',
             'valid' => 1,
             'password' => bcrypt($request->get('password', default_password())),
