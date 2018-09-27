@@ -13,6 +13,11 @@ return ['super_admin',
     'agent_view',
     'agent_edit',
 
+    'staff_list',
+    'staff_add',
+    'staff_view',
+    'staff_edit',
+
     'customer_list',
     'customer_add',
     'customer_edit',

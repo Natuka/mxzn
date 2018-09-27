@@ -5,6 +5,7 @@
     title="人事档案新增"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
+    class="mxcs-two-column"
   >
     <div>
       <Form :model="data"
@@ -65,9 +66,12 @@
         </FormItem>
         <FormItem label="学历">
           <Select v-model="data.education">
-            <Option value="beijing">New York</Option>
-            <Option value="shanghai">London</Option>
-            <Option value="shenzhen">Sydney</Option>
+            <Option
+              v-for="(type, index) in educationList"
+              :key="index"
+              :value="index"
+            >{{type}}
+            </Option>
           </Select>
         </FormItem>
         <FormItem label="技能专长">
@@ -82,6 +86,9 @@
         <FormItem label="邮箱">
           <Input v-model="data.email" placeholder="邮箱"></Input>
         </FormItem>
+        <FormItem label="入职日期">
+          <DatePicker type="date" placeholder="入职日期" v-model="data.entry_date"></DatePicker>
+        </FormItem>
         <FormItem label="在职状态">
           <RadioGroup v-model="data.status">
             <Radio :label="1">
@@ -91,9 +98,6 @@
               <span>离职</span>
             </Radio>
           </RadioGroup>
-        </FormItem>
-        <FormItem label="入职日期">
-          <DatePicker type="date" placeholder="入职日期" v-model="data.entry_date"></DatePicker>
         </FormItem>
         <FormItem label="离职日期">
           <DatePicker type="date" placeholder="离职日期" v-model="data.leave_date"></DatePicker>
@@ -131,8 +135,10 @@
 
 import ModalMixin from '@/mixins/modal'
 
+import {addStaff} from '../../api/staff'
+
 export default {
-  name: 'agent-add',
+  name: 'staff-add',
   mixins: [ModalMixin],
   data () {
     return {
@@ -146,18 +152,33 @@ export default {
         remark: '',
         sex: 1,
         birthday: '',
-        status: 1
-      }
+        status: 1,
+      },
+      rules: {
+        name: [
+          {required: true, message: '姓名不能为空', trigger: 'blur'}
+        ]
+      },
+      educationList: '小学,初中,中专,高中,大专,本科,硕士,博士'.split(',')
     }
   },
   methods: {
     onSubmit (e) {
-      //   console.log('onsubmit', e)
-      // ....
-      this.withRefresh(e)
+      this.$refs.addForm.validate(async (valid) => {
+        if (valid) {
+          try {
+            let data = await addStaff(this.data)
+            console.log('data', data)
+            this.withRefresh(e)
+          } catch (e) {
+            this.closeLoading()
+          }
+        } else {
+          this.closeLoading()
+        }
+      })
     },
     onCancel (e) {
-      console.log('oncancel', e)
       e()
     }
   }

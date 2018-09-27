@@ -23,8 +23,8 @@
       <Page :current="page" :total="total" show-elevator @on-change="toPage"/>
       <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>
     </Card>
-    <agent-add ref="add" @refresh="refresh"></agent-add>
-    <agent-edit ref="edit" @refresh="refreshWithPage"></agent-edit>
+    <staff-add ref="add" @refresh="refresh"></staff-add>
+    <staff-edit ref="edit" @refresh="refreshWithPage"></staff-edit>
     <!--<Button @click="onOpen()">开启</Button>-->
   </div>
 </template>
@@ -50,12 +50,12 @@ export default {
   mixins: [listMixin],
   data () {
     return {
-      url: 'agent',
+      url: 'staff',
       access: {
-        add: 'agent_add',
-        view: 'agent_view',
-        edit: 'agent_edit',
-        remove: 'agent_remove'
+        add: 'staff_add',
+        view: 'staff_view',
+        edit: 'staff_edit',
+        remove: 'staff_remove'
       },
       columns: [
         {title: '编号', key: 'number', sortable: true},
@@ -143,13 +143,14 @@ export default {
     onCancel (e) {
       console.log('oncancel', e)
       e()
-    },
-    async fetchList () {
-      return getStaffList().then(({data}) => ({
-        data: data.data,
-        total: data.total
-      }))
     }
+    // ,
+    // async fetchList () {
+    //   return getStaffList().then(({data}) => ({
+    //     data: data.data,
+    //     total: data.total
+    //   }))
+    // }
   },
   mounted () {
     this.refresh()
