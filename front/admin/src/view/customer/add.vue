@@ -212,6 +212,8 @@ import ModalMixin from '@/mixins/modal'
 
 import {addCustomer} from '../../api/customer'
 
+import * as customerConst from '../../constants/customer'
+
 export default {
   name: 'customer-add',
   mixins: [ModalMixin],
@@ -257,17 +259,17 @@ export default {
           {required: true, message: '简称不能为空', trigger: 'blur'}
         ]
       },
-      industryList: '其他,汽车配件,机械加工,油漆喷涂'.split(','),
-      typeList: '请选择,代理商,终端客户'.split(','),
-      levelList: '请选择,重要客户,普通客户,低价值客户'.split(','),
-      followUpStatusList: '初访,意向,报价,成交,暂时搁置'.split(','),
-      sourceList: '其他,广告,社交推广,研讨会,搜索引擎,客户介绍,独立开发,代理商'.split(','),
-      staffScaleList: '未知,<10人,10-20人,20-50人,50-100人,100-500人,500人以上'.split(','),
-      purchasingPowerList: '未知,强,中,弱'.split(','),
-      settleModeList: '请选择,现金,电汇,信汇,商业汇票'.split(','),
-      settleTypeList: '请选择,月结1日,月结10日,信用天数15天,信用天数30天'.split(','),
-      blackList: '否,是'.split(','),
-      statusList: '制单中,已审核'.split(',')
+      industryList: customerConst.INDUSTRY_LIST,
+      typeList: customerConst.TYPE_LIST,
+      levelList: customerConst.LEVEL_LIST,
+      followUpStatusList: customerConst.FOLLOW_UP_STATUS_LIST,
+      sourceList: customerConst.SOURCE_LIST,
+      staffScaleList: customerConst.STAFF_SCALE_LIST,
+      purchasingPowerList: customerConst.PURCHASING_POWER_LIST,
+      settleModeList: customerConst.SETTLE_MODE_LIST,
+      settleTypeList: customerConst.SETTLE_TYPE_LIST,
+      blackList: customerConst.BLACK_LIST,
+      statusList: customerConst.STATUS_LIST
     }
   },
   methods: {

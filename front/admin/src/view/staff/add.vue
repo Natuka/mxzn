@@ -152,7 +152,7 @@ export default {
         remark: '',
         sex: 1,
         birthday: '',
-        status: 1,
+        status: 1
       },
       rules: {
         name: [
