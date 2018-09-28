@@ -8,6 +8,7 @@ export default {
       page: 1,
       params: {},
       url: '',
+      tableWidth: 1000,
       loading: false,
       method: 'fetchList',
       access: {
@@ -82,6 +83,14 @@ export default {
         data: data.data,
         total: data.total
       }))
+    },
+    // 设定表单宽度
+    setTableWidth () {
+      let leftSider = document.querySelector('.left-sider')
+      this.tableWidth = window.innerWidth - leftSider.offsetWidth - 80
     }
+  },
+  mounted () {
+    this.setTableWidth()
   }
 }

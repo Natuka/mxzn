@@ -3,19 +3,32 @@
     <Card>
       <div slot="title">
         <Button type="primary" @click="onAdd" v-if="accessAdd()">
-          新增 <Icon type="md-add" /></Button>
+          新增
+          <Icon type="md-add"/>
+        </Button>
 
         <Button type="primary" @click="refresh" v-if="accessAdd()" class="ml-5">
-          刷新 <Icon type="md-add" /></Button>
+          刷新
+          <Icon type="md-add"/>
+        </Button>
       </div>
       <agent-search ref="search" @on-search="onSearch"></agent-search>
-      <tables ref="tables" :loading="loading" editable search-place="top" v-model="list" :columns="columns" @on-delete="handleDelete"/>
-      <br />
-      <Page :current="page" :total="total" show-elevator @on-change="toPage" />
+      <tables
+        ref="tables"
+        :loading="loading"
+        editable
+        search-place="top"
+        v-model="list"
+        :columns="columns"
+        @on-delete="handleDelete"
+        :width="tableWidth"
+      />
+      <br/>
+      <Page :current="page" :total="total" show-elevator @on-change="toPage"/>
       <!--<Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>-->
     </Card>
     <customer-add ref="add" @refresh="refresh"></customer-add>
-    <customer-edit ref="edit"  @refresh="refreshWithPage"></customer-edit>
+    <customer-edit ref="edit" @refresh="refreshWithPage"></customer-edit>
   </div>
 </template>
 
@@ -26,7 +39,10 @@ import search from './search'
 import add from './add'
 import edit from './edit'
 
+import * as customerConst from '../../constants/customer'
+
 import listMixin from '../../mixins/list'
+import constsMixin from '../../mixins/consts'
 
 export default {
   name: 'tables_page',
@@ -36,8 +52,8 @@ export default {
     [add.name]: add,
     [edit.name]: edit
   },
-  mixins: [listMixin],
-  data() {
+  mixins: [listMixin, constsMixin],
+  data () {
     return {
       url: 'customer',
       access: {
@@ -47,21 +63,101 @@ export default {
         remove: 'customer_remove'
       },
       columns: [
-        { title: '客户类别', key: 'type', sortable: true },
-        { title: '所属行业', key: 'industry', sortable: true },
-        { title: '客户级别', key: 'level', sortable: true },
-        { title: '客户编号', key: 'number', sortable: true },
-        { title: '公司名称', key: 'name', sortable: true },
-        { title: '客户来源', key: 'source', sortable: true },
-        { title: '跟进状态', key: 'follow_up_status', sortable: true },
-        { title: '人员规模', key: 'staff_scale', sortable: true },
-        { title: '购买力', key: 'purchasing_power', sortable: true },
-        { title: '所在地址', key: 'address', sortable: true },
-        { title: '所属业务员', key: 'salesman_id', sortable: true },
-        { title: '最近联系时间', key: 'contact_lasttime', sortable: true },
-        { title: '下次跟进时间', key: 'follow_up_nexttime', sortable: true },
-        { title: '是否黑名单', key: 'blacklist', sortable: true },
         {
+          fixed: 'left',
+          width: 120,
+          title: '客户类别',
+          key: 'type',
+          sortable: false,
+          render: this.constRender('type', customerConst.TYPE_LIST)
+        },
+        {
+          width: 120,
+          title: '所属行业',
+          key: 'industry',
+          sortable: true,
+          render: this.constRender('industry', customerConst.INDUSTRY_LIST)
+        },
+        {
+          width: 120,
+          title: '客户级别',
+          key: 'level',
+          sortable: true,
+          render: this.constRender('level', customerConst.LEVEL_LIST)
+        },
+        {
+          width: 120,
+          title: '客户编号',
+          key: 'number',
+          sortable: true
+        },
+        {
+          width: 150,
+          title: '公司名称',
+          key: 'name',
+          sortable: true
+        },
+        {
+          width: 120,
+          title: '客户来源',
+          key: 'source',
+          sortable: true,
+          render: this.constRender('source', customerConst.SOURCE_LIST)
+        },
+        {
+          width: 160,
+          title: '跟进状态',
+          key: 'follow_up_status',
+          sortable: true,
+          render: this.constRender('follow_up_status', customerConst.FOLLOW_UP_STATUS_LIST)
+        },
+        {
+          width: 120,
+          title: '人员规模',
+          key: 'staff_scale',
+          sortable: true,
+          render: this.constRender('staff_scale', customerConst.STAFF_SCALE_LIST)
+        },
+        {
+          width: 120,
+          title: '购买力',
+          key: 'purchasing_power',
+          sortable: true,
+          render: this.constRender('purchasing_power', customerConst.PURCHASING_POWER_LIST)
+        },
+        {
+          width: 150,
+          title: '所在地址',
+          key: 'address',
+          // sortable: true
+        },
+        {
+          width: 120,
+          title: '所属业务员',
+          key: 'salesman_id',
+          sortable: false
+        },
+        {
+          width: 160,
+          title: '最近联系时间',
+          key: 'contact_lasttime',
+          sortable: false
+        },
+        {
+          width: 120,
+          title: '下次跟进时间',
+          key: 'follow_up_nexttime',
+          sortable: false
+        },
+        {
+          width: 120,
+          title: '是否黑名单',
+          key: 'blacklist',
+          // sortable: true,
+          render: this.constRender('blacklist', customerConst.BLACK_LIST)
+        },
+        {
+          width: 120,
           title: 'Handle',
           key: 'handle',
           options: ['delete'],
@@ -118,22 +214,22 @@ export default {
     }
   },
   methods: {
-    handleDelete(params) {
+    handleDelete (params) {
       console.log(params)
     },
-    exportExcel() {
+    exportExcel () {
       this.$refs.tables.exportCsv({
         filename: `table-${new Date().valueOf()}.csv`
       })
     },
-    onOpen() {
+    onOpen () {
       this.$refs.add.open()
     },
-    onSubmit(e) {
+    onSubmit (e) {
       console.log('onsubmit', e)
       setTimeout(_ => e(), 2000)
     },
-    onCancel(e) {
+    onCancel (e) {
       console.log('oncancel', e)
       e()
     }
@@ -145,7 +241,7 @@ export default {
     //   }))
     // }
   },
-  mounted() {
+  mounted () {
     this.refresh()
     // getTablePageData().then(res => {
     //   console.log('res', res)

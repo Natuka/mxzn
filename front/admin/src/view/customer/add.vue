@@ -99,11 +99,19 @@
         </FormItem>
 
         <FormItem label="下次跟进时间">
-          <DatePicker type="datetime" v-model="data.follow_up_nexttime"></DatePicker>
+          <DatePicker
+            type="datetime"
+            v-model="data.follow_up_nexttime"
+            format="yyyy:MM:dd HH:mm:ss"
+          ></DatePicker>
         </FormItem>
 
         <FormItem label="最近联系时间">
-          <DatePicker type="datetime" v-model="data.contact_lasttime"></DatePicker>
+          <DatePicker
+            type="datetime"
+            v-model="data.contact_lasttime"
+            format="yyyy:MM:dd HH:mm:ss"
+          ></DatePicker>
         </FormItem>
 
         <FormItem label="省" prop="province_id">
@@ -199,7 +207,11 @@
         </FormItem>
 
         <FormItem label="同步时间">
-          <DatePicker type="datetime" v-model="data.syn_datetime"></DatePicker>
+          <DatePicker
+            type="datetime"
+            v-model="data.syn_datetime"
+            format="yyyy:MM:dd HH:mm:ss"
+          ></DatePicker>
         </FormItem>
       </Form>
     </div>
