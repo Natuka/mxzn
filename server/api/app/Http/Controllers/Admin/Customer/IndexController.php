@@ -136,6 +136,10 @@ class IndexController extends Controller
         $data['updated_by'] = '新增';
         $data['number'] = Customer::customerCode(date('Y-m-d')); //(系统自动编号)
 
+        $data['follow_up_nexttime'] = date('Y-m-d H:i:s', strtotime($data['follow_up_nexttime']));
+        $data['contact_lasttime'] = date('Y-m-d H:i:s', strtotime($data['contact_lasttime']));
+        $data['syn_datetime'] = date('Y-m-d H:i:s', strtotime($data['syn_datetime']));
+
         $ret = $customer->forceFill($data)->save();
 
         if ($ret) {
@@ -212,6 +216,11 @@ class IndexController extends Controller
             'syn_datetime',
         ]);
         $data['updated_by'] = '修改';
+
+        $data['follow_up_nexttime'] = date('Y-m-d H:i:s', strtotime($data['follow_up_nexttime']));
+        $data['contact_lasttime'] = date('Y-m-d H:i:s', strtotime($data['contact_lasttime']));
+        $data['syn_datetime'] = date('Y-m-d H:i:s', strtotime($data['syn_datetime']));
+
         $ret = $customer->forceFill($data)->save();
         if ($ret) {
 
