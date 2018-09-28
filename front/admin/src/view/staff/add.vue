@@ -12,17 +12,17 @@
             ref="addForm"
             :rules="rules"
             :label-width="90">
-        <FormItem label="组织/公司">
+        <FormItem label="组织/公司" prop="org_id">
           <Select v-model="data.org_id">
             <Option value="beijing">New York</Option>
             <Option value="shanghai">London</Option>
             <Option value="shenzhen">Sydney</Option>
           </Select>
         </FormItem>
-        <FormItem label="编号">
+        <FormItem label="编号" prop="number">
           <Input v-model="data.number" placeholder="编号" disabled></Input>
         </FormItem>
-        <FormItem label="姓名">
+        <FormItem label="姓名" prop="name">
           <Input v-model="data.name" placeholder="姓名"></Input>
         </FormItem>
         <FormItem label="性别">
@@ -37,31 +37,31 @@
             </Radio>
           </RadioGroup>
         </FormItem>
-        <FormItem label="出生日期">
+        <FormItem label="出生日期" prop="birthday">
           <DatePicker type="date" placeholder="生日" v-model="data.birthday"></DatePicker>
         </FormItem>
-        <FormItem label="部门">
+        <FormItem label="部门" prop="dep_id">
           <Select v-model="data.dep_id">
             <Option value="beijing">New York</Option>
             <Option value="shanghai">London</Option>
             <Option value="shenzhen">Sydney</Option>
           </Select>
         </FormItem>
-        <FormItem label="职位">
+        <FormItem label="职位" prop="post">
           <Select v-model="data.post">
             <Option value="beijing">New York</Option>
             <Option value="shanghai">London</Option>
             <Option value="shenzhen">Sydney</Option>
           </Select>
         </FormItem>
-        <FormItem label="职务">
+        <FormItem label="职务" prop="job">
           <Select v-model="data.job">
             <Option value="beijing">New York</Option>
             <Option value="shanghai">London</Option>
             <Option value="shenzhen">Sydney</Option>
           </Select>
         </FormItem>
-        <FormItem label="毕业院校">
+        <FormItem label="毕业院校" prop="graduated_school">
           <Input v-model="data.graduated_school" placeholder="毕业院校"></Input>
         </FormItem>
         <FormItem label="学历">
@@ -74,22 +74,22 @@
             </Option>
           </Select>
         </FormItem>
-        <FormItem label="技能专长">
+        <FormItem label="技能专长" prop="skill_expertise">
           <Input v-model="data.skill_expertise" placeholder="技能专长"></Input>
         </FormItem>
-        <FormItem label="兴趣爱好">
+        <FormItem label="兴趣爱好" prop="hobby">
           <Input v-model="data.hobby" placeholder="兴趣爱好"></Input>
         </FormItem>
-        <FormItem label="手机">
+        <FormItem label="手机" prop="mobile">
           <Input v-model="data.mobile" placeholder="手机"></Input>
         </FormItem>
-        <FormItem label="邮箱">
+        <FormItem label="邮箱" prop="email">
           <Input v-model="data.email" placeholder="邮箱"></Input>
         </FormItem>
-        <FormItem label="入职日期">
+        <FormItem label="入职日期" prop="entry_date">
           <DatePicker type="date" placeholder="入职日期" v-model="data.entry_date"></DatePicker>
         </FormItem>
-        <FormItem label="在职状态">
+        <FormItem label="在职状态" >
           <RadioGroup v-model="data.status">
             <Radio :label="1">
               <span>在职</span>
@@ -99,7 +99,7 @@
             </Radio>
           </RadioGroup>
         </FormItem>
-        <FormItem label="离职日期">
+        <FormItem label="离职日期" prop="leave_date">
           <DatePicker type="date" placeholder="离职日期" v-model="data.leave_date"></DatePicker>
         </FormItem>
         <FormItem label="所在省">
@@ -137,6 +137,8 @@ import ModalMixin from '@/mixins/modal'
 
 import {addStaff} from '../../api/staff'
 
+import * as staffConst from '../../constants/staff'
+
 export default {
   name: 'staff-add',
   mixins: [ModalMixin],
@@ -159,7 +161,7 @@ export default {
           {required: true, message: '姓名不能为空', trigger: 'blur'}
         ]
       },
-      educationList: '小学,初中,中专,高中,大专,本科,硕士,博士'.split(',')
+      educationList: staffConst.EDUCATION_LIST
     }
   },
   methods: {

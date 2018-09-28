@@ -233,21 +233,9 @@ export default {
       console.log('oncancel', e)
       e()
     }
-    // ,
-    // async fetchList() {
-    //   return getTablePageData().then(res => ({
-    //     data: res.data.data,
-    //     total: res.data.total
-    //   }))
-    // }
   },
   mounted () {
     this.refresh()
-    // getTablePageData().then(res => {
-    //   console.log('res', res)
-    //   this.tableData = res.data.data
-    //   this.total = res.data.total
-    // })
   }
 }
 </script>
