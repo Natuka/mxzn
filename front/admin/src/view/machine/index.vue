@@ -3,147 +3,150 @@
     <Card>
       <div slot="title">
         <Button type="primary" @click="onAdd" v-if="accessAdd()">
-          新增 <Icon type="md-add" /></Button>
-
-        <Button type="primary" @click="refresh" v-if="accessAdd()">
-          刷新 <Icon type="md-add" /></Button>
+          新增
+          <Icon type="md-add"/>
+        </Button>
+        <Button
+          type="primary"
+          @click="refresh"
+          v-if="accessAdd()"
+          class="ml-5"
+        >
+          刷新
+          <Icon type="md-add"/>
+        </Button>
       </div>
-      <agent-search ref="search" @on-search="onSearch"></agent-search>
-      <tables ref="tables" :loading="loading" editable search-place="top" v-model="list" :columns="columns" @on-delete="handleDelete"/>
-      <br />
-      <Page :current="page" :total="total" show-elevator @on-change="toPage" />
+      <machine-search ref="search" @on-search="onSearch"></machine-search>
+      <tables ref="tables" :loading="loading" editable search-place="top" v-model="list" :columns="columns"
+              @on-delete="handleDelete"/>
+      <br/>
+      <Page :current="page" :total="total" show-elevator @on-change="toPage"/>
       <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>
     </Card>
-    <agent-add ref="add" @refresh="refresh"></agent-add>
-    <agent-edit ref="edit"  @refresh="refreshWithPage"></agent-edit>
-    <Button @click="onOpen()">开启</Button>
+    <machine-add ref="add" @refresh="refresh"></machine-add>
+    <machine-edit ref="edit" @refresh="refreshWithPage"></machine-edit>
   </div>
 </template>
 
 <script>
-import Tables from '_c/tables'
-import { getTablePageData } from '@/api/data'
+  import Tables from '_c/tables'
 
-import search from './search'
-import add from './add'
-import edit from './edit'
+  import search from './search'
+  import add from './add'
+  import edit from './edit'
 
-import listMixin from '../../mixins/list'
+  import listMixin from '../../mixins/list'
 
-export default {
-  name: 'tables_page',
-  components: {
-    Tables,
-    [search.name]: search,
-    [add.name]: add,
-    [edit.name]: edit
-  },
-  mixins: [listMixin],
-  data() {
-    return {
-      url: 'agent',
-      access: {
-        add: 'agent_add',
-        view: 'agent_view',
-        edit: 'agent_edit',
-        remove: 'agent_remove'
-      },
-      columns: [
-        { title: 'Name', key: 'name', sortable: true },
-        { title: 'Email', key: 'email', editable: true },
-        { title: 'Create-Time', key: 'createTime' },
-        {
-          title: 'Handle',
-          key: 'handle',
-          options: ['delete'],
-          button: [
-            (h, params, vm) => {
-              return h(
-                'Poptip',
-                {
-                  props: {
-                    confirm: true,
-                    title: '你确定要删除吗?'
-                  },
-                  on: {
-                    'on-ok': () => {
-                      vm.$emit('on-delete', params)
-                      vm.$emit(
-                        'input',
-                        params.tableData.filter(
-                          (item, index) => index !== params.row.initRowIndex
+  export default {
+    name: 'tables_page',
+    components: {
+      Tables,
+      [search.name]: search,
+      [add.name]: add,
+      [edit.name]: edit
+    },
+    mixins: [listMixin],
+    data () {
+      return {
+        url: 'machine',
+        access: {
+          add: 'machine_add',
+          view: 'machine_view',
+          edit: 'machine_edit',
+          remove: 'machine_remove'
+        },
+        columns: [
+          {title: '设备编号', key: 'org_id', sortable: true},
+          {title: '是否保修', key: 'parent_id', editable: false},
+          {title: '类别', key: 'number', editable: false},
+          {title: '设备配置', key: 'name', editable: false},
+          {title: '创建时间', key: 'created_at'},
+          {
+            title: 'Handle',
+            key: 'handle',
+            options: ['delete'],
+            button: [
+              (h, params, vm) => {
+                return h(
+                  'Poptip',
+                  {
+                    props: {
+                      confirm: true,
+                      title: '你确定要删除吗?'
+                    },
+                    on: {
+                      'on-ok': () => {
+                        vm.$emit('on-delete', params)
+                        vm.$emit(
+                          'input',
+                          params.tableData.filter(
+                            (item, index) => index !== params.row.initRowIndex
+                          )
                         )
-                      )
+                      }
                     }
-                  }
-                },
-                [h('Button', '自定义删除')]
-              )
-            },
-            (h, params, vm) => {
-              if (!this.accessView()) {
-                return
+                  },
+                  [h('Button', '自定义删除')]
+                )
+              },
+              (h, params, vm) => {
+                if (!this.accessView()) {
+                  return
+                }
+                return h(
+                  'Button',
+                  {
+                    props: {
+                      type: 'primary'
+                    },
+                    style: {
+                      marginLeft: '.6rem'
+                    },
+                    on: {
+                      click: () => {
+                        this.onEdit(params.row)
+                      }
+                    }
+                  },
+                  '修改'
+                )
               }
-              return h(
-                'Button',
-                {
-                  props: {
-                    type: 'primary'
-                  },
-                  style: {
-                    marginLeft: '.6rem'
-                  },
-                  on: {
-                    click: () => {
-                      this.onEdit()
-                    }
-                  }
-                },
-                '修改'
-              )
-            }
-          ]
-        }
-      ],
-      tableData: []
+            ]
+          }
+        ],
+        tableData: []
+      }
+    },
+    methods: {
+      handleDelete (params) {
+        console.log(params)
+      },
+      exportExcel () {
+        this.$refs.tables.exportCsv({
+          filename: `table-${new Date().valueOf()}.csv`
+        })
+      },
+      onOpen () {
+        this.$refs.add.open()
+      },
+      onSubmit (e) {
+        console.log('onsubmit', e)
+        setTimeout(_ => e(), 2000)
+      },
+      onCancel (e) {
+        console.log('oncancel', e)
+        e()
+      }
+    },
+    mounted () {
+      this.refresh()
+      // getTablePageData().then(res => {
+      //   console.log('res', res)
+      //   this.tableData = res.data.data
+      //   this.total = res.data.total
+      // })
     }
-  },
-  methods: {
-    handleDelete(params) {
-      console.log(params)
-    },
-    exportExcel() {
-      this.$refs.tables.exportCsv({
-        filename: `table-${new Date().valueOf()}.csv`
-      })
-    },
-    onOpen() {
-      this.$refs.add.open()
-    },
-    onSubmit(e) {
-      console.log('onsubmit', e)
-      setTimeout(_ => e(), 2000)
-    },
-    onCancel(e) {
-      console.log('oncancel', e)
-      e()
-    },
-    async fetchList() {
-      return getTablePageData().then(res => ({
-        data: res.data.data,
-        total: res.data.total
-      }))
-    }
-  },
-  mounted() {
-    this.refresh()
-    // getTablePageData().then(res => {
-    //   console.log('res', res)
-    //   this.tableData = res.data.data
-    //   this.total = res.data.total
-    // })
   }
-}
 </script>
 
 <style>

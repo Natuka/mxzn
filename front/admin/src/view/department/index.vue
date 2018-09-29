@@ -56,10 +56,10 @@ export default {
         remove: 'department_remove'
       },
       columns: [
-        {title: '编号', key: 'number', sortable: true},
-        {title: '名称', key: 'name', editable: false},
-        {title: '简称', key: 'name_short', editable: false},
-        {title: '类别', key: 'type', editable: false},
+        {title: '组织/公司', key: 'org_id', sortable: true},
+        {title: '上级部门', key: 'parent_id', editable: false},
+        {title: '部门编号', key: 'number', editable: false},
+        {title: '部门名称', key: 'name', editable: false},
         {title: '创建时间', key: 'created_at'},
         {
           title: 'Handle',
