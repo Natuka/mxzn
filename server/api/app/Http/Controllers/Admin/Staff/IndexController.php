@@ -60,6 +60,10 @@ class IndexController extends Controller
             'remark',
         ]);
         //$request['source'] = $request->get('source', 3);
+        $data['province_id'] = (int)$data['province_id'];
+        $data['city_id'] = (int)$data['city_id'];
+        $data['district_id'] = (int)$data['district_id'];
+
         $data['created_by'] = '新增';
         $data['updated_by'] = '新增';
         $data['number'] = Staff::staffCode(date('Y-m-d')); //(系统自动编号)
@@ -79,11 +83,12 @@ class IndexController extends Controller
     {
         $data = [
             'name' => $staff->name,
+            'code' => $staff->number,
             'email' => $staff->email ?: 'S' . $staff->number . '@mxcs.com',
             'number' => $staff->number,
             'mobile' => (int)$staff->mobile,
-            'qq' => $staff->qq ?: '',
-            'wechat' => $staff->wechat ?: '',
+            'qq' => '0',
+            'wechat' => '',
             'valid' => 1,
             'password' => bcrypt($request->get('password', default_password())),
         ];

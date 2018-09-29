@@ -33,13 +33,43 @@ export default [
       },
       {
         path: '/',
-        name: 'contact',
+        name: 'signin_list',
         meta: {
           icon: '_qq',
-          title: '客户管理',
-          access: ['staff_contact']
+          title: '签到记录',
+          access: ['signin_list']
         },
         component: () => import('@/view/staff/index.vue')
+      },
+      {
+        path: '/',
+        name: 'reporting_list',
+        meta: {
+          icon: '_qq',
+          title: '工作汇报',
+          access: ['reporting_list']
+        },
+        component: () => import('@/view/staff/index.vue')
+      },
+      {
+        path: '/',
+        name: 'organization_list',
+        meta: {
+          icon: '_qq',
+          title: '公司/组织',
+          access: ['organization_list']
+        },
+        component: () => import('@/view/organization/index.vue')
+      },
+      {
+        path: '/',
+        name: 'department_list',
+        meta: {
+          icon: '_qq',
+          title: '部门管理',
+          access: ['department_list']
+        },
+        component: () => import('@/view/department/index.vue')
       }
     ]
   }

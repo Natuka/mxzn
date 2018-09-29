@@ -54,5 +54,5 @@ export default [
   ...require('./customer').default,
   ...require('./machine').default,
   ...require('./staff').default,
-  ...require('./organization').default,
+  // ...require('./organization').default,
 ]

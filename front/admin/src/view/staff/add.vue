@@ -105,6 +105,12 @@
         <FormItem label="所在省">
           <Input v-model="data.province_id" placeholder="所在省"></Input>
         </FormItem>
+        <FormItem label="所在市">
+          <Input v-model="data.city_id" placeholder="所在市"></Input>
+        </FormItem>
+        <FormItem label="所在县">
+          <Input v-model="data.district_id" placeholder="所在县"></Input>
+        </FormItem>
         <FormItem label="详细地址">
           <Input v-model="data.address" placeholder="详细地址"></Input>
         </FormItem>
@@ -145,16 +151,28 @@ export default {
   data () {
     return {
       data: {
-        input: '',
-        select: '',
-        radio: 'male',
-        checkbox: [],
-        entry_date: '',
-        leave_date: '',
-        remark: '',
+        org_id: 0,
+        number: '',
+        name: '',
         sex: 1,
         birthday: '',
-        status: 1
+        dep_id: 0,
+        post: '',
+        job: '',
+        graduated_school: '',
+        education: '',
+        skill_expertise: '',
+        hobby: '',
+        mobile: '',
+        email: '',
+        entry_date: '',
+        status: 1,
+        leave_date: '',
+        province_id: 0,
+        city_id: 0,
+        district_id: 0,
+        address: '',
+        remark: ''
       },
       rules: {
         name: [

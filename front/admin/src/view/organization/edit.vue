@@ -2,7 +2,7 @@
   <custom-modal
     ref="ref"
     width="800px"
-    title="人事档案修改"
+    title="公司/组织-修改"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
   >
@@ -20,7 +20,7 @@
         <FormItem label="简称" prop="name_short">
           <Input v-model="data.name_short" placeholder="简称"></Input>
         </FormItem>
-        <FormItem label="类型">
+        <FormItem label="类别">
           <RadioGroup v-model="data.type">
             <Radio :label="1">
               <span>A</span>

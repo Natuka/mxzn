@@ -16,15 +16,15 @@
           <Icon type="md-add"/>
         </Button>
       </div>
-      <agent-search ref="search" @on-search="onSearch"></agent-search>
+      <department-search ref="search" @on-search="onSearch"></department-search>
       <tables ref="tables" :loading="loading" editable search-place="top" v-model="list" :columns="columns"
               @on-delete="handleDelete"/>
       <br/>
       <Page :current="page" :total="total" show-elevator @on-change="toPage"/>
       <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>
     </Card>
-    <organization-add ref="add" @refresh="refresh"></organization-add>
-    <organization-edit ref="edit" @refresh="refreshWithPage"></organization-edit>
+    <department-add ref="add" @refresh="refresh"></department-add>
+    <department-edit ref="edit" @refresh="refreshWithPage"></department-edit>
   </div>
 </template>
 
@@ -48,12 +48,12 @@ export default {
   mixins: [listMixin],
   data () {
     return {
-      url: 'organization',
+      url: 'department',
       access: {
-        add: 'organization_add',
-        view: 'organization_view',
-        edit: 'organization_edit',
-        remove: 'organization_remove'
+        add: 'department_add',
+        view: 'department_view',
+        edit: 'department_edit',
+        remove: 'department_remove'
       },
       columns: [
         {title: '编号', key: 'number', sortable: true},

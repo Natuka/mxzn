@@ -2,7 +2,7 @@
   <custom-modal
     ref="ref"
     width="800px"
-    title="公司/组织-新增"
+    title="部门-新增"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
   >
@@ -39,10 +39,10 @@
 
 import ModalMixin from '@/mixins/modal'
 
-import {addOrganization} from '../../api/organization'
+import {addDepartment} from '../../api/department'
 
 export default {
-  name: 'organization-add',
+  name: 'department-add',
   mixins: [ModalMixin],
   data () {
     return {
@@ -70,7 +70,7 @@ export default {
       this.$refs.addForm.validate(async (valid) => {
         if (valid) {
           try {
-            let data = await addOrganization(this.data)
+            let data = await addDepartment(this.data)
             this.withRefresh(e)
           } catch (e) {
             this.closeLoading()
