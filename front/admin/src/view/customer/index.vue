@@ -6,7 +6,6 @@
           新增
           <Icon type="md-add"/>
         </Button>
-
         <Button type="primary" @click="refresh" v-if="accessAdd()" class="ml-5">
           刷新
           <Icon type="md-add"/>
@@ -64,11 +63,23 @@ export default {
       },
       columns: [
         {
-          fixed: 'left',
+          width: 120,
+          title: '客户编号',
+          key: 'number',
+          sortable: true
+        },
+        {
+          //fixed: 'left',
+          width: 150,
+          title: '公司简称',
+          key: 'name',
+          sortable: true
+        },
+        {
           width: 120,
           title: '客户类别',
           key: 'type',
-          sortable: false,
+          sortable: true,
           render: this.constRender('type', customerConst.TYPE_LIST)
         },
         {
@@ -84,18 +95,6 @@ export default {
           key: 'level',
           sortable: true,
           render: this.constRender('level', customerConst.LEVEL_LIST)
-        },
-        {
-          width: 120,
-          title: '客户编号',
-          key: 'number',
-          sortable: true
-        },
-        {
-          width: 150,
-          title: '公司名称',
-          key: 'name',
-          sortable: true
         },
         {
           width: 120,
@@ -135,7 +134,7 @@ export default {
           width: 120,
           title: '所属业务员',
           key: 'salesman_id',
-          sortable: false
+          sortable: true
         },
         {
           width: 160,
@@ -144,7 +143,7 @@ export default {
           sortable: false
         },
         {
-          width: 120,
+          width: 160,
           title: '下次跟进时间',
           key: 'follow_up_nexttime',
           sortable: false

@@ -6,19 +6,22 @@
           新增
           <Icon type="md-add"/>
         </Button>
-        <Button
-          type="primary"
-          @click="refresh"
-          v-if="accessAdd()"
-          class="ml-5"
-        >
+        <Button type="primary" @click="refresh" v-if="accessAdd()" class="ml-5">
           刷新
           <Icon type="md-add"/>
         </Button>
       </div>
       <machine-search ref="search" @on-search="onSearch"></machine-search>
-      <tables ref="tables" :loading="loading" editable search-place="top" v-model="list" :columns="columns"
-              @on-delete="handleDelete"/>
+      <tables
+        ref="tables"
+        :loading="loading"
+        editable
+        search-place="top"
+        v-model="list"
+        :columns="columns"
+        @on-delete="handleDelete"
+        :width="tableWidth"
+      />
       <br/>
       <Page :current="page" :total="total" show-elevator @on-change="toPage"/>
       <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>
@@ -36,6 +39,7 @@
   import edit from './edit'
 
   import listMixin from '../../mixins/list'
+  import constsMixin from '../../mixins/consts'
 
   export default {
     name: 'tables_page',
@@ -151,6 +155,5 @@
     }
   }
 </script>
-
 <style>
 </style>

@@ -49,6 +49,8 @@ const USER_MAP = {
       'order_feedback',
 
       'machine_list',
+      'machine_add',
+      'machine_edit',
       'machine_price',
       'machine_customer',
       'machine_qrcode',
