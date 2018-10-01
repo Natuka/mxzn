@@ -16,4 +16,5 @@ class BaseController extends Controller
     {
         return $model->paginate($customPage ? (int) $customPage : config('pageinfo.per_page'));
     }
+
 }
