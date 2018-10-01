@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Admin\Organization;
 
+use App\Http\Controllers\Admin\BaseController;
 use App\Http\Requests\Admin\Organization\CreateRequest;
 use App\Http\Requests\Admin\Organization\UpdateRequest;
 use App\Models\Organization;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class IndexController extends Controller
+class IndexController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +19,7 @@ class IndexController extends Controller
     public function index(Request $request, Organization $organization)
     {
         $organization = $this->search($request, $organization);
-        return success_json($organization->paginate( config('pageinfo.per_page') ));
+        return success_json($this->paginate($organization));
     }
 
     public function search(Request $request, Organization $organization)

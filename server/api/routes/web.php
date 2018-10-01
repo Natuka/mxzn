@@ -16,7 +16,6 @@ Route::get('/', function () {
 });
 
 
+load_routes(__DIR__ . '/admin');
 
-foreach (glob(__DIR__ . '/admin/*.php') as $file) {
-    require($file);
-}
+
