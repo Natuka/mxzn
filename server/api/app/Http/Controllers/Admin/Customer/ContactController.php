@@ -51,6 +51,9 @@ class ContactController extends Controller
             'status',
         ]);
         //$request['source'] = $request->get('source', 3);
+        $data['cust_id'] = (int)$data['cust_id'];
+        $data['department'] = (int)$data['department'];
+        $data['post'] = (int)$data['post'];
         $data['created_by'] = '新增';
         $data['updated_by'] = '新增';
 
@@ -122,6 +125,9 @@ class ContactController extends Controller
             'remark',
             'status',
         ]);
+        $data['cust_id'] = (int)$data['cust_id'];
+        $data['department'] = (int)$data['department'];
+        $data['post'] = (int)$data['post'];
         $data['updated_by'] = '修改';
         $ret = $customerContact->forceFill($data)->save();
 

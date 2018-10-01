@@ -35,7 +35,10 @@ const USER_MAP = {
       'customer_edit',
       'customer_docs',
       'customer_contact',
-
+      'customercontact_list',
+      'customercontact_add',
+      'customercontact_view',
+      'customercontact_edit',
       'order_list',
       'order_check',
       'order_dispatch',
