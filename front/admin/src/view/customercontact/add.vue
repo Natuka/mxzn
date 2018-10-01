@@ -38,25 +38,27 @@
           </RadioGroup>
         </FormItem>
         <FormItem label="部门" prop="dep_id">
-          <Select v-model="data.department">
-            <Option value="beijing">New York</Option>
-            <Option value="shanghai">London</Option>
-            <Option value="shenzhen">Sydney</Option>
+          <Select v-model="data.dep_id">
+            <Option
+              v-for="(type, index) in deptList"
+              :key="index"
+              :value="index"
+            >{{type}}
+            </Option>
           </Select>
         </FormItem>
         <FormItem label="职位" prop="post">
           <Select v-model="data.post">
-            <Option value="beijing">New York</Option>
-            <Option value="shanghai">London</Option>
-            <Option value="shenzhen">Sydney</Option>
+            <Option
+              v-for="(type, index) in postList"
+              :key="index"
+              :value="index"
+            >{{type}}
+            </Option>
           </Select>
         </FormItem>
         <FormItem label="职务" prop="job">
-          <Select v-model="data.job">
-            <Option value="beijing">New York</Option>
-            <Option value="shanghai">London</Option>
-            <Option value="shenzhen">Sydney</Option>
-          </Select>
+          <Input v-model="data.job" placeholder="职务"></Input>
         </FormItem>
         <FormItem label="手机" prop="mobile">
           <Input v-model="data.mobile" placeholder="手机"></Input>
@@ -144,7 +146,10 @@ export default {
           {required: true, message: '姓名不能为空', trigger: 'blur'}
         ]
       },
-      educationList: customercontactConst.EDUCATION_LIST
+      postList: customercontactConst.POST_LIST,
+      statusList: customercontactConst.STATUS_LIST,
+      deptList: customercontactConst.DEPT_LIST,
+      sexList: customercontactConst.SEX_LIST
     }
   },
   methods: {

@@ -86,7 +86,8 @@ export default {
           width: 120,
           title: '性别',
           key: 'sex',
-          sortable: true
+          sortable: true,
+          render: this.constRender('sex', staffConst.SEX_LIST)
         },
         {
           width: 120,

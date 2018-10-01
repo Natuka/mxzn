@@ -47,7 +47,6 @@ import constsMixin from '../../mixins/consts'
 export default {
   name: 'tables_page',
   components: {
-    CustomerSearch,
     Tables,
     [search.name]: search,
     [add.name]: add,

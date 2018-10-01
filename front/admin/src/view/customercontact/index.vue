@@ -1,3 +1,4 @@
+<script src="../../constants/customercontact.js"></script>
 <script src="../../constants/staff.js"></script>
 <template>
   <div>
@@ -87,7 +88,8 @@ export default {
           width: 120,
           title: '性别',
           key: 'sex',
-          sortable: true
+          sortable: true,
+          render: this.constRender('sex', customercontactConst.SEX_LIST)
         },
         {
           width: 120,
@@ -99,13 +101,15 @@ export default {
           width: 120,
           title: '所属部门',
           key: 'department',
-          sortable: true
+          sortable: true,
+          render: this.constRender('department', customercontactConst.DEPT_LIST)
         },
         {
           width: 120,
           title: '职位',
           key: 'post',
-          sortable: false
+          sortable: false,
+          render: this.constRender('post', customercontactConst.POST_LIST)
         },
         {
           width: 120,
