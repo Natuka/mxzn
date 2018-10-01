@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  name: 'agent-search',
+  name: 'organization-search',
   data () {
     return {
       data: {

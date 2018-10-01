@@ -70,6 +70,26 @@ export default [
           access: ['department_list']
         },
         component: () => import('@/view/department/index.vue')
+      },
+      {
+        path: '/',
+        name: 'job_list',
+        meta: {
+          icon: '_qq',
+          title: '职务管理',
+          access: ['department_list']
+        },
+        component: () => import('@/view/department/index.vue')
+      },
+      {
+        path: '/',
+        name: 'post_list',
+        meta: {
+          icon: '_qq',
+          title: '职位管理',
+          access: ['department_list']
+        },
+        component: () => import('@/view/department/index.vue')
       }
     ]
   }

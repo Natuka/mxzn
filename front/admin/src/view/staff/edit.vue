@@ -72,7 +72,7 @@
 import ModalMixin from '@/mixins/modal'
 
 export default {
-  name: 'agent-edit',
+  name: 'staff-edit',
   mixins: [ModalMixin],
   data () {
     return {
