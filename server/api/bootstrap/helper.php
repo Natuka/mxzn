@@ -31,3 +31,15 @@ function default_password()
 {
     return md5(config('password.value'));
 }
+
+function like($value) {
+    return '%' . $value . '%';
+}
+
+function like_left($value) {
+    return '%' . $value;
+}
+
+function like_right($value) {
+    return $value . '%';
+}
