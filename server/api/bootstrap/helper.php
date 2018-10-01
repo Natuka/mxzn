@@ -43,3 +43,18 @@ function like_left($value) {
 function like_right($value) {
     return $value . '%';
 }
+
+/**
+ * 加载路由文件
+ * @param $path
+ */
+function load_routes($path)
+{
+    foreach (glob($path . '/*.php') as $file) {
+        if (is_dir($file)) {
+            loadRouter($file);
+        } else {
+            require($file);
+        }
+    }
+}
