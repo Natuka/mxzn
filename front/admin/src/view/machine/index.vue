@@ -56,11 +56,14 @@
           remove: 'machine_remove'
         },
         columns: [
-          {title: '设备编号', key: 'org_id', sortable: true},
-          {title: '是否保修', key: 'parent_id', editable: false},
-          {title: '类别', key: 'number', editable: false},
-          {title: '设备配置', key: 'name', editable: false},
-          {title: '创建时间', key: 'created_at'},
+          {title: '编号', key: 'number',sortable: true},
+          {title: '名称', key: 'name', editable: false,sortable: true},
+          {title: '型号规格', key: 'model', editable: false,sortable: true},
+          {title: '品牌', key: 'brand', editable: false, sortable: true},
+          {title: '库存数量', key: 'stock_qty'},
+          {title: '单位', key: 'unit'},
+          {title: '默认仓库', key: 'store', sortable: true},
+          {title: '供应商', key: 'vendor', sortable: true},
           {
             title: 'Handle',
             key: 'handle',
