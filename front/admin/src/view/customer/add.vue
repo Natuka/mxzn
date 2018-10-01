@@ -12,14 +12,14 @@
             ref="addForm"
             :rules="rules"
             :label-width="80">
-        <FormItem label="编号" prop="number">
-          <Input v-model="data.number" placeholder="编号" disabled></Input>
+        <FormItem label="客户编号" prop="number">
+          <Input v-model="data.number" placeholder="客户编号" disabled></Input>
         </FormItem>
-        <FormItem label="姓名" prop="name">
-          <Input v-model="data.name" placeholder="姓名"></Input>
+        <FormItem label="客户全称" prop="name">
+          <Input v-model="data.name" placeholder="客户全称"></Input>
         </FormItem>
-        <FormItem label="简称" prop="name_short">
-          <Input v-model="data.name_short" placeholder="简称"></Input>
+        <FormItem label="客户简称" prop="name_short">
+          <Input v-model="data.name_short" placeholder="客户简称"></Input>
         </FormItem>
         <FormItem label="客户类别">
           <Select v-model="data.type">
