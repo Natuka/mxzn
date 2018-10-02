@@ -5,23 +5,26 @@
     title="客户管理-新增"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
-    class="mxcs-two-column"
+    class="mxcs-three-column"
   >
     <div>
       <Form :model="data"
             ref="addForm"
             :rules="rules"
-            :label-width="80">
-        <FormItem label="编号" prop="number">
-          <Input v-model="data.number" placeholder="编号" disabled></Input>
+            :label-width="90">
+        <FormItem label="客户编号:" prop="number">
+          <Input v-model="data.number" placeholder="客户编号-系统自动编号" disabled></Input>
         </FormItem>
-        <FormItem label="姓名" prop="name">
-          <Input v-model="data.name" placeholder="姓名"></Input>
+
+        <FormItem label="客户全称:" prop="name">
+          <Input v-model="data.name" placeholder="客户全称"></Input>
         </FormItem>
-        <FormItem label="简称" prop="name_short">
-          <Input v-model="data.name_short" placeholder="简称"></Input>
+
+        <FormItem label="客户简称:" prop="name_short">
+          <Input v-model="data.name_short" placeholder="客户简称"></Input>
         </FormItem>
-        <FormItem label="客户类别">
+
+        <FormItem label="客户类别:">
           <Select v-model="data.type">
             <Option
               v-for="(type, index) in typeList"
@@ -32,7 +35,7 @@
           </Select>
         </FormItem>
 
-        <FormItem label="所属行业">
+        <FormItem label="所属行业:">
           <Select v-model="data.industry">
             <Option
               v-for="(type, index) in industryList"
@@ -43,7 +46,7 @@
           </Select>
         </FormItem>
 
-        <FormItem label="客户级别">
+        <FormItem label="客户级别:">
           <Select v-model="data.level">
             <Option
               v-for="(type, index) in levelList"
@@ -54,7 +57,7 @@
           </Select>
         </FormItem>
 
-        <FormItem label="跟进状态">
+        <FormItem label="跟进状态:">
           <Select v-model="data.follow_up_status">
             <Option
               v-for="(type, index) in followUpStatusList"
@@ -65,7 +68,7 @@
           </Select>
         </FormItem>
 
-        <FormItem label="客户来源">
+        <FormItem label="客户来源:">
           <Select v-model="data.source">
             <Option
               v-for="(type, index) in sourceList"
@@ -76,7 +79,7 @@
           </Select>
         </FormItem>
 
-        <FormItem label="人员规模">
+        <FormItem label="人员规模:">
           <Select v-model="data.staff_scale">
             <Option
               v-for="(type, index) in staffScaleList"
@@ -87,7 +90,7 @@
           </Select>
         </FormItem>
 
-        <FormItem label="购买力">
+        <FormItem label="购买力:">
           <Select v-model="data.purchasing_power">
             <Option
               v-for="(type, index) in purchasingPowerList"
@@ -98,7 +101,7 @@
           </Select>
         </FormItem>
 
-        <FormItem label="下次跟进时间">
+        <FormItem label="下次跟进时间:">
           <DatePicker
             type="datetime"
             v-model="data.follow_up_nexttime"
@@ -106,7 +109,7 @@
           ></DatePicker>
         </FormItem>
 
-        <FormItem label="最近联系时间">
+        <FormItem label="最近联系时间:">
           <DatePicker
             type="datetime"
             v-model="data.contact_lasttime"
@@ -114,51 +117,51 @@
           ></DatePicker>
         </FormItem>
 
-        <FormItem label="省" prop="province_id">
+        <FormItem label="省:" prop="province_id">
           <Input v-model="data.province_id" placeholder="省"></Input>
         </FormItem>
 
-        <FormItem label="市" prop="city_id">
+        <FormItem label="市:" prop="city_id">
           <Input v-model="data.city_id" placeholder="简称"></Input>
         </FormItem>
 
-        <FormItem label="区" prop="district_county_id">
+        <FormItem label="区:" prop="district_county_id">
           <Input v-model="data.district_county_id" placeholder="简称"></Input>
         </FormItem>
 
-        <FormItem label="地址" prop="address">
+        <FormItem label="地址:" prop="address">
           <Input v-model="data.address" placeholder="地址"></Input>
         </FormItem>
 
-        <FormItem label="电话" prop="tel">
+        <FormItem label="电话:" prop="tel">
           <Input v-model="data.tel" placeholder="电话"></Input>
         </FormItem>
 
-        <FormItem label="传真" prop="fax">
+        <FormItem label="传真:" prop="fax">
           <Input v-model="data.fax" placeholder="传真"></Input>
         </FormItem>
 
-        <FormItem label="邮政编码" prop="zip_code">
+        <FormItem label="邮政编码:" prop="zip_code">
           <Input v-model="data.zip_code" placeholder="邮政编码"></Input>
         </FormItem>
 
-        <FormItem label="统一信用码" prop="ent_code">
+        <FormItem label="统一信用码:" prop="ent_code">
           <Input v-model="data.ent_code" placeholder="统一信用码"></Input>
         </FormItem>
 
-        <FormItem label="银行" prop="bank">
+        <FormItem label="银行:" prop="bank">
           <Input v-model="data.bank" placeholder="银行"></Input>
         </FormItem>
 
-        <FormItem label="银行账号" prop="account">
+        <FormItem label="银行账号: prop="account">
           <Input v-model="data.account" placeholder="银行账号"></Input>
         </FormItem>
 
-        <FormItem label="信用额度" prop="credit_line">
+        <FormItem label="信用额度:" prop="credit_line">
           <Input v-model="data.credit_line" placeholder="信用额度"></Input>
         </FormItem>
 
-        <FormItem label="结算方式">
+        <FormItem label="结算方式:">
           <Select v-model="data.settle_mode">
             <Option
               v-for="(type, index) in settleModeList"
@@ -169,7 +172,7 @@
           </Select>
         </FormItem>
 
-        <FormItem label="结算类别">
+        <FormItem label="结算类别:">
           <Select v-model="data.settle_type">
             <Option
               v-for="(type, index) in settleTypeList"
@@ -180,11 +183,11 @@
           </Select>
         </FormItem>
 
-        <FormItem label="备注" prop="remark">
-          <Input type="textarea" v-model="data.remark" placeholder="信用额度"></Input>
+        <FormItem label="备注:" prop="remark">
+          <Input type="textarea" v-model="data.remark" placeholder="备注"></Input>
         </FormItem>
 
-        <FormItem label="黑名单">
+        <FormItem label="黑名单:">
           <Select v-model="data.black_list">
             <Option
               v-for="(type, index) in blackList"
@@ -195,7 +198,7 @@
           </Select>
         </FormItem>
 
-        <FormItem label="单据状态">
+        <FormItem label="单据状态:">
           <Select v-model="data.status">
             <Option
               v-for="(type, index) in statusList"
@@ -206,7 +209,7 @@
           </Select>
         </FormItem>
 
-        <FormItem label="同步时间">
+        <FormItem label="同步时间:">
           <DatePicker
             type="datetime"
             v-model="data.syn_datetime"

@@ -1,9 +1,9 @@
 <template>
-  <custom-modal 
-    ref="ref" 
-    width="800px" 
-    title="2333" 
-    @on-submit="onSubmit" 
+  <custom-modal
+    ref="ref"
+    width="800px"
+    title="2333"
+    @on-submit="onSubmit"
     @on-cancel="onCancel"
     :postable="access"
   >
@@ -70,7 +70,7 @@
 import ModalMixin from '@/mixins/modal'
 
 export default {
-  name: 'agent-edit',
+  name: 'customer-edit',
   mixins: [ModalMixin],
   data () {
     return {

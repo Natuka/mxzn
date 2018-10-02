@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  name: 'agent-search',
+  name: 'staff-search',
   data () {
     return {
       data: {

@@ -6,19 +6,22 @@
           新增
           <Icon type="md-add"/>
         </Button>
-        <Button
-          type="primary"
-          @click="refresh"
-          v-if="accessAdd()"
-          class="ml-5"
-        >
+        <Button type="primary" @click="refresh" v-if="accessAdd()" class="ml-5">
           刷新
           <Icon type="md-add"/>
         </Button>
       </div>
       <machine-search ref="search" @on-search="onSearch"></machine-search>
-      <tables ref="tables" :loading="loading" editable search-place="top" v-model="list" :columns="columns"
-              @on-delete="handleDelete"/>
+      <tables
+        ref="tables"
+        :loading="loading"
+        editable
+        search-place="top"
+        v-model="list"
+        :columns="columns"
+        @on-delete="handleDelete"
+        :width="tableWidth"
+      />
       <br/>
       <Page :current="page" :total="total" show-elevator @on-change="toPage"/>
       <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>
@@ -36,6 +39,7 @@
   import edit from './edit'
 
   import listMixin from '../../mixins/list'
+  import constsMixin from '../../mixins/consts'
 
   export default {
     name: 'tables_page',
@@ -56,11 +60,14 @@
           remove: 'machine_remove'
         },
         columns: [
-          {title: '设备编号', key: 'org_id', sortable: true},
-          {title: '是否保修', key: 'parent_id', editable: false},
-          {title: '类别', key: 'number', editable: false},
-          {title: '设备配置', key: 'name', editable: false},
-          {title: '创建时间', key: 'created_at'},
+          {title: '编号', key: 'number',sortable: true},
+          {title: '名称', key: 'name', editable: false,sortable: true},
+          {title: '型号规格', key: 'model', editable: false,sortable: true},
+          {title: '品牌', key: 'brand', editable: false, sortable: true},
+          {title: '库存数量', key: 'stock_qty'},
+          {title: '单位', key: 'unit'},
+          {title: '默认仓库', key: 'store', sortable: true},
+          {title: '供应商', key: 'vendor', sortable: true},
           {
             title: 'Handle',
             key: 'handle',
@@ -148,6 +155,5 @@
     }
   }
 </script>
-
 <style>
 </style>

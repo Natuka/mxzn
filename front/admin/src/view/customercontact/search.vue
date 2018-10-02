@@ -1,23 +1,19 @@
 <template>
   <Form ref="search" :model="data" :rules="ruleInline" inline>
-      <FormItem prop="user">
-          <Input type="text" v-model="data.user" placeholder="Username">
-          </Input>
-      </FormItem>
-      <FormItem prop="password">
-          <Input type="text" v-model="data.password" placeholder="Password">
-          </Input>
-      </FormItem>
-      <FormItem>
-        <Button type="primary" @click="handleSubmit('search')" :loading="loading">查询</Button>
-      </FormItem>
+    <FormItem prop="name">
+      <Input type="text" v-model="data.name" placeholder="姓名">
+      </Input>
+    </FormItem>
+    <FormItem>
+      <Button type="primary" @click="handleSubmit('search')" :loading="loading">查询</Button>
+    </FormItem>
   </Form>
 </template>
 
 <script>
 export default {
-  name: 'machine-search',
-  data() {
+  name: 'customercontact-search',
+  data () {
     return {
       data: {
         user: '',
@@ -49,7 +45,7 @@ export default {
     }
   },
   methods: {
-    async handleSubmit(name) {
+    async handleSubmit (name) {
       this.$refs[name].validate(valid => {
         if (valid) {
           this.loading = true

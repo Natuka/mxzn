@@ -1,7 +1,7 @@
 <template>
   <Form ref="search" :model="data" :rules="ruleInline" inline>
     <FormItem prop="name">
-      <Input type="text" v-model="data.name" placeholder="请填写企业名称">
+      <Input type="text" v-model="data.name" placeholder="请填写名称">
       </Input>
     </FormItem>
     <FormItem>
@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  name: 'organization-search',
+  name: 'job-search',
   data () {
     return {
       data: {
@@ -22,7 +22,7 @@ export default {
         name: [
           {
             required: true,
-            message: '请填写企业名称',
+            message: '请填写名称',
             trigger: 'blur'
           }
         ]

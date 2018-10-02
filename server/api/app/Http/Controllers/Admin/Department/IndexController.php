@@ -41,6 +41,8 @@ class IndexController extends Controller
             'sort_no',
         ]);
         //$request['source'] = $request->get('source', 3);
+        $data['org_id'] = (int)$data['org_id'];
+        $data['parent_id'] = (int)$data['parent_id'];
         $data['created_by'] = '新增';
         $data['updated_by'] = '新增';
 
@@ -102,6 +104,8 @@ class IndexController extends Controller
             'name',
             'sort_no',
         ]);
+        $data['org_id'] = (int)$data['org_id'];
+        $data['parent_id'] = (int)$data['parent_id'];
         $data['updated_by'] = '修改';
         $ret = $department->forceFill($data)->save();
 

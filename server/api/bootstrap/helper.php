@@ -50,10 +50,10 @@ function like_right($value) {
  */
 function load_routes($path)
 {
-    foreach (glob($path . '/*.php') as $file) {
+    foreach (glob($path . '/*') as $file) {
         if (is_dir($file)) {
-            loadRouter($file);
-        } else {
+            load_routes($file);
+        } else if (strpos($file, '.php')) {
             require($file);
         }
     }
