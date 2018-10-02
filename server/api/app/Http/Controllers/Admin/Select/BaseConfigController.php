@@ -43,6 +43,10 @@ class BaseConfigController extends BaseController
      */
     public function listBy($name)
     {
+        if (strpos($name, '::')) {
+            $name = substr($name, strpos($name,'::') + 2);
+        }
+
         return success_json(BaseConfig::childrenByName($name));
     }
 

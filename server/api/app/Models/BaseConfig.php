@@ -40,6 +40,9 @@ class BaseConfig extends Model
      * @return \Illuminate\Support\Collection
      */
     public static function childrenByName($name = '', $fields = ['*']) {
+        \Log::info([
+            '$name' => $name
+        ]);
         if (empty($name)) {
             return collect([]);
         }
@@ -49,6 +52,10 @@ class BaseConfig extends Model
         if (!$parentId) {
             return collect([]);
         }
+
+        \Log::info([
+            '$parentId' => $parentId
+        ]);
 
         return static::where('parent_id', $parentId)->get($fields);
     }
