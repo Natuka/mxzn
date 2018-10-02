@@ -40,24 +40,17 @@ class BaseConfig extends Model
      * @return \Illuminate\Support\Collection
      */
     public static function childrenByName($name = '', $fields = ['*']) {
-        \Log::info([
-            '$name' => $name
-        ]);
         if (empty($name)) {
             return collect([]);
         }
 
-        $parentId = config('base_config.' . $name, '');
+        $parent = config('base_config.' . $name, '');
 
-        if (!$parentId) {
+        if (!$parent) {
             return collect([]);
         }
 
-        \Log::info([
-            '$parentId' => $parentId
-        ]);
-
-        return static::where('parent_id', $parentId)->get($fields);
+        return static::where('parent_id', $parent['id'])->get($fields);
     }
 
 
@@ -72,12 +65,12 @@ class BaseConfig extends Model
             return collect([]);
         }
 
-        $parentId = config('base_config.' . $name, '');
+        $parent = config('base_config.' . $name, '');
 
-        if (!$parentId) {
+        if (!$parent) {
             return collect([]);
         }
 
-        return static::where('parent_id', $parentId)->paginate($perPage, $fields);
+        return static::where('parent_id', $parent['id'])->paginate($perPage, $fields);
     }
 }

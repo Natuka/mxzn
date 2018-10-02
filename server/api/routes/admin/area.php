@@ -2,7 +2,7 @@
 
 Route::group([
     'prefix' => 'areas',
-    'namespace' => 'Area',
+    'namespace' => 'Admin\Area',
     // 'middleware' => 'auth:api',
 ], function () {
 

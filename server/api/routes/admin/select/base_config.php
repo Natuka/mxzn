@@ -22,4 +22,11 @@ Route::group([
         'as' => 'base_post'
     ]);
 
+    // 学历
+    Route::get('education', [
+        'uses' => 'BaseConfigController@education',
+        'as' => 'base_education'
+    ]);
+
+    // TODO 后续添加
 });
