@@ -16,7 +16,7 @@
           <Icon type="md-add"/>
         </Button>
       </div>
-      <agent-search ref="search" @on-search="onSearch"></agent-search>
+      <staff-search ref="search" @on-search="onSearch"></staff-search>
       <tables
         ref="tables"
         :loading="loading"
