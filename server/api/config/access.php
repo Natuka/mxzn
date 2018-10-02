@@ -53,6 +53,8 @@ return ['super_admin',
     'order_feedback',
 
     'machine_list',
+    'machine_add',
+    'machine_edit',
     'machine_price',
     'machine_customer',
     'machine_qrcode',
