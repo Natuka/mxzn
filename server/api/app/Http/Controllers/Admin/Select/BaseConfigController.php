@@ -47,7 +47,7 @@ class BaseConfigController extends BaseController
             $name = substr($name, strpos($name,'::') + 2);
         }
 
-        return success_json(BaseConfig::childrenByName($name));
+        return success_json(BaseConfig::childrenByName($name, ['id', 'parent_id', 'name', 'number', 'sort', 'remark']));
     }
 
 }
