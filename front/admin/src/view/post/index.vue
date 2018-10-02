@@ -16,38 +16,26 @@
           <Icon type="md-add"/>
         </Button>
       </div>
-      <agent-search ref="search" @on-search="onSearch"></agent-search>
-      <tables
-        ref="tables"
-        :loading="loading"
-        editable
-        search-place="top"
-        v-model="list"
-        :columns="columns"
-        @on-delete="handleDelete"
-        :width="tableWidth"
-      />
+      <post-search ref="search" @on-search="onSearch"></post-search>
+      <tables ref="tables" :loading="loading" editable search-place="top" v-model="list" :columns="columns"
+              @on-delete="handleDelete"/>
       <br/>
       <Page :current="page" :total="total" show-elevator @on-change="toPage"/>
       <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>
     </Card>
-    <staff-add ref="add" @refresh="refresh"></staff-add>
-    <staff-edit ref="edit" @refresh="refreshWithPage"></staff-edit>
-    <!--<Button @click="onOpen()">开启</Button>-->
+    <post-add ref="add" @refresh="refresh"></post-add>
+    <post-edit ref="edit" @refresh="refreshWithPage"></post-edit>
   </div>
 </template>
 
 <script>
 import Tables from '_c/tables'
-// import {getStaffList} from '@/api/staff'
 
 import search from './search'
 import add from './add'
 import edit from './edit'
 
 import listMixin from '../../mixins/list'
-import constsMixin from '../../mixins/consts'
-import * as staffConst from '../../constants/staff'
 
 export default {
   name: 'tables_page',
@@ -57,83 +45,20 @@ export default {
     [add.name]: add,
     [edit.name]: edit
   },
-  mixins: [listMixin, constsMixin],
+  mixins: [listMixin],
   data () {
     return {
-      url: 'staff',
+      url: 'post',
       access: {
-        add: 'staff_add',
-        view: 'staff_view',
-        edit: 'staff_edit',
-        remove: 'staff_remove'
+        add: 'post_add',
+        view: 'post_view',
+        edit: 'post_edit',
+        remove: 'post_remove'
       },
       columns: [
+        {title: '名称', key: 'name', editable: false},
+        {title: '创建时间', key: 'created_at'},
         {
-          width: 120,
-          fixed: 'left',
-          title: '编号',
-          key: 'number',
-          sortable: false
-        },
-        {
-          width: 120,
-          fixed: 'left',
-          title: '姓名',
-          key: 'name',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '性别',
-          key: 'sex',
-          sortable: true,
-          render: this.constRender('sex', staffConst.SEX_LIST)
-        },
-        {
-          width: 120,
-          title: '出生日期',
-          key: 'birthday',
-          sortable: true
-        },
-        {
-          width: 120,
-          title: '部门',
-          key: 'department',
-          sortable: true
-        },
-        {
-          width: 120,
-          title: '职位',
-          key: 'post',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '职务',
-          key: 'job',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '手机',
-          key: 'mobile',
-          sortable: true
-        },
-        {
-          width: 120,
-          title: '在职状态',
-          key: 'status',
-          sortable: false,
-          render: this.constRender('status', staffConst.STATUS_LIST)
-        },
-        {
-          width: 160,
-          title: '建档日期',
-          key: 'created_at',
-          sortable: false
-        },
-        {
-          width: 300,
           title: 'Handle',
           key: 'handle',
           options: ['delete'],
@@ -158,7 +83,7 @@ export default {
                     }
                   }
                 },
-                [h('Button', '删除')]
+                [h('Button', '自定义删除')]
               )
             },
             (h, params, vm) => {
@@ -176,7 +101,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.onEdit()
+                      this.onEdit(params.row)
                     }
                   }
                 },
@@ -209,13 +134,6 @@ export default {
       console.log('oncancel', e)
       e()
     }
-    // ,
-    // async fetchList () {
-    //   return getStaffList().then(({data}) => ({
-    //     data: data.data,
-    //     total: data.total
-    //   }))
-    // }
   },
   mounted () {
     this.refresh()

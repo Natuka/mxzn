@@ -33,13 +33,13 @@ export default [
       // },
       {
         path: '/',
-        name: 'contact',
+        name: 'customercontact_list',
         meta: {
           icon: '_qq',
           title: '客户联系人',
-          access: ['customer_contact']
+          access: ['customercontact_list']
         },
-        component: () => import('@/view/customer/index.vue')
+        component: () => import('@/view/customercontact/index.vue')
       },
     ]
   }
