@@ -49,16 +49,23 @@
         </FormItem>
         <FormItem label="职位" prop="post">
           <Select v-model="data.post">
-            <Option value="beijing">New York</Option>
-            <Option value="shanghai">London</Option>
-            <Option value="shenzhen">Sydney</Option>
+            <Option
+              :key="info.id"
+              v-for="(info) in select.post"
+              :value="info.id"
+              v-text="info.name"
+            />
           </Select>
         </FormItem>
         <FormItem label="职务" prop="job">
+
           <Select v-model="data.job">
-            <Option value="beijing">New York</Option>
-            <Option value="shanghai">London</Option>
-            <Option value="shenzhen">Sydney</Option>
+            <Option
+              :key="info.id"
+              v-for="(info) in select.job"
+              :value="info.id"
+              v-text="info.name"
+            />
           </Select>
         </FormItem>
         <FormItem label="毕业院校" prop="graduated_school">
@@ -67,11 +74,11 @@
         <FormItem label="学历">
           <Select v-model="data.education">
             <Option
-              v-for="(type, index) in educationList"
-              :key="index"
-              :value="index"
-            >{{type}}
-            </Option>
+              :key="info.id"
+              v-for="(info) in select.education"
+              :value="info.id"
+              v-text="info.name"
+            />
           </Select>
         </FormItem>
         <FormItem label="技能专长" prop="skill_expertise">
@@ -89,7 +96,7 @@
         <FormItem label="入职日期" prop="entry_date">
           <DatePicker type="date" placeholder="入职日期" v-model="data.entry_date"></DatePicker>
         </FormItem>
-        <FormItem label="在职状态" >
+        <FormItem label="在职状态">
           <RadioGroup v-model="data.status">
             <Radio :label="1">
               <span>在职</span>
@@ -103,13 +110,40 @@
           <DatePicker type="date" placeholder="离职日期" v-model="data.leave_date"></DatePicker>
         </FormItem>
         <FormItem label="所在省">
-          <Input v-model="data.province_id" placeholder="所在省"></Input>
+          <!--<Input v-model="data.province_id" placeholder="所在省"></Input>-->
+          <Select v-model="data.province_id" @on-change="provinceChange">
+            <Option
+              :key="info.id"
+              v-for="(info) in provinces"
+              :value="info.id"
+
+            >{{info.areaname}}
+            </Option>
+          </Select>
         </FormItem>
         <FormItem label="所在市">
-          <Input v-model="data.city_id" placeholder="所在市"></Input>
+          <!--<Input v-model="data.city_id" placeholder="所在市"></Input>-->
+          <Select v-model="data.city_id" @on-change="cityChange">
+            <Option
+              :key="info.id"
+              v-for="(info) in cities"
+              :value="info.id"
+
+            >{{info.areaname}}
+            </Option>
+          </Select>
         </FormItem>
         <FormItem label="所在县">
-          <Input v-model="data.district_id" placeholder="所在县"></Input>
+          <!--<Input v-model="data.district_id" placeholder="所在县"></Input>-->
+          <Select v-model="data.district_id">
+            <Option
+              :key="info.id"
+              v-for="(info) in counties"
+              :value="info.id"
+
+            >{{info.areaname}}
+            </Option>
+          </Select>
         </FormItem>
         <FormItem label="详细地址">
           <Input v-model="data.address" placeholder="详细地址"></Input>
@@ -140,6 +174,7 @@
 <script>
 
 import ModalMixin from '@/mixins/modal'
+import AreaMixin from '@/mixins/area'
 
 import {addStaff} from '../../api/staff'
 
@@ -147,7 +182,7 @@ import * as staffConst from '../../constants/staff'
 
 export default {
   name: 'staff-add',
-  mixins: [ModalMixin],
+  mixins: [ModalMixin, AreaMixin],
   data () {
     return {
       data: {
@@ -179,7 +214,12 @@ export default {
           {required: true, message: '姓名不能为空', trigger: 'blur'}
         ]
       },
-      educationList: staffConst.EDUCATION_LIST
+      educationList: staffConst.EDUCATION_LIST,
+      select: {
+        job: [],
+        post: [],
+        education: []
+      }
     }
   },
   methods: {
@@ -200,6 +240,52 @@ export default {
     },
     onCancel (e) {
       e()
+    },
+    async beforeOpen () {
+      let job = await this.$store.dispatch('getJob')
+      let post = await this.$store.dispatch('getPost')
+      let education = await this.$store.dispatch('getEducation')
+      this.select.job = job
+      this.select.post = post
+      this.select.education = education
+
+      let [provinces, cities, counties] = await this.getAllByFirstProvinceId()
+      this.data.province_id = 0
+      this.data.city_id = 0
+      this.data.district_id = 0
+
+      this.forceLock(() => {
+        this.data.province_id = provinces[0].id
+        this.data.city_id = cities[0].id
+        this.data.district_id = counties[0].id
+      })
+      return true
+    },
+    async provinceChange (provinceId) {
+      const fn = async () => {
+        let [cities, counties] = await this.getAllByProvinceId(provinceId)
+        this.data.city_id = 0
+        this.data.district_id = 0
+
+        this.forceLock(() => {
+          this.data.city_id = cities[0].id
+          this.data.district_id = counties[0].id
+        })
+      }
+
+      this.wrapLock(fn)
+    },
+    async cityChange (cityId) {
+      const fn = async () => {
+        let [counties] = await this.getAllByCityId(cityId)
+        this.data.district_id = 0
+
+        this.forceLock(() => {
+          this.data.district_id = counties[0].id
+        })
+      }
+
+      this.wrapLock(fn)
     }
   }
 }

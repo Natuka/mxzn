@@ -87,7 +87,12 @@ export default {
         slider: [20, 50],
         textarea: ''
       },
-      data: {}
+      data: {},
+      select: {
+        job: [],
+        post: [],
+        education: []
+      }
     }
   },
   methods: {
@@ -98,7 +103,18 @@ export default {
     onCancel (e) {
       console.log('oncancel', e)
       e()
+    },
+    // 设定数据
+    async afterSetData () {
+      let job = await this.$store.dispatch('getJob')
+      let post = await this.$store.dispatch('getPost')
+      let education = await this.$store.dispatch('getEducation')
+      this.select.job = job
+      this.select.post = post
+      this.select.education = education
     }
+  },
+  async mounted () {
   }
 }
 </script>

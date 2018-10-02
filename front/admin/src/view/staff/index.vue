@@ -217,13 +217,10 @@ export default {
     //   }))
     // }
   },
-  mounted () {
+  async mounted () {
     this.refresh()
-    // getTablePageData().then(res => {
-    //   console.log('res', res)
-    //   this.tableData = res.data.data
-    //   this.total = res.data.total
-    // })
+    await this.$store.dispatch('getJob')
+    await this.$store.dispatch('getPost')
   }
 }
 </script>

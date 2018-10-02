@@ -147,11 +147,6 @@
     },
     mounted () {
       this.refresh()
-      // getTablePageData().then(res => {
-      //   console.log('res', res)
-      //   this.tableData = res.data.data
-      //   this.total = res.data.total
-      // })
     }
   }
 </script>

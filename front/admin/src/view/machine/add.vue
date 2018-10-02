@@ -113,8 +113,6 @@ export default {
   },
   methods: {
     onSubmit (e) {
-        //   console.log('onsubmit', e)
-        // ....
       this.withRefresh(e)
     },
     onCancel (e) {
