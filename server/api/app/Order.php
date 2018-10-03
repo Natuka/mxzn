@@ -1,14 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
     //
-    protected $table = 'service_orders';
-
-
-
 }
