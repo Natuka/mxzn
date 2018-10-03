@@ -63,6 +63,7 @@ class IndexController extends Controller
         $data['province_id'] = (int)$data['province_id'];
         $data['city_id'] = (int)$data['city_id'];
         $data['district_id'] = (int)$data['district_id'];
+        $data['dep_id'] = (int)$data['dep_id'];
 
         $data['created_by'] = '新增';
         $data['updated_by'] = '新增';
@@ -136,6 +137,16 @@ class IndexController extends Controller
             'remark',
         ]);
         $data['updated_by'] = '修改';
+
+        $data['province_id'] = (int)$data['province_id'];
+        $data['city_id'] = (int)$data['city_id'];
+        $data['district_id'] = (int)$data['district_id'];
+        $data['dep_id'] = (int)$data['dep_id'];
+
+        $data['entry_date'] = format_date($data['entry_date']);
+        $data['leave_date'] = format_date($data['leave_date']);
+        $data['birthday'] = format_date($data['birthday']);
+
         $ret = $staff->forceFill($data)->save();
 
         if ($ret) {

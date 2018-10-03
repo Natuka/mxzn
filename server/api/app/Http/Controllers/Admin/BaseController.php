@@ -12,7 +12,7 @@ class BaseController extends Controller
      * @param null $customPage
      * @return mixed
      */
-    public function paginate(Model $model, $customPage = null)
+    public function paginate($model, $customPage = null)
     {
         return $model->paginate($customPage ? (int) $customPage : config('pageinfo.per_page'));
     }

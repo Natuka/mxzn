@@ -58,3 +58,7 @@ function load_routes($path)
         }
     }
 }
+
+function format_date($date, $format='Y-m-d') {
+    return date($format, strtotime($date));
+}
