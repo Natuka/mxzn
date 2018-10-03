@@ -4,7 +4,8 @@ let state = {
   provinces: [],
   areas: [],
   cities: [],
-  districts: []
+  districts: [],
+  citiesByProvinceId: {}
 }
 
 let getters = {
@@ -19,6 +20,11 @@ let getters = {
   },
   districts ({districts}) {
     return districts
+  },
+  getCities ({citiesByProvinceId}) {
+    return (provinceId) => {
+      return citiesByProvinceId[provinceId] || []
+    }
   }
 }
 
@@ -50,6 +56,7 @@ let mutations = {
   },
   setAllCities (state, data) {
     state.cities = data
+    state.citiesByProvinceId = formatCities(data)
   },
   setAllDistricts (state, data) {
     state.districts = data
@@ -61,4 +68,16 @@ export default {
   getters,
   actions,
   mutations
+}
+
+const formatCities = (cities) => {
+  let ret = {}
+  cities.forEach((info) => {
+    if (!ret[info.parent_id]) {
+      ret[info.parent_id] = []
+    }
+    ret[info.parent_id].push(info)
+  })
+
+  return ret
 }

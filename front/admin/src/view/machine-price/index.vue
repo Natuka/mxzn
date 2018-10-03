@@ -84,7 +84,7 @@ export default {
         {title: '销售价1', key: 'unit'},
         {title: '销售价2', key: 'store', sortable: true},
         {title: '销售价3', key: 'safety_stock_qty'},
-        {title: '供应商', key: 'vendor', sortable: true},
+
         {
           title: 'Handle',
           key: 'handle',

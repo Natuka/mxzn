@@ -47,6 +47,7 @@ import edit from './edit'
 
 import listMixin from '../../mixins/list'
 import constsMixin from '../../mixins/consts'
+import baseMixin from '../../mixins/base'
 import * as staffConst from '../../constants/staff'
 
 export default {
@@ -57,7 +58,7 @@ export default {
     [add.name]: add,
     [edit.name]: edit
   },
-  mixins: [listMixin, constsMixin],
+  mixins: [listMixin, constsMixin, baseMixin],
   data () {
     return {
       url: 'staff',
@@ -105,13 +106,15 @@ export default {
           width: 120,
           title: '职位',
           key: 'post',
-          sortable: false
+          sortable: false,
+          render: this.baseRender('post', 'findPost')
         },
         {
           width: 120,
           title: '职务',
           key: 'job',
-          sortable: false
+          sortable: false,
+          render: this.baseRender('job', 'findJob')
         },
         {
           width: 120,
@@ -176,7 +179,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.onEdit()
+                      this.onEdit(params.row)
                     }
                   }
                 },

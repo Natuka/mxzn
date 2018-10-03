@@ -15,6 +15,15 @@ export default {
     },
     education ({education}) {
       return education
+    },
+    findPost ({post}) {
+      return postId => post.find(info => +info.id === +postId)
+    },
+    findJob ({job}) {
+      return jobId => job.find(info => +info.id === +jobId)
+    },
+    findEducation ({education}) {
+      return jobId => education.find(info => +info.id === +jobId)
     }
   },
   mutations: {

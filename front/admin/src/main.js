@@ -12,12 +12,25 @@ import 'iview/dist/styles/iview.css'
 import './index.less'
 import '@/assets/icons/iconfont.css'
 import custModal from './components/modal/index.vue'
+import MxSelect from './components/select/select.vue'
+import StaticSelect from './components/select/static-select.vue'
+
+import vSelect from 'vue-select'
+
+// import { Select, Option } from 'element-ui'
+
 // import '@/mock'
 // 实际打包时应该不引入mock
 /* eslint-disable */
 // if (process.env.NODE_ENV !== 'production') require('@/mock')
+Vue.component('v-select', vSelect)
 
 Vue.component(custModal.name, custModal)
+Vue.component(MxSelect.name, MxSelect)
+Vue.component(StaticSelect.name, StaticSelect)
+
+// Vue.component(Select.name, Select)
+// Vue.component(Option.name, Option)
 
 Vue.use(iView, {
     i18n: (key, value) => i18n.t(key, value)

@@ -7,15 +7,6 @@ use App\Models\Area;
 
 class IndexController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
     public function provinces()
     {
@@ -30,12 +21,6 @@ class IndexController extends Controller
      */
     public function show(Area $area, $id, $level = 1)
     {
-        \Log::info([
-            'show' => [
-                'id' => $id,
-                'level' => $level,
-            ]
-        ]);
         return success_json(Area::where('parent_id', $id)->where('level', $level)->orderBy('id', 'asc')->get());
     }
 

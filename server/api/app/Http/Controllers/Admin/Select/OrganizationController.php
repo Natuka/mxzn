@@ -19,7 +19,7 @@ class OrganizationController extends BaseController
     public function search(Request $request, Organization $organization)
     {
         if ($name = $request->get('name', '')) {
-            $organization = $organization->where('name', like($name));
+            $organization = $organization->where('name', 'like', like($name));
         }
 
         return $organization;

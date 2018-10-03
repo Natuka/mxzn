@@ -15,7 +15,7 @@ export default {
       if (!provicenId) {
         return this.cities
       }
-      let {data} = await cities(provicenId, 2)
+      let data = this.$store.getters.getCities(provicenId)
       this.cities = data
       return data
     },
@@ -37,14 +37,38 @@ export default {
     },
     // 根据第一个省份查询 城市，县，街道
     async getAllByFirstProvinceId () {
-      let provices = await this.$store.dispatch('initProvinces')
-      this.provinces = provices
-      let cities = await this.getCities(provices[0].id)
+      let provinces = await this.$store.dispatch('initProvinces')
+      this.provinces = provinces
+      let cities = await this.getCities(provinces[0].id)
       let counties = await this.getCountie(cities[0].id)
       let streets = await this.getStreets(counties[0].id)
 
       return [
-        provices,
+        provinces,
+        cities,
+        counties,
+        streets
+      ]
+    },
+    async getAllByIds (provinceId = 0, cityId = 0, countyId = 0) {
+      let provinces = await this.$store.dispatch('initProvinces')
+      this.provinces = provinces
+      if (!provinceId) {
+        provinceId = provinces[0].id
+      }
+
+      let cities = await this.getCities(provinceId)
+      if (!cityId) {
+        cityId = cities[0].id
+      }
+
+      let counties = await this.getCountie(cityId)
+      if (!countyId) {
+        countyId = counties[0].id
+      }
+      let streets = await this.getStreets(countyId)
+      return [
+        provinces,
         cities,
         counties,
         streets
