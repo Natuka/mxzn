@@ -11,13 +11,23 @@
       <Form :model="data"
             ref="addForm"
             :rules="rules"
-            :label-width="90">
+            :label-width="90"
+      >
         <FormItem label="组织/公司" prop="org_id">
-          <Select v-model="data.org_id">
+          <mx-select
+            :value="data.org_id"
+            :init="true"
+            name="name"
+            url="select/organization"
+            :filter="(data) => data.name"
+            :valueMap="(data) => data.id"
+            @on-change="id => this.data.org_id = id"
+          />
+          <!--<Select v-model="data.org_id">
             <Option value="beijing">New York</Option>
             <Option value="shanghai">London</Option>
             <Option value="shenzhen">Sydney</Option>
-          </Select>
+          </Select>-->
         </FormItem>
         <FormItem label="编号" prop="number">
           <Input v-model="data.number" placeholder="编号" disabled></Input>
@@ -38,7 +48,12 @@
           </RadioGroup>
         </FormItem>
         <FormItem label="出生日期" prop="birthday">
-          <DatePicker type="date" placeholder="生日" v-model="data.birthday"></DatePicker>
+          <DatePicker
+            type="date"
+            placeholder="生日"
+            v-model="data.birthday"
+            @on-change="date => this.data.birthday = date"
+          ></DatePicker>
         </FormItem>
         <FormItem label="部门" prop="dep_id">
           <Select v-model="data.dep_id">
@@ -94,7 +109,12 @@
           <Input v-model="data.email" placeholder="邮箱"></Input>
         </FormItem>
         <FormItem label="入职日期" prop="entry_date">
-          <DatePicker type="date" placeholder="入职日期" v-model="data.entry_date"></DatePicker>
+          <DatePicker
+            type="date"
+            placeholder="入职日期"
+            v-model="data.entry_date"
+            @on-change="date => this.data.entry_date = date"
+          ></DatePicker>
         </FormItem>
         <FormItem label="在职状态">
           <RadioGroup v-model="data.status">
@@ -107,7 +127,12 @@
           </RadioGroup>
         </FormItem>
         <FormItem label="离职日期" prop="leave_date">
-          <DatePicker type="date" placeholder="离职日期" v-model="data.leave_date"></DatePicker>
+          <DatePicker
+            type="date"
+            placeholder="离职日期"
+            v-model="data.leave_date"
+            @on-change="date => this.data.leave_date = date"
+          ></DatePicker>
         </FormItem>
         <FormItem label="所在省">
           <!--<Input v-model="data.province_id" placeholder="所在省"></Input>-->
@@ -177,6 +202,7 @@ import ModalMixin from '@/mixins/modal'
 import AreaMixin from '@/mixins/area'
 
 import {addStaff} from '../../api/staff'
+// import {selectOrganization} from '../../api/select/organization'
 
 import * as staffConst from '../../constants/staff'
 
@@ -192,10 +218,10 @@ export default {
         sex: 1,
         birthday: '',
         dep_id: 0,
-        post: '',
-        job: '',
+        post: 0,
+        job: 0,
         graduated_school: '',
-        education: '',
+        education: 0,
         skill_expertise: '',
         hobby: '',
         mobile: '',
@@ -249,6 +275,7 @@ export default {
       this.select.post = post
       this.select.education = education
 
+      // 省份
       let [provinces, cities, counties] = await this.getAllByFirstProvinceId()
       this.data.province_id = 0
       this.data.city_id = 0

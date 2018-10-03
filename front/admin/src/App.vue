@@ -8,7 +8,7 @@
 export default {
   name: 'App',
   mounted () {
-    this.$store.dispatch('initProvinces')
+    this.$store.dispatch('init')
   }
 }
 </script>
