@@ -13,6 +13,7 @@ import './index.less'
 import '@/assets/icons/iconfont.css'
 import custModal from './components/modal/index.vue'
 import MxSelect from './components/select/select.vue'
+import RemoteSelect from './components/select/remote-select.vue'
 import StaticSelect from './components/select/static-select.vue'
 
 import vSelect from 'vue-select'
@@ -28,6 +29,7 @@ Vue.component('v-select', vSelect)
 Vue.component(custModal.name, custModal)
 Vue.component(MxSelect.name, MxSelect)
 Vue.component(StaticSelect.name, StaticSelect)
+Vue.component(RemoteSelect.name, RemoteSelect)
 
 // Vue.component(Select.name, Select)
 // Vue.component(Option.name, Option)

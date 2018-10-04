@@ -33,13 +33,11 @@
     </Card>
     <staff-add ref="add" @refresh="refresh"></staff-add>
     <staff-edit ref="edit" @refresh="refreshWithPage"></staff-edit>
-    <!--<Button @click="onOpen()">开启</Button>-->
   </div>
 </template>
 
 <script>
 import Tables from '_c/tables'
-// import {getStaffList} from '@/api/staff'
 
 import search from './search'
 import add from './add'
@@ -87,20 +85,20 @@ export default {
           width: 120,
           title: '性别',
           key: 'sex',
-          sortable: true,
+          sortable: false,
           render: this.constRender('sex', staffConst.SEX_LIST)
         },
         {
           width: 120,
           title: '出生日期',
           key: 'birthday',
-          sortable: true
+          sortable: false
         },
         {
           width: 120,
           title: '部门',
           key: 'department',
-          sortable: true
+          sortable: false
         },
         {
           width: 120,
@@ -120,7 +118,7 @@ export default {
           width: 120,
           title: '手机',
           key: 'mobile',
-          sortable: true
+          sortable: false
         },
         {
           width: 120,
@@ -136,7 +134,8 @@ export default {
           sortable: false
         },
         {
-          width: 300,
+          fixed: 'right',
+          width: 250,
           title: 'Handle',
           key: 'handle',
           options: ['delete'],
