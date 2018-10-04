@@ -3,7 +3,7 @@
     <Card>
       <div slot="title">
         <Button type="primary" @click="onAdd" v-if="accessAdd()">
-          新增
+          编辑
           <Icon type="md-add"/>
         </Button>
 
