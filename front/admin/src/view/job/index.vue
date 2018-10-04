@@ -13,7 +13,7 @@
           class="ml-5"
         >
           刷新
-          <Icon type="md-add"/>
+          <Icon type="md-refresh"/>
         </Button>
       </div>
       <job-search ref="search" @on-search="onSearch"></job-search>
@@ -54,6 +54,9 @@ export default {
         view: 'job_view',
         edit: 'job_edit',
         remove: 'job_remove'
+      },
+      params: {
+        'with-page': 1
       },
       columns: [
         {title: '名称', key: 'name', editable: false},
@@ -137,11 +140,6 @@ export default {
   },
   mounted () {
     this.refresh()
-    // getTablePageData().then(res => {
-    //   console.log('res', res)
-    //   this.tableData = res.data.data
-    //   this.total = res.data.total
-    // })
   }
 }
 </script>

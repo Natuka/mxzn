@@ -1,4 +1,4 @@
-import {getApi} from '../libs/api.request'
+import {getApi, deleteApi} from '../libs/api.request'
 
 export default {
   data () {
@@ -8,6 +8,7 @@ export default {
       page: 1,
       params: {},
       url: '',
+      deleteUrl: '',
       tableWidth: 1000,
       loading: false,
       method: 'fetchList',
@@ -51,7 +52,6 @@ export default {
       let page = this.page
       let params = this.params
       let res = await this[this.method](this.getUrl(), {page, ...params})
-      // console.log('res', res)
       this.list = res.data
       this.total = res.total
       return res
@@ -88,6 +88,22 @@ export default {
     setTableWidth () {
       let leftSider = document.querySelector('.left-sider')
       this.tableWidth = window.innerWidth - leftSider.offsetWidth - 80
+    },
+    getDeleteUrl (params) {
+      let url = this.url
+      if (this.deleteUrl) {
+        url = this.deleteUrl
+      }
+
+      return url + '/' + params.id
+    },
+    // 删除API
+    async onDelete (params) {
+      try {
+        await deleteApi(this.getDeleteUrl(params), params)
+      } catch (e) {
+        console.log('e', e)
+      }
     }
   },
   mounted () {

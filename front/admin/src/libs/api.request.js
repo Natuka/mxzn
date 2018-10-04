@@ -47,6 +47,15 @@ export function getApi (url, params = {}, headers = {}) {
   })
 }
 
+export function deleteApi(url, params = {}, headers = {}) {
+  return axios.request({
+    url,
+    params,
+    method: 'delete',
+    headers: withHeaders(headers)
+  })
+}
+
 // 添加上头部验证
 export function withHeaders (headers) {
   return {

@@ -8,7 +8,7 @@
         </Button>
         <Button type="primary" @click="refresh" v-if="accessAdd()" class="ml-5">
           刷新
-          <Icon type="md-add"/>
+          <Icon type="md-refresh"/>
         </Button>
       </div>
       <customer-search ref="search" @on-search="onSearch"></customer-search>

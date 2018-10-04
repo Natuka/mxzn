@@ -6,7 +6,7 @@
           新增 <Icon type="md-add" /></Button>
 
         <Button type="primary" @click="refresh" v-if="accessAdd()">
-          刷新 <Icon type="md-add" /></Button>
+          刷新 <Icon type="md-refresh" /></Button>
       </div>
       <agent-search ref="search" @on-search="onSearch"></agent-search>
       <tables ref="tables" :loading="loading" editable search-place="top" v-model="list" :columns="columns" @on-delete="handleDelete"/>

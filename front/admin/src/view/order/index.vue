@@ -9,7 +9,7 @@
 
         <Button type="primary" @click="refresh" v-if="accessAdd()">
           刷新
-          <Icon type="md-add"/>
+          <Icon type="md-refresh"/>
         </Button>
       </div>
       <agent-search ref="search" @on-search="onSearch"></agent-search>
