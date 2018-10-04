@@ -177,10 +177,10 @@
 import ModalMixin from '@/mixins/modal'
 import AreaMixin from '@/mixins/area'
 
-import {addReview} from '../../api/review'
-// import {selectOrganization} from '../../api/select/organization'
-import {selectDepartment} from '../../api/select/department'
-import * as reviewConst from '../../constants/review'
+import {addReview} from '../../../api/order_flow/review'
+// import {selectOrganization} from '../../../api/select/organization'
+import {selectDepartment} from '../../../api/select/department'
+import * as orderConst from '../../../constants/order_flow'
 
 export default {
   name: 'review-add',
@@ -216,7 +216,7 @@ export default {
           {required: true, message: '姓名不能为空', trigger: 'blur'}
         ]
       },
-      educationList: reviewConst.EDUCATION_LIST,
+      educationList: orderConst.EDUCATION_LIST,
       select: {
         job: [],
         post: [],

@@ -177,11 +177,11 @@
 import ModalMixin from '@/mixins/modal'
 import AreaMixin from '@/mixins/area'
 
-import {updateConfirm} from '../../api/confirm'
-import {selectOrganization} from '../../api/select/organization'
-import {selectDepartment} from '../../api/select/department'
+import {updateConfirm} from '../../../api/order_flow/confirm'
+import {selectOrganization} from '../../../api/select/organization'
+import {selectDepartment} from '../../../api/select/department'
 
-import * as confirmConst from '../../constants/confirm'
+import * as orderConst from '../../../constants/order_flow'
 
 export default {
   name: 'confirm-edit',
@@ -217,7 +217,7 @@ export default {
           {required: true, message: '姓名不能为空', trigger: 'blur'}
         ]
       },
-      educationList: confirmConst.EDUCATION_LIST,
+      educationList: orderConst.EDUCATION_LIST,
       select: {
         job: [],
         post: [],

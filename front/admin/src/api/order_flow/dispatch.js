@@ -1,4 +1,4 @@
-import {getApi, postApi, deleteApi, putApi} from '../libs/api.request'
+import {getApi, postApi, deleteApi, putApi} from '../../libs/api.request'
 
 export function getDispatchList (params) {
   return getApi('order_flow/dispatch', params)

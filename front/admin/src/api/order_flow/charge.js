@@ -1,4 +1,4 @@
-import {getApi, postApi, deleteApi, putApi} from '../libs/api.request'
+import {getApi, postApi, deleteApi, putApi} from '../../libs/api.request'
 
 export function getChargeList (params) {
   return getApi('order_flow/charge', params)

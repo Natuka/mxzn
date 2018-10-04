@@ -177,11 +177,11 @@
 import ModalMixin from '@/mixins/modal'
 import AreaMixin from '@/mixins/area'
 
-import {updateInstall} from '../../api/install'
-import {selectOrganization} from '../../api/select/organization'
-import {selectDepartment} from '../../api/select/department'
+import {updateInstall} from '../../../api/order_flow/install'
+import {selectOrganization} from '../../../api/select/organization'
+import {selectDepartment} from '../../../api/select/department'
 
-import * as installConst from '../../constants/install'
+import * as orderConst from '../../../constants/order_flow'
 
 export default {
   name: 'install-edit',
@@ -217,7 +217,7 @@ export default {
           {required: true, message: '姓名不能为空', trigger: 'blur'}
         ]
       },
-      educationList: installConst.EDUCATION_LIST,
+      educationList: orderConst.EDUCATION_LIST,
       select: {
         job: [],
         post: [],

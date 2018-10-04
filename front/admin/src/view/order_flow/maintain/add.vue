@@ -177,10 +177,10 @@
 import ModalMixin from '@/mixins/modal'
 import AreaMixin from '@/mixins/area'
 
-import {addMaintain} from '../../api/maintain'
-// import {selectOrganization} from '../../api/select/organization'
-import {selectDepartment} from '../../api/select/department'
-import * as maintainConst from '../../constants/maintain'
+import {addMaintain} from '../../../api/order_flow/maintain'
+// import {selectOrganization} from '../../../api/select/organization'
+import {selectDepartment} from '../../../api/select/department'
+import * as orderConst from '../../../constants/order_flow'
 
 export default {
   name: 'maintain-add',
@@ -216,7 +216,7 @@ export default {
           {required: true, message: '姓名不能为空', trigger: 'blur'}
         ]
       },
-      educationList: maintainConst.EDUCATION_LIST,
+      educationList: orderConst.EDUCATION_LIST,
       select: {
         job: [],
         post: [],
