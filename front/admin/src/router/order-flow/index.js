@@ -33,22 +33,22 @@ export default [
         component: () => parentView,
         children: [
           {
-            path: '/repair',
+            path: '/order_flow/repair',
             name: 'order_service_repair',
             meta: {
               icon: '_qq',
               title: '维修工单',
               access: [ 'order_service_repair' ]
             },
-            component: () => import( '@/view/order/index.vue' )
+            component: () => import( '@/view/order_flow/repair/index.vue' )
           },
           {
-            path: '/repair',
-            name: 'order_service_setups',
+            path: '/order_flow/install',
+            name: 'order_service_install',
             meta: {
               icon: '_qq',
               title: '安装工单',
-              access: [ 'order_service_setups' ]
+              access: [ 'order_service_install' ]
             },
             component: () => import( '@/view/order/index.vue' )
           },
