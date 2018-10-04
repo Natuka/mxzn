@@ -16,9 +16,14 @@ class DepartmentController extends BaseController
      */
     public function index(Request $request, Department $department)
     {
-        $department = $this->search($request, $department);
+        $orgId = $request->get('org_id', 0);
 
-        return $this->paginate($department);
+        if (!$orgId) {
+            return success_json(collect([]));
+        }
+
+        return success_json(Department::getFlatByOrganizationId($orgId));
+//        return $this->paginate($department);
     }
 
     public function search(Request $request, Department $department)

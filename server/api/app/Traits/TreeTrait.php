@@ -26,4 +26,21 @@ trait TreeTrait
 
         return $ret;
     }
+
+    public static function __flatByList($list, &$ret = [], $fields, $children = 'children')
+    {
+        if (!count($list)) {
+            return $ret;
+        }
+
+        foreach ($list as $info) {
+            array_push($ret, array_only($info->toArray(), $fields));
+
+            if (count($info->$children)) {
+                self::__flatByList($info->$children, $ret, $fields, $children);
+            }
+        }
+
+        return $ret;
+    }
 }
