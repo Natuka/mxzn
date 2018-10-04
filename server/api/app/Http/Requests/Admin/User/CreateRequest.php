@@ -18,7 +18,7 @@ class CreateRequest extends FormRequest
         return true;
     }
 
-   
+
    /**
      * Get the validation rules that apply to the request.
      *
@@ -41,7 +41,7 @@ class CreateRequest extends FormRequest
             ],
             // 'password' => 'required',
             'password' => 'required',
-            'confirm_password' => 'required|same:password',
+            //'confirm_password' => 'required|same:password',
         ];
     }
 

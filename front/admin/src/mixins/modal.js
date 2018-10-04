@@ -15,19 +15,15 @@ export default {
     },
     // 设定数据
     async afterSetData () {
-      return Promise.resolve(true)
     },
     async beforeOpen () {
       return Promise.resolve(true)
     },
-    async afterOpen () {
-      return Promise.resolve(true)
+    afterOpen () {
     },
     // 开启页面
-    async onOpen () {
-      await this.beforeOpen()
+    onOpen () {
       this.getModal().open()
-      this.afterOpen()
     },
     async open () {
       let can = await this.beforeOpen()

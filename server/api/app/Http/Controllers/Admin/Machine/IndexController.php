@@ -34,12 +34,32 @@ class IndexController extends Controller
     public function create(CreateRequest $request, Machine $machine)
     {
         $data = $request->only([
+            'erp_itemid',
+            'number',
             'name',
+            'model',
+            'brand',
+            'stock_qty',
+            'unit',
+            'safety_stock_qty',
+            'store',
+            'price_ave',
+            'price_pur1',
+            'price_pur2',
+            'price_pur3',
+            'price_sale_unified',
+            'price_sale_least',
+            'price_sale1',
+            'price_sale2',
+            'price_sale3',
+            'vendor',
+            'remark',
+            'syn_datetime',
         ]);
-        //$request['source'] = $request->get('source', 3);
         $data['created_by'] = '新增';
-        $data['updated_by'] = '新增';
 
+        $data['syn_datetime'] = date('Y-m-d H:i:s', strtotime($data['syn_datetime']));
+        //dd($data);
         $ret = $machine->forceFill($data)->save();
 
         if ($ret) {

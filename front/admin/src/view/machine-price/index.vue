@@ -80,11 +80,11 @@ export default {
         {title: '型号规格', key: 'model', editable: false, sortable: true},
         {title: '品牌', key: 'brand', editable: false, sortable: true},
         {title: '统一销售价', key: 'price_sale_least'},
-        {title: '库存数量', key: 'stock_qty'},
-        {title: '单位', key: 'unit'},
-        {title: '默认仓库', key: 'store', sortable: true},
-        {title: '安全库存量', key: 'safety_stock_qty'},
-        {title: '供应商', key: 'vendor', sortable: true},
+        {title: '最低销售价', key: 'stock_qty'},
+        {title: '销售价1', key: 'unit'},
+        {title: '销售价2', key: 'store', sortable: true},
+        {title: '销售价3', key: 'safety_stock_qty'},
+
         {
           title: 'Handle',
           key: 'handle',

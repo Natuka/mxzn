@@ -3,49 +3,32 @@
     <Card>
       <div slot="title">
         <Button type="primary" @click="onAdd" v-if="accessAdd()">
-          新增
-          <Icon type="md-add"/>
-        </Button>
+          新增 <Icon type="md-add" /></Button>
 
-        <Button type="primary" @click="onImport" v-if="accessAdd()" class="ml-5">
-          导入
-          <Icon type="md-add"/>
-        </Button>
-
-        <Button type="primary" @click="refresh" v-if="accessAdd()" class="ml-5">
-          刷新
-          <Icon type="md-add"/>
-        </Button>
+        <Button type="primary" @click="refresh" v-if="accessAdd()">
+          刷新 <Icon type="md-add" /></Button>
       </div>
-      <machine-search ref="search" @on-search="onSearch"></machine-search>
-      <tables
-        ref="tables"
-        :loading="loading"
-        editable
-        search-place="top"
-        v-model="list"
-        :columns="columns"
-        @on-delete="handleDelete"
-        :width="tableWidth"
-      />
-      <br/>
-      <Page :current="page" :total="total" show-elevator @on-change="toPage"/>
+      <agent-search ref="search" @on-search="onSearch"></agent-search>
+      <tables ref="tables" :loading="loading" editable search-place="top" v-model="list" :columns="columns" @on-delete="handleDelete"/>
+      <br />
+      <Page :current="page" :total="total" show-elevator @on-change="toPage" />
       <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>
     </Card>
-    <machine-add ref="add" @refresh="refresh"></machine-add>
-    <machine-edit ref="edit" @refresh="refreshWithPage"></machine-edit>
+    <agent-add ref="add" @refresh="refresh"></agent-add>
+    <agent-edit ref="edit"  @refresh="refreshWithPage"></agent-edit>
+    <Button @click="onOpen()">开启</Button>
   </div>
 </template>
 
 <script>
 import Tables from '_c/tables'
+import { getRoleList } from '@/api/pcweixin'
 
 import search from './search'
 import add from './add'
 import edit from './edit'
 
 import listMixin from '../../mixins/list'
-// import constsMixin from '../../mixins/consts'
 
 export default {
   name: 'tables_page',
@@ -56,35 +39,19 @@ export default {
     [edit.name]: edit
   },
   mixins: [listMixin],
-  data () {
+  data() {
     return {
-      url: 'machine',
+      url: 'pcweixin',
       access: {
-        add: 'machine_add',
-        view: 'machine_view',
-        edit: 'machine_edit',
-        remove: 'machine_remove'
+        add: 'pcweixin_add',
+        view: 'pcweixin_view',
+        edit: 'pcweixin_edit',
+        remove: 'pcweixin_remove'
       },
       columns: [
-        {
-          title: '料号',
-          key: 'number',
-          sortable: true
-        },
-        {
-            title: '品名',
-            key: 'name',
-            editable: false,
-            sortable: true
-        },
-        {title: '型号规格', key: 'model', editable: false, sortable: true},
-        {title: '品牌', key: 'brand', editable: false, sortable: true},
-        {title: '统一销售价', key: 'price_sale_least'},
-        {title: '库存数量', key: 'stock_qty'},
-        {title: '单位', key: 'unit'},
-        {title: '默认仓库', key: 'store', sortable: true},
-        {title: '安全库存量', key: 'safety_stock_qty'},
-        {title: '供应商', key: 'vendor', sortable: true},
+        { title: 'Name', key: 'name', sortable: true },
+        { title: 'Email', key: 'email', editable: true },
+        { title: 'Create-Time', key: 'createTime' },
         {
           title: 'Handle',
           key: 'handle',
@@ -128,7 +95,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.onEdit(params.row)
+                      this.onEdit()
                     }
                   }
                 },
@@ -142,30 +109,42 @@ export default {
     }
   },
   methods: {
-    handleDelete (params) {
+    handleDelete(params) {
       console.log(params)
     },
-    exportExcel () {
+    exportExcel() {
       this.$refs.tables.exportCsv({
         filename: `table-${new Date().valueOf()}.csv`
       })
     },
-    onOpen () {
+    onOpen() {
       this.$refs.add.open()
     },
-    onSubmit (e) {
+    onSubmit(e) {
       console.log('onsubmit', e)
       setTimeout(_ => e(), 2000)
     },
-    onCancel (e) {
+    onCancel(e) {
       console.log('oncancel', e)
       e()
+    },
+    async fetchList() {
+      return getRoleList().then(res => ({
+        data: res.data.data,
+        total: res.data.total
+      }))
     }
   },
-  mounted () {
+  mounted() {
     this.refresh()
+    // getTablePageData().then(res => {
+    //   console.log('res', res)
+    //   this.tableData = res.data.data
+    //   this.total = res.data.total
+    // })
   }
 }
 </script>
+
 <style>
 </style>

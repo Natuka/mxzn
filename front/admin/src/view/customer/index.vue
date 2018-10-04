@@ -69,10 +69,9 @@ export default {
           sortable: true
         },
         {
-          //fixed: 'left',
           width: 150,
           title: '公司简称',
-          key: 'name',
+          key: 'name_short',
           sortable: true
         },
         {
@@ -128,7 +127,7 @@ export default {
           width: 150,
           title: '所在地址',
           key: 'address',
-          // sortable: true
+          sortable: false
         },
         {
           width: 120,

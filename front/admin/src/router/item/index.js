@@ -3,11 +3,11 @@ import parentView from '@/components/parent-view'
 
 export default [
   {
-    path: '/machine',
-    name: 'machine',
+    path: '/item',
+    name: 'item',
     component: Main,
     meta: {
-      access: ['machine_list'],
+      access: ['item_list'],
       title: '设备管理',
     },
     // redirect: '/machine/list',
@@ -17,7 +17,7 @@ export default [
         name: 'machine_list',
         meta: {
           icon: '_qq',
-          title: '物料资料管理',
+          title: '设备资料',
           access: ['machine_list']
         },
         component: () => import('@/view/machine/index.vue')
@@ -27,7 +27,7 @@ export default [
         name: 'machine_stock',
         meta: {
           icon: '_qq',
-          title: '物料库存查询',
+          title: '库存查询',
           access: ['machine_stock']
         },
       },
@@ -36,7 +36,7 @@ export default [
         name: 'machine_price',
         meta: {
           icon: '_qq',
-          title: '物料价格管理',
+          title: '价格管理',
           access: ['machine_price']
         },
         component: () => import('@/view/machine/index.vue')
@@ -46,7 +46,7 @@ export default [
         name: 'machine_qrcode',
         meta: {
           icon: '_qq',
-          title: '设备二维码管理',
+          title: '二维码管理',
           access: ['machine_qrcode']
         },
         component: () => import('@/view/machine/index.vue')

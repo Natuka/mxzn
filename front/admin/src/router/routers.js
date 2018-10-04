@@ -43,6 +43,11 @@ export default [
       }
     ]
   },
+  ...require('./pcweixin').default,
+  ...require('./order').default,
+  ...require('./customer').default,
+  ...require('./machine').default,
+  ...require('./staff').default,
   ...require('./components').default,
   ...require('./upload').default,
   ...require('./agent').default,
@@ -50,9 +55,5 @@ export default [
   ...require('./erros').default,
   ...require('./tool').default,
   ...require('./repair-logs').default,
-  ...require('./order').default,
-  ...require('./customer').default,
-  ...require('./machine').default,
-  ...require('./staff').default,
   // ...require('./organization').default,
 ]

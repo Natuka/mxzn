@@ -10,6 +10,11 @@ const USER_MAP = {
       'agent_view',
       'agent_edit',
 
+      'pcweixin_add',
+      'pcweixin_list',
+      'pcweixin_view',
+      'pcweixin_edit',
+
       'staff_list',
       'staff_add',
       'staff_view',

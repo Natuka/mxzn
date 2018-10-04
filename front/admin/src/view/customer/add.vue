@@ -2,7 +2,7 @@
   <custom-modal
     ref="ref"
     width="1000px"
-    title="客户管理-新增"
+    title="客户资料-新增"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
     class="mxcs-three-column"
@@ -13,7 +13,7 @@
             :rules="rules"
             :label-width="90">
         <FormItem label="客户编号:" prop="number">
-          <Input v-model="data.number" placeholder="客户编号-系统自动编号" disabled></Input>
+          <Input v-model="data.number" placeholder="系统自动编号" disabled></Input>
         </FormItem>
 
         <FormItem label="客户全称:" prop="name">
@@ -153,7 +153,7 @@
           <Input v-model="data.bank" placeholder="银行"></Input>
         </FormItem>
 
-        <FormItem label="银行账号: prop="account">
+        <FormItem label="银行账号:" prop="account">
           <Input v-model="data.account" placeholder="银行账号"></Input>
         </FormItem>
 
@@ -268,10 +268,13 @@ export default {
       },
       rules: {
         name: [
-          {required: true, message: '名称不能为空', trigger: 'blur'}
+          {required: true, message: '客户全称不能为空', trigger: 'blur'}
         ],
         name_short: [
-          {required: true, message: '简称不能为空', trigger: 'blur'}
+          {required: true, message: '客户简称不能为空', trigger: 'blur'}
+        ],
+        tel: [
+          {required: true, message: '客户电话不能为空', trigger: 'blur'}
         ]
       },
       industryList: customerConst.INDUSTRY_LIST,

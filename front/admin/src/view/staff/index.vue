@@ -16,7 +16,7 @@
           <Icon type="md-add"/>
         </Button>
       </div>
-      <staff-search ref="search" @on-search="onSearch"></staff-search>
+      <agent-search ref="search" @on-search="onSearch"></agent-search>
       <tables
         ref="tables"
         :loading="loading"
@@ -219,10 +219,13 @@ export default {
     //   }))
     // }
   },
-  async mounted () {
+  mounted () {
     this.refresh()
-    await this.$store.dispatch('getJob')
-    await this.$store.dispatch('getPost')
+    // getTablePageData().then(res => {
+    //   console.log('res', res)
+    //   this.tableData = res.data.data
+    //   this.total = res.data.total
+    // })
   }
 }
 </script>
