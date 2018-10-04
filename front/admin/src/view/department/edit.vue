@@ -11,24 +11,51 @@
             ref="addForm"
             :rules="rules"
             :label-width="80">
-        <FormItem label="编号" prop="number">
-          <Input v-model="data.number" placeholder="编号"></Input>
+        <FormItem label="组织/公司" prop="org_id">
+          <remote-select
+            :init="data.org_id"
+            :initData="init.organization"
+            label="name"
+            url="select/organization"
+            :filter="(data) => data.name"
+            :valueMap="(data) => data.id"
+            @on-change="organizationChange"
+          ></remote-select>
         </FormItem>
-        <FormItem label="姓名" prop="name">
-          <Input v-model="data.name" placeholder="姓名"></Input>
+        <FormItem label="上级部门" prop="parent_id">
+          <static-select
+            :data="select.department"
+            :init="data.parent_id"
+            @on-change="(value) => this.data.parent_id = value"
+          >
+            <span slot="prev" slot-scope="{option}">
+              <span v-if="option.level == 1">|--</span>
+              <span v-if="option.level == 2">|----</span>
+              <span v-if="option.level == 3">|------</span>
+              <span v-if="option.level == 4">|--------</span>
+            </span>
+          </static-select>
         </FormItem>
-        <FormItem label="简称" prop="name_short">
-          <Input v-model="data.name_short" placeholder="简称"></Input>
+        <FormItem label="部门编号" prop="number">
+          <Input v-model="data.number" placeholder="部门编号"></Input>
         </FormItem>
-        <FormItem label="类别">
-          <RadioGroup v-model="data.type">
-            <Radio :label="1">
-              <span>A</span>
-            </Radio>
-            <Radio :label="0">
-              <span>B</span>
-            </Radio>
-          </RadioGroup>
+        <FormItem label="部门名称" prop="name">
+          <Input v-model="data.name" placeholder="部门名称"></Input>
+        </FormItem>
+        <FormItem label="排序" prop="name_short">
+          <Input v-model="data.sort_no" placeholder="排序"></Input>
+        </FormItem>
+        <FormItem label="建立人员">
+          <Input v-model="data.created_by" placeholder="建立人员" disabled></Input>
+        </FormItem>
+        <FormItem label="建立日期">
+          <Input v-model="data.created_at" placeholder="建立日期" disabled></Input>
+        </FormItem>
+        <FormItem label="最近修改人员">
+          <Input v-model="data.updated_by" placeholder="最近修改人员" disabled></Input>
+        </FormItem>
+        <FormItem label="最近修改日期">
+          <Input v-model="data.updated_at" placeholder="最近修改日期" disabled></Input>
         </FormItem>
       </Form>
     </div>
@@ -40,7 +67,8 @@
 import ModalMixin from '@/mixins/modal'
 
 import {updateDepartment} from '../../api/department'
-
+import {selectDepartment} from '../../api/select/department'
+import {selectOrganization} from '../../api/select/organization'
 export default {
   name: 'department-edit',
   mixins: [ModalMixin],
@@ -50,32 +78,84 @@ export default {
         id: 0,
         name: '',
         number: '',
-        name_short: '',
+        org_id: 0,
+        parent_id: 0,
         type: 1
       },
       rules: {
-        name: [
-          {required: true, message: '名称不能为空', trigger: 'blur'},
+        org_id: [
+          {
+            type: 'number',
+            required: true,
+            message: '组织/公司不能为空',
+            trigger: 'change'
+          }
         ],
         number: [
-          {required: true, message: '编号不能为空', trigger: 'blur'}
+          {
+            required: true,
+            message: '部门编号不能为空',
+            trigger: 'blur'
+          }
         ],
-        name_short: [
-          {required: true, message: '简称不能为空', trigger: 'blur'}
+        name: [
+          {required: true, message: '部门名称不能为空', trigger: 'blur'}
         ]
+      },
+      select: {
+        job: [],
+        post: [],
+        education: [],
+        department: []
+      },
+      init: {
+        organization: [],
+        department: []
       }
     }
   },
   methods: {
     onSubmit (e) {
+      console.log('on submit')
       this.$refs.addForm.validate(async (valid) => {
         if (valid) {
-          let data = await updateDepartment(this.data, this.data.id)
-          this.withRefresh(e)
+          try {
+            let data = await updateDepartment(this.data, this.data.id)
+            console.log('addForm data', data)
+            this.withRefresh(e)
+          } catch (e) {
+            this.closeLoading()
+          }
         } else {
           this.closeLoading()
         }
       })
+    },
+    async beforeOpen () {
+      return true
+    },
+    async afterOpen () {
+      let data = this.data
+
+      let organizations = await selectOrganization({id: data.org_id})
+      this.init.organization = organizations.data
+      await this.organizationChange(data.org_id)
+
+      return true
+    },
+    async organizationChange (id) {
+      this.data.org_id = +id
+      if (!id) {
+        return
+      }
+      let {data} = await selectDepartment(id)
+      this.select.department = data || []
+      if (data.length) {
+        let info = data.find(info => +info.id === +this.data.parent_id)
+        if (!info) {
+          this.data.parent_id = data[0].id
+        }
+      }
     },
     onCancel (e) {
       e()

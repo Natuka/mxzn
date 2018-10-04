@@ -4,7 +4,13 @@
       :options="data"
       v-model="info"
       :label="label"
-    ></v-select>
+    >
+      <div slot="option" slot-scope="option">
+        <slot name="prev" :option="option"></slot>
+        {{ option[label] }}
+        <slot name="after"></slot>
+      </div>
+    </v-select>
 </template>
 
 <script>

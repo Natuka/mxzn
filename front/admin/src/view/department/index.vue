@@ -56,12 +56,43 @@ export default {
         remove: 'department_remove'
       },
       columns: [
-        {title: '组织/公司', key: 'org_id', sortable: true},
-        {title: '上级部门', key: 'parent_id', editable: false},
-        {title: '部门编号', key: 'number', editable: false},
-        {title: '部门名称', key: 'name', editable: false},
-        {title: '创建时间', key: 'created_at'},
         {
+          width: 160,
+          title: '组织/公司',
+          key: 'org_id',
+          sortable: false,
+          render: (h, {row}) => {
+            return h('span', {}, row.organization ? row.organization.name : '')
+          }
+        },
+        {
+          width: 150,
+          title: '上级部门',
+          key: 'parent_id',
+          editable: false,
+          render: (h, {row}) => {
+            return h('span', {}, row.parent ? row.parent.name : '')
+          }
+        },
+        {
+          width: 150,
+          title: '部门编号',
+          key: 'number',
+          editable: false
+        },
+        {
+          width: 150,
+          title: '部门名称',
+          key: 'name',
+          editable: false
+        },
+        {
+          width: 160,
+          title: '创建时间',
+          key: 'created_at'
+        },
+        {
+          width: 340,
           title: 'Handle',
           key: 'handle',
           options: ['delete'],

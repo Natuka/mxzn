@@ -260,7 +260,7 @@ export default {
     async afterOpen () {
       let data = this.data
       // 省份
-      let [provinces, cities, counties] = await this.getAllByIds(data.province_id, data.city_id, data.district_id)
+      await this.getAllByIds(data.province_id, data.city_id, data.district_id)
 
       let {job, post, education} = this.data
       this.data.job = 0
