@@ -43,7 +43,19 @@ class Department extends Model
         return $children;
     }
 
+    /**
+     * 所属组织
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class, 'org_id');
+    }
 
+    /**
+     * 所属上级
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function parent()
     {
         $parent = $this->belongsTo(self::class, 'parent_id');

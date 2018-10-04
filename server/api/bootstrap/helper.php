@@ -2,25 +2,25 @@
 
 function base_json($data = [], $message = '', $code = 0)
 {
-	return response()->json([
-		'data' => $data,
-		'message' => $message,
-		'code' => $code
-	]);
+    return response()->json([
+        'data' => $data,
+        'message' => $message,
+        'code' => $code
+    ]);
 }
 
 function success_json($data = [], $message = '')
 {
-	if (is_string($data)) {
-		$message = $data;
-		$data = [];
-	}
-	return base_json($data, $message);
+    if (is_string($data)) {
+        $message = $data;
+        $data = [];
+    }
+    return base_json($data, $message);
 }
 
 function error_json($message = '', $code = 1)
 {
-	return base_json([], $message, $code);
+    return base_json([], $message, $code);
 }
 
 /**
@@ -50,15 +50,15 @@ function like_right($value) {
  */
 function load_routes($path)
 {
-    foreach (glob($path . '/*.php') as $file) {
+    foreach (glob($path . '/*') as $file) {
         if (is_dir($file)) {
-            loadRouter($file);
-        } else {
+            load_routes($file);
+        } else if (strpos($file, '.php')) {
             require($file);
         }
     }
 }
 
-function format_date($date, $format='Y-m-d') {
+function form_date($date, $format='Y-m-d') {
     return date($format, strtotime($date));
 }

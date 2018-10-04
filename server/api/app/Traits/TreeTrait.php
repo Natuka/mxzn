@@ -27,17 +27,19 @@ trait TreeTrait
         return $ret;
     }
 
-    public static function __flatByList($list, &$ret = [], $fields, $children = 'children')
+    public static function __flatByList($list, &$ret = [], $fields, $children = 'children', $level = 0)
     {
         if (!count($list)) {
             return $ret;
         }
 
         foreach ($list as $info) {
-            array_push($ret, array_only($info->toArray(), $fields));
+            $data = array_only($info->toArray(), $fields);
+            $data['level'] = $level;
+            array_push($ret, $data);
 
             if (count($info->$children)) {
-                self::__flatByList($info->$children, $ret, $fields, $children);
+                self::__flatByList($info->$children, $ret, $fields, $children, $level + 1);
             }
         }
 

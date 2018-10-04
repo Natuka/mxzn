@@ -23,6 +23,8 @@ class IndexController extends Controller
 
     public function search(Request $request, Department $department)
     {
+        $department = $department->with(['parent', 'organization']);
+        $department = $department->select(['id', 'parent_id', 'name', 'org_id', 'number', 'number', 'sort_no', 'created_at']);
         return $department;
     }
 
