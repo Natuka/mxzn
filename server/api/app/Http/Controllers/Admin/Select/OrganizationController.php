@@ -22,6 +22,10 @@ class OrganizationController extends BaseController
             $organization = $organization->where('name', 'like', like($name));
         }
 
+        if ($id = $request->get('id', 0)) {
+            $organization = $organization->where('id', $id);
+        }
+
         return $organization;
     }
 }

@@ -14,20 +14,16 @@
             :label-width="90"
       >
         <FormItem label="组织/公司" prop="org_id">
-          <mx-select
-            :value="data.org_id"
-            :init="true"
-            name="name"
+          <remote-select
+            :init="data.org_id"
+            :initData="init.organization"
+            label="name"
             url="select/organization"
             :filter="(data) => data.name"
             :valueMap="(data) => data.id"
             @on-change="id => this.data.org_id = id"
-          />
-          <!--<Select v-model="data.org_id">
-            <Option value="beijing">New York</Option>
-            <Option value="shanghai">London</Option>
-            <Option value="shenzhen">Sydney</Option>
-          </Select>-->
+          ></remote-select>
+
         </FormItem>
         <FormItem label="编号" prop="number">
           <Input v-model="data.number" placeholder="编号" disabled></Input>
@@ -56,15 +52,11 @@
           ></DatePicker>
         </FormItem>
         <FormItem label="部门" prop="dep_id">
-
-          <Select
-            filterable
-            v-model="data.dep_id"
-          >
-            <Option value="beijing">New York</Option>
-            <Option value="shanghai">London</Option>
-            <Option value="shenzhen">Sydney</Option>
-          </Select>
+          <static-select
+            :data="select.department"
+            :init="data.dep_id"
+            @on-change="(value) => this.data.dep_id = value"
+          ></static-select>
         </FormItem>
         <FormItem label="职位" prop="post">
           <static-select
@@ -131,39 +123,28 @@
           ></DatePicker>
         </FormItem>
         <FormItem label="所在省">
-          <Select v-model="data.province_id" @on-change="provinceChange">
-            <Option
-              :key="info.id"
-              v-for="(info) in provinces"
-              :value="info.id"
-
-            >{{info.areaname}}
-            </Option>
-          </Select>
+          <static-select
+            :init="data.province_id"
+            label="areaname"
+            :data="provinces"
+            @on-change="provinceChange"
+          ></static-select>
         </FormItem>
         <FormItem label="所在市">
-          <!--<Input v-model="data.city_id" placeholder="所在市"></Input>-->
-          <Select v-model="data.city_id" @on-change="cityChange">
-            <Option
-              :key="info.id"
-              v-for="(info) in cities"
-              :value="info.id"
-
-            >{{info.areaname}}
-            </Option>
-          </Select>
+          <static-select
+            :init="data.city_id"
+            label="areaname"
+            :data="cities"
+            @on-change="cityChange"
+          ></static-select>
         </FormItem>
         <FormItem label="所在县">
-          <!--<Input v-model="data.district_id" placeholder="所在县"></Input>-->
-          <Select v-model="data.district_id">
-            <Option
-              :key="info.id"
-              v-for="(info) in counties"
-              :value="info.id"
-
-            >{{info.areaname}}
-            </Option>
-          </Select>
+          <static-select
+            :init="data.district_id"
+            label="areaname"
+            :data="counties"
+            @on-change="countyChange"
+          ></static-select>
         </FormItem>
         <FormItem label="详细地址">
           <Input v-model="data.address" placeholder="详细地址"></Input>
@@ -197,7 +178,8 @@ import ModalMixin from '@/mixins/modal'
 import AreaMixin from '@/mixins/area'
 
 import {updateStaff} from '../../api/staff'
-// import {selectOrganization} from '../../api/select/organization'
+import {selectOrganization} from '../../api/select/organization'
+import {selectDepartment} from '../../api/select/department'
 
 import * as staffConst from '../../constants/staff'
 
@@ -240,6 +222,9 @@ export default {
         job: [],
         post: [],
         education: []
+      },
+      init: {
+        organization: []
       }
     }
   },
@@ -270,60 +255,62 @@ export default {
       this.select.post = post
       this.select.education = education
 
-      console.log('job', job)
-      console.log('post', post)
-      console.log('education', education)
-
       return true
     },
     async afterOpen () {
       let data = this.data
       // 省份
-      let [provinces, cities, counties] = await this.getAllByIds(data.province_id, data.city, data.county_id)
-      // this.data.province_id = 0
-      // this.data.city_id = 0
-      // this.data.district_id = 0
+      await this.getAllByIds(data.province_id, data.city_id, data.district_id)
 
       let {job, post, education} = this.data
       this.data.job = 0
       this.data.post = 0
       this.data.education = 0
 
-      setTimeout(() => {
-        this.data.job = job
-        this.data.post = post
-        this.data.education = education
-        console.log('this.data.job', this.data.job)
-        console.log('this.data.post', this.data.post)
-        console.log('this.data.education', this.data.education)
-      }, 10)
+      let organizations = await selectOrganization({id: data.org_id})
+      this.init.organization = organizations.data
+
+      await this.organizationChange(data.org_id)
+
+      this.data.job = job
+      this.data.post = post
+      this.data.education = education
       return true
     },
-    async provinceChange (provinceId) {
-      const fn = async () => {
-        let [cities, counties] = await this.getAllByProvinceId(provinceId)
-        this.data.city_id = 0
-        this.data.district_id = 0
-
-        this.forceLock(() => {
-          this.data.city_id = cities[0].id
-          this.data.district_id = counties[0].id
-        })
+    async organizationChange (id) {
+      this.data.org_id = id
+      if (!id) {
+        return
       }
-
-      this.wrapLock(fn)
+      let {data} = await selectDepartment(id)
+      this.select.department = data || []
+      if (data.length) {
+        let info = data.find(info => +info.id === +this.data.dep_id)
+        if (!info) {
+          this.data.dep_id = data[0].id
+        }
+      }
+    },
+    async provinceChange (provinceId) {
+      if (+this.data.province_id !== +provinceId) {
+        this.data.province_id = provinceId
+        let cities = await this.getCities(provinceId)
+        if (!this.hasArea(cities, this.data.city_id)) {
+          this.cityChange(cities[0].id)
+        }
+      }
     },
     async cityChange (cityId) {
-      const fn = async () => {
-        let [counties] = await this.getAllByCityId(cityId)
-        this.data.district_id = 0
-
-        this.forceLock(() => {
+      if (+cityId !== this.data.city_id) {
+        this.data.city_id = cityId
+        let counties = await this.getCountie(cityId)
+        if (counties.length) {
           this.data.district_id = counties[0].id
-        })
+        }
       }
-
-      this.wrapLock(fn)
+    },
+    async countyChange (countyId) {
+      this.data.district_id = countyId
     }
   }
 }

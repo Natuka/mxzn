@@ -1,5 +1,5 @@
 import Main from '@/view/main'
-import parentView from '@/components/parent-view'
+// import parentView from '@/components/parent-view'
 
 export default [
   {
@@ -8,7 +8,7 @@ export default [
     component: Main,
     meta: {
       access: ['machine_list'],
-      title: '设备管理',
+      title: '设备管理'
     },
     // redirect: '/machine/list',
     children: [
@@ -29,7 +29,7 @@ export default [
           icon: '_qq',
           title: '物料库存查询',
           access: ['machine_stock']
-        },
+        }
       },
       {
         path: '/price',
@@ -60,7 +60,7 @@ export default [
           access: ['machine_customer']
         },
         component: () => import('@/view/machine/index.vue')
-      },
+      }
     ]
   }
 ]

@@ -53,6 +53,12 @@ export default {
         return false
       }
     },
+    initData: {
+      type: Array,
+      default () {
+        return []
+      }
+    },
     filter: {
       type: Function,
       default () {
@@ -100,10 +106,6 @@ export default {
     },
     onChange (value) {
       this.$emit('on-change', value)
-    },
-    // 初始化数据
-    async initData () {
-      let data = await this.getData()
     }
   },
   async mounted () {

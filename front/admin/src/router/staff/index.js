@@ -7,7 +7,7 @@ export default [
     component: Main,
     meta: {
       access: ['staff_list'],
-      title: '人事管理',
+      title: '人事管理'
     },
     // redirect: '/staff/doc',
     children: [
@@ -22,7 +22,7 @@ export default [
         component: () => import('@/view/staff/index.vue')
       },
       {
-        path: '/',
+        path: '/out_apply',
         name: 'out_apply',
         meta: {
           icon: '_qq',
@@ -32,7 +32,7 @@ export default [
         component: () => import('@/view/staff/index.vue')
       },
       {
-        path: '/',
+        path: '/signin',
         name: 'signin_list',
         meta: {
           icon: '_qq',
@@ -42,7 +42,7 @@ export default [
         component: () => import('@/view/staff/index.vue')
       },
       {
-        path: '/',
+        path: '/reporting',
         name: 'reporting_list',
         meta: {
           icon: '_qq',
@@ -52,7 +52,7 @@ export default [
         component: () => import('@/view/staff/index.vue')
       },
       {
-        path: '/',
+        path: '/organization',
         name: 'organization_list',
         meta: {
           icon: '_qq',
@@ -62,7 +62,7 @@ export default [
         component: () => import('@/view/organization/index.vue')
       },
       {
-        path: '/',
+        path: '/department',
         name: 'department_list',
         meta: {
           icon: '_qq',
@@ -72,7 +72,7 @@ export default [
         component: () => import('@/view/department/index.vue')
       },
       {
-        path: '/',
+        path: '/job',
         name: 'job_list',
         meta: {
           icon: '_qq',
@@ -82,7 +82,7 @@ export default [
         component: () => import('@/view/job/index.vue')
       },
       {
-        path: '/',
+        path: '/post',
         name: 'post_list',
         meta: {
           icon: '_qq',

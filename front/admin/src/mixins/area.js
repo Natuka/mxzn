@@ -1,5 +1,17 @@
 import {cities} from '../api/area'
 
+const hasData = (list, id) => {
+  if (!list.length) {
+    return false
+  }
+
+  if (!id) {
+    return false
+  }
+
+  return list.find(info => info.id === id)
+}
+
 export default {
   data () {
     return {
@@ -41,13 +53,12 @@ export default {
       this.provinces = provinces
       let cities = await this.getCities(provinces[0].id)
       let counties = await this.getCountie(cities[0].id)
-      let streets = await this.getStreets(counties[0].id)
+      // let streets = await this.getStreets(counties[0].id)
 
       return [
         provinces,
         cities,
-        counties,
-        streets
+        counties
       ]
     },
     async getAllByIds (provinceId = 0, cityId = 0, countyId = 0) {
@@ -66,19 +77,27 @@ export default {
       if (!countyId) {
         countyId = counties[0].id
       }
-      let streets = await this.getStreets(countyId)
+      // let streets = await this.getStreets(countyId)
       return [
         provinces,
         cities,
-        counties,
-        streets
+        counties
+        // streets
       ]
     },
     // 根据省份ID查询 城市，县，街道
-    async getAllByProvinceId (provicenId) {
-      let cities = await this.getCities(provicenId)
-      let counties = await this.getCountie(cities[0].id)
-      let streets = await this.getStreets(counties[0].id)
+    async getAllByProvinceId (provinceId = 0, cityId = 0, countyId = 0) {
+      let cities = await this.getCities(provinceId)
+      if (!hasData(cities, cityId)) {
+        cityId = cities[0].id
+      }
+
+      let counties = await this.getCountie(cityId)
+      if (!hasData(counties, countyId)) {
+        countyId = counties[0].id
+      }
+
+      let streets = await this.getStreets(countyId)
 
       return [
         cities,
@@ -87,9 +106,12 @@ export default {
       ]
     },
     // 根据省下 第一个城市，县，街道
-    async getAllByCityId (cityId) {
+    async getAllByCityId (cityId, countyId = 0) {
       let counties = await this.getCountie(cityId)
-      let streets = await this.getStreets(counties[0].id)
+      if (!hasData(counties, countyId)) {
+        countyId = counties[0].id
+      }
+      let streets = await this.getStreets(countyId)
       return [
         counties,
         streets
@@ -124,6 +146,9 @@ export default {
         fn()
         this.unLockArea()
       }, timeout)
+    },
+    hasArea (list, id) {
+      return hasData(list, id)
     }
   }
 }

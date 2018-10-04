@@ -23,6 +23,8 @@ class IndexController extends Controller
 
     public function search(Request $request, Department $department)
     {
+        $department = $department->with(['parent', 'organization']);
+        $department = $department->select(['id', 'parent_id', 'name', 'org_id', 'number', 'number', 'sort_no', 'created_at']);
         return $department;
     }
 
@@ -62,28 +64,6 @@ class IndexController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Department  $department
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Department $department)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Department  $department
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Department $department)
     {
         //
     }

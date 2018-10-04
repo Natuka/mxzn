@@ -4,7 +4,13 @@
       :options="data"
       v-model="info"
       :label="label"
-    ></v-select>
+    >
+      <div slot="option" slot-scope="option">
+        <slot name="prev" :option="option"></slot>
+        {{ option[label] }}
+        <slot name="after"></slot>
+      </div>
+    </v-select>
 </template>
 
 <script>
@@ -20,19 +26,22 @@ export default {
       default () {
         return []
       }
+    },
+    label: {
+      type: String,
+      default () {
+        return 'name'
+      }
     }
   },
   data () {
     return {
       value: 0,
-      label: 'name',
       info: {}
     }
   },
   methods: {
     onChange (value) {
-      console.log('onChange', this)
-      console.log('value', value)
       this.$emit('on-change', value)
     },
     setInfo (value) {
@@ -49,9 +58,13 @@ export default {
     },
     info (info) {
       if (info) {
-        console.log('info.id', info.id)
         this.onChange(info.id)
-        // this.$emit('on-change', info.id)
+      }
+    },
+    // 如果值有初始化时,那么也可以进行操作
+    data (data) {
+      if (data && data.length && this.init) {
+        this.setInfo(this.init)
       }
     }
   }
@@ -60,7 +73,6 @@ export default {
 
 <style scoped>
   .v-select{
-    /*border: 1px solid #dcdee2;*/
   }
 .v-select >>> .dropdown-toggle{
   height: 32px;
