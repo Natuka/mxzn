@@ -2,16 +2,16 @@
   <custom-modal
     ref="ref"
     width="1000px"
-    title="人事档案新增"
+    title="人事档案-新增"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
-    class="mxcs-two-column"
+    class="mxcs-three-column"
   >
     <div>
       <Form :model="data"
             ref="addForm"
             :rules="rules"
-            :label-width="90"
+            :label-width="100"
       >
         <FormItem label="组织/公司" prop="org_id">
           <remote-select
