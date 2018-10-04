@@ -86,7 +86,8 @@ export default {
         {title: '安全库存量', key: 'safety_stock_qty'},
         {title: '供应商', key: 'vendor', sortable: true},
         {
-          title: 'Handle',
+          fixed: 'right',
+          title: '操作',
           key: 'handle',
           options: ['delete'],
           button: [

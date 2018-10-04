@@ -86,7 +86,8 @@ export default {
         {title: '销售价3', key: 'safety_stock_qty'},
 
         {
-          title: 'Handle',
+          fixed: 'right',
+          title: '操作',
           key: 'handle',
           options: ['delete'],
           button: [

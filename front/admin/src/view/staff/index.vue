@@ -136,12 +136,11 @@ export default {
         {
           fixed: 'right',
           width: 250,
-          title: 'Handle',
+          title: '操作',
           key: 'handle',
           options: ['delete'],
           button: [
             (h, params, vm) => {
-              console.log('transfer', 'placement')
               return h(
                 'Poptip',
                 {

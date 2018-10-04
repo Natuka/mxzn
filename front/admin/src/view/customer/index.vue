@@ -155,8 +155,9 @@ export default {
           render: this.constRender('blacklist', customerConst.BLACK_LIST)
         },
         {
+          fixed: 'right',
           width: 120,
-          title: 'Handle',
+          title: '操作',
           key: 'handle',
           options: ['delete'],
           button: [
