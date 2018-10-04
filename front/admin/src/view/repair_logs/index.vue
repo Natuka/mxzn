@@ -70,8 +70,7 @@ export default {
                       this.onDelete(params.row)
                     }
                   }
-                },
-                [h('Button', '自定义删除')]
+                }
               )
             },
             (h, params, vm) => {

@@ -161,8 +161,7 @@ export default {
                       this.onDelete(params.row)
                     }
                   }
-                },
-                [h('Button', '删除')]
+                }
               )
             },
             (h, params, vm) => {

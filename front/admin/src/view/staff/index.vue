@@ -141,20 +141,23 @@ export default {
           options: ['delete'],
           button: [
             (h, params, vm) => {
+              console.log('transfer', 'placement')
               return h(
                 'Poptip',
                 {
                   props: {
                     confirm: true,
-                    title: '你确定要删除吗?'
+                    title: '你确定要删除吗?',
+                    options: {
+                      positionFixed: true
+                    }
                   },
                   on: {
                     'on-ok': () => {
                       this.onDelete(params.row)
                     }
                   }
-                },
-                [h('Button', '删除')]
+                }
               )
             },
             (h, params, vm) => {
