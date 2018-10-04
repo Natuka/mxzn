@@ -14,7 +14,7 @@
 
         <Button type="primary" @click="refresh" v-if="accessAdd()" class="ml-5">
           刷新
-          <Icon type="md-add"/>
+          <Icon type="md-refresh"/>
         </Button>
       </div>
       <machine-search ref="search" @on-search="onSearch"></machine-search>
@@ -100,13 +100,7 @@ export default {
                   },
                   on: {
                     'on-ok': () => {
-                      vm.$emit('on-delete', params)
-                      vm.$emit(
-                        'input',
-                        params.tableData.filter(
-                          (item, index) => index !== params.row.initRowIndex
-                        )
-                      )
+                      this.onDelete(params.row)
                     }
                   }
                 },

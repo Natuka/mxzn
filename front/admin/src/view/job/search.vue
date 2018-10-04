@@ -16,7 +16,8 @@ export default {
   data () {
     return {
       data: {
-        name: ''
+        name: '',
+        'with-page': 1
       },
       ruleInline: {
         name: [

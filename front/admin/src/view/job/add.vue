@@ -10,7 +10,7 @@
       <Form :model="data"
             ref="addForm"
             :rules="rules"
-            :label-width="80">
+            :label-width="100">
         <FormItem label="名称" prop="name">
           <Input v-model="data.name" placeholder="名称"></Input>
         </FormItem>
@@ -35,7 +35,7 @@
 
 import ModalMixin from '@/mixins/modal'
 
-import {addJob} from '../../api/job'
+import {addJob} from '../../api/base/job'
 
 export default {
   name: 'job-add',
@@ -50,7 +50,7 @@ export default {
       },
       rules: {
         name: [
-          {required: true, message: '名称不能为空', trigger: 'blur'},
+          {required: true, message: '名称不能为空', trigger: 'blur'}
         ]
       }
     }
@@ -60,7 +60,7 @@ export default {
       this.$refs.addForm.validate(async (valid) => {
         if (valid) {
           try {
-            let data = await addDepartment(this.data)
+            await addJob(this.data)
             this.withRefresh(e)
           } catch (e) {
             this.closeLoading()

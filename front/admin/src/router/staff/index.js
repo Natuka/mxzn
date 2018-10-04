@@ -89,7 +89,7 @@ export default [
           title: '职位管理',
           access: ['department_list']
         },
-        component: () => import('@/view/department/index.vue')
+        component: () => import('@/view/post/index.vue')
       }
     ]
   }

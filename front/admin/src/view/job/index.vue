@@ -13,7 +13,7 @@
           class="ml-5"
         >
           刷新
-          <Icon type="md-add"/>
+          <Icon type="md-refresh"/>
         </Button>
       </div>
       <job-search ref="search" @on-search="onSearch"></job-search>
@@ -55,6 +55,9 @@ export default {
         edit: 'job_edit',
         remove: 'job_remove'
       },
+      params: {
+        'with-page': 1
+      },
       columns: [
         {title: '名称', key: 'name', editable: false},
         {title: '创建时间', key: 'created_at'},
@@ -73,13 +76,7 @@ export default {
                   },
                   on: {
                     'on-ok': () => {
-                      vm.$emit('on-delete', params)
-                      vm.$emit(
-                        'input',
-                        params.tableData.filter(
-                          (item, index) => index !== params.row.initRowIndex
-                        )
-                      )
+                      this.onDelete(params.row)
                     }
                   }
                 },
@@ -137,11 +134,6 @@ export default {
   },
   mounted () {
     this.refresh()
-    // getTablePageData().then(res => {
-    //   console.log('res', res)
-    //   this.tableData = res.data.data
-    //   this.total = res.data.total
-    // })
   }
 }
 </script>
