@@ -59,15 +59,19 @@ export default {
         {title: '名称', key: 'name', editable: false},
         {title: '创建时间', key: 'created_at'},
         {
-          title: 'Handle',
+          fixed: 'right',
+          title: '操作',
           key: 'handle',
           options: ['delete'],
           button: [
             (h, params, vm) => {
+              console.log('transfer', 'placement')
               return h(
                 'Poptip',
                 {
                   props: {
+                    transfer: true,
+                    placement: 'right',
                     confirm: true,
                     title: '你确定要删除吗?'
                   },
@@ -76,8 +80,7 @@ export default {
                       this.onDelete(params.row)
                     }
                   }
-                },
-                [h('Button', '自定义删除')]
+                }
               )
             },
             (h, params, vm) => {

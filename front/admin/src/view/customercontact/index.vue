@@ -143,8 +143,9 @@ export default {
           sortable: false
         },
         {
+          fixed: 'right',
           width: 300,
-          title: 'Handle',
+          title: '操作',
           key: 'handle',
           options: ['delete'],
           button: [
@@ -161,8 +162,7 @@ export default {
                       this.onDelete(params.row)
                     }
                   }
-                },
-                [h('Button', '删除')]
+                }
               )
             },
             (h, params, vm) => {

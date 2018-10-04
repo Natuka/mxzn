@@ -86,7 +86,8 @@ export default {
         {title: '销售价3', key: 'safety_stock_qty'},
 
         {
-          title: 'Handle',
+          fixed: 'right',
+          title: '操作',
           key: 'handle',
           options: ['delete'],
           button: [
@@ -103,8 +104,7 @@ export default {
                       this.onDelete(params.row)
                     }
                   }
-                },
-                [h('Button', '自定义删除')]
+                }
               )
             },
             (h, params, vm) => {

@@ -53,7 +53,8 @@ export default {
         { title: 'Email', key: 'email', editable: true },
         { title: 'Create-Time', key: 'createTime' },
         {
-          title: 'Handle',
+          fixed: 'right',
+          title: '操作',
           key: 'handle',
           options: ['delete'],
           button: [
@@ -70,8 +71,7 @@ export default {
                       this.onDelete(params.row)
                     }
                   }
-                },
-                [h('Button', '自定义删除')]
+                }
               )
             },
             (h, params, vm) => {

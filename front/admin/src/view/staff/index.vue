@@ -136,7 +136,7 @@ export default {
         {
           fixed: 'right',
           width: 250,
-          title: 'Handle',
+          title: '操作',
           key: 'handle',
           options: ['delete'],
           button: [
@@ -146,15 +146,17 @@ export default {
                 {
                   props: {
                     confirm: true,
-                    title: '你确定要删除吗?'
+                    title: '你确定要删除吗?',
+                    options: {
+                      positionFixed: true
+                    }
                   },
                   on: {
                     'on-ok': () => {
                       this.onDelete(params.row)
                     }
                   }
-                },
-                [h('Button', '删除')]
+                }
               )
             },
             (h, params, vm) => {
