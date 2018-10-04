@@ -82,7 +82,7 @@ export default {
           sortable: false
         },
         {
-          width: 120,
+          width: 60,
           title: '性别',
           key: 'sex',
           sortable: false,
@@ -90,7 +90,7 @@ export default {
         },
         {
           width: 120,
-          title: '出生日期',
+          title: '出生日期1',
           key: 'birthday',
           sortable: false
         },
@@ -101,34 +101,34 @@ export default {
           sortable: false
         },
         {
-          width: 120,
+          width: 80,
           title: '职位',
           key: 'post',
           sortable: false,
           render: this.baseRender('post', 'findPost')
         },
         {
-          width: 120,
+          width: 80,
           title: '职务',
           key: 'job',
           sortable: false,
           render: this.baseRender('job', 'findJob')
         },
         {
-          width: 120,
+          width: 100,
           title: '手机',
           key: 'mobile',
           sortable: false
         },
         {
-          width: 120,
+          width: 100,
           title: '在职状态',
           key: 'status',
           sortable: false,
           render: this.constRender('status', staffConst.STATUS_LIST)
         },
         {
-          width: 160,
+          width: 120,
           title: '建档日期',
           key: 'created_at',
           sortable: false
