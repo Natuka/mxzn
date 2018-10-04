@@ -101,6 +101,8 @@ export default {
     async onDelete (params) {
       try {
         await deleteApi(this.getDeleteUrl(params), params)
+        // 刷新当前页
+        this.refreshWithPage()
       } catch (e) {
         console.log('e', e)
       }

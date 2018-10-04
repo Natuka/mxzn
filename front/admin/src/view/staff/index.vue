@@ -150,13 +150,7 @@ export default {
                   },
                   on: {
                     'on-ok': () => {
-                      vm.$emit('on-delete', params)
-                      vm.$emit(
-                        'input',
-                        params.tableData.filter(
-                          (item, index) => index !== params.row.initRowIndex
-                        )
-                      )
+                      this.onDelete(params.row)
                     }
                   }
                 },
