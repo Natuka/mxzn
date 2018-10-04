@@ -2,16 +2,16 @@
   <custom-modal
     ref="ref"
     width="1000px"
-    title="人事档案-新增"
+    title="维修工单-新增"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
-    class="mxcs-three-column"
+    class="mxcs-two-column"
   >
     <div>
       <Form :model="data"
             ref="addForm"
             :rules="rules"
-            :label-width="100"
+            :label-width="90"
       >
         <FormItem label="组织/公司" prop="org_id">
           <remote-select
@@ -177,13 +177,13 @@
 import ModalMixin from '@/mixins/modal'
 import AreaMixin from '@/mixins/area'
 
-import {addStaff} from '../../api/staff'
-// import {selectOrganization} from '../../api/select/organization'
-import {selectDepartment} from '../../api/select/department'
-import * as staffConst from '../../constants/staff'
+import {addMaintain} from '../../../api/order_flow/maintain'
+// import {selectOrganization} from '../../../api/select/organization'
+import {selectDepartment} from '../../../api/select/department'
+import * as orderConst from '../../../constants/order_flow'
 
 export default {
-  name: 'staff-add',
+  name: 'maintain-add',
   mixins: [ModalMixin, AreaMixin],
   data () {
     return {
@@ -216,7 +216,7 @@ export default {
           {required: true, message: '姓名不能为空', trigger: 'blur'}
         ]
       },
-      educationList: staffConst.EDUCATION_LIST,
+      educationList: orderConst.EDUCATION_LIST,
       select: {
         job: [],
         post: [],
@@ -234,7 +234,7 @@ export default {
       this.$refs.addForm.validate(async (valid) => {
         if (valid) {
           try {
-            let data = await addStaff(this.data)
+            let data = await addMaintain(this.data)
             console.log('data', data)
             this.withRefresh(e)
           } catch (e) {

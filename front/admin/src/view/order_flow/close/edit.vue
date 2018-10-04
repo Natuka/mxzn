@@ -2,16 +2,16 @@
   <custom-modal
     ref="ref"
     width="1000px"
-    title="人事档案-新增"
+    title="人事档案修改"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
-    class="mxcs-three-column"
+    class="mxcs-two-column"
   >
     <div>
       <Form :model="data"
             ref="addForm"
             :rules="rules"
-            :label-width="100"
+            :label-width="90"
       >
         <FormItem label="组织/公司" prop="org_id">
           <remote-select
@@ -21,7 +21,7 @@
             url="select/organization"
             :filter="(data) => data.name"
             :valueMap="(data) => data.id"
-            @on-change="organizationChange"
+            @on-change="id => this.data.org_id = id"
           ></remote-select>
 
         </FormItem>
@@ -66,13 +66,13 @@
           ></static-select>
         </FormItem>
         <FormItem label="职务" prop="job">
-
           <static-select
             :init="data.job"
             label="name"
             :data="select.job"
             @on-change="(value) => this.data.job = value"
           ></static-select>
+
         </FormItem>
         <FormItem label="毕业院校" prop="graduated_school">
           <Input v-model="data.graduated_school" placeholder="毕业院校"></Input>
@@ -177,13 +177,14 @@
 import ModalMixin from '@/mixins/modal'
 import AreaMixin from '@/mixins/area'
 
-import {addStaff} from '../../api/staff'
-// import {selectOrganization} from '../../api/select/organization'
-import {selectDepartment} from '../../api/select/department'
-import * as staffConst from '../../constants/staff'
+import {updateClose} from '../../../api/order_flow/close'
+import {selectOrganization} from '../../../api/select/organization'
+import {selectDepartment} from '../../../api/select/department'
+
+import * as orderConst from '../../../constants/order_flow'
 
 export default {
-  name: 'staff-add',
+  name: 'close-edit',
   mixins: [ModalMixin, AreaMixin],
   data () {
     return {
@@ -216,16 +217,14 @@ export default {
           {required: true, message: '姓名不能为空', trigger: 'blur'}
         ]
       },
-      educationList: staffConst.EDUCATION_LIST,
+      educationList: orderConst.EDUCATION_LIST,
       select: {
         job: [],
         post: [],
-        education: [],
-        department: []
+        education: []
       },
       init: {
-        organization: [],
-        department: []
+        organization: []
       }
     }
   },
@@ -234,7 +233,7 @@ export default {
       this.$refs.addForm.validate(async (valid) => {
         if (valid) {
           try {
-            let data = await addStaff(this.data)
+            let data = await updateClose(this.data, this.data.id)
             console.log('data', data)
             this.withRefresh(e)
           } catch (e) {
@@ -256,17 +255,26 @@ export default {
       this.select.post = post
       this.select.education = education
 
+      return true
+    },
+    async afterOpen () {
+      let data = this.data
       // 省份
-      let [provinces, cities, counties] = await this.getAllByFirstProvinceId()
-      this.data.province_id = 0
-      this.data.city_id = 0
-      this.data.district_id = 0
+      await this.getAllByIds(data.province_id, data.city_id, data.district_id)
 
-      this.forceLock(() => {
-        this.data.province_id = provinces[0].id
-        this.data.city_id = cities[0].id
-        this.data.district_id = counties[0].id
-      })
+      let {job, post, education} = this.data
+      this.data.job = 0
+      this.data.post = 0
+      this.data.education = 0
+
+      let organizations = await selectOrganization({id: data.org_id})
+      this.init.organization = organizations.data
+
+      await this.organizationChange(data.org_id)
+
+      this.data.job = job
+      this.data.post = post
+      this.data.education = education
       return true
     },
     async organizationChange (id) {
@@ -283,7 +291,6 @@ export default {
         }
       }
     },
-    // 省变更
     async provinceChange (provinceId) {
       if (+this.data.province_id !== +provinceId) {
         this.data.province_id = provinceId

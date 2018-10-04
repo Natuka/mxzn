@@ -44,7 +44,7 @@ export default [
     ]
   },
   ...require('./pcweixin').default,
-  ...require('./order').default,
+  ...require('./order-flow').default,
   ...require('./customer').default,
   ...require('./machine').default,
   ...require('./staff').default,

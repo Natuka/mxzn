@@ -33,96 +33,96 @@ export default [
         component: () => parentView,
         children: [
           {
-            path: '/repair',
-            name: 'order_service_repair',
+            path: '/order_flow/repair',
+            name: 'order_repair_list',
             meta: {
               icon: '_qq',
               title: '维修工单',
-              access: [ 'order_service_repair' ]
+              access: [ 'order_repair_list' ]
             },
-            component: () => import( '@/view/order/index.vue' )
+            component: () => import( '@/view/order_flow/repair/index.vue' )
           },
           {
-            path: '/repair',
-            name: 'order_service_setups',
+            path: '/order_flow/install',
+            name: 'order_install_list',
             meta: {
               icon: '_qq',
               title: '安装工单',
-              access: [ 'order_service_setups' ]
+              access: [ 'order_install_list' ]
             },
-            component: () => import( '@/view/order/index.vue' )
+            component: () => import( '@/view/order_flow/install/index.vue' )
           },
           {
-            path: '/repair',
-            name: 'order_service_keep',
+            path: '/order_flow/maintain',
+            name: 'order_maintain_list',
             meta: {
               icon: '_qq',
               title: '保养工单',
-              access: [ 'order_service_keep' ]
+              access: [ 'order_maintain_list' ]
             },
-            component: () => import( '@/view/order/index.vue' )
+            component: () => import( '@/view/order_flow/maintain/index.vue' )
           },
         ]
       },
       {
-        path: '/confirm',
-        name: 'order_confirm',
+        path: '/order_flow/confirm',
+        name: 'order_confirm_list',
         meta: {
           icon: '_qq',
           title: '工单确认',
-          access: [ 'order_confirm' ]
+          access: [ 'order_confirm_list' ]
         },
-        component: () => import( '@/view/order/index.vue' )
+        component: () => import( '@/view/order_flow/confirm/index.vue' )
       },
       {
-        path: '/',
-        name: 'dispatch',
+        path: '/order_flow/dispatch',
+        name: 'order_dispatch_list',
         meta: {
           icon: '_qq',
           title: '工单派工',
-          access: [ 'order_dispatch' ]
+          access: [ 'order_dispatch_list' ]
         },
-        component: () => import( '@/view/order/index.vue' )
+        component: () => import( '@/view/order_flow/dispatch/index.vue' )
       },
       {
-        path: '/do',
-        name: 'order_do',
+        path: '/order_flow/dispose',
+        name: 'order_dispose_list',
         meta: {
           icon: '_qq',
           title: '工单处理',
-          access: [ 'order_do' ]
+          access: [ 'order_dispose_list' ]
         },
-        component: () => import( '@/view/order/index.vue' )
+        component: () => import( '@/view/order_flow/dispose/index.vue' )
       },
       {
-        path: '/settle',
-        name: 'order_settle',
+        path: '/order_flow/charge',
+        name: 'order_charge_list',
         meta: {
           icon: '_qq',
           title: '结算收费',
-          access: [ 'order_settle' ]
+          access: [ 'order_charge_list' ]
         },
-        component: () => import( '@/view/order/index.vue' )
+        component: () => import( '@/view/order_flow/charge/index.vue' )
       },
       {
-        path: '/check',
-        name: 'order_check',
+        path: '/order_flow/close',
+        name: 'order_close_list',
         meta: {
           icon: '_qq',
           title: '审核关闭',
-          access: [ 'order_check' ]
+          access: [ 'order_close_list' ]
         },
-        component: () => import( '@/view/order/index.vue' )
+        component: () => import( '@/view/order_flow/close/index.vue' )
       },
       {
-        path: '/feedback',
-        name: 'order_feedback',
+        path: '/order_flow/review',
+        name: 'order_review_list',
         meta: {
           icon: '_qq',
           title: '客户回访',
-          access: [ 'order_feedback' ]
+          access: [ 'order_review_list' ]
         },
-        component: () => import( '@/view/order/index.vue' )
+        component: () => import( '@/view/order_flow/review/index.vue' )
       },
     ]
   }
