@@ -49,7 +49,7 @@ import baseMixin from '../../../mixins/base'
 import * as orderConst from '../../../constants/order_flow'
 
 export default {
-  name: 'tables_page',
+  name: 'repair_list',
   components: {
     Tables,
     [search.name]: search,
@@ -211,21 +211,9 @@ export default {
       console.log('oncancel', e)
       e()
     }
-    // ,
-    // async fetchList () {
-    //   return getRepairList().then(({data}) => ({
-    //     data: data.data,
-    //     total: data.total
-    //   }))
-    // }
   },
   mounted () {
     this.refresh()
-    // getTablePageData().then(res => {
-    //   console.log('res', res)
-    //   this.tableData = res.data.data
-    //   this.total = res.data.total
-    // })
   }
 }
 </script>

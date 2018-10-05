@@ -8,7 +8,7 @@ export default [
     component: Main,
     meta: {
       access: ['item_list'],
-      title: '设备管理',
+      title: '设备管理'
     },
     // redirect: '/machine/list',
     children: [
