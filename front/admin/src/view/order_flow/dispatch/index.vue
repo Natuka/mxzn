@@ -13,7 +13,7 @@
           class="ml-5"
         >
           刷新
-          <Icon type="md-add"/>
+          <Icon type="md-refresh"/>
         </Button>
       </div>
       <dispatch-search ref="search" @on-search="onSearch"></dispatch-search>
@@ -59,12 +59,12 @@ export default {
   mixins: [listMixin, constsMixin, baseMixin],
   data () {
     return {
-      url: 'dispatch',
+      url: 'order_flow/dispatch',
       access: {
-        add: 'dispatch_add',
-        view: 'dispatch_view',
-        edit: 'dispatch_edit',
-        remove: 'dispatch_remove'
+        add: 'order_flow_dispatch_add',
+        view: 'order_flow_dispatch_view',
+        edit: 'order_flow_dispatch_edit',
+        remove: 'order_flow_dispatch_remove'
       },
       columns: [
         {

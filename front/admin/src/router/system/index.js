@@ -12,45 +12,130 @@ export default [
     component: Main,
     children: [
       {
-        path: 'level_2_1',
-        name: 'level_2_1',
-        meta: {
-          icon: 'md-funnel',
-          title: '二级-1'
-        },
-        component: () => import('@/view/multilevel/level-2-1.vue')
-      },
-      {
         path: 'base',
         name: 'base',
         meta: {
           access: ['super_admin'],
           icon: 'md-funnel',
           showAlways: true,
-          title: '二级-2'
+          title: '基础资料'
         },
         component: parentView,
         children: [
           {
-            path: 'base_1',
-            name: 'base_1',
+            path: 'service',
+            name: 'service',
             meta: {
               icon: 'md-funnel',
-              title: '三级'
+              title: '服务项目'
             },
-            component: () => import('@/view/base/level-2-2/level-3-1.vue')
+            component: () => import('@/view/system/base/level-3-1.vue')
+          },
+          {
+            path: 'vendor',
+            name: 'vendor',
+            meta: {
+              icon: 'md-funnel',
+              title: '供应商'
+            },
+            component: () => import('@/view/system/base/level-3-1.vue')
+          },
+          {
+            path: 'brand',
+            name: 'brand',
+            meta: {
+              icon: 'md-funnel',
+              title: '品牌'
+            },
+            component: () => import('@/view/system/base/level-3-1.vue')
+          },
+          {
+            path: 'unit',
+            name: 'unit',
+            meta: {
+              icon: 'md-funnel',
+              title: '单位'
+            },
+            component: () => import('@/view/system/base/level-3-1.vue')
+          },
+          {
+            path: 'warehouse',
+            name: 'warehouse',
+            meta: {
+              icon: 'md-funnel',
+              title: '仓库'
+            },
+            component: () => import('@/view/system/base/level-3-1.vue')
           }
         ]
       },
       {
-        path: 'level_2_3',
-        name: 'level_2_3',
+        path: 'set',
+        name: 'set',
+        meta: {
+          access: ['super_admin'],
+          icon: 'md-funnel',
+          showAlways: true,
+          title: '系统设置'
+        },
+        component: parentView,
+        children: [
+          {
+            path: 'baseset',
+            name: 'baseset',
+            meta: {
+              icon: 'md-funnel',
+              title: '基本设置'
+            },
+            component: () => import('@/view/system/base/baseset.vue')
+          },
+          {
+            path: 'billnoset',
+            name: 'billnoset',
+            meta: {
+              icon: 'md-funnel',
+              title: '单号设置'
+            },
+            component: () => import('@/view/system/base/billnoset.vue')
+          },
+          {
+            path: 'checkset',
+            name: 'checkset',
+            meta: {
+              icon: 'md-funnel',
+              title: '考勤设置'
+            },
+            component: () => import('@/view/system/base/checkset.vue')
+          },
+          {
+            path: 'pushset',
+            name: 'pushset',
+            meta: {
+              icon: 'md-funnel',
+              title: '推送设置'
+            },
+            component: () => import('@/view/system/base/pushset.vue')
+          },
+          {
+            path: 'weixinset',
+            name: 'weixinset',
+            meta: {
+              icon: 'md-funnel',
+              title: '微信设置'
+            },
+            component: () => import('@/view/system/base/weixinset.vue')
+          }
+        ]
+      },
+      {
+        path: 'log',
+        name: 'log',
         meta: {
           icon: 'md-funnel',
-          title: '二级-3'
+          title: '系统日志'
         },
-        component: () => import('@/view/multilevel/level-2-3.vue')
-      },
+        component: () => import('@/view/system/log.vue')
+      }
     ]
   },
 ]

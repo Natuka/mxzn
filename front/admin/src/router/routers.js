@@ -53,7 +53,7 @@ export default [
   // ...require('./components').default,
   // ...require('./upload').default,
   // ...require('./agent').default,
-  ...require('./multi-page').default,
+  // ...require('./multi-page').default,
   // ...require('./erros').default,
   // ...require('./tool').default,
   // ...require('./repair-logs').default,

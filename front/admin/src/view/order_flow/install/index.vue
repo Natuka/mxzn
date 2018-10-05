@@ -13,7 +13,7 @@
           class="ml-5"
         >
           刷新
-          <Icon type="md-add"/>
+          <Icon type="md-refresh"/>
         </Button>
       </div>
       <install-search ref="search" @on-search="onSearch"></install-search>
@@ -59,12 +59,12 @@ export default {
   mixins: [listMixin, constsMixin, baseMixin],
   data () {
     return {
-      url: 'install',
+      url: 'order_flow/install',
       access: {
-        add: 'install_add',
-        view: 'install_view',
-        edit: 'install_edit',
-        remove: 'install_remove'
+        add: 'order_flow_install_add',
+        view: 'order_flow_install_view',
+        edit: 'order_flow_install_edit',
+        remove: 'order_flow_install_remove'
       },
       columns: [
         {

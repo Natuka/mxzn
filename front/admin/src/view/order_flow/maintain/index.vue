@@ -13,7 +13,7 @@
           class="ml-5"
         >
           刷新
-          <Icon type="md-add"/>
+          <Icon type="md-refresh"/>
         </Button>
       </div>
       <maintain-search ref="search" @on-search="onSearch"></maintain-search>
@@ -59,12 +59,12 @@ export default {
   mixins: [listMixin, constsMixin, baseMixin],
   data () {
     return {
-      url: 'maintain',
+      url: 'order_flow/maintain',
       access: {
-        add: 'maintain_add',
-        view: 'maintain_view',
-        edit: 'maintain_edit',
-        remove: 'maintain_remove'
+        add: 'order_flow_maintain_add',
+        view: 'order_flow_maintain_view',
+        edit: 'order_flow_maintain_edit',
+        remove: 'order_flow_maintain_remove'
       },
       columns: [
         {
