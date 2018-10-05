@@ -70,68 +70,98 @@ export default {
         {
           width: 120,
           fixed: 'left',
-          title: '编号',
+          title: '服务单号',
           key: 'number',
           sortable: false
         },
         {
           width: 120,
-          fixed: 'left',
-          title: '姓名',
-          key: 'name',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '性别',
-          key: 'sex',
-          sortable: false,
-          render: this.constRender('sex', orderConst.SEX_LIST)
-        },
-        {
-          width: 120,
-          title: '出生日期',
-          key: 'birthday',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '部门',
-          key: 'department',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '职位',
-          key: 'post',
-          sortable: false,
-          render: this.baseRender('post', 'findPost')
-        },
-        {
-          width: 120,
-          title: '职务',
-          key: 'job',
-          sortable: false,
-          render: this.baseRender('job', 'findJob')
-        },
-        {
-          width: 120,
-          title: '手机',
-          key: 'mobile',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '在职状态',
+          // fixed: 'left',
+          title: '当前状态',
           key: 'status',
           sortable: false,
-          render: this.constRender('status', orderConst.STATUS_LIST)
+          render: this.constRender('status', orderConst.ORDER_STATUS)
+        },
+        {
+          width: 120,
+          title: '工单类别',
+          key: 'type',
+          sortable: false,
+          render: this.constRender('type', orderConst.ORDER_TYPE)
+        },
+        {
+          width: 120,
+          title: '受理时间',
+          key: 'receive_at',
+          sortable: false
+        },
+        {
+          width: 120,
+          title: '处理进度',
+          key: 'progress',
+          sortable: false
+        },
+        {
+          width: 120,
+          title: '处理时长',
+          key: 'progress_use_time',
+          sortable: false
+        },
+        {
+          width: 120,
+          title: '工程师',
+          key: 'engineer_ids',
+          sortable: false
+        },
+        {
+          width: 120,
+          title: '客户名称',
+          key: 'customer_id',
+          sortable: false
+        },
+        {
+          width: 120,
+          title: '服务级别',
+          key: 'level',
+          sortable: false,
+          render: this.constRender('level', orderConst.ORDER_LEVEL)
         },
         {
           width: 160,
-          title: '建档日期',
+          title: '故障描述',
           key: 'created_at',
           sortable: false
+        },
+        {
+          width: 160,
+          title: '报修人员',
+          key: 'feedback_staff_id',
+          sortable: false
+        },
+        {
+          width: 160,
+          title: '电话',
+          key: 'created_at',
+          sortable: false
+        },
+        {
+          width: 160,
+          title: '制单人员',
+          key: 'created_at',
+          sortable: false
+        },
+        {
+          width: 160,
+          title: '制单时间',
+          key: 'created_at',
+          sortable: false
+        },
+        {
+          width: 160,
+          title: '单据状态',
+          key: 'status',
+          sortable: false,
+          render: this.constRender('status', orderConst.ORDER_STATUS)
         },
         {
           fixed: 'right',

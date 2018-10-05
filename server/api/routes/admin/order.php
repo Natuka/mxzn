@@ -19,6 +19,12 @@ Route::group([
         'visible' => true,
     ]);
 
+    Route::get('/index', [
+        'uses' => 'IndexController@index',
+        'as' => 'order_flow_index',
+        'display_name' => '工单管理',
+        'visible' => true,
+    ]);
 
     Route::group(['prefix' => 'repair'], function () {
         Route::get('default', [
@@ -63,9 +69,7 @@ Route::group([
             'display_name' => '下一步',
             'visible' => false,
         ]);
-
     });
-
 
     Route::group(['prefix' => 'install'], function () {
         Route::get('default', [
@@ -110,9 +114,7 @@ Route::group([
             'display_name' => '下一步',
             'visible' => false,
         ]);
-
     });
-
 
     Route::group(['prefix' => 'maintain'], function () {
         Route::get('default', [
@@ -157,7 +159,6 @@ Route::group([
             'display_name' => '下一步',
             'visible' => false,
         ]);
-
     });
 
 
@@ -205,7 +206,6 @@ Route::group([
             'display_name' => '修改',
             'visible' => false,
         ]);
-
     });
 
     Route::group(['prefix' => 'dispatch'], function () {
@@ -252,7 +252,6 @@ Route::group([
             'display_name' => '修改',
             'visible' => false,
         ]);
-
     });
 
 
@@ -300,7 +299,6 @@ Route::group([
             'display_name' => '修改',
             'visible' => false,
         ]);
-
     });
 
     Route::group(['prefix' => 'charge'], function () {
@@ -347,7 +345,6 @@ Route::group([
             'display_name' => '修改',
             'visible' => false,
         ]);
-
     });
 
     Route::group(['prefix' => 'close'], function () {
@@ -394,7 +391,6 @@ Route::group([
             'display_name' => '修改',
             'visible' => false,
         ]);
-
     });
 
     Route::group(['prefix' => 'review'], function () {
@@ -434,15 +430,11 @@ Route::group([
             'visible' => false,
         ]);
 
-
         Route::put('/{order}', [
             'uses' => 'ReviewController@update',
             'as' => 'order_review_update',
             'display_name' => '修改',
             'visible' => false,
         ]);
-
     });
-
-
 });

@@ -17,7 +17,13 @@ class IndexController extends BaseController
      */
     public function index()
     {
-        //
+        return Order::with([
+            'customer',
+            'engineers',
+            'feedbackStaff',
+            'receiveStaff',
+            'confirmStaff',
+        ])->get();
     }
 
     /**
