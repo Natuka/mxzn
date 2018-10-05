@@ -3,127 +3,117 @@ import parentView from '@/components/parent-view'
 
 export default [
   {
-    path: '/order',
-    name: 'order',
-    component: Main,
+    path: '/order_flow',
+    name: 'order_flow',
     meta: {
-      access: [ 'order_list' ],
+      icon: 'md-menu',
       title: '工单管理',
+      access: ['order_flow']
     },
-    redirect: '/order/service',
+    component: Main,
     children: [
-      // {
-      //   path: '/',
-      //   name: 'order_list',
-      //   meta: {
-      //     icon: '_qq',
-      //     title: '工单管理',
-      //     access: ['order_list']
-      //   },
-      //   component: () => import('@/view/order/index.vue')
-      // },
       {
-        path: '/service',
-        name: 'order_service',
+        path: 'service',
+        name: 'order_flow_service',
         meta: {
-          icon: '_qq',
-          title: '工单维护',
-          access: [ 'order_service' ]
+          access: ['order_flow_service'],
+          icon: 'md-funnel',
+          title: '工单维护'
         },
-        component: () => parentView,
+        component: parentView,
         children: [
           {
-            path: '/order_flow/repair',
-            name: 'order_repair_list',
+            path: 'repair',
+            name: 'order_flow_service',
             meta: {
               icon: '_qq',
               title: '维修工单',
-              access: [ 'order_repair_list' ]
+              access: ['order_flow_service']
             },
-            component: () => import( '@/view/order_flow/repair/index.vue' )
+            component: () => import('@/view/order_flow/repair/index.vue')
           },
           {
-            path: '/order_flow/install',
-            name: 'order_install_list',
+            path: 'install',
+            name: 'order_flow_install_list',
             meta: {
               icon: '_qq',
               title: '安装工单',
-              access: [ 'order_install_list' ]
+              access: ['order_flow_install_list']
             },
-            component: () => import( '@/view/order_flow/install/index.vue' )
+            component: () => import('@/view/order_flow/install/index.vue')
           },
           {
-            path: '/order_flow/maintain',
-            name: 'order_maintain_list',
+            path: 'maintain',
+            name: 'order_flow_maintain_list',
             meta: {
               icon: '_qq',
               title: '保养工单',
-              access: [ 'order_maintain_list' ]
+              access: ['order_flow_maintain_list']
             },
-            component: () => import( '@/view/order_flow/maintain/index.vue' )
-          },
+            component: () => import('@/view/order_flow/maintain/index.vue')
+          }
         ]
       },
       {
-        path: '/order_flow/confirm',
-        name: 'order_confirm_list',
+        path: 'confirm',
+        name: 'order_flow_confirm_list',
         meta: {
           icon: '_qq',
           title: '工单确认',
-          access: [ 'order_confirm_list' ]
+          access: ['order_flow_confirm_list']
         },
-        component: () => import( '@/view/order_flow/confirm/index.vue' )
+        component: () => import('@/view/order_flow/confirm/index.vue')
       },
       {
-        path: '/order_flow/dispatch',
-        name: 'order_dispatch_list',
+        path: 'dispatch',
+        name: 'order_flow_dispatch_list',
         meta: {
           icon: '_qq',
           title: '工单派工',
-          access: [ 'order_dispatch_list' ]
+          access: ['order_flow_dispatch_list']
         },
-        component: () => import( '@/view/order_flow/dispatch/index.vue' )
+        component: () => import('@/view/order_flow/dispatch/index.vue')
       },
       {
-        path: '/order_flow/dispose',
-        name: 'order_dispose_list',
+        path: 'dispose',
+        name: 'order_flow_dispose_list',
         meta: {
           icon: '_qq',
           title: '工单处理',
-          access: [ 'order_dispose_list' ]
+          access: ['order_flow_dispose_list']
         },
-        component: () => import( '@/view/order_flow/dispose/index.vue' )
+        component: () => import('@/view/order_flow/dispose/index.vue')
       },
       {
-        path: '/order_flow/charge',
-        name: 'order_charge_list',
+        path: 'charge',
+        name: 'order_flow_charge_list',
         meta: {
           icon: '_qq',
           title: '结算收费',
-          access: [ 'order_charge_list' ]
+          access: ['order_flow_charge_list']
         },
-        component: () => import( '@/view/order_flow/charge/index.vue' )
+        component: () => import('@/view/order_flow/charge/index.vue')
       },
       {
-        path: '/order_flow/close',
-        name: 'order_close_list',
+        path: 'close',
+        name: 'order_flow_close_list',
         meta: {
           icon: '_qq',
           title: '审核关闭',
-          access: [ 'order_close_list' ]
+          access: ['order_flow_close_list']
         },
-        component: () => import( '@/view/order_flow/close/index.vue' )
+        component: () => import('@/view/order_flow/close/index.vue')
       },
       {
-        path: '/order_flow/review',
-        name: 'order_review_list',
+        path: 'review',
+        name: 'order_flow_review_list',
         meta: {
           icon: '_qq',
           title: '客户回访',
-          access: [ 'order_review_list' ]
+          access: ['order_flow_review_list']
         },
-        component: () => import( '@/view/order_flow/review/index.vue' )
-      },
+        component: () => import('@/view/order_flow/review/index.vue')
+      }
     ]
   }
 ]

@@ -31,9 +31,16 @@ router.beforeEach((to, from, next) => {
   } else {
     // 其实在这边不用每次都访问，虽然这么做跟一般的页面跳转有点相似，但感觉还是可以的
     store.dispatch('getUserInfo').then(user => {
+      // console.log('to.name', to.name, to)
+      // console.log('user.access', user.access)
+      // console.log('routes', routes)
       // 拉取用户信息，通过用户权限和跳转的页面的name来判断是否有权限访问;access必须是一个数组，如：['super_admin'] ['super_admin', 'admin']
-      if (canTurnTo(to.name, user.access, routes)) next() // 有权限，可访问
-      else next({ replace: true, name: 'error_401' }) // 无权限，重定向到401页面
+      if (canTurnTo(to.name, user.access, routes)) {
+        console.log('to next', to.name, next)
+        next() // 有权限，可访问
+      } else {
+        next({ replace: true, name: 'error_401' }) // 无权限，重定向到401页面
+      }
     })
   }
 })
