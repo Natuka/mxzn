@@ -59,12 +59,12 @@ export default {
   mixins: [listMixin, constsMixin, baseMixin],
   data () {
     return {
-      url: 'confirm',
+      url: 'order_flow/confirm',
       access: {
-        add: 'confirm_add',
-        view: 'confirm_view',
-        edit: 'confirm_edit',
-        remove: 'confirm_remove'
+        add: 'order_flow_confirm_add',
+        view: 'order_flow_confirm_view',
+        edit: 'order_flow_confirm_edit',
+        remove: 'order_flow_confirm_remove'
       },
       columns: [
         {

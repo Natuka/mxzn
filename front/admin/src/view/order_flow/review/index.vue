@@ -59,12 +59,12 @@ export default {
   mixins: [listMixin, constsMixin, baseMixin],
   data () {
     return {
-      url: 'review',
+      url: 'order_flow/review',
       access: {
-        add: 'review_add',
-        view: 'review_view',
-        edit: 'review_edit',
-        remove: 'review_remove'
+        add: 'order_flow_review_add',
+        view: 'order_flow_review_view',
+        edit: 'order_flow_review_edit',
+        remove: 'order_flow_review_remove'
       },
       columns: [
         {

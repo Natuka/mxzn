@@ -59,12 +59,12 @@ export default {
   mixins: [listMixin, constsMixin, baseMixin],
   data () {
     return {
-      url: 'close',
+      url: 'order_flow/close',
       access: {
-        add: 'close_add',
-        view: 'close_view',
-        edit: 'close_edit',
-        remove: 'close_remove'
+        add: 'order_flow_close_add',
+        view: 'order_flow_close_view',
+        edit: 'order_flow_close_edit',
+        remove: 'order_flow_close_remove'
       },
       columns: [
         {

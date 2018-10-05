@@ -59,12 +59,12 @@ export default {
   mixins: [listMixin, constsMixin, baseMixin],
   data () {
     return {
-      url: 'charge',
+      url: 'order_flow/charge',
       access: {
-        add: 'charge_add',
-        view: 'charge_view',
-        edit: 'charge_edit',
-        remove: 'charge_remove'
+        add: 'order_flow_charge_add',
+        view: 'order_flow_charge_view',
+        edit: 'order_flow_charge_edit',
+        remove: 'order_flow_charge_remove'
       },
       columns: [
         {
