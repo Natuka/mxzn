@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateServiceOrderDocumentsTable extends Migration
+class CreateServiceOrderidDocumentidsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,8 +15,8 @@ class CreateServiceOrderDocumentsTable extends Migration
     {
         Schema::create('service_orderid_documentids', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('order_id')->nullable()->comment();
-            $table->integer('document_id')->nullable()->comment();
+            $table->integer('order_id')->nullable()->comment('order id');
+            $table->integer('document_id')->nullable()->comment('document id');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateServiceOrderDocumentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('service_order_documents');
+        Schema::dropIfExists('service_orderid_documentids');
     }
 }
