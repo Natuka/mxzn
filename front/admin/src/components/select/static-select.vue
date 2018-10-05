@@ -5,6 +5,7 @@
       v-model="info"
       :label="label"
     >
+      <span slot="no-options">未匹配到数据</span>
       <div slot="option" slot-scope="option">
         <slot name="prev" :option="option"></slot>
         {{ option[label] }}
