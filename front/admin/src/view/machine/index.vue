@@ -67,25 +67,66 @@ export default {
       },
       columns: [
         {
+          width: 100,
           title: '料号',
           key: 'number',
-          sortable: true
+          sortable: false
         },
         {
+          width: 160,
           title: '品名',
           key: 'name',
           editable: false,
-          sortable: true
+          sortable: false
         },
-        {title: '型号规格', key: 'model', editable: false, sortable: true},
-        {title: '品牌', key: 'brand', editable: false, sortable: true},
-        {title: '统一销售价', key: 'price_sale_least'},
-        {title: '库存数量', key: 'stock_qty'},
-        {title: '单位', key: 'unit'},
-        {title: '默认仓库', key: 'store', sortable: true},
-        {title: '安全库存量', key: 'safety_stock_qty'},
-        {title: '供应商', key: 'vendor', sortable: true},
         {
+          width: 100,
+          title: '型号规格',
+          key: 'model',
+          editable: false,
+          sortable: false
+        },
+        {
+          width: 100,
+          title: '品牌',
+          key: 'brand',
+          editable: false,
+          sortable: false
+        },
+        {
+          width: 100,
+          title: '统一销售价',
+          key: 'price_sale_least'
+        },
+        {
+          width: 100,
+          title: '库存数量',
+          key: 'stock_qty'
+        },
+        {
+          width: 100,
+          title: '单位',
+          key: 'unit'
+        },
+        {
+          width: 100,
+          title: '默认仓库',
+          key: 'store',
+          sortable: false
+        },
+        {
+          width: 100,
+          title: '安全库存量',
+          key: 'safety_stock_qty'
+        },
+        {
+          width: 100,
+          title: '供应商',
+          key: 'vendor',
+          sortable: false
+        },
+        {
+          width: 200,
           fixed: 'right',
           title: '操作',
           key: 'handle',

@@ -211,21 +211,9 @@ export default {
       console.log('oncancel', e)
       e()
     }
-    // ,
-    // async fetchList () {
-    //   return getInstallList().then(({data}) => ({
-    //     data: data.data,
-    //     total: data.total
-    //   }))
-    // }
   },
   mounted () {
     this.refresh()
-    // getTablePageData().then(res => {
-    //   console.log('res', res)
-    //   this.tableData = res.data.data
-    //   this.total = res.data.total
-    // })
   }
 }
 </script>

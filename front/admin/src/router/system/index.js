@@ -3,11 +3,11 @@ import parentView from '@/components/parent-view'
 
 export default [
   {
-    path: '/multilevel',
-    name: 'multilevel',
+    path: '/system',
+    name: 'system',
     meta: {
       icon: 'md-menu',
-      title: '多级菜单'
+      title: '系统管理'
     },
     component: Main,
     children: [
@@ -21,8 +21,8 @@ export default [
         component: () => import('@/view/multilevel/level-2-1.vue')
       },
       {
-        path: 'level_2_2',
-        name: 'level_2_2',
+        path: 'base',
+        name: 'base',
         meta: {
           access: ['super_admin'],
           icon: 'md-funnel',
@@ -31,15 +31,15 @@ export default [
         },
         component: parentView,
         children: [
-          // {
-          //   path: 'level_2_2_1',
-          //   name: 'level_2_2_1',
-          //   meta: {
-          //     icon: 'md-funnel',
-          //     title: '三级'
-          //   },
-          //   component: () => import('@/view/multilevel/level-2-2/level-3-1.vue')
-          // }
+          {
+            path: 'base_1',
+            name: 'base_1',
+            meta: {
+              icon: 'md-funnel',
+              title: '三级'
+            },
+            component: () => import('@/view/base/level-2-2/level-3-1.vue')
+          }
         ]
       },
       {
@@ -50,7 +50,7 @@ export default [
           title: '二级-3'
         },
         component: () => import('@/view/multilevel/level-2-3.vue')
-      }
+      },
     ]
-  }
+  },
 ]

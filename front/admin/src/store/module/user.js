@@ -7,7 +7,8 @@ export default {
     userId: '',
     avatorImgPath: '',
     token: getToken(),
-    access: []
+    access: [],
+    info: {}
   },
   getters: {
     hasAccess ({access}) {
@@ -30,6 +31,9 @@ export default {
     setToken (state, token) {
       state.token = token
       setToken(token)
+    },
+    setUserInfo (state, info) {
+      state.info = info
     }
   },
   actions: {
@@ -68,6 +72,11 @@ export default {
     // 获取用户相关信息
     getUserInfo ({state, commit}) {
       return new Promise((resolve, reject) => {
+        if (state.info.id && state.info.id > 0) {
+          console.log('state.info', state.info)
+          resolve(state.info)
+          return
+        }
         // state.token
         getUserInfo().then(({data, message}) => {
           // const data = res.data
@@ -76,6 +85,7 @@ export default {
           commit('setUserId', data.user_id)
           console.log('access', data.access)
           commit('setAccess', data.access)
+          commit('setUserInfo', data)
           resolve(data)
         }).catch(err => {
           reject(err)
