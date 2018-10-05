@@ -2,7 +2,7 @@
   <custom-modal
     ref="ref"
     width="1000px"
-    title="人事档案修改"
+    title="工單維護-修改"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
     class="mxcs-two-column"
