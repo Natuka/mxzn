@@ -13,7 +13,7 @@
           class="ml-5"
         >
           刷新
-          <Icon type="md-add"/>
+          <Icon type="md-refresh"/>
         </Button>
       </div>
       <dispose-search ref="search" @on-search="onSearch"></dispose-search>
@@ -59,12 +59,12 @@ export default {
   mixins: [listMixin, constsMixin, baseMixin],
   data () {
     return {
-      url: 'dispose',
+      url: 'order_flow/dispose',
       access: {
-        add: 'dispose_add',
-        view: 'dispose_view',
-        edit: 'dispose_edit',
-        remove: 'dispose_remove'
+        add: 'order_flow_dispose_add',
+        view: 'order_flow_dispose_view',
+        edit: 'order_flow_dispose_edit',
+        remove: 'order_flow_dispose_remove'
       },
       columns: [
         {

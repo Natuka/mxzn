@@ -13,7 +13,7 @@
           class="ml-5"
         >
           刷新
-          <Icon type="md-add"/>
+          <Icon type="md-refresh"/>
         </Button>
       </div>
       <repair-search ref="search" @on-search="onSearch"></repair-search>
@@ -59,12 +59,12 @@ export default {
   mixins: [listMixin, constsMixin, baseMixin],
   data () {
     return {
-      url: 'repair',
+      url: 'order_flow/repair',
       access: {
-        add: 'repair_add',
-        view: 'repair_view',
-        edit: 'repair_edit',
-        remove: 'repair_remove'
+        add: 'order_flow_repair_add',
+        view: 'order_flow_repair_view',
+        edit: 'order_flow_repair_edit',
+        remove: 'order_flow_repair_remove'
       },
       columns: [
         {

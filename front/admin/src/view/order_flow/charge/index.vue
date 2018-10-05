@@ -13,7 +13,7 @@
           class="ml-5"
         >
           刷新
-          <Icon type="md-add"/>
+          <Icon type="md-refresh"/>
         </Button>
       </div>
       <charge-search ref="search" @on-search="onSearch"></charge-search>
@@ -59,12 +59,12 @@ export default {
   mixins: [listMixin, constsMixin, baseMixin],
   data () {
     return {
-      url: 'charge',
+      url: 'order_flow/charge',
       access: {
-        add: 'charge_add',
-        view: 'charge_view',
-        edit: 'charge_edit',
-        remove: 'charge_remove'
+        add: 'order_flow_charge_add',
+        view: 'order_flow_charge_view',
+        edit: 'order_flow_charge_edit',
+        remove: 'order_flow_charge_remove'
       },
       columns: [
         {
