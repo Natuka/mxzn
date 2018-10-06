@@ -16,7 +16,6 @@
           <Icon type="md-refresh"/>
         </Button>
       </div>
-      <repair-search ref="search" @on-search="onSearch"></repair-search>
       <tables
         ref="tables"
         :loading="loading"
@@ -30,9 +29,6 @@
       />
       <br/>
       <Page :current="page" :total="total" show-elevator @on-change="toPage"/>
-      <br>
-      <br>
-      <mx-relation></mx-relation>
     </Card>
     <repair-add ref="add" @refresh="refresh"></repair-add>
     <repair-edit ref="edit" @refresh="refreshWithPage"></repair-edit>

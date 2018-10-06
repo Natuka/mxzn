@@ -177,10 +177,10 @@
 import ModalMixin from '@/mixins/modal'
 import AreaMixin from '@/mixins/area'
 
-import {addRepair} from '../../../api/order_flow/repair'
+import {addRepair} from '@/api/order_flow/repair'
 // import {selectOrganization} from '../../../api/select/organization'
-import {selectDepartment} from '../../../api/select/department'
-import * as orderConst from '../../../constants/order_flow'
+import {selectDepartment} from '@/api/select/department'
+import * as orderConst from '@/constants/order_flow'
 
 export default {
   name: 'repair-add',

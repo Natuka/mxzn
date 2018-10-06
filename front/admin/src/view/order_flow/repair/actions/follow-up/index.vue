@@ -1,5 +1,39 @@
 <template>
-    
+  <div>
+    <Card>
+      <div slot="title">
+        <Button type="primary" @click="onAdd" v-if="accessAdd()">
+          新增
+          <Icon type="md-add"/>
+        </Button>
+        <Button
+          type="primary"
+          @click="refresh"
+          v-if="accessAdd()"
+          class="ml-5"
+        >
+          刷新
+          <Icon type="md-refresh"/>
+        </Button>
+      </div>
+      <tables
+        ref="tables"
+        :loading="loading"
+        editable
+        search-place="top"
+        v-model="list"
+        :columns="columns"
+        @on-delete="handleDelete"
+        @on-row-click="onRowClick"
+        :width="tableWidth"
+      />
+      <br/>
+      <Page :current="page" :total="total" show-elevator @on-change="toPage"/>
+    </Card>
+    <repair-add ref="add" @refresh="refresh"></repair-add>
+    <repair-edit ref="edit" @refresh="refreshWithPage"></repair-edit>
+
+  </div>
 </template>
 
 <script>

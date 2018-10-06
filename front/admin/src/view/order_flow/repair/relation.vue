@@ -27,13 +27,13 @@
 </template>
 
 <script>
-import attendance from './actions/attendance/attendance'
-import confirm from './actions/confirm/confirm'
-import document from './actions/document/document'
-import followUp from './actions/follow-up/follow-up'
-import parts from './actions/parts/parts'
-import repairs from './actions/repairs/repairs'
-import service from './actions/service/service'
+import attendance from './actions/attendance/index'
+import confirm from './actions/confirm/index'
+import document from './actions/document/index'
+import followUp from './actions/follow-up/index'
+import parts from './actions/parts/index'
+import repairs from './actions/repairs/index'
+import service from './actions/service/index'
 
 export default {
   name: 'mx-relation',

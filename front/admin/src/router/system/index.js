@@ -137,5 +137,5 @@ export default [
         component: () => import('@/view/system/log.vue')
       }
     ]
-  },
+  }
 ]
