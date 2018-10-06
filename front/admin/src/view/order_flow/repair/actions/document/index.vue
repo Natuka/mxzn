@@ -246,7 +246,7 @@ export default {
     }
   },
   mounted () {
-    this.refresh()
+    // this.refresh()
   }
 }
 </script>
