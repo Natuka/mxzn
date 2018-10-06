@@ -52,14 +52,14 @@ export default [
         component: () => import('@/view/machine/index.vue')
       },
       {
-        path: '/customer',
-        name: 'machine_customer',
+        path: '/customer-equipment',
+        name: 'customer-equipment',
         meta: {
           icon: '_qq',
           title: '客户设备管理',
-          access: ['machine_customer']
+          access: ['customer_equipment']
         },
-        component: () => import('@/view/machine/index.vue')
+        component: () => import('@/view/customer-equipment/index.vue')
       }
     ]
   }
