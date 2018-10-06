@@ -12,9 +12,9 @@ Route::group([
     'prefix' => 'select',
     'namespace' => 'Admin\Select'
 ], function () {
-    Route::get('customer', [
-        'uses' => 'CustomerController@index',
-        'as' => 'select_customer'
+    Route::get('customer-contact', [
+        'uses' => 'CustomerContactController@index',
+        'as' => 'select_customer_contact'
     ]);
     // TODO 后续添加
 });

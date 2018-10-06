@@ -3,29 +3,29 @@
 namespace App\Http\Controllers\Admin\Select;
 
 use App\Http\Controllers\Admin\BaseController;
-use App\Models\Organization;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 
-class OrganizationController extends BaseController
+class CustomerController extends BaseController
 {
     //
-    public function index(Request $request, Organization $organization)
+    public function index(Request $request, Customer $customer)
     {
-        $organization = $this->search($request, $organization);
+        $customer = $this->search($request, $customer);
 
-        return $this->paginate($organization);
+        return $this->paginate($customer);
     }
 
-    public function search(Request $request, Organization $organization)
+    public function search(Request $request, Customer $customer)
     {
         if ($name = $request->get('name', '')) {
-            $organization = $organization->where('name', 'like', like($name));
+            $customer = $customer->where('name', 'like', like($name));
         }
 
         if ($id = $request->get('id', 0)) {
-            $organization = $organization->where('id', $id);
+            $customer = $customer->where('id', $id);
         }
 
-        return $organization;
+        return $customer;
     }
 }

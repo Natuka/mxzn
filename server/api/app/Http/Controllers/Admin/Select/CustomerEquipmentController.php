@@ -4,19 +4,20 @@ namespace App\Http\Controllers\Admin\Select;
 
 use App\Http\Controllers\Admin\BaseController;
 use App\Models\CustomerContact;
+use App\Models\CustomerEquipment;
 use Illuminate\Http\Request;
 
-class CustomerContactController extends BaseController
+class CustomerEquipmentController extends BaseController
 {
     //
-    public function index(Request $request, CustomerContact $customer)
+    public function index(Request $request, CustomerEquipment $customer)
     {
         $customer = $this->search($request, $customer);
 
         return $this->paginate($customer);
     }
 
-    public function search(Request $request, CustomerContact $customer)
+    public function search(Request $request, CustomerEquipment $customer)
     {
         if ($name = $request->get('name', '')) {
             $customer = $customer->where('name', 'like', like($name));
