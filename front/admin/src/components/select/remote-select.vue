@@ -37,12 +37,12 @@ export default {
       }
     },
     // 设定该值一般情况下是 v-model
-    value: {
-      type: [Object, String, Array, Number],
-      default () {
-        return ''
-      }
-    },
+    // value: {
+    //   type: [Object, String, Array, Number],
+    //   default () {
+    //     return ''
+    //   }
+    // },
     valueMap: {
       type: [Function],
       default (data) {

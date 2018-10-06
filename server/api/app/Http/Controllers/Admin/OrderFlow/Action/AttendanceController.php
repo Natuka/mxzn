@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Admin\OrderFlow\Action;
 
-
+use App\Http\Requests\Admin\OrderAction\Attendance\CreateRequest;
+use App\Http\Requests\Admin\OrderAction\Attendance\UpdateRequest;
 use App\Models\Order;
 use App\Models\ServiceOrderAttendance;
 use Illuminate\Http\Request;
@@ -83,7 +84,28 @@ class AttendanceController extends BaseController
      */
     public function create(CreateRequest $request, Order $order, ServiceOrderAttendance $attendance)
     {
-        //
+        $data = $request->only([
+            'staff_id',
+            'staff_name',
+            'signin_time',
+            'location',
+            'coordinate',
+        ]);
+        //$request['source'] = $request->get('source', 3);
+        $data['service_order_id'] = (int)$order['id'];
+        $data['staff_id'] = (int)$data['staff_id'];
+
+/*        $data['created_by'] = '新增';
+        $data['updated_by'] = '新增';*/
+
+        $ret = $attendance->forceFill($data)->save();
+
+        if ($ret) {
+            return success_json($attendance, '');
+        }
+
+        return error_json('新增失败，请检查');
+
     }
 
     /**
@@ -95,6 +117,7 @@ class AttendanceController extends BaseController
     public function store(Request $request)
     {
         //
+
     }
 
     /**
@@ -126,9 +149,25 @@ class AttendanceController extends BaseController
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Order $order)
+    public function update(UpdateRequest $request, Order $order, ServiceOrderAttendance $attendance)
     {
-        //
+        $data = $request->only([
+            'staff_id',
+            'staff_name',
+            'signin_time',
+            'location',
+            'coordinate',
+        ]);
+        $data['staff_id'] = (int)$data['staff_id'];
+        //$data['updated_by'] = '修改';
+
+        $ret = $attendance->forceFill($data)->save();
+
+        if ($ret) {
+            return success_json($attendance, '');
+        }
+
+        return error_json('修改失败，请检查');
     }
 
     /**
@@ -137,9 +176,10 @@ class AttendanceController extends BaseController
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Order $order)
+    public function destroy(Order $order, ServiceOrderAttendance $attendance)
     {
-        //
+        $attendance->where('service_order_id', (int)$order['id'])->delete();
+        return success_json($attendance, '删除成功');
     }
 
 

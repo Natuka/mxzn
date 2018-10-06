@@ -25,6 +25,7 @@ export default {
     onOpen () {
       this.getModal().open()
     },
+    // 开启
     async open () {
       let can = await this.beforeOpen()
       if (!can) {
@@ -40,6 +41,7 @@ export default {
     },
     afterClose () {
     },
+    // 关闭
     async close () {
       let can = await this.beforeClose()
       if (!can) {
@@ -47,15 +49,26 @@ export default {
       }
       this.getModal().close()
     },
+    // 获取ref
     getModal () {
+      console.log('this.$refs', this.$refs)
+      console.log('this.refName', this.refName)
       return this.$refs[this.refName]
     },
+    // 执行刷新
     withRefresh (e) {
       e && e()
       this.$emit('refresh')
     },
+    // 关闭loading
     closeLoading () {
       this.getModal().closeLoading()
+    },
+    listByConstant (list) {
+      return list.map((value, index) => ({
+        value,
+        index
+      }))
     }
   }
 }

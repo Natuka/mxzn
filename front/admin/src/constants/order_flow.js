@@ -1,6 +1,3 @@
-export const EDUCATION_LIST = '小学,初中,中专,高中,大专,本科,硕士,博士'.split(',')
-export const STATUS_LIST = '离职,在职'.split(',')
-export const SEX_LIST = '女,男'.split(',')
 export const ORDER_STATUS = '制单中,已受理,待派单,处理中,已取消,已关闭,无法处理'.split(',')
 export const ORDER_SETTLE_STATUS = '未结算,结算中,已结算,免费'.split(',')
 export const ORDER_QUOTE = '否,是,待定'.split(',')
