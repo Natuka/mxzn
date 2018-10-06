@@ -57,6 +57,14 @@ export default {
     [edit.name]: edit
   },
   mixins: [listMixin, constsMixin, baseMixin],
+  props: {
+    data: {
+      type: Object,
+      default () {
+        return {}
+      }
+    }
+  },
   data () {
     return {
       url: 'order_flow/repair/confirm',

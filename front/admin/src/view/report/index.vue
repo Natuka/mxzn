@@ -6,16 +6,12 @@
           新增
           <Icon type="md-add"/>
         </Button>
-        <Button
-          type="primary"
-          @click="refresh"
-          v-if="accessAdd()"
-          class="ml-5"
-        >
+        <Button type="primary" @click="refresh" v-if="accessAdd()" class="ml-5">
           刷新
           <Icon type="md-refresh"/>
         </Button>
       </div>
+      <customer-search ref="search" @on-search="onSearch"></customer-search>
       <tables
         ref="tables"
         :loading="loading"
@@ -24,15 +20,14 @@
         v-model="list"
         :columns="columns"
         @on-delete="handleDelete"
-        @on-row-click="onRowClick"
         :width="tableWidth"
       />
       <br/>
       <Page :current="page" :total="total" show-elevator @on-change="toPage"/>
+      <!--<Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>-->
     </Card>
-    <repair-add ref="add" @refresh="refresh"></repair-add>
-    <repair-edit ref="edit" @refresh="refreshWithPage"></repair-edit>
-
+    <customer-add ref="add" @refresh="refresh"></customer-add>
+    <customer-edit ref="edit" @refresh="refreshWithPage"></customer-edit>
   </div>
 </template>
 
@@ -43,137 +38,125 @@ import search from './search'
 import add from './add'
 import edit from './edit'
 
-import listMixin from '@/mixins/list'
-import constsMixin from '@/mixins/consts'
-import baseMixin from '@/mixins/base'
-import * as orderConst from '@/constants/order_flow'
+import * as customerConst from '../../constants/customer'
+
+import listMixin from '../../mixins/list'
+import constsMixin from '../../mixins/consts'
 
 export default {
-  name: 'mx-order-service',
+  name: 'tables_page',
   components: {
     Tables,
     [search.name]: search,
     [add.name]: add,
     [edit.name]: edit
   },
-  mixins: [listMixin, constsMixin, baseMixin],
-  props: {
-    data: {
-      type: Object,
-      default () {
-        return {}
-      }
-    }
-  },
+  mixins: [listMixin, constsMixin],
   data () {
     return {
-      url: 'order_flow/repair/service',
+      url: 'customer',
       access: {
-        add: 'order_flow_repair_add',
-        view: 'order_flow_repair_view',
-        edit: 'order_flow_repair_edit',
-        remove: 'order_flow_repair_remove'
+        add: 'customer_add',
+        view: 'customer_view',
+        edit: 'customer_edit',
+        remove: 'customer_remove'
       },
       columns: [
         {
           width: 120,
-          fixed: 'left',
-          title: '服务单号A',
+          title: '客户编号',
           key: 'number',
-          sortable: false
+          sortable: true
+        },
+        {
+          width: 150,
+          title: '公司简称',
+          key: 'name_short',
+          sortable: true
         },
         {
           width: 120,
-          // fixed: 'left',
-          title: '当前状态',
-          key: 'status',
-          sortable: false,
-          render: this.constRender('status', orderConst.ORDER_STATUS)
-        },
-        {
-          width: 120,
-          title: '工单类别',
+          title: '客户类别',
           key: 'type',
-          sortable: false,
-          render: this.constRender('type', orderConst.ORDER_TYPE)
+          sortable: true,
+          render: this.constRender('type', customerConst.TYPE_LIST)
         },
         {
           width: 120,
-          title: '受理时间',
-          key: 'receive_at',
-          sortable: false
+          title: '所属行业',
+          key: 'industry',
+          sortable: true,
+          render: this.constRender('industry', customerConst.INDUSTRY_LIST)
         },
         {
           width: 120,
-          title: '处理进度',
-          key: 'progress',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '处理时长',
-          key: 'progress_use_time',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '工程师',
-          key: 'engineer_ids',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '客户名称',
-          key: 'customer_id',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '服务级别',
+          title: '客户级别',
           key: 'level',
-          sortable: false,
-          render: this.constRender('level', orderConst.ORDER_LEVEL)
+          sortable: true,
+          render: this.constRender('level', customerConst.LEVEL_LIST)
+        },
+        {
+          width: 120,
+          title: '客户来源',
+          key: 'source',
+          sortable: true,
+          render: this.constRender('source', customerConst.SOURCE_LIST)
         },
         {
           width: 160,
-          title: '故障描述',
-          key: 'created_at',
+          title: '跟进状态',
+          key: 'follow_up_status',
+          sortable: true,
+          render: this.constRender('follow_up_status', customerConst.FOLLOW_UP_STATUS_LIST)
+        },
+        {
+          width: 120,
+          title: '人员规模',
+          key: 'staff_scale',
+          sortable: true,
+          render: this.constRender('staff_scale', customerConst.STAFF_SCALE_LIST)
+        },
+        {
+          width: 120,
+          title: '购买力',
+          key: 'purchasing_power',
+          sortable: true,
+          render: this.constRender('purchasing_power', customerConst.PURCHASING_POWER_LIST)
+        },
+        {
+          width: 150,
+          title: '所在地址',
+          key: 'address',
+          sortable: false
+        },
+        {
+          width: 120,
+          title: '所属业务员',
+          key: 'salesman_id',
+          sortable: true
+        },
+        {
+          width: 160,
+          title: '最近联系时间',
+          key: 'contact_lasttime',
           sortable: false
         },
         {
           width: 160,
-          title: '报修人员',
-          key: 'feedback_staff_id',
+          title: '下次跟进时间',
+          key: 'follow_up_nexttime',
           sortable: false
         },
         {
-          width: 160,
-          title: '电话',
-          key: 'created_at',
-          sortable: false
-        },
-        {
-          width: 160,
-          title: '制单人员',
-          key: 'created_at',
-          sortable: false
-        },
-        {
-          width: 160,
-          title: '制单时间',
-          key: 'created_at',
-          sortable: false
-        },
-        {
-          width: 160,
-          title: '单据状态',
-          key: 'status',
-          sortable: false,
-          render: this.constRender('status', orderConst.ORDER_STATUS)
+          width: 120,
+          title: '是否黑名单',
+          key: 'blacklist',
+          // sortable: true,
+          render: this.constRender('blacklist', customerConst.BLACK_LIST)
         },
         {
           fixed: 'right',
-          width: 250,
+          width: 120,
           title: '操作',
           key: 'handle',
           options: ['delete'],
@@ -188,17 +171,10 @@ export default {
                   },
                   on: {
                     'on-ok': () => {
-                      vm.$emit('on-delete', params)
-                      vm.$emit(
-                        'input',
-                        params.tableData.filter(
-                          (item, index) => index !== params.row.initRowIndex
-                        )
-                      )
+                      this.onDelete(params.row)
                     }
                   }
-                },
-                [h('Button', '删除')]
+                }
               )
             },
             (h, params, vm) => {
@@ -216,7 +192,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.onEdit(params.row)
+                      this.onEdit()
                     }
                   }
                 },
@@ -248,17 +224,13 @@ export default {
     onCancel (e) {
       console.log('oncancel', e)
       e()
-    },
-    onRowClick (data, index) {
-      console.log('data', data, index)
     }
   },
   mounted () {
-    // this.refresh()
+    this.refresh()
   }
 }
 </script>
 
-<style scoped>
-
+<style>
 </style>

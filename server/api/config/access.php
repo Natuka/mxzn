@@ -133,6 +133,14 @@ return ['super_admin',
     'staff_docs',
     'staff_contact',
 
+    'kpm_list',
+    'kpm_add',
+    'kpm_view',
+    'kpm_edit',
+
+    'report_list',
+    'report_view',
+
     'organization_list',
     'organization_add',
     'organization_view',

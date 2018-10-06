@@ -7,7 +7,7 @@ export default [
     component: Main,
     meta: {
       access: ['staff_list'],
-      title: '人事管理'
+      title: '人员管理'
     },
     // redirect: '/staff/doc',
     children: [
@@ -56,7 +56,7 @@ export default [
         name: 'organization_list',
         meta: {
           icon: '_qq',
-          title: '公司/组织',
+          title: '公司组织',
           access: ['organization_list']
         },
         component: () => import('@/view/organization/index.vue')
