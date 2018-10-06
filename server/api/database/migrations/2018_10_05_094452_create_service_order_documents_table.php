@@ -15,7 +15,7 @@ class CreateServiceOrderDocumentsTable extends Migration
     {
         Schema::create('service_order_documents', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('order_id')->nullable()->comment('order id');
+            $table->integer('service_order_id')->nullable()->comment('order id');
             $table->integer('document_id')->nullable()->comment('document id');
             $table->timestamps();
         });
