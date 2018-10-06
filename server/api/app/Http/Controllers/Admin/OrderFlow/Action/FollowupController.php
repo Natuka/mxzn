@@ -85,30 +85,14 @@ class FollowupController extends BaseController
     public function create(CreateRequest $request, Order $order, ServiceOrderFollowup $followup)
     {
         $data = $request->only([
-            'base_part_id',
-            'base_code_id',
-            'number',
-            'name',
-            'model',
-            'unit',
-            'quantity',
-            'price',
-            'amount',
-            'discount',
-            'amount_dis',
-            'warranty_months',
-            'warranty_date',
+            'followup_staff',
+            'mobile',
+            'handle_staff_id',
+            'handle_staff_name',
+            'handle_result',
+            'remark',
         ]);
-        //$request['source'] = $request->get('source', 3);
-
-        $data['base_part_id'] = (int)$data['base_part_id'];
-        $data['base_code_id'] = (int)$data['base_code_id'];
-        $data['warranty_months'] = (int)$data['warranty_months'];
-        $data['quantity'] = doubleval($data['quantity']);
-        $data['price'] = doubleval($data['price']);
-        $data['amount'] = doubleval($data['amount']);
-        $data['discount'] = doubleval($data['discount']);
-        $data['warranty_date'] = format_date($data['warranty_date']);
+        $data['handle_staff_id'] = (int)$data['handle_staff_id'];
 
         $data['service_order_id'] = (int)$order['id'];
         $data['created_by'] = '新增';
@@ -168,30 +152,14 @@ class FollowupController extends BaseController
     public function update(UpdateRequest $request, Order $order, ServiceOrderFollowup $followup)
     {
         $data = $request->only([
-            'base_part_id',
-            'base_code_id',
-            'number',
-            'name',
-            'model',
-            'unit',
-            'quantity',
-            'price',
-            'amount',
-            'discount',
-            'amount_dis',
-            'warranty_months',
-            'warranty_date',
+            'followup_staff',
+            'mobile',
+            'handle_staff_id',
+            'handle_staff_name',
+            'handle_result',
+            'remark',
         ]);
-        //$request['source'] = $request->get('source', 3);
-
-        $data['base_part_id'] = (int)$data['base_part_id'];
-        $data['base_code_id'] = (int)$data['base_code_id'];
-        $data['warranty_months'] = (int)$data['warranty_months'];
-        $data['quantity'] = doubleval($data['quantity']);
-        $data['price'] = doubleval($data['price']);
-        $data['amount'] = doubleval($data['amount']);
-        $data['discount'] = doubleval($data['discount']);
-        $data['warranty_date'] = format_date($data['warranty_date']);
+        $data['handle_staff_id'] = (int)$data['handle_staff_id'];
 
         $data['updated_by'] = '修改';
 
