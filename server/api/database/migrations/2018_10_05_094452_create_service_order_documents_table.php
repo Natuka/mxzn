@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateServiceOrderidDocumentidsTable extends Migration
+class CreateServiceOrderDocumentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -28,6 +28,6 @@ class CreateServiceOrderidDocumentidsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('service_orderid_documentids');
+        Schema::dropIfExists('service_order_documents');
     }
 }
