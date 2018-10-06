@@ -6,7 +6,7 @@ export default [
     path: '/system',
     name: 'system',
     meta: {
-      icon: 'md-menu',
+      icon: 'ios-hammer',
       title: '系统管理'
     },
     component: Main,

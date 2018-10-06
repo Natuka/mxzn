@@ -48,6 +48,8 @@ export default [
   ...require('./customer').default,
   ...require('./machine').default,
   ...require('./staff').default,
+  ...require('./report').default,
+  ...require('./kpm').default,
   // ...require('./organization').default,
   ...require('./system').default,
   // ...require('./components').default,

@@ -26,6 +26,7 @@ Route::group([
         'visible' => true,
     ]);
 
+
     Route::group(['prefix' => 'repair'], function () {
         Route::get('default', [
             'uses' => 'RepairController@default',
@@ -69,6 +70,7 @@ Route::group([
             'display_name' => '下一步',
             'visible' => false,
         ]);
+
     });
 
     Route::group(['prefix' => 'install'], function () {

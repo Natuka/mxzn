@@ -78,7 +78,7 @@ export default {
         {
           width: 120,
           fixed: 'left',
-          title: '服务单号',
+          title: '服务单号D',
           key: 'number',
           sortable: false
         },

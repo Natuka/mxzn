@@ -92,6 +92,10 @@ export default {
           key: 'created_at'
         },
         {
+          title: ' ',
+          key: ''
+        },
+        {
           fixed: 'right',
           width: 340,
           title: '操作',
