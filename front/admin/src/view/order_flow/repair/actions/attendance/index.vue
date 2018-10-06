@@ -46,26 +46,24 @@ import Tables from '_c/tables'
 import search from './search'
 import add from './add'
 import edit from './edit'
-import relation from './relation'
 
-import listMixin from '../../../mixins/list'
-import constsMixin from '../../../mixins/consts'
-import baseMixin from '../../../mixins/base'
-import * as orderConst from '../../../constants/order_flow'
+import listMixin from '@/mixins/list'
+import constsMixin from '@/mixins/consts'
+import baseMixin from '@/mixins/base'
+import * as orderConst from '@/constants/order_flow'
 
 export default {
-  name: 'repair_list',
+  name: 'mx-order-attendance',
   components: {
     Tables,
     [search.name]: search,
     [add.name]: add,
-    [edit.name]: edit,
-    [relation.name]: relation
+    [edit.name]: edit
   },
   mixins: [listMixin, constsMixin, baseMixin],
   data () {
     return {
-      url: 'order_flow/repair',
+      url: 'order_flow/repair/attendance',
       access: {
         add: 'order_flow_repair_add',
         view: 'order_flow_repair_view',
@@ -257,5 +255,6 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
 </style>
