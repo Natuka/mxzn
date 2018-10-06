@@ -20,6 +20,11 @@ class Order extends Model
         return $this->belongsTo(Customer::class, 'customer_id');
     }
 
+    public function documents()
+    {
+        return $this->belongsToMany(Document::class, 'service_order_documents', 'order_id', 'document_id');
+    }
+
     /**
      * 工程师表
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

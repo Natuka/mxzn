@@ -87,11 +87,11 @@ class BaseController extends Controller
         }*/
 
         //排序
-        $orderFieldArray = array('0'=>'name', '1'=>'acct', '2'=>'birth', '3'=>'progress_time', '4'=>'id','5'=>'progress_date','6'=>'business_man');
-        $orderByArray = array('0'=>'ASC', '1'=>'DESC',);
-        if (!empty($orderFieldArray[$orderField]) && !empty($orderByArray[$orderBy])){
-            $order = $order->orderBy($orderFieldArray[$orderField], $orderByArray[$orderBy]);
-        }
+//        $orderFieldArray = array('0'=>'name', '1'=>'acct', '2'=>'birth', '3'=>'progress_time', '4'=>'id','5'=>'progress_date','6'=>'business_man');
+//        $orderByArray = array('0'=>'ASC', '1'=>'DESC',);
+//        if (!empty($orderFieldArray[$orderField]) && !empty($orderByArray[$orderBy])){
+//            $order = $order->orderBy($orderFieldArray[$orderField], $orderByArray[$orderBy]);
+//        }
 
         return $order;
     }
