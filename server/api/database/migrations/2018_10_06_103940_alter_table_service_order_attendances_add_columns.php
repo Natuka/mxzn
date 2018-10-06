@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateServiceOrderDocumentsTable extends Migration
+class AlterTableServiceOrderAttendancesAddColumns extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateServiceOrderDocumentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('service_order_documents', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::table('service_order_attendances', function (Blueprint $table) {
+            //
             $table->integer('service_order_id')->nullable()->comment('order id');
-            $table->integer('document_id')->nullable()->comment('document id');
-            $table->timestamps();
         });
     }
 
@@ -28,6 +26,9 @@ class CreateServiceOrderDocumentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('service_order_documents');
+        Schema::table('service_order_attendances', function (Blueprint $table) {
+            //
+            $table->dropColumn('service_order_id');
+        });
     }
 }
