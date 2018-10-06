@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin\OrderFlow;
+namespace App\Http\Requests\Admin\OrderAction\Repairs;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -25,14 +25,14 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
+            'order_id' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            'name.required' => '名称必填',
+            'order_id.required' => '订单ID必须有值!',
         ];
     }
 }
