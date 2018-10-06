@@ -1,26 +1,30 @@
 <template>
   <div>
-    <Tabs :animated="false">
-      <TabPane label="处理过程">
-        <mx-order-attendance></mx-order-attendance>
+    <Tabs @on-click="onClick"
+          type="card"
+          :animated="false"
+          v-model="name"
+    >
+      <TabPane label="处理过程" name="repairs">
+        <mx-order-repairs ref="repairs" :data="data"></mx-order-repairs>
       </TabPane>
-      <TabPane label="服务项目">
-        <mx-order-service></mx-order-service>
+      <TabPane label="服务项目" name="service">
+        <mx-order-service ref="service" :data="data"></mx-order-service>
       </TabPane>
-      <TabPane label="配件耗材">
-        <mx-order-parts></mx-order-parts>
+      <TabPane label="配件耗材" name="parts">
+        <mx-order-parts ref="parts" :data="data"></mx-order-parts>
       </TabPane>
-      <TabPane label="催单记录">
-        <mx-order-repairs></mx-order-repairs>
+      <TabPane label="催单记录" name="followup">
+        <mx-order-follow-up ref="followup" :data="data"></mx-order-follow-up>
       </TabPane>
-      <TabPane label="签到记录">
-        <mx-order-attendance></mx-order-attendance>
+      <TabPane label="签到记录" name="attendance">
+        <mx-order-attendance ref="attendance" :data="data"></mx-order-attendance>
       </TabPane>
-      <TabPane label="客户确认">
-        <mx-order-confirm></mx-order-confirm>
+      <TabPane label="客户确认" name="confirm">
+        <mx-order-confirm ref="confirm" :data="data"></mx-order-confirm>
       </TabPane>
-      <TabPane label="附件">
-        <mx-order-doc></mx-order-doc>
+      <TabPane label="附件" name="doc">
+        <mx-order-doc ref="doc" :data="data"></mx-order-doc>
       </TabPane>
     </Tabs>
   </div>
@@ -48,9 +52,51 @@ export default {
   },
   data () {
     return {
+      name: 'repairs',
+      data: {},
+      cached: {}
     }
   },
   methods: {
+    getRef (name) {
+      const map = {
+        repairs: 'repairs',
+        service: 'service',
+        parts: 'parts',
+        followup: 'followup',
+        attendance: 'attendance',
+        confirm: 'confirm',
+        doc: 'doc'
+      }
+
+      if (map[name]) {
+        return this.$refs[map[name]]
+      }
+      return null
+    },
+    // 点击切换
+    onClick (name) {
+      // 如果已经缓存，那么不需要再次进行刷新页面
+      if (this.cached[name]) {
+        return
+      }
+      this.cached[name] = true
+      let ref = this.getRef(name)
+      if (ref) {
+        ref.refresh()
+      }
+    },
+    // 刷新
+    refresh () {
+      let ref = this.onClick(this.name)
+    },
+    // 设置数据
+    setData (data, index) {
+      this.data = data
+      // 清理缓存，重新加载
+      this.cached = {}
+      this.refresh()
+    }
   }
 }
 </script>
