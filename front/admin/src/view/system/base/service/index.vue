@@ -16,7 +16,7 @@
           <Icon type="md-refresh"/>
         </Button>
       </div>
-      <repair-search ref="search" @on-search="onSearch"></repair-search>
+      <agent-search ref="search" @on-search="onSearch"></agent-search>
       <tables
         ref="tables"
         :loading="loading"
@@ -25,18 +25,14 @@
         v-model="list"
         :columns="columns"
         @on-delete="handleDelete"
-        @on-row-click="onRowClick"
         :width="tableWidth"
       />
       <br/>
       <Page :current="page" :total="total" show-elevator @on-change="toPage"/>
-      <br>
-      <br>
-      <mx-relation></mx-relation>
+      <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>
     </Card>
-    <repair-add ref="add" @refresh="refresh"></repair-add>
-    <repair-edit ref="edit" @refresh="refreshWithPage"></repair-edit>
-
+    <staff-add ref="add" @refresh="refresh"></staff-add>
+    <staff-edit ref="edit" @refresh="refreshWithPage"></staff-edit>
   </div>
 </template>
 
@@ -46,128 +42,96 @@ import Tables from '_c/tables'
 import search from './search'
 import add from './add'
 import edit from './edit'
-import relation from './relation'
 
-import listMixin from '../../../mixins/list'
-import constsMixin from '../../../mixins/consts'
-import baseMixin from '../../../mixins/base'
-import * as orderConst from '../../../constants/order_flow'
+import listMixin from '../../mixins/list'
+import constsMixin from '../../mixins/consts'
+import baseMixin from '../../mixins/base'
+import * as staffConst from '../../constants/staff'
 
 export default {
-  name: 'repair_list',
+  name: 'tables_page',
   components: {
     Tables,
     [search.name]: search,
     [add.name]: add,
-    [edit.name]: edit,
-    [relation.name]: relation
+    [edit.name]: edit
   },
   mixins: [listMixin, constsMixin, baseMixin],
   data () {
     return {
-      url: 'order_flow/repair',
+      url: 'staff',
       access: {
-        add: 'order_flow_repair_add',
-        view: 'order_flow_repair_view',
-        edit: 'order_flow_repair_edit',
-        remove: 'order_flow_repair_remove'
+        add: 'staff_add',
+        view: 'staff_view',
+        edit: 'staff_edit',
+        remove: 'staff_remove'
       },
       columns: [
         {
           width: 120,
           fixed: 'left',
-          title: '服务单号',
+          title: '编号',
           key: 'number',
           sortable: false
         },
         {
           width: 120,
-          // fixed: 'left',
-          title: '当前状态',
+          fixed: 'left',
+          title: '姓名',
+          key: 'name',
+          sortable: false
+        },
+        {
+          width: 60,
+          title: '性别',
+          key: 'sex',
+          sortable: false,
+          render: this.constRender('sex', staffConst.SEX_LIST)
+        },
+        {
+          width: 120,
+          title: '出生日期1',
+          key: 'birthday',
+          sortable: false
+        },
+        {
+          width: 120,
+          title: '部门',
+          key: 'department',
+          sortable: false
+        },
+        {
+          width: 80,
+          title: '职位',
+          key: 'post',
+          sortable: false,
+          render: this.baseRender('post', 'findPost')
+        },
+        {
+          width: 80,
+          title: '职务',
+          key: 'job',
+          sortable: false,
+          render: this.baseRender('job', 'findJob')
+        },
+        {
+          width: 100,
+          title: '手机',
+          key: 'mobile',
+          sortable: false
+        },
+        {
+          width: 100,
+          title: '在职状态',
           key: 'status',
           sortable: false,
-          render: this.constRender('status', orderConst.ORDER_STATUS)
+          render: this.constRender('status', staffConst.STATUS_LIST)
         },
         {
           width: 120,
-          title: '工单类别',
-          key: 'type',
-          sortable: false,
-          render: this.constRender('type', orderConst.ORDER_TYPE)
-        },
-        {
-          width: 120,
-          title: '受理时间',
-          key: 'receive_at',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '处理进度',
-          key: 'progress',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '处理时长',
-          key: 'progress_use_time',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '工程师',
-          key: 'engineer_ids',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '客户名称',
-          key: 'customer_id',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '服务级别',
-          key: 'level',
-          sortable: false,
-          render: this.constRender('level', orderConst.ORDER_LEVEL)
-        },
-        {
-          width: 160,
-          title: '故障描述',
+          title: '建档日期',
           key: 'created_at',
           sortable: false
-        },
-        {
-          width: 160,
-          title: '报修人员',
-          key: 'feedback_staff_id',
-          sortable: false
-        },
-        {
-          width: 160,
-          title: '电话',
-          key: 'created_at',
-          sortable: false
-        },
-        {
-          width: 160,
-          title: '制单人员',
-          key: 'created_at',
-          sortable: false
-        },
-        {
-          width: 160,
-          title: '制单时间',
-          key: 'created_at',
-          sortable: false
-        },
-        {
-          width: 160,
-          title: '单据状态',
-          key: 'status',
-          sortable: false,
-          render: this.constRender('status', orderConst.ORDER_STATUS)
         },
         {
           fixed: 'right',
@@ -182,21 +146,17 @@ export default {
                 {
                   props: {
                     confirm: true,
-                    title: '你确定要删除吗?'
+                    title: '你确定要删除吗?',
+                    options: {
+                      positionFixed: true
+                    }
                   },
                   on: {
                     'on-ok': () => {
-                      vm.$emit('on-delete', params)
-                      vm.$emit(
-                        'input',
-                        params.tableData.filter(
-                          (item, index) => index !== params.row.initRowIndex
-                        )
-                      )
+                      this.onDelete(params.row)
                     }
                   }
-                },
-                [h('Button', '删除')]
+                }
               )
             },
             (h, params, vm) => {
@@ -246,13 +206,22 @@ export default {
     onCancel (e) {
       console.log('oncancel', e)
       e()
-    },
-    onRowClick (data, index) {
-      console.log('data', data, index)
     }
+    // ,
+    // async fetchList () {
+    //   return getStaffList().then(({data}) => ({
+    //     data: data.data,
+    //     total: data.total
+    //   }))
+    // }
   },
   mounted () {
     this.refresh()
+    // getTablePageData().then(res => {
+    //   console.log('res', res)
+    //   this.tableData = res.data.data
+    //   this.total = res.data.total
+    // })
   }
 }
 </script>

@@ -87,7 +87,7 @@ export default [
               icon: 'md-funnel',
               title: '基本设置'
             },
-            component: () => import('@/view/system/base/baseset.vue')
+            component: () => import('@/view/system/set/baseset.vue')
           },
           {
             path: 'billnoset',
@@ -96,7 +96,7 @@ export default [
               icon: 'md-funnel',
               title: '单号设置'
             },
-            component: () => import('@/view/system/base/billnoset.vue')
+            component: () => import('@/view/system/set/billnoset.vue')
           },
           {
             path: 'checkset',
@@ -105,7 +105,7 @@ export default [
               icon: 'md-funnel',
               title: '考勤设置'
             },
-            component: () => import('@/view/system/base/checkset.vue')
+            component: () => import('@/view/system/set/checkset.vue')
           },
           {
             path: 'pushset',
@@ -114,7 +114,7 @@ export default [
               icon: 'md-funnel',
               title: '推送设置'
             },
-            component: () => import('@/view/system/base/pushset.vue')
+            component: () => import('@/view/system/set/pushset.vue')
           },
           {
             path: 'weixinset',
@@ -123,7 +123,7 @@ export default [
               icon: 'md-funnel',
               title: '微信设置'
             },
-            component: () => import('@/view/system/base/weixinset.vue')
+            component: () => import('@/view/system/set/weixinset.vue')
           }
         ]
       },
@@ -137,5 +137,5 @@ export default [
         component: () => import('@/view/system/log.vue')
       }
     ]
-  },
+  }
 ]
