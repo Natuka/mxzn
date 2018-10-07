@@ -10,3 +10,8 @@ export const ORDER_TYPE = '请选择,安装工单,保养工单,维修工单,投�
 export const EDUCATION_LIST = '小学,初中,中专,高中,大专,本科,硕士,博士'.split(',')
 export const STATUS_LIST = '离职,在职'.split(',')
 export const SEX_LIST = '女,男'.split(',')
+
+// 下一步
+export const REPAIR_NEXT = '完工关闭,暂不关闭,内部派工,派给网'.split(',')
+// 处理进度
+export const REPAIR_PROCESS = '请选择,故障检测中,配件维修中,等待配件更换,测试观察中,已处理完成,不能处理,其他'.split(',')

@@ -15,3 +15,18 @@ export function updateRepair (data, id) {
 export function deleteRepair () {
   return deleteApi()
 }
+
+// 创建
+export function addRepairAction (data, orderId, type = 'attendance') {
+  return postApi(`order_flow/repair/${orderId}/${type}`, data)
+}
+
+// 更新
+export function updateRepairAction (data, id, orderId, type = 'attendance') {
+  return postApi(`order_flow/repair/${orderId}/${type}/${id}`, data)
+}
+
+// 删除
+export function deleteRepairAction (id, orderId, type = 'attendance') {
+  return deleteApi(`order_flow/repair/${orderId}/${type}/${id}`)
+}
