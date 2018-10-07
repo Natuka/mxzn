@@ -7,10 +7,12 @@ export default {
     }
   },
   methods: {
+    async formatData (data) {
+      return Promise.resolve(data)
+    },
     async setData (data, access = true) {
-      this.data = data
+      this.data = await this.formatData(data)
       this.access = access
-      console.log('access', access)
       await this.afterSetData()
     },
     // 设定数据
@@ -51,8 +53,6 @@ export default {
     },
     // 获取ref
     getModal () {
-      console.log('this.$refs', this.$refs)
-      console.log('this.refName', this.refName)
       return this.$refs[this.refName]
     },
     // 执行刷新

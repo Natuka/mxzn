@@ -23,7 +23,8 @@
             placeholder="受理时间"
             v-model="data.receive_at"
             @on-change="date => this.data.receive_at = date"
-          ></DatePicker></FormItem>
+          ></DatePicker>
+        </FormItem>
 
         <FormItem label="受理人员" prop="receive_staff_id">
           <remote-select
@@ -36,7 +37,7 @@
           ></remote-select>
         </FormItem>
 
-        <FormItem label="服务类别" prop="type" >
+        <FormItem label="服务类别" prop="type">
           <Select v-model="data.type" disabled>
             <Option
               v-for="(type, index) in select.type"
@@ -405,7 +406,6 @@ import * as validate from '@/libs/validate'
 
 const currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss')
 
-
 export default {
   name: 'repair-add',
   mixins: [ModalMixin, AreaMixin],
@@ -593,7 +593,7 @@ export default {
             if (valid) {
               resolve()
             } else {
-              reject()
+              reject(new Error('验证失败'))
             }
           })
         })
@@ -604,7 +604,7 @@ export default {
         await addRepair(this.data)
         this.withRefresh(e)
       }).catch(err => {
-        console.log('failed')
+        console.log('failed', err)
         this.closeLoading()
       })
     },
@@ -686,15 +686,17 @@ export default {
 </script>
 
 <style scoped>
-  .tabs >>> .ivu-tabs-bar{
+  .tabs >>> .ivu-tabs-bar {
     margin-bottom: 0px;
   }
-  .tabs >>> .ivu-tabs-content{
+
+  .tabs >>> .ivu-tabs-content {
     padding-top: 16px;
     border: 1px solid #dcdee2;
     border-top: 0;
   }
-  .tabs{
+
+  .tabs {
     margin-bottom: 16px;
   }
 </style>

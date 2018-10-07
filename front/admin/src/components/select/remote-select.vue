@@ -101,13 +101,15 @@ export default {
         return
       }
       let name = this.name
+      let info
       if (!this.multiple) {
-        let info = this.options.find(info => +info[name] === +value)
-        if (!info) {
-          return
-        }
+        info = this.options.find(info => +info[name] === +value)
       } else {
-        let info = this.options.find(info => value.indexOf(+info[name]) !== -1)
+        info = this.options.find(info => value.indexOf(+info[name]) !== -1)
+      }
+
+      if (!info) {
+        return
       }
 
       this.info = info
@@ -138,7 +140,6 @@ export default {
         ...this.params || {},
         [this.label]: value // 以label进行查询，跟界面上的一致
       })
-      console.log('data', data)
       return data.map(this.map)
     },
     onChange (value, info) {

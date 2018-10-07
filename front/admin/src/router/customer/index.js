@@ -7,7 +7,7 @@ export default [
     component: Main,
     meta: {
       access: ['customer_list'],
-      title: '客户管理',
+      title: '客户管理'
     },
     redirect: '/customer/doc',
     children: [
@@ -40,7 +40,7 @@ export default [
           access: ['customercontact_list']
         },
         component: () => import('@/view/customer-contact/index.vue')
-      },
+      }
     ]
   }
 ]

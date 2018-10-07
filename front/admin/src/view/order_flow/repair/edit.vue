@@ -14,7 +14,7 @@
             :label-width="90"
       >
         <FormItem label="服务单号" prop="number">
-          <Input v-model="data.number" placeholder="服务单号" disabled></Input>
+          <Input :value="data.number" placeholder="服务单号" disabled></Input>
         </FormItem>
 
         <FormItem label="受理时间" prop="receive_at">
@@ -23,7 +23,8 @@
             placeholder="受理时间"
             v-model="data.receive_at"
             @on-change="date => this.data.receive_at = date"
-          ></DatePicker></FormItem>
+          ></DatePicker>
+        </FormItem>
 
         <FormItem label="受理人员" prop="receive_staff_id">
           <remote-select
@@ -36,7 +37,7 @@
           ></remote-select>
         </FormItem>
 
-        <FormItem label="服务类别" prop="type" >
+        <FormItem label="服务类别" prop="type">
           <Select v-model="data.type" disabled>
             <Option
               v-for="(type, index) in select.type"
@@ -136,7 +137,7 @@
           <Input :value="equipmentType" placeholder="类别" readonly></Input>
         </FormItem>
 
-        <FormItem label="安装日期" prop="equipment.model">
+        <FormItem label="安装日期" prop="equipment.installation_date">
           <Input v-model="data.equipment.installation_date" placeholder="安装日期" readonly></Input>
         </FormItem>
 
@@ -147,7 +148,7 @@
         <FormItem label="确认工程师" prop="confirm_staff_id">
           <remote-select
             :init="data.confirm_staff_id"
-            :initData="init.confirm_staff"
+            :initData="init.confirmStaff"
             label="staff_name"
             url="select/engineer"
             @on-change="confirmStaffChange"
@@ -392,7 +393,6 @@ import ModalMixin from '@/mixins/modal'
 import AreaMixin from '@/mixins/area'
 
 import {addRepair} from '@/api/order_flow/repair'
-import {selectDepartment} from '@/api/select/department'
 import {selectCustomerContact} from '@/api/select/customer-contact'
 import {selectCustomerEquipment} from '@/api/select/customer-equipment'
 import * as orderConst from '@/constants/order_flow'
@@ -552,7 +552,10 @@ export default {
         organization: [],
         receiveStaff: [],
         engineers: [],
-        confirm_staff: []
+        confirm_staff: [],
+        confirmStaff: [],
+        fault: [],
+        machine_id: 0
       }
     }
   },
@@ -592,7 +595,7 @@ export default {
             if (valid) {
               resolve()
             } else {
-              reject()
+              reject(new Error('验证失败'))
             }
           })
         })
@@ -603,7 +606,7 @@ export default {
         await addRepair(this.data)
         this.withRefresh(e)
       }).catch(err => {
-        console.log('failed')
+        console.log('failed', err)
         this.closeLoading()
       })
     },
@@ -614,29 +617,44 @@ export default {
       console.log('currentDate', currentDate)
       return true
     },
-    async organizationChange (id) {
-      this.data.org_id = id
-      if (!id) {
-        return
+    async afterOpen () {
+      let data = this.data
+      console.log('data', data)
+      // TODO 加载工程师
+      if (data.engineers && data.engineers.length) {
+        this.init.engineers = data.engineers
+        this.data.engineers = data.engineers.map(info => info.id)
       }
-      let {data} = await selectDepartment(id)
-      this.select.department = data || []
-      if (data.length) {
-        let info = data.find(info => +info.id === +this.data.dep_id)
-        if (!info) {
-          this.data.dep_id = data[0].id
+      // 加载接收人员
+      if (data.receive_staff) {
+        this.init.receiveStaff = [{...data.receive_staff}]
+      }
+      // 加载接收人员
+      if (data.confirm_staff) {
+        this.init.confirmStaff = [{...data.confirm_staff}]
+      }
+      // 加载反馈人员
+      if (data.feedback_staff) {
+        this.init.feedback_staff_id = data.feedback_staff.id
+        this.select.customerConcatList = [{...data.feedback_staff}]
+        await this.feedbackStaffChangeData(data.feedback_staff)
+      }
+      // 加载客户
+      if (data.customer) {
+        this.init.customer = [{...data.customer}]
+        // await this.customerChangeData(data.customer)
+      }
+      // 加载故障
+      if (data.fault && data.fault.length) {
+        this.init.fault = [...data.fault]
+        let {equipment} = data.fault[0]
+        if (equipment) {
+          this.data.equipment = {...equipment}
+          console.log('this.data.equipment', this.data.equipment)
+          this.select.customerEquipmentList = [{...equipment}]
         }
       }
-    },
-    // 省变更
-    async provinceChange (provinceId) {
-      if (+this.data.province_id !== +provinceId) {
-        this.data.province_id = provinceId
-        let cities = await this.getCities(provinceId)
-        if (!this.hasArea(cities, this.data.city_id)) {
-          this.cityChange(cities[0].id)
-        }
-      }
+      return true
     },
     async customerChange (customerId) {
       this.data.customer_id = customerId
@@ -645,7 +663,6 @@ export default {
     async customerChangeData (customer) {
       this.data.customer_id = customer.id
       this.data.customer = customer
-      // console.log('customer', customer)
       let {data} = await selectCustomerContact(customer.id)
       this.select.customerConcatList = data
       let equipments = await selectCustomerEquipment(customer.id, '')
@@ -660,7 +677,6 @@ export default {
     },
     async confirmStaffChangeData (staff) {
       console.log('staff', staff)
-      // this.data.confirm_staff_id = staff
     },
     async machineChange (machine) {
       this.data.machine_id = machine.id
@@ -679,21 +695,32 @@ export default {
       this.data.engineer_id = engineers[0] ? engineers[0].id : 0
       this.data.engineers = engineers
       console.log('engineers', engineers)
+    },
+    async formatData (data) {
+      data.equipment = {}
+      if (data.fault && data.fault.length && data.fault[0].equipment) {
+        data.quipment = data.fault[0].equipment
+        this.init.machine_id = data.quipment.id
+      }
+
+      return Promise.resolve(data)
     }
   }
 }
 </script>
 
 <style scoped>
-  .tabs >>> .ivu-tabs-bar{
+  .tabs >>> .ivu-tabs-bar {
     margin-bottom: 0px;
   }
-  .tabs >>> .ivu-tabs-content{
+
+  .tabs >>> .ivu-tabs-content {
     padding-top: 16px;
     border: 1px solid #dcdee2;
     border-top: 0;
   }
-  .tabs{
+
+  .tabs {
     margin-bottom: 16px;
   }
 </style>
