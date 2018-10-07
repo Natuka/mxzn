@@ -27,7 +27,7 @@ class ChargeController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Order $order)
+    public function index(Request $request, ServiceOrder $order)
     {
         return success_json($this->getList($request, $order));
     }
@@ -37,7 +37,7 @@ class ChargeController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(CreateRequest $request, Order $order)
+    public function create(CreateRequest $request, ServiceOrder $order)
     {
         //
     }
@@ -82,7 +82,7 @@ class ChargeController extends BaseController
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Order $order)
+    public function update(Request $request, ServiceOrder $order)
     {
         //
     }

@@ -16,13 +16,13 @@ class DocController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Order $order, ServiceOrderDocument $doc)
+    public function index(Request $request, ServiceOrder $order, ServiceOrderDocument $doc)
     {
         $doc = $this->search($request, $order, $doc);
         return success_json($doc->paginate(config('pageinfo.per_page')));
     }
 
-    public function search(Request $request, Order $order, ServiceOrderDocument $doc)
+    public function search(Request $request, ServiceOrder $order, ServiceOrderDocument $doc)
     {
         if ($order) {
             $doc = $doc->where('service_order_id', (int)$order['id']);
@@ -82,7 +82,7 @@ class DocController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(CreateRequest $request, Order $order, ServiceOrderDocument $doc)
+    public function create(CreateRequest $request, ServiceOrder $order, ServiceOrderDocument $doc)
     {
         $data = $request->only([
             'document_id',
@@ -145,7 +145,7 @@ class DocController extends BaseController
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRequest $request, Order $order, ServiceOrderDocument $doc)
+    public function update(UpdateRequest $request, ServiceOrder $order, ServiceOrderDocument $doc)
     {
         $data = $request->only([
             'document_id',

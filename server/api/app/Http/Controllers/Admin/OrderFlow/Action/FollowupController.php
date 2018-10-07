@@ -16,13 +16,13 @@ class FollowupController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Order $order, ServiceOrderFollowup $followup)
+    public function index(Request $request, ServiceOrder $order, ServiceOrderFollowup $followup)
     {
         $followup = $this->search($request, $order, $followup);
         return success_json($followup->paginate(config('pageinfo.per_page')));
     }
 
-    public function search(Request $request, Order $order, ServiceOrderFollowup $followup)
+    public function search(Request $request, ServiceOrder $order, ServiceOrderFollowup $followup)
     {
         if ($order) {
             $followup = $followup->where('service_order_id', (int)$order['id']);
@@ -82,7 +82,7 @@ class FollowupController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(CreateRequest $request, Order $order, ServiceOrderFollowup $followup)
+    public function create(CreateRequest $request, ServiceOrder $order, ServiceOrderFollowup $followup)
     {
         $data = $request->only([
             'followup_staff',
@@ -149,7 +149,7 @@ class FollowupController extends BaseController
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRequest $request, Order $order, ServiceOrderFollowup $followup)
+    public function update(UpdateRequest $request, ServiceOrder $order, ServiceOrderFollowup $followup)
     {
         $data = $request->only([
             'followup_staff',

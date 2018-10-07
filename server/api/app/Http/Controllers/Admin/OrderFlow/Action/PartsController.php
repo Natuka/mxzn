@@ -16,13 +16,13 @@ class PartsController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Order $order, ServiceOrderPart $part)
+    public function index(Request $request, ServiceOrder $order, ServiceOrderPart $part)
     {
         $part = $this->search($request, $order, $part);
         return success_json($part->paginate(config('pageinfo.per_page')));
     }
 
-    public function search(Request $request, Order $order, ServiceOrderPart $part)
+    public function search(Request $request, ServiceOrder $order, ServiceOrderPart $part)
     {
         if ($order) {
             $part = $part->where('service_order_id', (int)$order['id']);
@@ -82,7 +82,7 @@ class PartsController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(CreateRequest $request, Order $order, ServiceOrderPart $part)
+    public function create(CreateRequest $request, ServiceOrder $order, ServiceOrderPart $part)
     {
         $data = $request->only([
             'base_part_id',
@@ -165,7 +165,7 @@ class PartsController extends BaseController
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRequest $request, Order $order, ServiceOrderPart $part)
+    public function update(UpdateRequest $request, ServiceOrder $order, ServiceOrderPart $part)
     {
         $data = $request->only([
             'base_part_id',
@@ -215,5 +215,5 @@ class PartsController extends BaseController
         $part->where('service_order_id', (int)$order['id'])->delete();
         return success_json($part, '删除成功');
     }
-    
+
 }

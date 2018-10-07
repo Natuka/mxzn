@@ -16,13 +16,13 @@ class AttendanceController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Order $order, ServiceOrderAttendance $attendance)
+    public function index(Request $request, ServiceOrder $order, ServiceOrderAttendance $attendance)
     {
         $attendance = $this->search($request, $order, $attendance);
         return success_json($attendance->paginate(config('pageinfo.per_page')));
     }
 
-    public function search(Request $request, Order $order, ServiceOrderAttendance $attendance)
+    public function search(Request $request, ServiceOrder $order, ServiceOrderAttendance $attendance)
     {
         if ($order) {
             $attendance = $attendance->where('service_order_id', (int)$order['id']);
@@ -82,7 +82,7 @@ class AttendanceController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(CreateRequest $request, Order $order, ServiceOrderAttendance $attendance)
+    public function create(CreateRequest $request, ServiceOrder $order, ServiceOrderAttendance $attendance)
     {
         $data = $request->only([
             'staff_id',
@@ -149,7 +149,7 @@ class AttendanceController extends BaseController
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRequest $request, Order $order, ServiceOrderAttendance $attendance)
+    public function update(UpdateRequest $request, ServiceOrder $order, ServiceOrderAttendance $attendance)
     {
         $data = $request->only([
             'staff_id',
