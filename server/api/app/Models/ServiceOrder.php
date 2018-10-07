@@ -72,7 +72,7 @@ class ServiceOrder extends Model
      */
     public function confirmStaff()
     {
-        return $this->belongsTo(Staff::class, 'confirm_staff_id');
+        return $this->belongsTo(Engineer::class, 'confirm_staff_id');
     }
 
     public function fault()
