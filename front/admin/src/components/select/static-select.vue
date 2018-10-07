@@ -33,6 +33,12 @@ export default {
       default () {
         return 'name'
       }
+    },
+    keyName: {
+      type: String,
+      default () {
+        return 'id'
+      }
     }
   },
   data () {
@@ -42,12 +48,14 @@ export default {
     }
   },
   methods: {
-    onChange (value) {
+    onChange (value, info) {
       this.$emit('on-change', value)
+      this.$emit('on-change-data', info)
     },
     setInfo (value) {
       let info = this.data.find(info => +info.id === +value)
       if (!info) {
+        this.info = {}
         return
       }
       this.info = info
@@ -59,13 +67,18 @@ export default {
     },
     info (info) {
       if (info) {
-        this.onChange(info.id)
+        let keyName = this.keyName
+        this.onChange(info[keyName], info)
+      } else {
+        this.onChange(0, {})
       }
     },
     // 如果值有初始化时,那么也可以进行操作
     data (data) {
       if (data && data.length && this.init) {
         this.setInfo(this.init)
+      } else if (data && !data.length) {
+        this.setInfo(0)
       }
     }
   }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Engineer extends Model
 {
 
-    protected $table = 'service_order_engineers';
+    protected $table = 'base_engineers';
     //
     public function user()
     {

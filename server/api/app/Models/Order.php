@@ -31,21 +31,21 @@ class Order extends Model
      */
     public function engineers()
     {
-        return $this->hasMany(Engineer::class, 'service_order_id')->with('staff');
+        return $this->hasMany(OrderEngineer::class, 'service_order_id')->with('staff');
 //        return $this->belongsToMany(Engineer::class, 'order_service_engineer', 'order_service_id', 'engineer_id');
     }
 
     /**
-     * 反馈人人员
+     * 反馈人人员，客户关联的联系人
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function feedbackStaff()
     {
-        return $this->belongsTo(Staff::class, 'feedback_staff_id');
+        return $this->belongsTo(CustomerContact::class, 'feedback_staff_id');
     }
 
     /**
-     * 接收人员
+     * 接收人员, 内部员工
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function receiveStaff()
@@ -54,7 +54,7 @@ class Order extends Model
     }
 
     /**
-     * 确认
+     * 确认人员
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function confirmStaff()
