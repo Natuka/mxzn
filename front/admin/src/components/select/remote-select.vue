@@ -105,7 +105,8 @@ export default {
       if (!this.multiple) {
         info = this.options.find(info => +info[name] === +value)
       } else {
-        info = this.options.find(info => value.indexOf(+info[name]) !== -1)
+        console.log('value', value)
+        info = this.options.filter(info => value.indexOf(+info[name]) !== -1)
       }
 
       if (!info) {

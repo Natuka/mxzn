@@ -623,7 +623,9 @@ export default {
       // TODO 加载工程师
       if (data.engineers && data.engineers.length) {
         this.init.engineers = data.engineers
-        this.data.engineers = data.engineers.map(info => info.id)
+        this.data.engineer_ids = data.engineers.map(info => info.id)
+        console.log('this.data.engineer_ids', this.data.engineer_ids)
+        console.log('this.init.engineers', this.init.engineers)
       }
       // 加载接收人员
       if (data.receive_staff) {
@@ -650,7 +652,6 @@ export default {
         let {equipment} = data.fault[0]
         if (equipment) {
           this.data.equipment = {...equipment}
-          console.log('this.data.equipment', this.data.equipment)
           this.select.customerEquipmentList = [{...equipment}]
         }
       }
@@ -676,7 +677,6 @@ export default {
       this.data.confirm_staff_id = staffId
     },
     async confirmStaffChangeData (staff) {
-      console.log('staff', staff)
     },
     async machineChange (machine) {
       this.data.machine_id = machine.id
