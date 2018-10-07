@@ -16,13 +16,13 @@ class RepairsController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Order $order, ServiceOrderRepair $repair)
+    public function index(Request $request, ServiceOrder $order, ServiceOrderRepair $repair)
     {
         $repair = $this->search($request, $order, $repair);
         return success_json($repair->paginate(config('pageinfo.per_page')));
     }
 
-    public function search(Request $request, Order $order, ServiceOrderRepair $repair)
+    public function search(Request $request, ServiceOrder $order, ServiceOrderRepair $repair)
     {
         if ($order) {
             $repair = $repair->where('service_order_id', (int)$order['id']);
@@ -82,7 +82,7 @@ class RepairsController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(CreateRequest $request, Order $order, ServiceOrderRepair $repair)
+    public function create(CreateRequest $request, ServiceOrder $order, ServiceOrderRepair $repair)
     {
         $data = $request->only([
             'staff_id',
@@ -158,7 +158,7 @@ class RepairsController extends BaseController
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRequest $request, Order $order, ServiceOrderRepair $repair)
+    public function update(UpdateRequest $request, ServiceOrder $order, ServiceOrderRepair $repair)
     {
         $data = $request->only([
             'staff_id',

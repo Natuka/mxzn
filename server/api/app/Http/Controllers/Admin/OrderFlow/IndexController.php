@@ -17,7 +17,7 @@ class IndexController extends BaseController
      */
     public function index()
     {
-        return Order::with([
+        return ServiceOrder::with([
             'documents',
             'customer',
             'engineers',
@@ -77,7 +77,7 @@ class IndexController extends BaseController
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Order $order)
+    public function update(Request $request, ServiceOrder $order)
     {
         //
     }

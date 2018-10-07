@@ -16,13 +16,13 @@ class ServiceController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Order $order, ServiceOrderService $service)
+    public function index(Request $request, ServiceOrder $order, ServiceOrderService $service)
     {
         $service = $this->search($request, $order, $service);
         return success_json($service->paginate(config('pageinfo.per_page')));
     }
 
-    public function search(Request $request, Order $order, ServiceOrderService $service)
+    public function search(Request $request, ServiceOrder $order, ServiceOrderService $service)
     {
         if ($order) {
             $service = $service->where('service_order_id', (int)$order['id']);
@@ -82,7 +82,7 @@ class ServiceController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(CreateRequest $request, Order $order, ServiceOrderService $service)
+    public function create(CreateRequest $request, ServiceOrder $order, ServiceOrderService $service)
     {
         $data = $request->only([
             'service_id',
@@ -169,7 +169,7 @@ class ServiceController extends BaseController
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRequest $request, Order $order, ServiceOrderService $service)
+    public function update(UpdateRequest $request, ServiceOrder $order, ServiceOrderService $service)
     {
         $data = $request->only([
             'service_id',

@@ -16,13 +16,13 @@ class ConfirmController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Order $order, ServiceOrderConfirm $confirm)
+    public function index(Request $request, ServiceOrder $order, ServiceOrderConfirm $confirm)
     {
         $confirm = $this->search($request, $order, $confirm);
         return success_json($confirm->paginate(config('pageinfo.per_page')));
     }
 
-    public function search(Request $request, Order $order, ServiceOrderConfirm $confirm)
+    public function search(Request $request, ServiceOrder $order, ServiceOrderConfirm $confirm)
     {
         if ($order) {
             $confirm = $confirm->where('service_order_id', (int)$order['id']);
@@ -82,7 +82,7 @@ class ConfirmController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(CreateRequest $request, Order $order, ServiceOrderConfirm $confirm)
+    public function create(CreateRequest $request, ServiceOrder $order, ServiceOrderConfirm $confirm)
     {
         $data = $request->only([
             'is_solve',
@@ -156,7 +156,7 @@ class ConfirmController extends BaseController
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRequest $request, Order $order, ServiceOrderConfirm $confirm)
+    public function update(UpdateRequest $request, ServiceOrder $order, ServiceOrderConfirm $confirm)
     {
         $data = $request->only([
             'is_solve',
