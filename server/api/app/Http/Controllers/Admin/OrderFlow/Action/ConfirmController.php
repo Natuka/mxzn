@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin\OrderFlow\Action;
 
 use App\Http\Requests\Admin\OrderAction\Confirm\CreateRequest;
 use App\Http\Requests\Admin\OrderAction\Confirm\UpdateRequest;
-use App\Models\Order;
+
+use App\Models\ServiceOrder;
 use App\Models\ServiceOrderConfirm;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class ConfirmController extends BaseController
 {
@@ -22,6 +22,13 @@ class ConfirmController extends BaseController
         return success_json($confirm->paginate(config('pageinfo.per_page')));
     }
 
+    /**
+     * 查询
+     * @param Request $request
+     * @param ServiceOrder $order
+     * @param ServiceOrderConfirm $confirm
+     * @return ServiceOrderConfirm
+     */
     public function search(Request $request, ServiceOrder $order, ServiceOrderConfirm $confirm)
     {
         if ($order) {
@@ -78,9 +85,11 @@ class ConfirmController extends BaseController
 
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * 创建
+     * @param CreateRequest $request
+     * @param ServiceOrder $order
+     * @param ServiceOrderConfirm $confirm
+     * @return \Illuminate\Http\JsonResponse
      */
     public function create(CreateRequest $request, ServiceOrder $order, ServiceOrderConfirm $confirm)
     {
@@ -116,44 +125,10 @@ class ConfirmController extends BaseController
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Order $order)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Order  $order
+     * @param  \App\Models\ServiceOrder  $order
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateRequest $request, ServiceOrder $order, ServiceOrderConfirm $confirm)
@@ -189,10 +164,10 @@ class ConfirmController extends BaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Order  $order
+     * @param  \App\Models\ServiceOrder  $order
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Order $order, ServiceOrderConfirm $confirm)
+    public function destroy(ServiceOrder $order, ServiceOrderConfirm $confirm)
     {
         $confirm->where('service_order_id', (int)$order['id'])->delete();
         return success_json($confirm, '删除成功');

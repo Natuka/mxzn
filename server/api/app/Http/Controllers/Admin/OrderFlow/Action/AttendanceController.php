@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Admin\OrderFlow\Action;
 
 use App\Http\Requests\Admin\OrderAction\Attendance\CreateRequest;
 use App\Http\Requests\Admin\OrderAction\Attendance\UpdateRequest;
-use App\Models\Order;
+use App\Models\ServiceOrder;
 use App\Models\ServiceOrderAttendance;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class AttendanceController extends BaseController
 {
@@ -78,9 +77,11 @@ class AttendanceController extends BaseController
 
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * 创建
+     * @param CreateRequest $request
+     * @param ServiceOrder $order
+     * @param ServiceOrderAttendance $attendance
+     * @return \Illuminate\Http\JsonResponse
      */
     public function create(CreateRequest $request, ServiceOrder $order, ServiceOrderAttendance $attendance)
     {
@@ -109,45 +110,11 @@ class AttendanceController extends BaseController
     }
 
     /**
-     * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
+     * @param UpdateRequest $request
+     * @param ServiceOrder $order
+     * @param ServiceOrderAttendance $attendance
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateRequest $request, ServiceOrder $order, ServiceOrderAttendance $attendance)
     {
@@ -171,12 +138,12 @@ class AttendanceController extends BaseController
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
+     * 删除
+     * @param ServiceOrder $order
+     * @param ServiceOrderAttendance $attendance
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Order $order, ServiceOrderAttendance $attendance)
+    public function destroy(ServiceOrder $order, ServiceOrderAttendance $attendance)
     {
         $attendance->where('service_order_id', (int)$order['id'])->delete();
         return success_json($attendance, '删除成功');

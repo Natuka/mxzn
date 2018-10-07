@@ -233,6 +233,9 @@ class RepairController extends BaseController
      */
     public function destroy(Order $order)
     {
-        //
+        if (!$order || $order->id <= 0) {
+            return error_json('工单不存在');
+        }
+
     }
 }

@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Admin\OrderFlow\Action;
 
 use App\Http\Requests\Admin\OrderAction\Service\CreateRequest;
 use App\Http\Requests\Admin\OrderAction\Service\UpdateRequest;
-use App\Models\Order;
 use App\Models\ServiceOrderService;
+use App\Models\ServiceOrder;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class ServiceController extends BaseController
 {
@@ -141,32 +140,10 @@ class ServiceController extends BaseController
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Order $order)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Order  $order
+     * @param  \App\Models\ServiceOrder  $order
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateRequest $request, ServiceOrder $order, ServiceOrderService $service)
@@ -215,10 +192,10 @@ class ServiceController extends BaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Order  $order
+     * @param  \App\Models\ServiceOrder  $order
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Order $order, ServiceOrderService $service)
+    public function destroy(ServiceOrder $order, ServiceOrderService $service)
     {
         $service->where('service_order_id', (int)$order['id'])->delete();
         return success_json($service, '删除成功');

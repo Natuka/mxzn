@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Admin\OrderFlow\Action;
 
 use App\Http\Requests\Admin\OrderAction\Parts\CreateRequest;
 use App\Http\Requests\Admin\OrderAction\Parts\UpdateRequest;
-use App\Models\Order;
+use App\Models\ServiceOrder;
 use App\Models\ServiceOrderPart;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class PartsController extends BaseController
 {
@@ -125,40 +124,6 @@ class PartsController extends BaseController
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Order $order)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -182,7 +147,6 @@ class PartsController extends BaseController
             'warranty_months',
             'warranty_date',
         ]);
-        //$request['source'] = $request->get('source', 3);
 
         $data['base_part_id'] = (int)$data['base_part_id'];
         $data['base_code_id'] = (int)$data['base_code_id'];
@@ -207,10 +171,10 @@ class PartsController extends BaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Order  $order
+     * @param  \App\Models\ServiceOrder  $order
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Order $order, ServiceOrderPart $part)
+    public function destroy(ServiceOrder $order, ServiceOrderPart $part)
     {
         $part->where('service_order_id', (int)$order['id'])->delete();
         return success_json($part, '删除成功');

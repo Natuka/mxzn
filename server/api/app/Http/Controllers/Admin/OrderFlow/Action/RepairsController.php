@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Admin\OrderFlow\Action;
 
 use App\Http\Requests\Admin\OrderAction\Repairs\CreateRequest;
 use App\Http\Requests\Admin\OrderAction\Repairs\UpdateRequest;
-use App\Models\Order;
+use App\Models\ServiceOrder;
 use App\Models\ServiceOrderRepair;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class RepairsController extends BaseController
 {
@@ -130,28 +129,6 @@ class RepairsController extends BaseController
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Order $order)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -193,10 +170,10 @@ class RepairsController extends BaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Order  $order
+     * @param  \App\Models\ServiceOrder  $order
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Order $order, ServiceOrderRepair $repair)
+    public function destroy(ServiceOrder $order, ServiceOrderRepair $repair)
     {
         $repair->where('service_order_id', (int)$order['id'])->delete();
         return success_json($repair, '删除成功');
