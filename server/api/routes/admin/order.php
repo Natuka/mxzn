@@ -26,7 +26,6 @@ Route::group([
         'visible' => true,
     ]);
 
-
     Route::group(['prefix' => 'repair'], function () {
         Route::get('default', [
             'uses' => 'RepairController@default',

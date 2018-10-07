@@ -4,12 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class ServiceOrder extends Model
 {
-    //
-    protected $table = 'service_orders';
-
-
     protected $appends = [];
 
     /**
@@ -19,12 +15,13 @@ class Order extends Model
      */
     public static function createNumber($prefix = '')
     {
+        $suffix = 1;
         $number = self::where('number', 'like', like_right($prefix))->orderBy('id', 'desc')->value('number');
         if ($number) {
-            return substr($number, strpos($number, '-') + 1) + 1;
+            $suffix = substr($number, strpos($number, '-') + 1) + 1;
         }
 
-        return sprintf('%s-%04d', $prefix, 1);
+        return sprintf('%s-%04d', $prefix, $suffix);
     }
 
     /**
@@ -80,6 +77,6 @@ class Order extends Model
 
     public function fault()
     {
-        return $this->hasMany(OrderMachineFault::class, 'service_order_id');
+        return $this->hasMany(ServiceOrderFault::class, 'service_order_id');
     }
 }

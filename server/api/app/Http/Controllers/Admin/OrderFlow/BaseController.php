@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\Admin\OrderFlow;
 
-use App\Models\Order;
-use App\Models\Staff;
+use App\Models\ServiceOrder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -25,6 +24,12 @@ class BaseController extends Controller
     protected $type = 0;
 
     /**
+     * 服务类别对应的代号
+     * @var string
+     */
+    protected $typeWord = '';
+
+    /**
      * 每页20
      * @var integer
      */
@@ -38,7 +43,7 @@ class BaseController extends Controller
 
     const USER_OK = 0;
 
-    public function __construct(Request $request, Order $order)
+    public function __construct(Request $request, ServiceOrder $order)
     {
         $this->request = $request;
         $this->order = $order;
@@ -52,7 +57,7 @@ class BaseController extends Controller
      * @param  [type] $order         [description]
      * @return [type]                 [description]
      */
-    public function where(Request $request, Order $order)
+    public function where(Request $request, ServiceOrder $order)
     {
         $type = $request->get('type', 0); //服务类别
         $orderField = $request->get('orderField', 3); // 排序栏位
@@ -93,10 +98,20 @@ class BaseController extends Controller
 //            $order = $order->orderBy($orderFieldArray[$orderField], $orderByArray[$orderBy]);
 //        }
 
+        $order = $order->with([
+            'fault',
+            'documents',
+            'customer',
+            'engineers',
+            'feedbackStaff',
+            'receiveStaff',
+            'confirmStaff',
+        ]);
+
         return $order;
     }
 
-    public function getList(Request $request, Order $order)
+    public function getList(Request $request, ServiceOrder $order)
     {
         $order = $this->where($request, $order);
         if (0 < $this->type) {
@@ -117,5 +132,15 @@ class BaseController extends Controller
     public function renderResource($list)
     {
         return $list;
+    }
+
+    /**
+     * 工单编号,R1809-0001,R+年份2码+月份2码+流水码4码
+     * @return string
+     */
+    public function createNumber()
+    {
+        $prefix = sprintf('%s%s', $this->typeWord, date('ym'));
+        return ServiceOrder::createNumber($prefix);
     }
 }
