@@ -105,7 +105,6 @@ export default {
       if (!this.multiple) {
         info = this.options.find(info => +info[name] === +value)
       } else {
-        console.log('value', value)
         info = this.options.filter(info => value.indexOf(+info[name]) !== -1)
       }
 
@@ -159,7 +158,6 @@ export default {
     },
     // 初始化数据
     initData (data) {
-      console.log('data', data)
       this.options = data || []
       if (this.options.length) {
         this.setInfo(this.init)

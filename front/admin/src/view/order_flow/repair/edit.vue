@@ -21,8 +21,9 @@
           <DatePicker
             type="datetime"
             placeholder="受理时间"
-            v-model="data.receive_at"
+            :value="data.receive_at"
             @on-change="date => this.data.receive_at = date"
+            format="yyyy-MM-dd HH:mm:ss"
           ></DatePicker>
         </FormItem>
 
@@ -104,8 +105,9 @@
           <DatePicker
             type="datetime"
             placeholder="报修时间"
-            v-model="data.feedback_at"
+            :value="data.feedback_at"
             @on-change="date => this.data.feedback_at = date"
+            format="yyyy-MM-dd HH:mm:ss"
           ></DatePicker>
         </FormItem>
 
@@ -160,8 +162,9 @@
           <DatePicker
             type="datetime"
             placeholder="确认时间"
-            v-model="data.confirm_at"
+            :value="data.confirm_at"
             @on-change="date => this.data.confirm_at = date"
+            format="yyyy-MM-dd HH:mm:ss"
           ></DatePicker>
         </FormItem>
       </Form>
@@ -340,9 +343,9 @@
           <DatePicker
             type="datetime"
             placeholder="预计上门时间"
-            v-model="data.plan_out_at"
+            :value="data.plan_out_at"
             @on-change="date => this.data.plan_out_at = date"
-            :start-date="new Date()"
+            format="yyyy-MM-dd HH:mm:ss"
           ></DatePicker>
         </FormItem>
 
@@ -350,9 +353,9 @@
           <DatePicker
             type="datetime"
             placeholder="预计完成时间"
-            v-model="data.plan_finish_at"
+            :value="data.plan_finish_at"
             @on-change="date => this.data.plan_finish_at = date"
-            :start-date="new Date()"
+            format="yyyy-MM-dd HH:mm:ss"
           ></DatePicker>
         </FormItem>
 
@@ -392,7 +395,7 @@
 import ModalMixin from '@/mixins/modal'
 import AreaMixin from '@/mixins/area'
 
-import {addRepair} from '@/api/order_flow/repair'
+import {updateRepair} from '@/api/order_flow/repair'
 import {selectCustomerContact} from '@/api/select/customer-contact'
 import {selectCustomerEquipment} from '@/api/select/customer-equipment'
 import * as orderConst from '@/constants/order_flow'
@@ -412,6 +415,7 @@ export default {
     return {
       tabsIndex: '0',
       data: {
+        id: 0,
         customer_id: 0,
         feedback_staff_id: 0,
         receive_staff_id: 0,
@@ -602,8 +606,7 @@ export default {
       })
 
       Promise.all(promises).then(async () => {
-        console.log('success')
-        await addRepair(this.data)
+        await updateRepair(this.data, this.data.id)
         this.withRefresh(e)
       }).catch(err => {
         console.log('failed', err)
@@ -614,18 +617,14 @@ export default {
       e()
     },
     async beforeOpen () {
-      console.log('currentDate', currentDate)
       return true
     },
     async afterOpen () {
       let data = this.data
-      console.log('data', data)
       // TODO 加载工程师
       if (data.engineers && data.engineers.length) {
         this.init.engineers = data.engineers
         this.data.engineer_ids = data.engineers.map(info => info.id)
-        console.log('this.data.engineer_ids', this.data.engineer_ids)
-        console.log('this.init.engineers', this.init.engineers)
       }
       // 加载接收人员
       if (data.receive_staff) {
@@ -694,15 +693,15 @@ export default {
     async engineerChangeData (engineers = []) {
       this.data.engineer_id = engineers[0] ? engineers[0].id : 0
       this.data.engineers = engineers
-      console.log('engineers', engineers)
     },
     async formatData (data) {
+      data = JSON.parse(JSON.stringify(data))
       data.equipment = {}
       if (data.fault && data.fault.length && data.fault[0].equipment) {
         data.quipment = data.fault[0].equipment
         this.init.machine_id = data.quipment.id
+        data.fault = data.fault[0]
       }
-
       return Promise.resolve(data)
     }
   }

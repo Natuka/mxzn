@@ -21,7 +21,7 @@
           <DatePicker
             type="datetime"
             placeholder="受理时间"
-            v-model="data.receive_at"
+            :value="data.receive_at"
             @on-change="date => this.data.receive_at = date"
           ></DatePicker>
         </FormItem>
@@ -104,7 +104,7 @@
           <DatePicker
             type="datetime"
             placeholder="报修时间"
-            v-model="data.feedback_at"
+            :value="data.feedback_at"
             @on-change="date => this.data.feedback_at = date"
           ></DatePicker>
         </FormItem>
@@ -160,7 +160,7 @@
           <DatePicker
             type="datetime"
             placeholder="确认时间"
-            v-model="data.confirm_at"
+            :value="data.confirm_at"
             @on-change="date => this.data.confirm_at = date"
           ></DatePicker>
         </FormItem>
@@ -340,7 +340,7 @@
           <DatePicker
             type="datetime"
             placeholder="预计上门时间"
-            v-model="data.plan_out_at"
+            :value="data.plan_out_at"
             @on-change="date => this.data.plan_out_at = date"
             :start-date="new Date()"
           ></DatePicker>
@@ -350,7 +350,7 @@
           <DatePicker
             type="datetime"
             placeholder="预计完成时间"
-            v-model="data.plan_finish_at"
+            :value="data.plan_finish_at"
             @on-change="date => this.data.plan_finish_at = date"
             :start-date="new Date()"
           ></DatePicker>
