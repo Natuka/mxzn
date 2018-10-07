@@ -16,7 +16,8 @@ export default {
         add: '',
         edit: '',
         view: ''
-      }
+      },
+      lock: false
     }
   },
   methods: {
@@ -105,6 +106,27 @@ export default {
         this.refreshWithPage()
       } catch (e) {
         console.log('e', e)
+      }
+    },
+    delayLock (fn = () => {}, delay = 50) {
+      return (...args) => {
+        const innerFn = () => fn(...args)
+        this.$refs.tables.delayLock(innerFn, delay)
+      }
+    },
+    fnWithoutOpenRow (fn) {
+      return (...args) => {
+        this.runWithoutOpenRow(fn, args)
+      }
+    },
+    runWithoutOpenRow (fn, args = []) {
+      try {
+        this.lock = true
+        fn(...args)
+      } finally {
+        setTimeout(() => {
+          this.lock = false
+        }, 50)
       }
     }
   },

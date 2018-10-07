@@ -6,6 +6,7 @@
     :label="label"
     @search="onSearch"
     ref="ref"
+    :multiple="multiple"
   >
     <span slot="no-options">未匹配到数据</span>
     <Spin v-show="loading" slot="spinner"></Spin>
@@ -21,7 +22,7 @@ export default {
   props: {
     // 初始化值
     init: {
-      type: [Number, String],
+      type: [Number, String, Array],
       default: 0
     },
     // 调用url
@@ -79,12 +80,16 @@ export default {
       default (data) {
         return data
       }
+    },
+    multiple: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
     return {
       value: 0,
-      info: {},
+      info: [],
       model: [],
       options: [],
       loading: false
@@ -96,10 +101,15 @@ export default {
         return
       }
       let name = this.name
-      let info = this.options.find(info => +info[name] === +value)
-      if (!info) {
-        return
+      if (!this.multiple) {
+        let info = this.options.find(info => +info[name] === +value)
+        if (!info) {
+          return
+        }
+      } else {
+        let info = this.options.find(info => value.indexOf(+info[name]) !== -1)
       }
+
       this.info = info
     },
     async onSearch (search, loading) {

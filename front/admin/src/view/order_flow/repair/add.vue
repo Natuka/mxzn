@@ -314,8 +314,9 @@
 
         <FormItem label="维修工程师" props="engineer_id">
           <remote-select
-            :init="data.engineer_id"
+            :init="data.engineer_ids"
             :initData="init.engineers"
+            :multiple="true"
             label="staff_name"
             url="select/engineer"
             @on-change="engineerChange"
@@ -434,7 +435,8 @@ export default {
         level: 0,
         address: '',
         remark: '',
-        engineer: {},
+        engineers: [],
+        engineer_ids: [], // 工程师列表
         machine_id: 0,
         customer: {
           id: 0,
@@ -658,6 +660,7 @@ export default {
       this.data.confirm_staff_id = staffId
     },
     async confirmStaffChangeData (staff) {
+      console.log('staff', staff)
       // this.data.confirm_staff_id = staff
     },
     async machineChange (machine) {
@@ -673,9 +676,10 @@ export default {
     },
     async engineerChange () {
     },
-    async engineerChangeData (engineer) {
-      this.data.engineer_id = engineer.id
-      this.data.engineer = engineer
+    async engineerChangeData (engineers = []) {
+      this.data.engineer_id = engineers[0] ? engineers[0].id : 0
+      this.data.engineers = engineers
+      console.log('engineers', engineers)
     }
   }
 }

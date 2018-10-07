@@ -148,7 +148,8 @@ export default {
       edittingCellId: '',
       edittingText: '',
       searchValue: '',
-      searchKey: ''
+      searchKey: '',
+      lock: false
     }
   },
   methods: {
@@ -228,34 +229,44 @@ export default {
       this.$refs.talbesMain.clearCurrentRow()
     },
     onCurrentChange (currentRow, oldCurrentRow) {
-      this.$emit('on-current-change', currentRow, oldCurrentRow)
+      this.lock || this.$emit('on-current-change', currentRow, oldCurrentRow)
     },
     onSelect (selection, row) {
-      this.$emit('on-select', selection, row)
+      this.lock || this.$emit('on-select', selection, row)
     },
     onSelectCancel (selection, row) {
-      this.$emit('on-select-cancel', selection, row)
+      this.lock || this.$emit('on-select-cancel', selection, row)
     },
     onSelectAll (selection) {
-      this.$emit('on-select-all', selection)
+      this.lock || this.$emit('on-select-all', selection)
     },
     onSelectionChange (selection) {
-      this.$emit('on-selection-change', selection)
+      this.lock || this.$emit('on-selection-change', selection)
     },
     onSortChange (column, key, order) {
-      this.$emit('on-sort-change', column, key, order)
+      this.lock || this.$emit('on-sort-change', column, key, order)
     },
     onFilterChange (row) {
-      this.$emit('on-filter-change', row)
+      this.lock || this.$emit('on-filter-change', row)
     },
     onRowClick (row, index) {
-      this.$emit('on-row-click', row, index)
+      this.lock || this.$emit('on-row-click', row, index)
     },
     onRowDblclick (row, index) {
-      this.$emit('on-row-dblclick', row, index)
+      this.lock || this.$emit('on-row-dblclick', row, index)
     },
     onExpand (row, status) {
-      this.$emit('on-expand', row, status)
+      this.lock || this.$emit('on-expand', row, status)
+    },
+    delayLock (fn = () => {}, delay = 50) {
+      try {
+        this.lock = true
+        fn()
+      } finally {
+        setTimeout(_ => {
+          this.lock = false
+        }, delay)
+      }
     }
   },
   watch: {

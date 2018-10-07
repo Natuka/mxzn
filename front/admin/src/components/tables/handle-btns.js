@@ -15,6 +15,11 @@ const btns = {
         props: {
           type: 'text',
           ghost: true
+        },
+        on: {
+          click: (e) => {
+            vm.delayLock()
+          }
         }
       }, [
         h('Icon', {

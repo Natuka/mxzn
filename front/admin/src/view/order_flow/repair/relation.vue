@@ -89,7 +89,7 @@ export default {
     // 刷新
     refresh () {
       let ref = this.onClick(this.name)
-      consle.log('ref', ref)
+      console.log('ref', ref)
     },
     // 设置数据
     setData (data, index) {

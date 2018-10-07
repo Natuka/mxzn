@@ -96,7 +96,7 @@ export default {
           render: this.constRender('type', orderConst.ORDER_TYPE)
         },
         {
-          width: 120,
+          width: 160,
           title: '受理时间',
           key: 'receive_at',
           sortable: false
@@ -117,13 +117,22 @@ export default {
           width: 120,
           title: '工程师',
           key: 'engineer_ids',
-          sortable: false
+          sortable: false,
+          render: (h, {row}) => {
+            if (row.engineers.length <= 0) {
+              return h('span', '')
+            }
+            return h('span', row.engineers.map(info => info.staff_name).join(', '))
+          }
         },
         {
           width: 120,
           title: '客户名称',
           key: 'customer_id',
-          sortable: false
+          sortable: false,
+          render: (h, {row}) => {
+            return h('span', row.customer ? row.customer.name : '')
+          }
         },
         {
           width: 120,
@@ -135,25 +144,43 @@ export default {
         {
           width: 160,
           title: '故障描述',
-          key: 'created_at',
-          sortable: false
+          key: 'desc',
+          sortable: false,
+          render: (h, {row}) => {
+            if (row.fault.length <= 0) {
+              return h('span', '')
+            }
+            return h('span', row.fault.map(info => info.desc).join(', '))
+          }
         },
         {
           width: 160,
           title: '报修人员',
           key: 'feedback_staff_id',
-          sortable: false
+          sortable: false,
+          render: (h, {row}) => {
+            if (!row.feedback_staff) {
+              return h('span', '')
+            }
+            return h('span', row.feedback_staff.name)
+          }
         },
         {
           width: 160,
           title: '电话',
           key: 'created_at',
-          sortable: false
+          sortable: false,
+          render: (h, {row}) => {
+            if (!row.feedback_staff) {
+              return h('span', '')
+            }
+            return h('span', row.feedback_staff.mobile)
+          }
         },
         {
           width: 160,
           title: '制单人员',
-          key: 'created_at',
+          key: 'created_by',
           sortable: false
         },
         {
@@ -162,13 +189,13 @@ export default {
           key: 'created_at',
           sortable: false
         },
-        {
-          width: 160,
-          title: '单据状态',
-          key: 'status',
-          sortable: false,
-          render: this.constRender('status', orderConst.ORDER_STATUS)
-        },
+        // {
+        //   width: 160,
+        //   title: '单据状态',
+        //   key: 'status',
+        //   sortable: false,
+        //   render: this.constRender('status', orderConst.ORDER_STATUS)
+        // },
         {
           fixed: 'right',
           width: 250,
@@ -196,7 +223,13 @@ export default {
                     }
                   }
                 },
-                [h('Button', '删除')]
+                [h('Button', {
+                  nativeOn: {
+                    click: this.delayLock((e) => {
+                      console.log('open poper-show')
+                    })
+                  }
+                }, '删除')]
               )
             },
             (h, params, vm) => {
@@ -213,9 +246,9 @@ export default {
                     marginLeft: '.6rem'
                   },
                   on: {
-                    click: () => {
+                    click: this.delayLock(() => {
                       this.onEdit(params.row)
-                    }
+                    })
                   }
                 },
                 '修改'
