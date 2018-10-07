@@ -39,7 +39,7 @@ export default [
           title: '客户联系人',
           access: ['customercontact_list']
         },
-        component: () => import('@/view/customercontact/index.vue')
+        component: () => import('@/view/customer-contact/index.vue')
       },
     ]
   }

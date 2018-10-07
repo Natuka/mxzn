@@ -131,8 +131,9 @@ export default {
       console.log('data', data)
       return data.map(this.map)
     },
-    onChange (value) {
+    onChange (value, info) {
       this.$emit('on-change', value)
+      this.$emit('on-change-data', info)
     }
   },
   watch: {
@@ -141,7 +142,7 @@ export default {
     },
     info (info) {
       if (info) {
-        this.onChange(info.id)
+        this.onChange(info.id, info)
       }
     },
     // 初始化数据

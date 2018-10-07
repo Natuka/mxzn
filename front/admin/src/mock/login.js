@@ -89,7 +89,10 @@ const USER_MAP = {
       'machine_price',
       'machine_customer',
       'machine_qrcode',
-      'machine_stock'
+      'machine_stock',
+
+      'customer_equipment',
+
     ], // 权限列表
     token: 'super_admin',
     avator: 'https://file.iviewui.com/dist/a0e88e83800f138b94d2414621bd9704.png'

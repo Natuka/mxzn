@@ -17,17 +17,56 @@
           <Input v-model="data.number" placeholder="服务单号" disabled></Input>
         </FormItem>
 
-        <FormItem label="受理时间" prop="birthday">
+        <FormItem label="受理时间" prop="receive_at">
           <DatePicker
             type="datetime"
             placeholder="受理时间"
-            v-model="data.birthday"
-            @on-change="date => this.data.birthday = date"
-          ></DatePicker>
+            v-model="data.receive_at"
+            @on-change="date => this.data.receive_at = date"
+          ></DatePicker></FormItem>
+
+        <FormItem label="受理人员" prop="receive_staff_id">
+          <remote-select
+            :init="data.receive_staff_id"
+            :initData="init.receiveStaff"
+            label="name"
+            url="select/staff"
+            @on-change="receiveStaffChange"
+            @on-change-data="receiveStaffChangeData"
+          ></remote-select>
         </FormItem>
 
-        <FormItem label="受理人员" prop="number">
-          <Input v-model="data.number" placeholder="受理人员"></Input>
+        <FormItem label="服务类别" prop="type" >
+          <Select v-model="data.type" disabled>
+            <Option
+              v-for="(type, index) in select.type"
+              :key="index"
+              :value="index"
+            >{{type}}
+            </Option>
+          </Select>
+        </FormItem>
+
+        <FormItem label="受理来源" prop="source">
+          <Select v-model="data.source">
+            <Option
+              v-for="(type, index) in select.source"
+              :key="index"
+              :value="index"
+            >{{type}}
+            </Option>
+          </Select>
+        </FormItem>
+
+        <FormItem label="紧急程度" prop="emergency_degree">
+          <Select v-model="data.emergency_degree">
+            <Option
+              v-for="(type, index) in select.degree"
+              :key="index"
+              :value="index"
+            >{{type}}
+            </Option>
+          </Select>
         </FormItem>
 
         <FormItem label="客户名称" prop="customer_id">
@@ -37,34 +76,27 @@
             label="name"
             url="select/customer"
             @on-change="customerChange"
+            @on-change-data="customerChangeData"
           ></remote-select>
 
         </FormItem>
 
         <FormItem label="报修人员" prop="feedback_staff_id">
-          <remote-select
-            :init="data.feedback_staff_id"
-            :initData="init.feedback_staff"
-            label="name"
-            url="select/feedback_staff"
-            @on-change="feedbackStaffChange"
-          ></remote-select>
-
-        </FormItem>
-
-        <FormItem label="编号" prop="number">
-          <Input v-model="data.number" placeholder="编号" disabled></Input>
-        </FormItem>
-        <FormItem label="手机" prop="mobile">
-          <Input v-model="data.mobile" placeholder="mobile"></Input>
-        </FormItem>
-
-        <FormItem label="服务级别" prop="level">
           <static-select
-            :data="select.level"
-            :init="data.level"
-            @on-change="(value) => this.data.level = value"
+            :init="init.feedback_staff_id"
+            :data="select.customerConcatList"
+            label="name"
+            @on-change-data="feedbackStaffChangeData"
           ></static-select>
+
+        </FormItem>
+
+        <FormItem label="手机" prop="mobile">
+          <Input :value="data.mobile" placeholder="手机" readonly></Input>
+        </FormItem>
+
+        <FormItem label="服务级别">
+          <Input :value="customerLevel" placeholder="服务级别" readonly></Input>
         </FormItem>
 
         <FormItem label="报修时间" prop="feedback_at">
@@ -77,45 +109,49 @@
         </FormItem>
 
         <FormItem label="地址" prop="address" style="width: 100%;">
-          <Input v-model="data.address" placeholder="address"></Input>
+          <Input
+            type="textarea"
+            v-model="data.customer.address"
+            placeholder="地址"
+          ></Input>
         </FormItem>
 
         <FormItem label="设备编号" prop="machine_id">
-          <remote-select
-            :init="data.machine_id"
-            :initData="init.machine_id"
+          <static-select
+            :init="init.machine_id"
+            :data="select.customerEquipmentList"
             label="name"
-            url="select/machine"
-            @on-change="machineChange"
-          ></remote-select>
+            @on-change-data="machineChange"
+          ></static-select>
         </FormItem>
         <FormItem label="型号规格" prop="model">
-          <Input v-model="data.equipment.model" placeholder="型号规格"></Input>
+          <Input v-model="data.equipment.model" placeholder="型号规格" readonly></Input>
         </FormItem>
 
         <FormItem label="合同编号" prop="contract_number">
-          <Input v-model="data.equipment.contract_number" placeholder="合同编号"></Input>
+          <Input v-model="data.equipment.contract_number" placeholder="合同编号" readonly></Input>
         </FormItem>
 
         <FormItem label="类别" prop="type">
-          <Input :value="equipmentType" placeholder="类别"></Input>
+          <Input :value="equipmentType" placeholder="类别" readonly></Input>
         </FormItem>
 
         <FormItem label="安装日期" prop="equipment.model">
-          <Input v-model="data.equipment.installation_date" placeholder="安装日期"></Input>
+          <Input v-model="data.equipment.installation_date" placeholder="安装日期" readonly></Input>
         </FormItem>
 
         <FormItem label="保修日期" prop="equipment.warranty_date">
-          <Input v-model="data.equipment.warranty_date" placeholder="保修日期"></Input>
+          <Input v-model="data.equipment.warranty_date" placeholder="保修日期" readonly></Input>
         </FormItem>
 
         <FormItem label="确认工程师" prop="confirm_staff_id">
           <remote-select
             :init="data.confirm_staff_id"
-            :initData="init.confirm_staff_id"
-            label="name"
-            url="select/machine"
+            :initData="init.confirm_staff"
+            label="staff_name"
+            url="select/engineer"
             @on-change="confirmStaffChange"
+            @on-change-data="confirmStaffChangeData"
           ></remote-select>
         </FormItem>
 
@@ -137,9 +173,11 @@
                 :label-width="90"
                 v-show="tabsIndex === '0'"
           >
-            <FormItem label="故障描述">
+            <FormItem label="故障描述" prop="fault.desc" class="form-item-auto-height">
               <Input
                 type="textarea"
+                v-model="data.fault.desc"
+                row="10"
               ></Input>
             </FormItem>
             <FormItem label="故障类型" prop="fault.type">
@@ -271,11 +309,18 @@
       <Form :model="data"
             ref="addForm4"
             :rules="rules"
-            :label-width="90"
+            :label-width="100"
       >
 
-        <FormItem label="维修工程师">
-          <Input placeholder="维修工程师"></Input>
+        <FormItem label="维修工程师" props="engineer_id">
+          <remote-select
+            :init="data.engineer_id"
+            :initData="init.engineers"
+            label="staff_name"
+            url="select/engineer"
+            @on-change="engineerChange"
+            @on-change-data="engineerChangeData"
+          ></remote-select>
         </FormItem>
 
         <FormItem label="是否上门服务">
@@ -295,6 +340,7 @@
             placeholder="预计上门时间"
             v-model="data.plan_out_at"
             @on-change="date => this.data.plan_out_at = date"
+            :start-date="new Date()"
           ></DatePicker>
         </FormItem>
 
@@ -304,6 +350,7 @@
             placeholder="预计完成时间"
             v-model="data.plan_finish_at"
             @on-change="date => this.data.plan_finish_at = date"
+            :start-date="new Date()"
           ></DatePicker>
         </FormItem>
 
@@ -345,9 +392,18 @@ import AreaMixin from '@/mixins/area'
 
 import {addRepair} from '@/api/order_flow/repair'
 import {selectDepartment} from '@/api/select/department'
+import {selectCustomerContact} from '@/api/select/customer-contact'
+import {selectCustomerEquipment} from '@/api/select/customer-equipment'
 import * as orderConst from '@/constants/order_flow'
 import * as orderMachineConst from '@/constants/machine'
 import * as orderFaultConst from '@/constants/order_fault'
+import * as customerConst from '@/constants/customer'
+import dayjs from 'dayjs'
+
+import * as validate from '@/libs/validate'
+
+const currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss')
+
 
 export default {
   name: 'repair-add',
@@ -355,7 +411,6 @@ export default {
   data () {
     return {
       tabsIndex: '0',
-      // refName: 'repair',
       data: {
         customer_id: 0,
         feedback_staff_id: 0,
@@ -363,22 +418,39 @@ export default {
         confirm_staff_id: 0,
         emergency_degree: 0,
         number: '',
+        mobile: '',
         feedback_at: '',
-        receive_at: '',
+        receive_at: currentDate,
         confirm_at: '',
         plan_out_at: '',
         plan_finish_at: '',
-        is_out: 1,
-        is_charge: 1, // 是否服务收费
-        is_quote: 1, // 是否报价
-        settle_status: 1,
-        status: 1,
-        source: 1,
-        type: 1,
-        level: 1,
+        is_out: 0,
+        is_charge: 0, // 是否服务收费
+        is_quote: 0, // 是否报价
+        settle_status: 0,
+        status: 0,
+        source: 0,
+        type: 3, // 维修工单
+        level: 0,
         address: '',
         remark: '',
-        engineers: {},
+        engineer: {},
+        machine_id: 0,
+        customer: {
+          id: 0,
+          erp_cust_id: 0,
+          number: '',
+          name_short: '',
+          industry: '',
+          name: '',
+          address: '',
+          type: 0,
+          level: 0,
+          follow_up_status: 0,
+          source: 0,
+          staff_scale: 0,
+          purchasing_power: 0
+        },
         equipment: {
           type: 0,
           model: '',
@@ -422,10 +494,46 @@ export default {
       },
       rules: {
         name: [
-          {required: true, message: '姓名不能为空', trigger: 'blur'}
+          validate.notEmpty('姓名不能为空')
+        ],
+        customer_id: [
+          validate.number('请选择客户')
+        ],
+        feedback_staff_id: [
+          validate.number('请选择报修人员')
+        ],
+        receive_staff_id: [
+          validate.number('请选择受理人员')
+        ],
+        source: [
+          validate.number('请选择受理来源')
+        ],
+        emergency_degree: [
+          validate.number('请选择紧急程度')
+        ],
+        machine_id: [
+          validate.number('请选择设备编号')
+        ],
+        receive_at: [
+          validate.notEmpty('受理时间不能为空')
+        ],
+        feedback_at: [
+          validate.notEmpty('报修时间不能为空')
+        ],
+        plan_out_at: [
+          validate.notEmpty('预计上门时间不能为空')
+        ],
+        plan_finish_at: [
+          validate.notEmpty('预计完成时间不能为空')
+        ],
+        'fault.desc': [
+          validate.notEmpty('故障描述不能为空')
         ]
       },
       select: {
+        source: orderConst.ORDER_SOURCE,
+        type: orderConst.ORDER_TYPE,
+        degree: orderConst.ORDER_DEGREE,
         quote: orderConst.ORDER_QUOTE,
         charge: orderConst.ORDER_CHARGE,
         out: orderConst.ORDER_OUT,
@@ -433,12 +541,17 @@ export default {
         faultType: orderFaultConst.FAULT_TYPE,
         sequenceType: orderFaultConst.SEQUENCE_TYPE,
         lineBroken: orderFaultConst.LINE_BROKEN,
-        partBroken: orderFaultConst.PART_BROKEN
+        partBroken: orderFaultConst.PART_BROKEN,
+        customerLevel: this.listByConstant(customerConst.LEVEL_LIST),
+        customerConcatList: [],
+        customerEquipmentList: []
       },
       init: {
         customer: [],
         organization: [],
-        department: []
+        receiveStaff: [],
+        engineers: [],
+        confirm_staff: []
       }
     }
   },
@@ -458,28 +571,46 @@ export default {
       let {sequenceType} = this.select
       let {type} = this.data.fault
       return sequenceType[type] ? sequenceType[type] : ''
+    },
+    customerLevel () {
+      let {customerLevel} = this.select
+      let {level} = this.data.customer
+      let info = customerLevel.find(info => info.index === level)
+      if (info) {
+        return info.value
+      }
+      return ''
     }
   },
   methods: {
     onSubmit (e) {
-      this.$refs.addForm.validate(async (valid) => {
-        if (valid) {
-          try {
-            let data = await addRepair(this.data)
-            console.log('data', data)
-            this.withRefresh(e)
-          } catch (e) {
-            this.closeLoading()
-          }
-        } else {
-          this.closeLoading()
-        }
+      let refs = this.$refs
+      let promises = ['', 2, 3, 4].map(i => {
+        return new Promise((resolve, reject) => {
+          refs['addForm' + i].validate(async (valid) => {
+            if (valid) {
+              resolve()
+            } else {
+              reject()
+            }
+          })
+        })
+      })
+
+      Promise.all(promises).then(async () => {
+        console.log('success')
+        await addRepair(this.data)
+        this.withRefresh(e)
+      }).catch(err => {
+        console.log('failed')
+        this.closeLoading()
       })
     },
     onCancel (e) {
       e()
     },
     async beforeOpen () {
+      console.log('currentDate', currentDate)
       return true
     },
     async organizationChange (id) {
@@ -506,29 +637,45 @@ export default {
         }
       }
     },
-    async cityChange (cityId) {
-      if (+cityId !== this.data.city_id) {
-        this.data.city_id = cityId
-        let counties = await this.getCountie(cityId)
-        if (counties.length) {
-          this.data.district_id = counties[0].id
-        }
-      }
-    },
-    async countyChange (countyId) {
-      this.data.district_id = countyId
-    },
     async customerChange (customerId) {
       this.data.customer_id = customerId
     },
-    async feedbackStaffChange (staffId) {
-      this.data.feedback_staff_id = staffId
+    // 客户变更
+    async customerChangeData (customer) {
+      this.data.customer_id = customer.id
+      this.data.customer = customer
+      // console.log('customer', customer)
+      let {data} = await selectCustomerContact(customer.id)
+      this.select.customerConcatList = data
+      let equipments = await selectCustomerEquipment(customer.id, '')
+      this.select.customerEquipmentList = equipments.data
+    },
+    async feedbackStaffChangeData (contact) {
+      this.data.feedback_staff_id = contact.id
+      this.data.mobile = contact.mobile
     },
     async confirmStaffChange (staffId) {
       this.data.confirm_staff_id = staffId
     },
-    async machineChange (machineId) {
-      this.data.machine_id = machineId
+    async confirmStaffChangeData (staff) {
+      // this.data.confirm_staff_id = staff
+    },
+    async machineChange (machine) {
+      this.data.machine_id = machine.id
+      this.data.equipment = machine
+    },
+    async receiveStaffChange (staffId) {
+      this.data.receive_staff_id = staffId
+    },
+    async receiveStaffChangeData (staff) {
+      this.data.receive_staff_id = staff.id
+      this.data.receive_staff = staff
+    },
+    async engineerChange () {
+    },
+    async engineerChangeData (engineer) {
+      this.data.engineer_id = engineer.id
+      this.data.engineer = engineer
     }
   }
 }
