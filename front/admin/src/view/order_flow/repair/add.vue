@@ -23,11 +23,17 @@
             placeholder="受理时间"
             v-model="data.receive_at"
             @on-change="date => this.data.receive_at = date"
-          ></DatePicker>
-        </FormItem>
+          ></DatePicker></FormItem>
 
-        <FormItem label="受理人员" prop="number">
-          <Input v-model="data.number" placeholder="受理人员"></Input>
+        <FormItem label="受理人员" prop="receive_staff_id">
+          <remote-select
+            :init="data.receive_staff_id"
+            :initData="init.receiveStaff"
+            label="name"
+            url="select/staff"
+            @on-change="receiveStaffChange"
+            @on-change-data="receiveStaffChangeData"
+          ></remote-select>
         </FormItem>
 
         <FormItem label="服务类别" prop="type" >
@@ -141,10 +147,11 @@
         <FormItem label="确认工程师" prop="confirm_staff_id">
           <remote-select
             :init="data.confirm_staff_id"
-            :initData="init.confirm_staff_id"
-            label="name"
-            url="select/machine"
+            :initData="init.confirm_staff"
+            label="staff_name"
+            url="select/engineer"
             @on-change="confirmStaffChange"
+            @on-change-data="confirmStaffChangeData"
           ></remote-select>
         </FormItem>
 
@@ -166,10 +173,11 @@
                 :label-width="90"
                 v-show="tabsIndex === '0'"
           >
-            <FormItem label="故障描述" prop="fault.desc">
+            <FormItem label="故障描述" prop="fault.desc" class="form-item-auto-height">
               <Input
                 type="textarea"
                 v-model="data.fault.desc"
+                row="10"
               ></Input>
             </FormItem>
             <FormItem label="故障类型" prop="fault.type">
@@ -304,8 +312,15 @@
             :label-width="100"
       >
 
-        <FormItem label="维修工程师">
-          <Input placeholder="维修工程师"></Input>
+        <FormItem label="维修工程师" props="engineer_id">
+          <remote-select
+            :init="data.engineer_id"
+            :initData="init.engineers"
+            label="staff_name"
+            url="select/engineer"
+            @on-change="engineerChange"
+            @on-change-data="engineerChangeData"
+          ></remote-select>
         </FormItem>
 
         <FormItem label="是否上门服务">
@@ -419,7 +434,7 @@ export default {
         level: 0,
         address: '',
         remark: '',
-        engineers: {},
+        engineer: {},
         machine_id: 0,
         customer: {
           id: 0,
@@ -534,7 +549,9 @@ export default {
       init: {
         customer: [],
         organization: [],
-        department: []
+        receiveStaff: [],
+        engineers: [],
+        confirm_staff: []
       }
     }
   },
@@ -580,26 +597,14 @@ export default {
         })
       })
 
-      Promise.all(promises).then(() => {
+      Promise.all(promises).then(async () => {
         console.log('success')
-        this.closeLoading()
+        await addRepair(this.data)
+        this.withRefresh(e)
       }).catch(err => {
         console.log('failed')
         this.closeLoading()
       })
-      // this.$refs.addForm.validate(async (valid) => {
-      //   if (valid) {
-      //     try {
-      //       let data = await addRepair(this.data)
-      //       console.log('data', data)
-      //       this.withRefresh(e)
-      //     } catch (e) {
-      //       this.closeLoading()
-      //     }
-      //   } else {
-      //     this.closeLoading()
-      //   }
-      // })
     },
     onCancel (e) {
       e()
@@ -652,9 +657,25 @@ export default {
     async confirmStaffChange (staffId) {
       this.data.confirm_staff_id = staffId
     },
+    async confirmStaffChangeData (staff) {
+      // this.data.confirm_staff_id = staff
+    },
     async machineChange (machine) {
       this.data.machine_id = machine.id
       this.data.equipment = machine
+    },
+    async receiveStaffChange (staffId) {
+      this.data.receive_staff_id = staffId
+    },
+    async receiveStaffChangeData (staff) {
+      this.data.receive_staff_id = staff.id
+      this.data.receive_staff = staff
+    },
+    async engineerChange () {
+    },
+    async engineerChangeData (engineer) {
+      this.data.engineer_id = engineer.id
+      this.data.engineer = engineer
     }
   }
 }
