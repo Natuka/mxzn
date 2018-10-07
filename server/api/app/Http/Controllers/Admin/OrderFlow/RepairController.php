@@ -70,6 +70,8 @@ class RepairController extends BaseController
             'status',
         ]);
 
+        $equipment = $request->get('equipment', []);
+
         $data['type'] = $this->type;
         $data['number'] = $this->createNumber();
 
@@ -78,6 +80,10 @@ class RepairController extends BaseController
         $data['confirm_at'] = form_date($data['confirm_at'], 'Y-m-d H:i:s');
         $data['plan_out_at'] = form_date($data['plan_out_at'], 'Y-m-d H:i:s');
         $data['plan_finish_at'] = form_date($data['plan_finish_at'], 'Y-m-d H:i:s');
+
+        if (!empty($equipment)) {
+            $data['equipment_id'] = $equipment['id'];
+        }
 
         $order->forceFill($data);
 

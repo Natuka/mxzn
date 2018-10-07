@@ -77,6 +77,6 @@ class ServiceOrder extends Model
 
     public function fault()
     {
-        return $this->hasMany(ServiceOrderFault::class, 'service_order_id');
+        return $this->hasMany(ServiceOrderFault::class, 'service_order_id')->with('equipment');
     }
 }
