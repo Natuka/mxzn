@@ -83,13 +83,13 @@ export default {
       this.cached[name] = true
       let ref = this.getRef(name)
       if (ref) {
+        ref.setUrl(this.data)
         ref.refresh()
       }
     },
     // 刷新
     refresh () {
       let ref = this.onClick(this.name)
-      console.log('ref', ref)
     },
     // 设置数据
     setData (data, index) {

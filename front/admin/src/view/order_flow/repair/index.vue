@@ -7,13 +7,43 @@
           <Icon type="md-add"/>
         </Button>
         <Button
-          type="primary"
+          type="info"
           @click="refresh"
           v-if="accessAdd()"
           class="ml-5"
         >
           刷新
           <Icon type="md-refresh"/>
+        </Button>
+
+        <Button
+          type="primary"
+          @click="refresh"
+          v-if="accessAdd()"
+          class="ml-5"
+        >
+          派工
+          <Icon type="md-arrow-forward" />
+        </Button>
+
+        <Button
+          type="primary"
+          @click="refresh"
+          v-if="accessAdd()"
+          class="ml-5"
+        >
+          转派
+          <Icon type="md-arrow-forward" />
+        </Button>
+
+        <Button
+          type="warning"
+          @click="refresh"
+          v-if="accessAdd()"
+          class="ml-5"
+        >
+          完工
+          <Icon type="ios-checkmark-circle" />
         </Button>
       </div>
       <repair-search ref="search" @on-search="onSearch"></repair-search>
@@ -201,37 +231,37 @@ export default {
           width: 250,
           title: '操作',
           key: 'handle',
-          options: ['delete'],
+          // options: ['delete'],
           button: [
-            (h, params, vm) => {
-              return h(
-                'Poptip',
-                {
-                  props: {
-                    confirm: true,
-                    title: '你确定要删除吗?'
-                  },
-                  on: {
-                    'on-ok': () => {
-                      vm.$emit('on-delete', params)
-                      vm.$emit(
-                        'input',
-                        params.tableData.filter(
-                          (item, index) => index !== params.row.initRowIndex
-                        )
-                      )
-                    }
-                  }
-                },
-                [h('Button', {
-                  nativeOn: {
-                    click: this.delayLock((e) => {
-                      console.log('open poper-show')
-                    })
-                  }
-                }, '删除')]
-              )
-            },
+            // (h, params, vm) => {
+            //   return h(
+            //     'Poptip',
+            //     {
+            //       props: {
+            //         confirm: true,
+            //         title: '你确定要删除吗?'
+            //       },
+            //       on: {
+            //         'on-ok': () => {
+            //           vm.$emit('on-delete', params)
+            //           vm.$emit(
+            //             'input',
+            //             params.tableData.filter(
+            //               (item, index) => index !== params.row.initRowIndex
+            //             )
+            //           )
+            //         }
+            //       }
+            //     },
+            //     [h('Button', {
+            //       nativeOn: {
+            //         click: this.delayLock((e) => {
+            //           console.log('open poper-show')
+            //         })
+            //       }
+            //     }, '删除')]
+            //   )
+            // },
             (h, params, vm) => {
               if (!this.accessView()) {
                 return

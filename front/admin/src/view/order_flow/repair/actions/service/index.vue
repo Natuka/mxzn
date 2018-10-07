@@ -251,6 +251,9 @@ export default {
     },
     onRowClick (data, index) {
       console.log('data', data, index)
+    },
+    setUrl (data) {
+      this.url = `order_flow/repair/${data.id}/service`
     }
   },
   mounted () {
