@@ -169,7 +169,6 @@ import ModalMixin from '@/mixins/modal'
 import AreaMixin from '@/mixins/area'
 
 import {addRepair} from '@/api/order_flow/repair'
-// import {selectOrganization} from '../../../api/select/organization'
 import {selectDepartment} from '@/api/select/department'
 import * as orderConst from '@/constants/order_flow'
 
@@ -182,18 +181,6 @@ export default {
         org_id: 0,
         number: '',
         name: '',
-        sex: 1,
-        birthday: '',
-        dep_id: 0,
-        post: 0,
-        job: 0,
-        graduated_school: '',
-        education: 0,
-        skill_expertise: '',
-        hobby: '',
-        mobile: '',
-        email: '',
-        entry_date: '',
         status: 1,
         arrived_at: '',
         complete_at: '',
@@ -211,14 +198,9 @@ export default {
         ]
       },
       select: {
-        job: [],
-        post: [],
-        education: [],
-        department: [],
         processList: orderConst.REPAIR_PROCESS
       },
       init: {
-        organization: [],
         department: []
       }
     }
