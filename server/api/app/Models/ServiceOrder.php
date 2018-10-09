@@ -38,7 +38,7 @@ class ServiceOrder extends Model
 
     public function documents()
     {
-        return $this->belongsToMany(Document::class, 'service_order_documents', 'order_id', 'document_id');
+        return $this->belongsToMany(Document::class, 'service_order_documents', 'service_order_id', 'document_id');
     }
 
     /**
