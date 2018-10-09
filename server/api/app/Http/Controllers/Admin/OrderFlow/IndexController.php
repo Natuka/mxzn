@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\OrderFlow;
 
 use App\Http\Requests\Admin\OrderFlow\CreateRequest;
 use App\Http\Requests\Admin\OrderFlow\UpdateRequest;
-use App\Models\Order;
+use App\Models\ServiceOrder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -88,7 +88,7 @@ class IndexController extends BaseController
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Order $order)
+    public function destroy(ServiceOrder $order)
     {
         //
     }

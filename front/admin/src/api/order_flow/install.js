@@ -15,3 +15,18 @@ export function updateInstall (data, id) {
 export function deleteInstall () {
   return deleteApi()
 }
+
+// 创建
+export function addInstallAction (data, orderId, type = 'attendance') {
+  return postApi(`order_flow/install/${orderId}/${type}`, data)
+}
+
+// 更新
+export function updateInstallAction (data, id, orderId, type = 'attendance') {
+  return postApi(`order_flow/install/${orderId}/${type}/${id}`, data)
+}
+
+// 删除
+export function deleteInstallAction (id, orderId, type = 'attendance') {
+  return deleteApi(`order_flow/install/${orderId}/${type}/${id}`)
+}

@@ -231,7 +231,7 @@ class RepairController extends BaseController
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Order $order)
+    public function destroy(ServiceOrder $order)
     {
         if (!$order || $order->id <= 0) {
             return error_json('工单不存在');
