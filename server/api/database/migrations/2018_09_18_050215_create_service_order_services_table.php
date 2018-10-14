@@ -28,7 +28,7 @@ class CreateServiceOrderServicesTable extends Migration
             $table->float('amount',8,2)->nullable()->comment('金额');
             $table->float('reward',8,2)->nullable()->comment('提成');
             $table->string('land_traffic')->nullable()->comment('是否含陆路交通费');
-            $table->string('hotel')->nullable()->comment('是否含住宿');
+            $table->string('is_hotel')->nullable()->comment('是否含住宿');
             $table->tinyInteger('settlement_method')->nullable()->comment('结算方式: 客付 1，厂付 2，免费 0');
             $table->float('working_hours',5,1)->nullable()->comment('工时');
             $table->tinyInteger('is_complete')->nullable()->comment('是否完工: 否 0，是 1');

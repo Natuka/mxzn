@@ -233,8 +233,8 @@ export default {
       this.$refs.addForm.validate(async (valid) => {
         if (valid) {
           try {
-            let data = await updateStaff(this.data, this.data.id)
             console.log('data', data)
+            let data = await updateStaff(this.data, this.data.id)
             this.withRefresh(e)
           } catch (e) {
             this.closeLoading()

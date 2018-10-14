@@ -178,7 +178,7 @@ import ModalMixin from '@/mixins/modal'
 import AreaMixin from '@/mixins/area'
 
 import {addStaff} from '../../api/staff'
-// import {selectOrganization} from '../../api/select/organization'
+import {selectOrganization} from '../../api/select/organization'
 import {selectDepartment} from '../../api/select/department'
 import * as staffConst from '../../constants/staff'
 
@@ -267,6 +267,14 @@ export default {
         this.data.city_id = cities[0].id
         this.data.district_id = counties[0].id
       })
+      return true
+    },
+    async afterOpen () {
+      let data = this.data
+
+      let organizations = await selectOrganization({id: data.org_id})
+      this.init.organization = organizations.data
+
       return true
     },
     async organizationChange (id) {
