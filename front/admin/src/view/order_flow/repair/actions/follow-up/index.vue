@@ -2,10 +2,10 @@
   <div>
     <Card>
       <div slot="title">
-        <!--<Button type="primary" @click="onAdd" v-if="accessAdd()">
+        <Button type="primary" @click="onAdd" v-if="accessAdd()">
           新增
           <Icon type="md-add"/>
-        </Button>-->
+        </Button>
         <Button
           type="primary"
           @click="refresh"
