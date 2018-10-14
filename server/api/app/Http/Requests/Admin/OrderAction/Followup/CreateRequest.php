@@ -26,7 +26,7 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'order_id' => 'required',
+//            'order_id' => 'required',
         ];
     }
 

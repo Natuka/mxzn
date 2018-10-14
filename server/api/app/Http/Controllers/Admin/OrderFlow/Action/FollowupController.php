@@ -72,27 +72,33 @@ class FollowupController extends BaseController
 
             $followup = $followup->orderBy($orderFieldArray[$orderField], $orderByArray[$orderBy]);
         }*/
+
+        $followup->with('followup_staff', 'handle_staff');
+
         return $followup;
     }
 
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param CreateRequest $request
+     * @param ServiceOrder $order
+     * @param ServiceOrderFollowup $followup
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function create(CreateRequest $request, ServiceOrder $order, ServiceOrderFollowup $followup)
+    public function store(CreateRequest $request, ServiceOrder $order, ServiceOrderFollowup $followup)
     {
         $data = $request->only([
-            'followup_staff',
+            'followup_staff_id',
+            'followup_staff_name',
             'mobile',
             'handle_staff_id',
             'handle_staff_name',
             'handle_result',
+            'followup_time',
             'remark',
         ]);
         $data['handle_staff_id'] = (int)$data['handle_staff_id'];
-
+        $data['followup_time'] = format_date($data['followup_time'], 'Y-m-d H:i:s');
         $data['service_order_id'] = (int)$order['id'];
         $data['created_by'] = '新增';
         $data['updated_by'] = '新增';
@@ -108,18 +114,6 @@ class FollowupController extends BaseController
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -129,14 +123,17 @@ class FollowupController extends BaseController
     public function update(UpdateRequest $request, ServiceOrder $order, ServiceOrderFollowup $followup)
     {
         $data = $request->only([
-            'followup_staff',
+            'followup_staff_id',
+            'followup_staff_name',
             'mobile',
             'handle_staff_id',
             'handle_staff_name',
             'handle_result',
+            'followup_time',
             'remark',
         ]);
         $data['handle_staff_id'] = (int)$data['handle_staff_id'];
+        $data['followup_time'] = format_date($data['followup_time'], 'Y-m-d H:i:s');
 
         $data['updated_by'] = '修改';
 
