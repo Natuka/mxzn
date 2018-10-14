@@ -33,7 +33,7 @@ class CreateServiceOrderServicesTable extends Migration
             $table->float('working_hours',5,1)->nullable()->comment('工时');
             $table->tinyInteger('is_complete')->nullable()->comment('是否完工: 否 0，是 1');
             $table->integer('staff_id')->nullable()->comment('服务工程师id');
-            $table->string('staff',20)->nullable()->comment('服务工程师');
+            $table->string('staff_name',20)->nullable()->comment('服务工程师');
             $table->string('remark',200)->nullable()->comment('备注');
             $table->string('created_by',20)->nullable()->comment('创建人员');
             $table->string('updated_by',20)->nullable()->comment('修改人员');

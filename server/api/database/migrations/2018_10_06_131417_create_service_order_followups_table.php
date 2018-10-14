@@ -16,7 +16,8 @@ class CreateServiceOrderFollowupsTable extends Migration
         Schema::create('service_order_followups', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('service_order_id')->nullable()->comment('order id');
-            $table->string('followup_staff',20)->nullable()->comment('催单人员');
+            $table->integer('followup_staff_id')->nullable()->comment('催单人员id');
+            $table->string('followup_staff_name',20)->nullable()->comment('催单人员');
             $table->string('mobile',20)->nullable()->comment('手机');
             $table->integer('handle_staff_id')->nullable()->comment('受理人员id');
             $table->string('handle_staff_name',20)->nullable()->comment('受理人员');

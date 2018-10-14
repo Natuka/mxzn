@@ -260,6 +260,7 @@ export default {
     async afterOpen () {
       let data = this.data
       // 省份
+      console.log('afterOpen', data)
       await this.getAllByIds(data.province_id, data.city_id, data.district_id)
 
       let {job, post, education} = this.data

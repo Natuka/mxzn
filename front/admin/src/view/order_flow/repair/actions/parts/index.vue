@@ -30,236 +30,229 @@
       <br/>
       <Page :current="page" :total="total" show-elevator @on-change="toPage"/>
     </Card>
-    <repair-add ref="add" @refresh="refresh"></repair-add>
-    <repair-edit ref="edit" @refresh="refreshWithPage"></repair-edit>
+    <parts-add ref="add" @refresh="refresh"></parts-add>
+    <parts-edit ref="edit" @refresh="refreshWithPage"></parts-edit>
 
   </div>
 </template>
 
 <script>
-import Tables from '_c/tables'
+  import dayjs from 'dayjs'
 
-import search from './search'
-import add from './add'
-import edit from './edit'
+  import Tables from '_c/tables'
 
-import listMixin from '@/mixins/list'
-import constsMixin from '@/mixins/consts'
-import baseMixin from '@/mixins/base'
-import * as orderConst from '@/constants/order_flow'
+  import search from './search'
+  import add from './add'
+  import edit from './edit'
 
-export default {
-  name: 'mx-order-parts',
-  components: {
-    Tables,
-    [search.name]: search,
-    [add.name]: add,
-    [edit.name]: edit
-  },
-  mixins: [listMixin, constsMixin, baseMixin],
-  props: {
-    data: {
-      type: Object,
-      default () {
-        return {}
-      }
-    }
-  },
-  data () {
-    return {
-      url: 'order_flow/repair/parts',
-      access: {
-        add: 'order_flow_repair_add',
-        view: 'order_flow_repair_view',
-        edit: 'order_flow_repair_edit',
-        remove: 'order_flow_repair_remove'
-      },
-      columns: [
-        {
-          width: 120,
-          fixed: 'left',
-          title: '服务单号C',
-          key: 'number',
-          sortable: false
-        },
-        {
-          width: 120,
-          // fixed: 'left',
-          title: '当前状态',
-          key: 'status',
-          sortable: false,
-          render: this.constRender('status', orderConst.ORDER_STATUS)
-        },
-        {
-          width: 120,
-          title: '工单类别',
-          key: 'type',
-          sortable: false,
-          render: this.constRender('type', orderConst.ORDER_TYPE)
-        },
-        {
-          width: 120,
-          title: '受理时间',
-          key: 'receive_at',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '处理进度',
-          key: 'progress',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '处理时长',
-          key: 'progress_use_time',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '工程师',
-          key: 'engineer_ids',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '客户名称',
-          key: 'customer_id',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '服务级别',
-          key: 'level',
-          sortable: false,
-          render: this.constRender('level', orderConst.ORDER_LEVEL)
-        },
-        {
-          width: 160,
-          title: '故障描述',
-          key: 'created_at',
-          sortable: false
-        },
-        {
-          width: 160,
-          title: '报修人员',
-          key: 'feedback_staff_id',
-          sortable: false
-        },
-        {
-          width: 160,
-          title: '电话',
-          key: 'created_at',
-          sortable: false
-        },
-        {
-          width: 160,
-          title: '制单人员',
-          key: 'created_at',
-          sortable: false
-        },
-        {
-          width: 160,
-          title: '制单时间',
-          key: 'created_at',
-          sortable: false
-        },
-        {
-          width: 160,
-          title: '单据状态',
-          key: 'status',
-          sortable: false,
-          render: this.constRender('status', orderConst.ORDER_STATUS)
-        },
-        {
-          fixed: 'right',
-          width: 250,
-          title: '操作',
-          key: 'handle',
-          options: ['delete'],
-          button: [
-            (h, params, vm) => {
-              return h(
-                'Poptip',
-                {
-                  props: {
-                    confirm: true,
-                    title: '你确定要删除吗?'
-                  },
-                  on: {
-                    'on-ok': () => {
-                      vm.$emit('on-delete', params)
-                      vm.$emit(
-                        'input',
-                        params.tableData.filter(
-                          (item, index) => index !== params.row.initRowIndex
-                        )
-                      )
-                    }
-                  }
-                },
-                [h('Button', '删除')]
-              )
-            },
-            (h, params, vm) => {
-              if (!this.accessView()) {
-                return
-              }
-              return h(
-                'Button',
-                {
-                  props: {
-                    type: 'primary'
-                  },
-                  style: {
-                    marginLeft: '.6rem'
-                  },
-                  on: {
-                    click: () => {
-                      this.onEdit(params.row)
-                    }
-                  }
-                },
-                '修改'
-              )
-            }
-          ]
+  import listMixin from '@/mixins/list'
+  import constsMixin from '@/mixins/consts'
+  import baseMixin from '@/mixins/base'
+  import * as orderConst from '@/constants/order_flow'
+
+  export default {
+    name: 'mx-order-parts',
+    components: {
+      Tables,
+      [search.name]: search,
+      [add.name]: add,
+      [edit.name]: edit
+    },
+    mixins: [listMixin, constsMixin, baseMixin],
+    props: {
+      data: {
+        type: Object,
+        default () {
+          return {}
         }
-      ],
-      tableData: []
+      }
+    },
+    data () {
+      return {
+        url: 'order_flow/repair/parts',
+        access: {
+          add: 'order_flow_repair_add',
+          view: 'order_flow_repair_view',
+          edit: 'order_flow_repair_edit',
+          remove: 'order_flow_repair_remove'
+        },
+        columns: [
+          {
+            width: 120,
+            fixed: 'left',
+            title: '操作时间',
+            key: 'created_at',
+            sortable: false
+          },
+          {
+            width: 120,
+            // fixed: 'left',
+            title: '料号',
+            key: 'number',
+            sortable: true
+          },
+          {
+            width: 120,
+            title: '名称',
+            key: 'name',
+            sortable: true
+          },
+          {
+            width: 120,
+            title: '型号规格',
+            key: 'model',
+            sortable: false
+          },
+          {
+            width: 120,
+            title: '单位',
+            key: 'unit',
+            sortable: false
+          },
+          {
+            width: 120,
+            title: '数量',
+            key: 'quantity',
+            sortable: true
+          },
+          {
+            width: 120,
+            title: '单价',
+            key: 'price',
+            sortable: false
+          },
+          {
+            width: 120,
+            title: '小计',
+            key: 'amount',
+            sortable: false
+          },
+          {
+            width: 120,
+            title: '折扣',
+            key: 'discount',
+            sortable: false
+          },
+          {
+            width: 160,
+            title: '折扣后金额',
+            key: 'amount_dis',
+            sortable: false
+          },
+          {
+            width: 160,
+            title: '保修日期',
+            key: 'warranty_date',
+            sortable: false
+          },
+          {
+            width: 160,
+            title: '备注',
+            key: 'remark',
+            sortable: false
+          },
+          {
+            width: 160,
+            title: '建档人员',
+            key: 'created_by',
+            sortable: false
+          },
+          {
+            fixed: 'right',
+            width: 250,
+            title: '操作',
+            key: 'handle',
+            options: ['delete'],
+            button: [
+              (h, params, vm) => {
+                return h(
+                  'Poptip',
+                  {
+                    props: {
+                      confirm: true,
+                      title: '你确定要删除吗?'
+                    },
+                    on: {
+                      'on-ok': () => {
+                        vm.$emit('on-delete', params)
+                        vm.$emit(
+                          'input',
+                          params.tableData.filter(
+                            (item, index) => index !== params.row.initRowIndex
+                          )
+                        )
+                      }
+                    }
+                  },
+                  [h('Button', '删除')]
+                )
+              },
+              (h, params, vm) => {
+                if (!this.accessView()) {
+                  return
+                }
+                return h(
+                  'Button',
+                  {
+                    props: {
+                      type: 'primary'
+                    },
+                    style: {
+                      marginLeft: '.6rem'
+                    },
+                    on: {
+                      click: () => {
+                        this.onEdit(params.row)
+                      }
+                    }
+                  },
+                  '修改'
+                )
+              }
+            ]
+          }
+        ],
+        tableData: []
+      }
+    },
+    methods: {
+      handleDelete (params) {
+        console.log(params)
+      },
+      exportExcel () {
+        this.$refs.tables.exportCsv({
+          filename: `table-${new Date().valueOf()}.csv`
+        })
+      },
+      onOpen () {
+        this.$refs.add.open()
+      },
+      onSubmit (e) {
+        console.log('onsubmit', e)
+        setTimeout(_ => e(), 2000)
+      },
+      onCancel (e) {
+        console.log('oncancel', e)
+        e()
+      },
+      onRowClick (data, index) {
+        console.log('data', data, index)
+      },
+      setUrl (data) {
+        this.url = `order_flow/repair/${data.id}/parts`
+      },
+      onAddSetData () {
+        // console.log('data', this.data)
+        this.$refs.add.setDataBefore(this.data)
+      },
+      onEditSetData () {
+        this.$refs.edit.setDataBefore(this.data)
+      }
+    },
+    mounted () {
+      // this.refresh()
     }
-  },
-  methods: {
-    handleDelete (params) {
-      console.log(params)
-    },
-    exportExcel () {
-      this.$refs.tables.exportCsv({
-        filename: `table-${new Date().valueOf()}.csv`
-      })
-    },
-    onOpen () {
-      this.$refs.add.open()
-    },
-    onSubmit (e) {
-      console.log('onsubmit', e)
-      setTimeout(_ => e(), 2000)
-    },
-    onCancel (e) {
-      console.log('oncancel', e)
-      e()
-    },
-    onRowClick (data, index) {
-      console.log('data', data, index)
-    },
-    setUrl (data) {
-      this.url = `order_flow/repair/${data.id}/parts`
-    }
-  },
-  mounted () {
-    // this.refresh()
   }
-}
 </script>
 
 <style scoped>
