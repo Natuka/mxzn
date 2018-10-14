@@ -12,9 +12,9 @@ Route::group([
     'prefix' => 'select',
     'namespace' => 'Admin\Select'
 ], function () {
-    Route::get('code', [
-        'uses' => 'CodeController@index',
-        'as' => 'select_code'
+    Route::get('part', [
+        'uses' => 'PartController@index',
+        'as' => 'select_part'
     ]);
     // TODO 后续添加
 });
