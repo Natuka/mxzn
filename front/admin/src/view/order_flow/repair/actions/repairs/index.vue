@@ -252,7 +252,6 @@ export default {
       this.url = `order_flow/repair/${data.id}/repairs`
     },
     onAddSetData () {
-      // console.log('data', this.data)
       this.$refs.add.setDataBefore(this.data)
     },
     onEditSetData () {
