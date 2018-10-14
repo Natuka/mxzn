@@ -37,6 +37,8 @@
 </template>
 
 <script>
+import dayjs from 'dayjs'
+
 import Tables from '_c/tables'
 
 import search from './search'
@@ -78,98 +80,92 @@ export default {
         {
           width: 120,
           fixed: 'left',
-          title: '服务单号B',
-          key: 'number',
+          title: '操作时间',
+          key: 'created_at',
           sortable: false
         },
         {
           width: 120,
           // fixed: 'left',
-          title: '当前状态',
+          title: '处理方式',
           key: 'status',
           sortable: false,
-          render: this.constRender('status', orderConst.ORDER_STATUS)
+          render: this.constRenderCustomData('status', orderConst.ORDER_STATUS, true, this.data)
         },
         {
           width: 120,
-          title: '工单类别',
-          key: 'type',
-          sortable: false,
-          render: this.constRender('type', orderConst.ORDER_TYPE)
-        },
-        {
-          width: 120,
-          title: '受理时间',
-          key: 'receive_at',
+          title: '工程师',
+          key: 'staff_name',
           sortable: false
         },
         {
           width: 120,
-          title: '处理进度',
-          key: 'progress',
+          title: '到达时间',
+          key: 'arrived_at',
+          sortable: false
+        },
+        {
+          width: 120,
+          title: '完成时间',
+          key: 'complete_at',
           sortable: false
         },
         {
           width: 120,
           title: '处理时长',
           key: 'progress_use_time',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '工程师',
-          key: 'engineer_ids',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '客户名称',
-          key: 'customer_id',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '服务级别',
-          key: 'level',
           sortable: false,
-          render: this.constRender('level', orderConst.ORDER_LEVEL)
+          render: (h, {row}) => {
+            let text = '进行中'
+            if (row.complete_at) {
+              text = dayjs(row.complete_at).diff(dayjs(row.arrived_at), 'hours') + '时'
+            }
+
+            return h('span', {}, text)
+          }
         },
         {
-          width: 160,
-          title: '故障描述',
-          key: 'created_at',
+          width: 120,
+          title: '故障原因',
+          key: 'cause',
           sortable: false
         },
         {
-          width: 160,
-          title: '报修人员',
-          key: 'feedback_staff_id',
+          width: 120,
+          title: '处理措施/结果',
+          key: 'step_result',
           sortable: false
         },
         {
-          width: 160,
-          title: '电话',
-          key: 'created_at',
-          sortable: false
-        },
-        {
-          width: 160,
-          title: '制单人员',
-          key: 'created_at',
-          sortable: false
-        },
-        {
-          width: 160,
-          title: '制单时间',
-          key: 'created_at',
-          sortable: false
-        },
-        {
-          width: 160,
-          title: '单据状态',
-          key: 'status',
+          width: 120,
+          title: '处理进度',
+          key: 'process_id',
           sortable: false,
-          render: this.constRender('status', orderConst.ORDER_STATUS)
+          render: this.constRender('process_id', orderConst.REPAIR_PROCESS)
+        },
+        {
+          width: 160,
+          title: '下一步处理',
+          key: 'created_at',
+          sortable: false
+        },
+        {
+          width: 160,
+          title: '处理人员',
+          key: 'staff_name',
+          sortable: false
+        },
+        {
+          width: 160,
+          title: '操作人员',
+          key: 'created_by',
+          sortable: false
+        },
+        {
+          width: 160,
+          title: '备注',
+          key: 'remark',
+          sortable: false
         },
         {
           fixed: 'right',
@@ -254,6 +250,13 @@ export default {
     },
     setUrl (data) {
       this.url = `order_flow/repair/${data.id}/repairs`
+    },
+    onAddSetData () {
+      // console.log('data', this.data)
+      this.$refs.add.setDataBefore(this.data)
+    },
+    onEditSetData () {
+      this.$refs.edit.setDataBefore(this.data)
     }
   },
   mounted () {

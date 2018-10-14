@@ -10,6 +10,9 @@ export default {
     async formatData (data) {
       return Promise.resolve(data)
     },
+    // 执行设定值
+    setDataBefore () {
+    },
     async setData (data, access = true) {
       this.data = await this.formatData(data)
       this.access = access
@@ -33,6 +36,7 @@ export default {
       if (!can) {
         return
       }
+      console.log('this.open', this.$refs)
       this.getModal().open()
       this.afterOpen()
       // 刷新上一层的数据

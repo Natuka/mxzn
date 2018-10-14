@@ -33,11 +33,20 @@ export default {
     accessAdd () {
       return this.$store.getters.hasAccess(this.access.add)
     },
+    // 暂时执行空转函数
+    // 用于需要自定义设定值时
+    onAddSetData () {
+    },
+    // 添加时，额外设定内容
+    onEditSetData () {
+    },
     onAdd () {
+      this.onAddSetData()
       this.$refs.add.open()
     },
     async onEdit (data) {
       let edit = this.$refs.edit
+      this.onEditSetData()
       await edit.setData(data, this.accessEdit())
       edit.open()
     },

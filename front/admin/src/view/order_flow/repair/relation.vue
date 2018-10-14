@@ -80,6 +80,11 @@ export default {
       if (this.cached[name]) {
         return
       }
+
+      if (!this.data.id) {
+        return this.$Message.info('请选择要操作的工单')
+      }
+
       this.cached[name] = true
       let ref = this.getRef(name)
       if (ref) {
@@ -90,6 +95,7 @@ export default {
     // 刷新
     refresh () {
       let ref = this.onClick(this.name)
+      console.log('ref', ref)
     },
     // 设置数据
     setData (data, index) {

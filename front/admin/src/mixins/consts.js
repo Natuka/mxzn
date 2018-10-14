@@ -24,6 +24,11 @@ export default {
       return (h, {row}) => {
         return this.constWithRender(h, row[key], list, color)
       }
+    },
+    constRenderCustomData (key, list = [], color = true, data = {}) {
+      return (h, {row}) => {
+        return this.constWithRender(h, data[key], list, color)
+      }
     }
   }
 }
