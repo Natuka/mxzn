@@ -15,3 +15,7 @@ export const SEX_LIST = '女,男'.split(',')
 export const REPAIR_NEXT = '完工关闭,暂不关闭,内部派工,派给网'.split(',')
 // 处理进度
 export const REPAIR_PROCESS = '请选择,故障检测中,配件维修中,等待配件更换,测试观察中,已处理完成,不能处理,其他'.split(',')
+export const SERVICE_COMPLETE = '否,是'.split(',')
+export const SERVICE_SETTLEMENT_METHOD = '免费,客付,厂付'.split(',')
+export const SERVICE_HOTEL = '否,是'.split(',')
+export const SERVICE_LAND_TRAFFIC = '否,是'.split(',')

@@ -2,169 +2,164 @@
   <custom-modal
     ref="ref"
     width="1000px"
-    title="人事档案修改"
+    title="维修工单-新增"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
     class="mxcs-two-column"
   >
-    <div>
+    <div test="1245">
+      <Form
+        :model="fault"
+        ref="addForm1"
+        :label-width="90"
+        class="mxcs-two-column add-repairs"
+      >
+        <FormItem label="故障描述" prop="fault.desc" style="width: 100%;">
+          <Input
+            type="textarea"
+            :value="fault.desc"
+            disabled
+          ></Input>
+        </FormItem>
+
+        <FormItem label="故障类型" prop="type">
+          <Select v-model="fault.type" disabled>
+            <Option
+              v-for="(type, index) in select.faultType"
+              :key="index"
+              :value="index"
+            >{{type}}
+            </Option>
+          </Select>
+        </FormItem>
+        <FormItem label="故障频率" prop="sequence">
+          <Select v-model="fault.sequence" disabled>
+            <Option
+              v-for="(type, index) in select.sequenceType"
+              :key="index"
+              :value="index"
+            >{{type}}
+            </Option>
+          </Select>
+        </FormItem>
+        <FormItem label="线路是否破损" prop="is_line_broken">
+          <Select :value="fault.is_line_broken" disabled>
+            <Option
+              v-for="(type, index) in select.lineBroken"
+              :key="index"
+              :value="index"
+            >{{type}}
+            </Option>
+          </Select>
+        </FormItem>
+        <FormItem label="部品是否损坏" prop="is_part_broken">
+          <Select :value="fault.is_part_broken" disabled>
+            <Option
+              v-for="(type, index) in select.partBroken"
+              :key="index"
+              :value="index"
+            >{{type}}
+            </Option>
+          </Select>
+        </FormItem>
+        <FormItem label="故障频率" prop="sequence">
+          <Select :value="fault.sequence" disabled>
+            <Option
+              v-for="(type, index) in select.sequenceType"
+              :key="index"
+              :value="index"
+            >{{type}}
+            </Option>
+          </Select>
+        </FormItem>
+      </Form>
+
+      <br>
+      <br>
+
       <Form :model="data"
             ref="addForm"
             :rules="rules"
             :label-width="90"
+            class="mxcs-two-column"
       >
-        <FormItem label="组织/公司" prop="org_id">
+        <FormItem label="处理工程师" prop="staff_id">
           <remote-select
-            :init="data.org_id"
-            :initData="init.organization"
+            :init="data.staff_id"
+            :initData="init.staff"
             label="name"
-            url="select/organization"
-            :filter="(data) => data.name"
-            :valueMap="(data) => data.id"
-            @on-change="id => this.data.org_id = id"
+            url="select/staff"
+            @on-change="staffChange"
+            @on-change-data="staffChangeData"
           ></remote-select>
-
-        </FormItem>
-        <FormItem label="编号" prop="number">
-          <Input v-model="data.number" placeholder="编号" disabled></Input>
-        </FormItem>
-        <FormItem label="姓名" prop="name">
-          <Input v-model="data.name" placeholder="姓名"></Input>
-        </FormItem>
-        <FormItem label="性别">
-          <RadioGroup v-model="data.sex">
-            <Radio :label="1">
-              <Icon type="md-male"></Icon>
-              <span>男</span>
-            </Radio>
-            <Radio :label="0">
-              <Icon type="md-female"></Icon>
-              <span>女</span>
-            </Radio>
-          </RadioGroup>
-        </FormItem>
-        <FormItem label="出生日期" prop="birthday">
-          <DatePicker
-            type="date"
-            placeholder="生日"
-            v-model="data.birthday"
-            @on-change="date => this.data.birthday = date"
-          ></DatePicker>
-        </FormItem>
-        <FormItem label="部门" prop="dep_id">
-          <static-select
-            :data="select.department"
-            :init="data.dep_id"
-            @on-change="(value) => this.data.dep_id = value"
-          ></static-select>
-        </FormItem>
-        <FormItem label="职位" prop="post">
-          <static-select
-            :data="select.post"
-            :init="data.post"
-            @on-change="(value) => this.data.post = value"
-          ></static-select>
-        </FormItem>
-        <FormItem label="职务" prop="job">
-          <static-select
-            :init="data.job"
-            label="name"
-            :data="select.job"
-            @on-change="(value) => this.data.job = value"
-          ></static-select>
-
-        </FormItem>
-        <FormItem label="毕业院校" prop="graduated_school">
-          <Input v-model="data.graduated_school" placeholder="毕业院校"></Input>
-        </FormItem>
-        <FormItem label="学历">
-          <static-select
-            :data="select.education"
-            :init="data.education"
-            @on-change="(value) => this.data.education = value"
-          ></static-select>
-        </FormItem>
-        <FormItem label="技能专长" prop="skill_expertise">
-          <Input v-model="data.skill_expertise" placeholder="技能专长"></Input>
-        </FormItem>
-        <FormItem label="兴趣爱好" prop="hobby">
-          <Input v-model="data.hobby" placeholder="兴趣爱好"></Input>
-        </FormItem>
-        <FormItem label="手机" prop="mobile">
-          <Input v-model="data.mobile" placeholder="手机"></Input>
-        </FormItem>
-        <FormItem label="邮箱" prop="email">
-          <Input v-model="data.email" placeholder="邮箱"></Input>
-        </FormItem>
-        <FormItem label="入职日期" prop="entry_date">
-          <DatePicker
-            type="date"
-            placeholder="入职日期"
-            v-model="data.entry_date"
-            @on-change="date => this.data.entry_date = date"
-          ></DatePicker>
-        </FormItem>
-        <FormItem label="在职状态">
-          <RadioGroup v-model="data.status">
-            <Radio :label="1">
-              <span>在职</span>
-            </Radio>
-            <Radio :label="0">
-              <span>离职</span>
-            </Radio>
-          </RadioGroup>
-        </FormItem>
-        <FormItem label="离职日期" prop="leave_date">
-          <DatePicker
-            type="date"
-            placeholder="离职日期"
-            v-model="data.leave_date"
-            @on-change="date => this.data.leave_date = date"
-          ></DatePicker>
-        </FormItem>
-        <FormItem label="所在省">
-          <static-select
-            :init="data.province_id"
-            label="areaname"
-            :data="provinces"
-            @on-change="provinceChange"
-          ></static-select>
-        </FormItem>
-        <FormItem label="所在市">
-          <static-select
-            :init="data.city_id"
-            label="areaname"
-            :data="cities"
-            @on-change="cityChange"
-          ></static-select>
-        </FormItem>
-        <FormItem label="所在县">
-          <static-select
-            :init="data.district_id"
-            label="areaname"
-            :data="counties"
-            @on-change="countyChange"
-          ></static-select>
-        </FormItem>
-        <FormItem label="详细地址">
-          <Input v-model="data.address" placeholder="详细地址"></Input>
-        </FormItem>
-        <FormItem label="备注">
-          <Input v-model="data.remark" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
-                 placeholder="备注..."></Input>
         </FormItem>
 
-        <FormItem label="建立人员">
-          <Input v-model="data.created_by" placeholder="建立人员" disabled></Input>
+        <FormItem label="处理进度" prop="process_id">
+          <Select v-model="data.process_id">
+            <Option
+              v-for="(type, index) in select.processList"
+              :key="index"
+              :value="index"
+            >{{type}}
+            </Option>
+          </Select>
         </FormItem>
-        <FormItem label="建立日期">
-          <Input v-model="data.created_at" placeholder="建立日期" disabled></Input>
+
+        <FormItem label="处理措施结果" prop="step_result" style="width: 100%;">
+          <Input
+            type="textarea"
+            v-model="data.step_result"
+          ></Input>
         </FormItem>
-        <FormItem label="最近修改人员">
-          <Input v-model="data.updated_by" placeholder="最近修改人员" disabled></Input>
+
+        <FormItem label="附件" prop="fault.desc" style="width: 100%;">
+          <Upload action="//jsonplaceholder.typicode.com/posts/">
+            <Button icon="ios-cloud-upload-outline">上传</Button>
+          </Upload>
         </FormItem>
-        <FormItem label="最近修改日期">
-          <Input v-model="data.updated_at" placeholder="最近修改日期" disabled></Input>
+
+        <FormItem label="到达时间" prop="arrived_at">
+          <DatePicker
+            type="datetime"
+            placeholder="到达时间"
+            :value="data.arrived_at"
+            @on-change="date => this.data.arrived_at = date"
+            :start-date="new Date()"
+          ></DatePicker>
+        </FormItem>
+
+        <FormItem label="完成时间" prop="complete_at">
+          <DatePicker
+            type="datetime"
+            placeholder="完成时间"
+            :value="data.complete_at"
+            @on-change="date => this.data.complete_at = date"
+            :start-date="new Date()"
+          ></DatePicker>
+        </FormItem>
+
+        <FormItem label="故障原因" prop="cause" style="width: 100%;">
+          <Input
+            type="textarea"
+            v-model="data.cause"
+          ></Input>
+        </FormItem>
+
+        <FormItem label="附件" prop="fault.desc" style="width: 100%;">
+          <Upload action="//jsonplaceholder.typicode.com/posts/">
+            <Button icon="ios-cloud-upload-outline">上传</Button>
+          </Upload>
+        </FormItem>
+
+        <FormItem label="下一步处理" prop="next">
+          <Select v-model="data.next">
+            <Option
+              v-for="(type, index) in select.nextList"
+              :key="index"
+              :value="index"
+            >{{type}}
+            </Option>
+          </Select>
         </FormItem>
 
       </Form>
@@ -177,11 +172,9 @@
 import ModalMixin from '@/mixins/modal'
 import AreaMixin from '@/mixins/area'
 
-import {updateRepair} from '@/api/order_flow/repair'
-import {selectOrganization} from '@/api/select/organization'
-import {selectDepartment} from '@/api/select/department'
-
-// import * as orderConst from '@/constants/order_flow'
+import {updateRepairAction} from '@/api/order_flow/repair'
+import * as orderConst from '@/constants/order_flow'
+import * as orderFaultConst from '@/constants/order_fault'
 
 export default {
   name: 'repair-edit',
@@ -189,41 +182,39 @@ export default {
   data () {
     return {
       data: {
-        org_id: 0,
-        number: '',
-        name: '',
-        sex: 1,
-        birthday: '',
-        dep_id: 0,
-        post: 0,
-        job: 0,
-        graduated_school: '',
-        education: 0,
-        skill_expertise: '',
-        hobby: '',
-        mobile: '',
-        email: '',
-        entry_date: '',
-        status: 1,
-        leave_date: '',
-        province_id: 0,
-        city_id: 0,
-        district_id: 0,
-        address: '',
+        staff: {},
+        staff_id: 0,
+        service_order_id: 0,
+        staff_name: '',
+        process_id: 0, // 进度ID
+        process: '', // 进度内容
+        arrived_at: '',
+        complete_at: '',
+        cause_id: 0,
+        next: 0,
+        cause: '',
+        step_doc_ids: '',
+        step_result: '',
+        cause_doc_ids: '',
         remark: ''
       },
+      fault: {},
       rules: {
         name: [
           {required: true, message: '姓名不能为空', trigger: 'blur'}
         ]
       },
       select: {
-        job: [],
-        post: [],
-        education: []
+        faultType: orderFaultConst.FAULT_TYPE,
+        sequenceType: orderFaultConst.SEQUENCE_TYPE,
+        lineBroken: orderFaultConst.LINE_BROKEN,
+        partBroken: orderFaultConst.PART_BROKEN,
+        processList: orderConst.REPAIR_PROCESS,
+        nextList: orderConst.REPAIR_NEXT
       },
       init: {
-        organization: []
+        department: [],
+        staff: []
       }
     }
   },
@@ -232,7 +223,7 @@ export default {
       this.$refs.addForm.validate(async (valid) => {
         if (valid) {
           try {
-            let data = await updateRepair(this.data, this.data.id)
+            let data = await updateRepairAction(this.data, this.data.id, this.data.service_order_id, 'repairs')
             console.log('data', data)
             this.withRefresh(e)
           } catch (e) {
@@ -243,74 +234,38 @@ export default {
         }
       })
     },
+    setDataBefore (data) {
+      this.fault = data.fault[0]
+      this.data.service_order_id = data.id
+    },
     onCancel (e) {
       e()
     },
     async beforeOpen () {
-      let job = await this.$store.dispatch('getJob')
-      let post = await this.$store.dispatch('getPost')
-      let education = await this.$store.dispatch('getEducation')
-      this.select.job = job
-      this.select.post = post
-      this.select.education = education
-
       return true
     },
     async afterOpen () {
-      let data = this.data
-      // 省份
-      await this.getAllByIds(data.province_id, data.city_id, data.district_id)
-
-      let {job, post, education} = this.data
-      this.data.job = 0
-      this.data.post = 0
-      this.data.education = 0
-
-      let organizations = await selectOrganization({id: data.org_id})
-      this.init.organization = organizations.data
-
-      await this.organizationChange(data.org_id)
-
-      this.data.job = job
-      this.data.post = post
-      this.data.education = education
-      return true
+      this.init.staff = [{
+        id: this.data.staff_id,
+        name: this.data.staff_name
+      }]
     },
-    async organizationChange (id) {
-      this.data.org_id = id
-      if (!id) {
-        return
-      }
-      let {data} = await selectDepartment(id)
-      this.select.department = data || []
-      if (data.length) {
-        let info = data.find(info => +info.id === +this.data.dep_id)
-        if (!info) {
-          this.data.dep_id = data[0].id
-        }
-      }
+    async staffChange (staffId) {
+      this.data.staff_id = staffId
     },
-    async provinceChange (provinceId) {
-      if (+this.data.province_id !== +provinceId) {
-        this.data.province_id = provinceId
-        let cities = await this.getCities(provinceId)
-        if (!this.hasArea(cities, this.data.city_id)) {
-          this.cityChange(cities[0].id)
-        }
-      }
-    },
-    async cityChange (cityId) {
-      if (+cityId !== this.data.city_id) {
-        this.data.city_id = cityId
-        let counties = await this.getCountie(cityId)
-        if (counties.length) {
-          this.data.district_id = counties[0].id
-        }
-      }
-    },
-    async countyChange (countyId) {
-      this.data.district_id = countyId
+    async staffChangeData (staff) {
+      this.data.staff_id = staff.id
+      this.data.staff_name = staff.name
+      this.data.staff = staff
     }
   }
 }
 </script>
+
+<style>
+  .add-repairs{
+    border-bottom: 1px solid #aaa;
+
+    margin-bottom: 20px;
+  }
+</style>

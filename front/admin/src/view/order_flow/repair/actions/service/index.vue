@@ -78,98 +78,97 @@ export default {
         {
           width: 120,
           fixed: 'left',
-          title: '服务单号A',
-          key: 'number',
+          title: '服务名称',
+          key: 'name',
           sortable: false
         },
         {
           width: 120,
-          // fixed: 'left',
-          title: '当前状态',
-          key: 'status',
+          title: '服务内容',
+          key: 'content',
+          sortable: false
+        },
+        {
+          width: 120,
+          title: '服务时间',
+          key: 'workday',
+          sortable: false
+        },
+        {
+          width: 120,
+          title: '地区',
+          key: 'area',
+          sortable: false
+        },
+        {
+          width: 120,
+          title: '单价',
+          key: 'price',
+          sortable: false
+        },
+        {
+          width: 120,
+          title: '单位',
+          key: 'unit',
+          sortable: false
+        },
+        {
+          width: 120,
+          title: '数量',
+          key: 'quantity',
+          sortable: false
+        },
+        {
+          width: 120,
+          title: '金额',
+          key: 'amount',
+          sortable: false
+        },
+        {
+          width: 120,
+          title: '提成',
+          key: 'reward',
+          sortable: false
+        },
+        {
+          width: 160,
+          title: '是否含陆路交通费',
+          key: 'is_land_traffic',
           sortable: false,
-          render: this.constRender('status', orderConst.ORDER_STATUS)
+          render: this.constRender('is_land_traffic', orderConst.SERVICE_LAND_TRAFFIC)
         },
         {
-          width: 120,
-          title: '工单类别',
-          key: 'type',
+          width: 160,
+          title: '是否含住宿',
+          key: 'is_hotel',
           sortable: false,
-          render: this.constRender('type', orderConst.ORDER_TYPE)
+          render: this.constRender('is_hotel', orderConst.SERVICE_HOTEL)
         },
         {
-          width: 120,
-          title: '受理时间',
-          key: 'receive_at',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '处理进度',
-          key: 'progress',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '处理时长',
-          key: 'progress_use_time',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '工程师',
-          key: 'engineer_ids',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '客户名称',
-          key: 'customer_id',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '服务级别',
-          key: 'level',
+          width: 160,
+          title: '结算方式',
+          key: 'settlement_method',
           sortable: false,
-          render: this.constRender('level', orderConst.ORDER_LEVEL)
+          render: this.constRender('settlement_method', orderConst.SERVICE_SETTLEMENT_METHOD)
         },
         {
           width: 160,
-          title: '故障描述',
-          key: 'created_at',
+          title: '工时',
+          key: 'working_hours',
           sortable: false
         },
         {
           width: 160,
-          title: '报修人员',
-          key: 'feedback_staff_id',
-          sortable: false
-        },
-        {
-          width: 160,
-          title: '电话',
-          key: 'created_at',
-          sortable: false
-        },
-        {
-          width: 160,
-          title: '制单人员',
-          key: 'created_at',
-          sortable: false
-        },
-        {
-          width: 160,
-          title: '制单时间',
-          key: 'created_at',
-          sortable: false
-        },
-        {
-          width: 160,
-          title: '单据状态',
-          key: 'status',
+          title: '是否完工',
+          key: 'is_complete',
           sortable: false,
-          render: this.constRender('status', orderConst.ORDER_STATUS)
+          render: this.constRender('is_complete', orderConst.SERVICE_COMPLETE)
+        },
+        {
+          width: 160,
+          title: '备注',
+          key: 'remark',
+          sortable: false
         },
         {
           fixed: 'right',

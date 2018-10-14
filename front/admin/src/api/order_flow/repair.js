@@ -23,7 +23,7 @@ export function addRepairAction (data, orderId, type = 'attendance') {
 
 // 更新
 export function updateRepairAction (data, id, orderId, type = 'attendance') {
-  return postApi(`order_flow/repair/${orderId}/${type}/${id}`, data)
+  return putApi(`order_flow/repair/${orderId}/${type}/${id}`, data)
 }
 
 // 删除
