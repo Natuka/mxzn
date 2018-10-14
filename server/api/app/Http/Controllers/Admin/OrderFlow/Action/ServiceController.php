@@ -81,7 +81,7 @@ class ServiceController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(CreateRequest $request, ServiceOrder $order, ServiceOrderService $service)
+    public function store(CreateRequest $request, ServiceOrder $order, ServiceOrderService $service)
     {
         $data = $request->only([
             'service_id',
@@ -100,7 +100,7 @@ class ServiceController extends BaseController
             'working_hours',
             'is_complete',
             'staff_id',
-            'staff',
+            'staff_name',
             'remark',
         ]);
         $data['service_id'] = (int)$data['service_id'];
@@ -124,18 +124,6 @@ class ServiceController extends BaseController
         }
 
         return error_json('新增失败，请检查');
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
 
     }
 
@@ -165,7 +153,7 @@ class ServiceController extends BaseController
             'working_hours',
             'is_complete',
             'staff_id',
-            'staff',
+            'staff_name',
             'remark',
         ]);
         $data['service_id'] = (int)$data['service_id'];

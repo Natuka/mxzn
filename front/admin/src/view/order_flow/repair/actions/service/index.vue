@@ -30,8 +30,8 @@
       <br/>
       <Page :current="page" :total="total" show-elevator @on-change="toPage"/>
     </Card>
-    <repair-add ref="add" @refresh="refresh"></repair-add>
-    <repair-edit ref="edit" @refresh="refreshWithPage"></repair-edit>
+    <service-add ref="add" @refresh="refresh"></service-add>
+    <service-edit ref="edit" @refresh="refreshWithPage"></service-edit>
 
   </div>
 </template>
@@ -253,6 +253,12 @@ export default {
     },
     setUrl (data) {
       this.url = `order_flow/repair/${data.id}/service`
+    },
+    onAddSetData () {
+      this.$refs.add.setDataBefore(this.data)
+    },
+    onEditSetData () {
+      this.$refs.edit.setDataBefore(this.data)
     }
   },
   mounted () {
