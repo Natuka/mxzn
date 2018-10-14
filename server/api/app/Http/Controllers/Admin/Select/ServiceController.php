@@ -3,26 +3,25 @@
 namespace App\Http\Controllers\Admin\Select;
 
 use App\Http\Controllers\Admin\BaseController;
-use App\Models\Customer;
-use App\Models\Staff;
+use App\Models\Service;
 use Illuminate\Http\Request;
 
-class StaffController extends BaseController
+class ServiceController extends BaseController
 {
     //
-    public function index(Request $request, Staff $staff)
+    public function index(Request $request, Service $service)
     {
-        $staff = $this->search($request, $staff);
+        $service = $this->search($request, $service);
 
-        return $this->paginate($staff);
+        return $this->paginate($service);
     }
 
-    public function search(Request $request, Staff $staff)
+    public function search(Request $request, Service $service)
     {
         if ($name = $request->get('name', '')) {
-            $staff = $staff->where('name', 'like', like($name));
+            $service = $service->where('name', 'like', like($name));
         }
 
-        return $staff;
+        return $service;
     }
 }
