@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\OrderAction\Followup;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\RequestTrait;
 
 class UpdateRequest extends FormRequest
 {

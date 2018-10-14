@@ -72,16 +72,18 @@ class PartsController extends BaseController
 
             $part = $part->orderBy($orderFieldArray[$orderField], $orderByArray[$orderBy]);
         }*/
+        $part->with('code', 'part');
         return $part;
     }
 
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param CreateRequest $request
+     * @param ServiceOrder $order
+     * @param ServiceOrderPart $part
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function create(CreateRequest $request, ServiceOrder $order, ServiceOrderPart $part)
+    public function store(CreateRequest $request, ServiceOrder $order, ServiceOrderPart $part)
     {
         $data = $request->only([
             'base_part_id',

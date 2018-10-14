@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\OrderAction\Parts;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\RequestTrait;
 
 class UpdateRequest extends FormRequest
 {
@@ -25,7 +26,7 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'order_id' => 'required',
+//            'order_id' => 'required',
         ];
     }
 

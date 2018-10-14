@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Http\Controllers\Admin\Select;
+
+use App\Http\Controllers\Admin\BaseController;
+use App\Models\Part;
+use App\Models\Service;
+use Illuminate\Http\Request;
+
+class PartController extends BaseController
+{
+    //
+    public function index(Request $request, Part $part)
+    {
+        $part = $this->search($request, $part);
+
+        return $this->paginate($part);
+    }
+
+    public function search(Request $request, Part $part)
+    {
+        if ($name = $request->get('name', '')) {
+            $part = $part->where('name', 'like', like($name));
+        }
+
+        if ($id = $request->get('id', 0)) {
+            $part = $part->where('id', (int)$id);
+        }
+
+        $part->with('code');
+
+        return $part;
+    }
+}
