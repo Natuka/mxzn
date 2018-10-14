@@ -233,8 +233,8 @@ export default {
       this.$refs.addForm.validate(async (valid) => {
         if (valid) {
           try {
-            let data = await updateStaff(this.data, this.data.id)
             console.log('data', data)
+            let data = await updateStaff(this.data, this.data.id)
             this.withRefresh(e)
           } catch (e) {
             this.closeLoading()
@@ -260,6 +260,7 @@ export default {
     async afterOpen () {
       let data = this.data
       // 省份
+      console.log('afterOpen', data)
       await this.getAllByIds(data.province_id, data.city_id, data.district_id)
 
       let {job, post, education} = this.data

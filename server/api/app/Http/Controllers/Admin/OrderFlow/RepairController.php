@@ -75,11 +75,11 @@ class RepairController extends BaseController
         $data['type'] = $this->type;
         $data['number'] = $this->createNumber();
 
-        $data['feedback_at'] = form_date($data['feedback_at'], 'Y-m-d H:i:s');
-        $data['receive_at'] = form_date($data['receive_at'], 'Y-m-d H:i:s');
-        $data['confirm_at'] = form_date($data['confirm_at'], 'Y-m-d H:i:s');
-        $data['plan_out_at'] = form_date($data['plan_out_at'], 'Y-m-d H:i:s');
-        $data['plan_finish_at'] = form_date($data['plan_finish_at'], 'Y-m-d H:i:s');
+        $data['feedback_at'] = !empty($data['feedback_at'])?form_date($data['feedback_at'], 'Y-m-d H:i:s'):'';
+        $data['receive_at'] = !empty($data['receive_at'])?form_date($data['receive_at'], 'Y-m-d H:i:s'):'';
+        $data['confirm_at'] = !empty($data['confirm_at'])?form_date($data['confirm_at'], 'Y-m-d H:i:s'):'';
+        $data['plan_out_at'] = !empty($data['plan_out_at'])?form_date($data['plan_out_at'], 'Y-m-d H:i:s'):'';
+        $data['plan_finish_at'] = !empty($data['plan_finish_at'])?form_date($data['plan_finish_at'], 'Y-m-d H:i:s'):'';
 
         if (!empty($equipment)) {
             $data['equipment_id'] = $equipment['id'];
@@ -163,11 +163,11 @@ class RepairController extends BaseController
 
         $equipment = $request->get('equipment', []);
 
-        $data['feedback_at'] = form_date($data['feedback_at'], 'Y-m-d H:i:s');
-        $data['receive_at'] = form_date($data['receive_at'], 'Y-m-d H:i:s');
-        $data['confirm_at'] = form_date($data['confirm_at'], 'Y-m-d H:i:s');
-        $data['plan_out_at'] = form_date($data['plan_out_at'], 'Y-m-d H:i:s');
-        $data['plan_finish_at'] = form_date($data['plan_finish_at'], 'Y-m-d H:i:s');
+        $data['feedback_at'] = !empty($data['feedback_at'])?form_date($data['feedback_at'], 'Y-m-d H:i:s'):'';
+        $data['receive_at'] = !empty($data['receive_at'])?form_date($data['receive_at'], 'Y-m-d H:i:s'):'';
+        $data['confirm_at'] = !empty($data['confirm_at'])?form_date($data['confirm_at'], 'Y-m-d H:i:s'):'';
+        $data['plan_out_at'] = !empty($data['plan_out_at'])?form_date($data['plan_out_at'], 'Y-m-d H:i:s'):'';
+        $data['plan_finish_at'] = !empty($data['plan_finish_at'])?form_date($data['plan_finish_at'], 'Y-m-d H:i:s'):'';
 
         if (!empty($equipment)) {
             $data['equipment_id'] = $equipment['id'];

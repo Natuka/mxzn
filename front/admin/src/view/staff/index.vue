@@ -16,7 +16,7 @@
           <Icon type="md-refresh"/>
         </Button>
       </div>
-      <agent-search ref="search" @on-search="onSearch"></agent-search>
+      <staff-search ref="search" @on-search="onSearch"></staff-search>
       <tables
         ref="tables"
         :loading="loading"
@@ -132,6 +132,10 @@ export default {
           title: '建档日期',
           key: 'created_at',
           sortable: false
+        },
+        {
+          title: ' ',
+          key: ''
         },
         {
           fixed: 'right',
