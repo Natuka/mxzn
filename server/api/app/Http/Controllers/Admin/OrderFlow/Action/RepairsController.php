@@ -77,11 +77,12 @@ class RepairsController extends BaseController
 
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param CreateRequest $request
+     * @param ServiceOrder $order
+     * @param ServiceOrderRepair $repair
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function create(CreateRequest $request, ServiceOrder $order, ServiceOrderRepair $repair)
+    public function store(CreateRequest $request, ServiceOrder $order, ServiceOrderRepair $repair)
     {
         $data = $request->only([
             'staff_id',
@@ -113,18 +114,6 @@ class RepairsController extends BaseController
         }
 
         return error_json('新增失败，请检查');
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
 
     }
 

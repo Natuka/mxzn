@@ -62,3 +62,7 @@ function load_routes($path)
 function form_date($date, $format='Y-m-d') {
     return date($format, strtotime($date));
 }
+
+function format_date($date, $format='Y-m-d') {
+    return date($format, strtotime($date));
+}

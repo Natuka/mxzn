@@ -4,6 +4,8 @@ namespace App\Http\Requests\Admin\OrderAction\Repairs;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+use App\Traits\RequestTrait;
+
 class CreateRequest extends FormRequest
 {
     use RequestTrait;
@@ -25,14 +27,14 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'order_id' => 'required',
+//            'order_id' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            'order_id.required' => '订单ID必须有值!',
+//            'order_id.required' => '订单ID必须有值!',
         ];
     }
 }
