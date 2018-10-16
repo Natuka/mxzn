@@ -83,7 +83,7 @@ class AttendanceController extends BaseController
      * @param ServiceOrderAttendance $attendance
      * @return \Illuminate\Http\JsonResponse
      */
-    public function create(CreateRequest $request, ServiceOrder $order, ServiceOrderAttendance $attendance)
+    public function store(CreateRequest $request, ServiceOrder $order, ServiceOrderAttendance $attendance)
     {
         $data = $request->only([
             'staff_id',
