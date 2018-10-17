@@ -90,7 +90,7 @@
             sortable: true
           },
           {
-            width: 120,
+            width: 150,
             title: '催单时间',
             key: 'followup_time',
             sortable: false
@@ -120,8 +120,7 @@
             sortable: false
           },
           {
-            width: 120,
-            fixed: 'left',
+            width: 150,
             title: '操作时间',
             key: 'created_at',
             sortable: false

@@ -80,7 +80,7 @@
             sortable: false
           },
           {
-            width: 120,
+            width: 160,
             title: '时间',
             key: 'signin_time',
             sortable: true
@@ -106,17 +106,11 @@
           {
             width: 120,
             title: '确认人员',
-            key: 'attendance_user_name',
+            key: 'confirm_user_name',
             sortable: true
           },
           {
-            width: 160,
-            title: '建档人员',
-            key: 'created_by',
-            sortable: false
-          },
-          {
-            width: 160,
+            width: 150,
             title: '建档时间',
             key: 'created_at',
             sortable: false
