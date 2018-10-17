@@ -2,14 +2,9 @@
   <div>
     <Card>
       <div slot="title">
-        <Button type="primary" @click="onAdd" v-if="accessAdd()">
-          新增
-          <Icon type="md-add"/>
-        </Button>
         <Button
           type="primary"
           @click="refresh"
-          v-if="accessAdd()"
           class="ml-5"
         >
           刷新
@@ -179,6 +174,10 @@
                 )
               }
             ]
+          },
+          {
+            title: ' ',
+            key: ''
           }
         ],
         tableData: []
