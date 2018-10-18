@@ -37,8 +37,6 @@
 </template>
 
 <script>
-  import dayjs from 'dayjs'
-
   import Tables from '_c/tables'
 
   import search from './search'
@@ -185,6 +183,10 @@
                 )
               }
             ]
+          },
+          {
+            title: ' ',
+            key: ''
           }
         ],
         tableData: []
@@ -217,7 +219,6 @@
         this.url = `order_flow/repair/${data.id}/confirm`
       },
       onAddSetData () {
-        // console.log('data', this.data)
         this.$refs.add.setDataBefore(this.data)
       },
       onEditSetData () {
