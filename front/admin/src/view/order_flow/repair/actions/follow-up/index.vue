@@ -79,13 +79,6 @@
         columns: [
           {
             width: 120,
-            fixed: 'left',
-            title: '操作时间',
-            key: 'created_at',
-            sortable: false
-          },
-          {
-            width: 120,
             title: '催单人员',
             key: 'followup_staff_name',
             sortable: true
@@ -97,7 +90,7 @@
             sortable: true
           },
           {
-            width: 120,
+            width: 150,
             title: '催单时间',
             key: 'followup_time',
             sortable: false
@@ -124,6 +117,12 @@
             width: 160,
             title: '建档人员',
             key: 'created_by',
+            sortable: false
+          },
+          {
+            width: 150,
+            title: '操作时间',
+            key: 'created_at',
             sortable: false
           },
           {
@@ -179,6 +178,10 @@
                 )
               }
             ]
+          },
+          {
+            title: ' ',
+            key: ''
           }
         ],
         tableData: []

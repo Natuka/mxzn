@@ -91,7 +91,7 @@ class ConfirmController extends BaseController
      * @param ServiceOrderConfirm $confirm
      * @return \Illuminate\Http\JsonResponse
      */
-    public function create(CreateRequest $request, ServiceOrder $order, ServiceOrderConfirm $confirm)
+    public function store(CreateRequest $request, ServiceOrder $order, ServiceOrderConfirm $confirm)
     {
         $data = $request->only([
             'is_solve',

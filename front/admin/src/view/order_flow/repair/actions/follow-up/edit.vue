@@ -100,8 +100,14 @@ export default {
       },
       fault: {},
       rules: {
-        name: [
-          {required: true, message: '姓名不能为空', trigger: 'blur'}
+        followup_staff_id: [
+          {required: true, message: '催单人不能为空', trigger: 'blur'}
+        ],
+        followup_time: [
+          {required: true, message: '催单时间不能为空', trigger: 'blur'}
+        ],
+        handle_staff_id: [
+          {required: true, message: '受理人不能为空', trigger: 'blur'}
         ]
       },
       select: {

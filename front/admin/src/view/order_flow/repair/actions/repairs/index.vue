@@ -78,7 +78,7 @@ export default {
       },
       columns: [
         {
-          width: 120,
+          width: 150,
           fixed: 'left',
           title: '操作时间',
           key: 'created_at',
@@ -99,13 +99,13 @@ export default {
           sortable: false
         },
         {
-          width: 120,
+          width: 150,
           title: '到达时间',
           key: 'arrived_at',
           sortable: false
         },
         {
-          width: 120,
+          width: 150,
           title: '完成时间',
           key: 'complete_at',
           sortable: false
@@ -146,7 +146,7 @@ export default {
         {
           width: 160,
           title: '下一步处理',
-          key: 'created_at',
+          key: 'next_step',
           sortable: false
         },
         {

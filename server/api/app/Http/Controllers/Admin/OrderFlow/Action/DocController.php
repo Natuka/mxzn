@@ -81,8 +81,21 @@ class DocController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(CreateRequest $request, ServiceOrder $order, ServiceOrderDocument $doc)
+    public function create()
     {
+
+
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(CreateRequest $request, ServiceOrder $order, ServiceOrderDocument $doc)
+    {
+        //
         $data = $request->only([
             'document_id',
         ]);
@@ -100,19 +113,6 @@ class DocController extends BaseController
         }
 
         return error_json('新增失败，请检查');
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-
     }
 
     /**

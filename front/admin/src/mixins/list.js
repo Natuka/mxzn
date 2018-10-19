@@ -41,6 +41,7 @@ export default {
     onEditSetData () {
     },
     onAdd () {
+      console.log('onAdd')
       this.onAddSetData()
       this.$refs.add.open()
     },
