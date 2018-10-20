@@ -24,11 +24,11 @@ export default [
         children: [
           {
             path: 'repair',
-            name: 'order_flow_service',
+            name: 'order_flow_repair_list',
             meta: {
               icon: '_qq',
               title: '维修工单',
-              access: ['order_flow_service']
+              access: ['order_flow_repair_list']
             },
             component: () => import('@/view/order_flow/repair/index.vue')
           },

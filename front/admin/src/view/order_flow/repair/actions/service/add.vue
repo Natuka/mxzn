@@ -2,7 +2,7 @@
   <custom-modal
     ref="ref"
     width="1000px"
-    title="维修工单-新增"
+    title="维修工单-服務項目-新增"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
     class="mxcs-two-column"
@@ -211,6 +211,7 @@ export default {
   methods: {
     onSubmit (e) {
       this.$refs.addForm.validate(async (valid) => {
+        console.log('onSubmit', valid)
         if (valid) {
           try {
             let data = await addRepairAction(this.data, this.data.service_order_id, 'service')

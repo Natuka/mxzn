@@ -2,7 +2,7 @@
   <custom-modal
     ref="ref"
     width="1000px"
-    title="维修工单-修改"
+    title="配件耗材-修改"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
     class="mxcs-two-column"
@@ -26,22 +26,11 @@
           ></remote-select>
         </FormItem>
 
-        <FormItem label="编号" prop="serial_number">
+        <!--<FormItem label="编号" prop="serial_number">
           <Input
             v-model="data.serial_number"
             readonly
           ></Input>
-        </FormItem>
-
-        <!--<FormItem label="编号" prop="base_code_id">
-          <remote-select
-            :init="data.base_code_id"
-            :initData="init.code"
-            label="name"
-            url="select/code"
-            @on-change="codeChange"
-            @on-change-data="codeChangeData"
-          ></remote-select>
         </FormItem>-->
 
         <FormItem label="料号" prop="number">
@@ -80,9 +69,9 @@
         </FormItem>
 
         <FormItem label="数量" prop="quantity">
-          <Input
+          <InputNumber
             v-model="data.quantity"
-          ></Input>
+          ></InputNumber>
         </FormItem>
 
         <FormItem label="金额" prop="amount">
@@ -93,10 +82,10 @@
         </FormItem>
 
         <FormItem label="折扣" prop="discount">
-          <Input
+          <InputNumber
+            :max="10" :min="1"
             v-model="data.discount"
-            readonly
-          ></Input>
+          ></InputNumber>
         </FormItem>
 
         <FormItem label="折扣后金额" prop="amount_dis">
@@ -167,13 +156,13 @@ export default {
         price: 0,
         unit: '天',
         quantity: 1,
-        amount: 1,
-        discount: 1,
-        amount_dis: 1,
+        amount: 0,
+        discount: 10,
+        amount_dis: 0,
         warranty_months: 1,
         warranty_date: '',
         remark: '',
-        serial_number: '',
+        // serial_number: '',
         code: {}
       },
       fault: {},
@@ -236,19 +225,19 @@ export default {
       this.data.base_code_id = code.id
       // this.data.staff_name = code.name
       this.data.code = code
-      this.data.serial_number = code.serial_number
+      // this.data.serial_number = code.serial_number
     },
     async partChange (partId) {
       this.data.base_part_id = partId
     },
     async partChangeData (part) {
       this.data.base_part_id = part.id
+      this.data.number = part.number
       this.data.name = part.name
       this.data.model = part.model
       this.data.brand = part.brand
       this.data.unit = part.unit
       this.data.price = part.price_sale_unified
-      this.data.unit = part.unit
       this.codeChangeData(part.code)
     }
   },

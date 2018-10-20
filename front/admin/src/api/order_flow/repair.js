@@ -23,6 +23,7 @@ export function addRepairAction (data, orderId, type = 'attendance') {
 
 // 更新
 export function updateRepairAction (data, id, orderId, type = 'attendance') {
+  console.log('onSubmit IN', orderId, type)
   return putApi(`order_flow/repair/${orderId}/${type}/${id}`, data)
 }
 

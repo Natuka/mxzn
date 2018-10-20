@@ -93,7 +93,9 @@ class ConfirmController extends BaseController
      */
     public function store(CreateRequest $request, ServiceOrder $order, ServiceOrderConfirm $confirm)
     {
+        dd($request);
         $data = $request->only([
+            'service_order_id',
             'is_solve',
             'overall_satisfaction',
             'timeliness',
@@ -113,7 +115,7 @@ class ConfirmController extends BaseController
         $data['service_order_id'] = (int)$order['id'];
         $data['created_by'] = '新增';
         $data['updated_by'] = '新增';
-
+        dd($data);
         $ret = $confirm->forceFill($data)->save();
 
         if ($ret) {

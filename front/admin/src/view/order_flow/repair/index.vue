@@ -311,6 +311,7 @@ export default {
       e()
     },
     onRowClick (data, index) {
+      // console.log('EditData', data)
       this.$refs.relation.setData(data, index)
     }
   },
