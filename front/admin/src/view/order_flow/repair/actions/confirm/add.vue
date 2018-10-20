@@ -2,7 +2,7 @@
   <custom-modal
     ref="ref"
     width="1000px"
-    title="维修工单-客户确认-新增"
+    title="维修工单-客户确认与评价"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
     class="mxcs-two-column"
@@ -15,6 +15,19 @@
             :label-width="90"
             class="mxcs-two-column"
       >
+        <FormItem label="是否解决">
+          <RadioGroup v-model="data.sex">
+            <Radio :label="1">
+              <Icon type="md-male"></Icon>
+              <span>是</span>
+            </Radio>
+            <Radio :label="0">
+              <Icon type="md-female"></Icon>
+              <span>否</span>
+            </Radio>
+          </RadioGroup>
+        </FormItem>
+
         <FormItem label="服务名称" prop="service_id">
           <remote-select
             :init="data.service_id"
@@ -131,7 +144,7 @@
           </Select>
         </FormItem>
 
-        <FormItem label="确认工程师" prop="staff_id">
+        <FormItem label="确认人员" prop="staff_id">
           <remote-select
             :init="data.staff_id"
             :initData="init.staff"
