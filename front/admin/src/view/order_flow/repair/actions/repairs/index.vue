@@ -84,14 +84,14 @@ export default {
           key: 'created_at',
           sortable: false
         },
-        {
-          width: 120,
-          // fixed: 'left',
-          title: '处理方式',
-          key: 'status',
-          sortable: false,
-          render: this.constRenderCustomData('status', orderConst.ORDER_STATUS, true, this.data)
-        },
+        // {
+        //   width: 120,
+        //   // fixed: 'left',
+        //   title: '处理方式',
+        //   key: 'status',
+        //   sortable: false,
+        //   render: this.constRenderCustomData('status', orderConst.ORDER_STATUS, true, this.data)
+        // },
         {
           width: 120,
           title: '工程师',

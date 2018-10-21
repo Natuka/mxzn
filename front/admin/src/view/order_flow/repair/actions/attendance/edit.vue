@@ -16,7 +16,7 @@
         <FormItem label="签到人员" props="staff_id">
           <remote-select
             :init="data.staff_id"
-            :initData="init.engineers"
+            :initData="init.engineer_staff"
             label="staff_name"
             url="select/engineer"
             @on-change="engineerChange"
@@ -49,7 +49,7 @@
         <FormItem label="确认人员" prop="confirm_user_id">
           <remote-select
             :init="data.confirm_user_id"
-            :initData="init.staff"
+            :initData="init.confirm_staff"
             label="name"
             url="select/staff"
             @on-change="confirmChange"
@@ -140,10 +140,13 @@
       },
       async afterOpen () {
         this.init.confirm_staff = [{
-          ...JSON.parse(JSON.stringify(this.data.confirm_staff))
+          id: this.data.confirm_user_id,
+          name: this.data.confirm_user_name
         }]
+
         this.init.engineer_staff = [{
-          ...JSON.parse(JSON.stringify(this.data.engineer_staff))
+          id: this.data.staff_id,
+          staff_name: this.data.staff_name
         }]
         return true
       },

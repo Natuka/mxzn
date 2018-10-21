@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin\Select;
 
 use App\Http\Controllers\Admin\BaseController;
-use App\Models\CustomerContact;
 use App\Models\CustomerEquipment;
 use Illuminate\Http\Request;
 

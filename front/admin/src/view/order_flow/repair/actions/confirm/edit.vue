@@ -49,7 +49,7 @@
         <FormItem label="确认人员" prop="confirm_user_id">
           <remote-select
             :init="data.confirm_user_id"
-            :initData="init.staff"
+            :initData="init.confirm_staff"
             label="name"
             url="select/staff"
             @on-change="confirmChange"
@@ -95,6 +95,7 @@
           ]
         },
         init: {
+          confirm_staff: []
         }
       }
     },
@@ -125,6 +126,13 @@
       async beforeOpen () {
         return true
       },
+      async afterOpen () {
+        this.init.confirm_staff = [{
+          id: this.data.confirm_user_id,
+          name: this.data.confirm_user_name
+        }]
+        return true
+      },
       async confirmChange () {
       },
       async confirmChangeData (staff = []) {
@@ -132,6 +140,7 @@
         this.data.confirm_user_id = staff ? staff.id : 0
         this.data.confirm_user_name = staff ? staff.name : ''
         // console.log('staff_name', this.data.confirm_user_name)
+        this.data.confirm_staff = staff
       }
     },
     watch: {

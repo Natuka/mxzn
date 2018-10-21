@@ -36,35 +36,35 @@
         <FormItem label="料号" prop="number">
           <Input
             v-model="data.number"
-            readonly
+            disabled
           ></Input>
         </FormItem>
 
         <FormItem label="品名" prop="name">
           <Input
             v-model="data.name"
-            readonly
+            disabled
           ></Input>
         </FormItem>
 
         <FormItem label="规格型号" prop="model">
           <Input
             v-model="data.model"
-            readonly
+            disabled
           ></Input>
         </FormItem>
 
         <FormItem label="单价" prop="price">
           <Input
             v-model="data.price"
-            readonly
+            disabled
           ></Input>
         </FormItem>
 
         <FormItem label="单位" prop="unit">
           <Input
             v-model="data.unit"
-            readonly
+            disabled
           ></Input>
         </FormItem>
 
@@ -77,13 +77,13 @@
         <FormItem label="金额" prop="amount">
           <Input
             v-model="data.amount"
-            readonly
+            disabled
           ></Input>
         </FormItem>
 
         <FormItem label="折扣" prop="discount">
           <InputNumber
-            :max="10" :min="1"
+            :max="10" :min="0"
             v-model="data.discount"
           ></InputNumber>
         </FormItem>
@@ -91,7 +91,7 @@
         <FormItem label="折扣后金额" prop="amount_dis">
           <Input
             v-model="data.amount_dis"
-            readonly
+            disabled
           ></Input>
         </FormItem>
 
@@ -154,7 +154,7 @@ export default {
         workday: 0,
         area: '',
         price: 0,
-        unit: '天',
+        unit: 'PCS',
         quantity: 1,
         amount: 0,
         discount: 10,
@@ -167,8 +167,14 @@ export default {
       },
       fault: {},
       rules: {
+        base_part_id: [
+          {required: true, message: '配件不能为空', trigger: 'blur'}
+        ],
+        number: [
+          {required: true, message: '料号不能为空', trigger: 'blur'}
+        ],
         name: [
-          {required: true, message: '姓名不能为空', trigger: 'blur'}
+          {required: true, message: '品名不能为空', trigger: 'blur'}
         ]
       },
       select: {
@@ -244,6 +250,14 @@ export default {
   watch: {
     'data.quantity' (quantity) {
       this.data.amount = quantity * this.data.price
+      this.data.amount_dis = this.data.amount * this.data.discount / 10
+    },
+    'data.price' (price) {
+      this.data.amount = price * this.data.quantity
+      this.data.amount_dis = this.data.amount * this.data.discount / 10
+    },
+    'data.discount' (discount) {
+      this.data.amount_dis = this.data.amount * discount / 10
     }
   }
 }

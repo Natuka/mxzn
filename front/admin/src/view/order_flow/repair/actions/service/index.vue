@@ -98,7 +98,8 @@ export default {
           width: 120,
           title: '地区',
           key: 'area',
-          sortable: false
+          sortable: false,
+          render: this.constRender('area', orderConst.SERVICE_AREA)
         },
         {
           width: 120,

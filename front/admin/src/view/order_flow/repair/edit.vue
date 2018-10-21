@@ -94,11 +94,11 @@
         </FormItem>
 
         <FormItem label="手机" prop="mobile">
-          <Input :value="data.mobile" placeholder="手机" readonly></Input>
+          <Input v-model="data.mobile" placeholder="手机"></Input>
         </FormItem>
 
         <FormItem label="服务级别">
-          <Input :value="customerLevel" placeholder="服务级别" readonly></Input>
+          <Input v-model="customerLevel" placeholder="服务级别" readonly></Input>
         </FormItem>
 
         <FormItem label="报修时间" prop="feedback_at">
@@ -136,7 +136,7 @@
         </FormItem>
 
         <FormItem label="类别" prop="type">
-          <Input :value="equipmentType" placeholder="类别" readonly></Input>
+          <Input v-model="equipmentType" placeholder="类别" readonly></Input>
         </FormItem>
 
         <FormItem label="安装日期" prop="equipment.installation_date">
@@ -669,6 +669,7 @@ export default {
       this.select.customerEquipmentList = equipments.data
     },
     async feedbackStaffChangeData (contact) {
+      console.log('contact', contact)
       this.data.feedback_staff_id = contact.id
       this.data.mobile = contact.mobile
     },
