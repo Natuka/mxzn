@@ -127,6 +127,7 @@
             @on-change-data="machineChange"
           ></static-select>
         </FormItem>
+
         <FormItem label="型号规格" prop="model">
           <Input v-model="data.equipment.model" placeholder="型号规格" readonly></Input>
         </FormItem>
@@ -669,9 +670,10 @@ export default {
       this.select.customerEquipmentList = equipments.data
     },
     async feedbackStaffChangeData (contact) {
-      console.log('contact', contact)
+      // console.log('contact', contact)
       this.data.feedback_staff_id = contact.id
       this.data.mobile = contact.mobile
+      // console.log('contact mobile', this.data.mobile)
     },
     async confirmStaffChange (staffId) {
       this.data.confirm_staff_id = staffId
