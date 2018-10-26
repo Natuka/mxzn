@@ -21,7 +21,7 @@ export function deleteRepair () {
  * @param {[type]} data [description]
  */
 export function repairNext (data) {
-  return postApi(apiUrl('order_flow/repair/next'), data)
+  return postApi('order_flow/repair/next', data)
 }
 
 // 创建

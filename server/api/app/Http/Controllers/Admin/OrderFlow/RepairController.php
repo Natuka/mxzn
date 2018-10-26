@@ -235,21 +235,18 @@ class RepairController extends BaseController
      */
     public function next(Request $request)
     {
-        dd($request);
+        //exit('aaabbb');
         $user = $request->user();
+        dd($user);
+
         foreach ($request->get('post', []) as $info) {
-            $member = Member::find($info['id']);
-            if ($member) {
+            $service_order = ServiceOrder::find($info['id']);
+            if ($service_order) {
                 $this->assignToContact($info['id'], $user->id);
-                $info['progress'] = 3;
+                $info['status'] = 1;
                 $info['progress_time'] = date('Y-m-d H:i:s', time());
-                $staff = Staff::find($info['business_id']);
-                //$business_man = $staff->nickname->name;
-                $business_man = $staff->name; //nickname->
-                $info['business_man'] = $business_man;
                 unset($info['id']);
-                $member->forceFill($info)->save();
-                event(new \App\Events\User\Contact(\App\Models\WeixinUser::find($member->id)));
+                $service_order->forceFill($info)->save();
             }
         }
 

@@ -54,6 +54,7 @@
 <script>
 import Tables from '_c/tables'
 
+import {repairNext} from '@/api/order_flow/repair'
 import search from './search'
 import add from './add'
 import edit from './edit'
@@ -325,7 +326,7 @@ export default {
         content: '确认送往下一站？',
         loading: true,
         onOk: () => {
-          this.$api.repairNext({
+          repairNext({
             post
           }).then(({data}) => {
             this.$Notice.success({
