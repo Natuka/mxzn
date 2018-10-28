@@ -177,7 +177,7 @@ import * as orderConst from '@/constants/order_flow'
 import * as orderFaultConst from '@/constants/order_fault'
 
 export default {
-  name: 'repair-edit',
+  name: 'repairs-edit',
   mixins: [ModalMixin, AreaMixin],
   data () {
     return {

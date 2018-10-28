@@ -2,7 +2,7 @@
   <custom-modal
     ref="ref"
     width="1000px"
-    title="维修工单-新增"
+    title="配件耗材-修改"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
     class="mxcs-two-column"
@@ -26,14 +26,14 @@
           ></remote-select>
         </FormItem>
 
-        <FormItem label="编号" prop="serial_number" >
+        <!--<FormItem label="编号" prop="serial_number" >
           <Input
             v-model="data.serial_number"
             readonly
           ></Input>
         </FormItem>
 
-        <!--<FormItem label="编号" prop="base_code_id">
+        <FormItem label="编号" prop="base_code_id">
           <remote-select
             :init="data.base_code_id"
             :initData="init.code"
@@ -47,62 +47,62 @@
         <FormItem label="料号" prop="number" >
           <Input
             v-model="data.number"
-            readonly
+            disabled
           ></Input>
         </FormItem>
 
         <FormItem label="品名" prop="name" >
           <Input
             v-model="data.name"
-            readonly
+            disabled
           ></Input>
         </FormItem>
 
         <FormItem label="规格型号" prop="model" >
           <Input
             v-model="data.model"
-            readonly
+            disabled
           ></Input>
         </FormItem>
 
         <FormItem label="单价" prop="price" >
           <Input
             v-model="data.price"
-            readonly
+            disabled
           ></Input>
         </FormItem>
 
         <FormItem label="单位" prop="unit" >
           <Input
             v-model="data.unit"
-            readonly
+            disabled
           ></Input>
         </FormItem>
 
         <FormItem label="数量" prop="quantity" >
-          <Input
+          <InputNumber
             v-model="data.quantity"
-          ></Input>
+          ></InputNumber>
         </FormItem>
 
         <FormItem label="金额" prop="amount" >
           <Input
             v-model="data.amount"
-            readonly
+            disabled
           ></Input>
         </FormItem>
 
         <FormItem label="折扣" prop="discount" >
-          <Input
+          <InputNumber
+            :max="10" :min="0"
             v-model="data.discount"
-            readonly
-          ></Input>
+          ></InputNumber>
         </FormItem>
 
         <FormItem label="折扣后金额" prop="amount_dis" >
           <Input
             v-model="data.amount_dis"
-            readonly
+            disabled
           ></Input>
         </FormItem>
 
@@ -164,11 +164,11 @@ export default {
         workday: 0,
         area: '',
         price: 0,
-        unit: '天',
+        unit: 'PCS',
         quantity: 1,
-        amount: 1,
-        discount: 1,
-        amount_dis: 1,
+        amount: 0,
+        discount: 10,
+        amount_dis: 0,
         warranty_months: 1,
         warranty_date: '',
         remark: '',
@@ -178,8 +178,14 @@ export default {
       },
       fault: {},
       rules: {
+        // base_part_id: [
+        //   {required: true, message: '配件不能为空', trigger: 'blur'}
+        // ],
+        number: [
+          {required: true, message: '料号不能为空', trigger: 'blur'}
+        ],
         name: [
-          {required: true, message: '姓名不能为空', trigger: 'blur'}
+          {required: true, message: '品名不能为空', trigger: 'blur'}
         ]
       },
       select: {
@@ -229,25 +235,33 @@ export default {
       this.data.base_code_id = code.id
       // this.data.staff_name = code.name
       this.data.code = code
-      this.data.serial_number = code.serial_number
+      // this.data.serial_number = code.serial_number
     },
     async partChange (partId) {
       this.data.base_part_id = partId
     },
     async partChangeData (part) {
       this.data.base_part_id = part.id
+      this.data.number = part.number
       this.data.name = part.name
       this.data.model = part.model
       this.data.brand = part.brand
       this.data.unit = part.unit
       this.data.price = part.price_sale_unified
-      this.data.unit = part.unit
       this.codeChangeData(part.code)
     }
   },
   watch: {
     'data.quantity' (quantity) {
       this.data.amount = quantity * this.data.price
+      this.data.amount_dis = this.data.amount * this.data.discount / 10
+    },
+    'data.price' (price) {
+      this.data.amount = price * this.data.quantity
+      this.data.amount_dis = this.data.amount * this.data.discount / 10
+    },
+    'data.discount' (discount) {
+      this.data.amount_dis = this.data.amount * discount / 10
     }
   }
 }

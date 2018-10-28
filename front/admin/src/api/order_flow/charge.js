@@ -15,3 +15,26 @@ export function updateCharge (data, id) {
 export function deleteCharge () {
   return deleteApi()
 }
+
+/**
+ * 下一站
+ * @param {[type]} data [description]
+ */
+export function chargeNext (data) {
+  return postApi('order_flow/charge/next', data)
+}
+
+// 创建
+export function addChargeAction (data, orderId, type = 'attendance') {
+  return postApi(`order_flow/charge/${orderId}/${type}`, data)
+}
+
+// 更新
+export function updateChargeAction (data, id, orderId, type = 'attendance') {
+  return postApi(`order_flow/charge/${orderId}/${type}/${id}`, data)
+}
+
+// 删除
+export function deleteChargeAction (id, orderId, type = 'attendance') {
+  return deleteApi(`order_flow/charge/${orderId}/${type}/${id}`)
+}

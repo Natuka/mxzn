@@ -15,3 +15,26 @@ export function updateMaintain (data, id) {
 export function deleteMaintain () {
   return deleteApi()
 }
+
+/**
+ * 下一站
+ * @param {[type]} data [description]
+ */
+export function maintainNext (data) {
+  return postApi('order_flow/maintain/next', data)
+}
+
+// 创建
+export function addMaintainAction (data, orderId, type = 'attendance') {
+  return postApi(`order_flow/maintain/${orderId}/${type}`, data)
+}
+
+// 更新
+export function updateMaintainAction (data, id, orderId, type = 'attendance') {
+  return postApi(`order_flow/maintain/${orderId}/${type}/${id}`, data)
+}
+
+// 删除
+export function deleteMaintainAction (id, orderId, type = 'attendance') {
+  return deleteApi(`order_flow/maintain/${orderId}/${type}/${id}`)
+}

@@ -16,6 +16,14 @@ export function deleteRepair () {
   return deleteApi()
 }
 
+/**
+ * 下一站
+ * @param {[type]} data [description]
+ */
+export function repairNext (data) {
+  return postApi('order_flow/repair/next', data)
+}
+
 // 创建
 export function addRepairAction (data, orderId, type = 'attendance') {
   return postApi(`order_flow/repair/${orderId}/${type}`, data)
@@ -23,6 +31,7 @@ export function addRepairAction (data, orderId, type = 'attendance') {
 
 // 更新
 export function updateRepairAction (data, id, orderId, type = 'attendance') {
+  console.log('onSubmit IN', orderId, type)
   return putApi(`order_flow/repair/${orderId}/${type}/${id}`, data)
 }
 

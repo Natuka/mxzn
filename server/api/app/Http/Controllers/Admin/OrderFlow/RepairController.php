@@ -225,6 +225,35 @@ class RepairController extends BaseController
         return error_json('创建失败，请检查');
     }
 
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function next(Request $request)
+    {
+        //exit('aaabbb');
+        $user = $request->user();
+        dd($user);
+
+        foreach ($request->get('post', []) as $info) {
+            $service_order = ServiceOrder::find($info['id']);
+            if ($service_order) {
+                $this->assignToContact($info['id'], $user->id);
+                $info['status'] = 1;
+                $info['progress_time'] = date('Y-m-d H:i:s', time());
+                unset($info['id']);
+                $service_order->forceFill($info)->save();
+            }
+        }
+
+        return success_json('处理成功');
+    }
+
+
     /**
      * Remove the specified resource from storage.
      *

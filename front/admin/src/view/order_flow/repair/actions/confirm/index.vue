@@ -2,10 +2,10 @@
   <div>
     <Card>
       <div slot="title">
-        <Button type="primary" @click="onAdd" v-if="accessAdd()">
+        <!--<Button type="primary" @click="onAdd" v-if="accessAdd()">
           新增
           <Icon type="md-add"/>
-        </Button>
+        </Button>-->
         <Button
           type="primary"
           @click="refresh"
@@ -76,38 +76,75 @@
         },
         columns: [
           {
-            width: 120,
+            width: 110,
             fixed: 'left',
             title: '是否解决',
             key: 'is_solve',
-            sortable: false
+            sortable: true,
+            render: this.constRender('is_solve', orderConst.SERVICE_COMPLETE)
           },
           {
-            width: 120,
+            width: 180,
             title: '整体满意度',
             key: 'overall_satisfaction',
-            sortable: true
+            sortable: true,
+            render: (h, params) => {
+              let rateNums = params.row.overall_satisfaction
+              return h('Rate', {
+                props: {
+                  disabled: true,
+                  value: rateNums
+                }
+              })
+            }
           },
           {
-            width: 120,
+            width: 180,
             title: '服务及时性',
             key: 'timeliness',
-            sortable: true
+            sortable: true,
+            render: (h, params) => {
+              let rateNums = params.row.timeliness
+              return h('Rate', {
+                props: {
+                  disabled: true,
+                  value: rateNums
+                }
+              })
+            }
           },
           {
-            width: 120,
+            width: 180,
             title: '服务人员满意度',
             key: 'service_staff_atisfaction',
-            sortable: false
+            sortable: true,
+            render: (h, params) => {
+              let rateNums = params.row.service_staff_atisfaction
+              return h('Rate', {
+                props: {
+                  disabled: true,
+                  value: rateNums
+                }
+              })
+            }
           },
           {
-            width: 120,
+            width: 180,
             title: '性价比满意度',
             key: 'cost_performance',
-            sortable: false
+            sortable: true,
+            render: (h, params) => {
+              let rateNums = params.row.cost_performance
+              return h('Rate', {
+                props: {
+                  disabled: true,
+                  value: rateNums
+                }
+              })
+            }
           },
           {
-            width: 120,
+            width: 160,
             title: '建议与意见',
             key: 'opinions_suggestions',
             sortable: false
@@ -117,12 +154,6 @@
             title: '确认人员',
             key: 'confirm_user_name',
             sortable: true
-          },
-          {
-            width: 160,
-            title: '建档人员',
-            key: 'created_by',
-            sortable: false
           },
           {
             width: 160,

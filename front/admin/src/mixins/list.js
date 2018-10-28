@@ -4,6 +4,10 @@ export default {
   data () {
     return {
       list: [], // 列表页
+      // 复制的列表
+      cloneList: [],
+      // 已选择的列表
+      selected: [],
       total: 0,
       page: 1,
       params: {},
@@ -117,6 +121,18 @@ export default {
       } catch (e) {
         console.log('e', e)
       }
+    },
+    /**
+     * 获取选中的节点
+     * @return {[type]} [description]
+     */
+    getSelectedDataFromClone () {
+      if (!this.selected.length) {
+        return []
+      }
+      let selectedIds = this.selected.map(el => el.id)
+      // console.log('selectedIds', selectedIds)
+      return this.cloneList.filter(el => ~selectedIds.indexOf(el.id))
     },
     delayLock (fn = () => {}, delay = 50) {
       return (...args) => {

@@ -30,8 +30,8 @@
       <br/>
       <Page :current="page" :total="total" show-elevator @on-change="toPage"/>
     </Card>
-    <repair-add ref="add" @refresh="refresh"></repair-add>
-    <repair-edit ref="edit" @refresh="refreshWithPage"></repair-edit>
+    <repairs-add ref="add" @refresh="refresh"></repairs-add>
+    <repairs-edit ref="edit" @refresh="refreshWithPage"></repairs-edit>
 
   </div>
 </template>
@@ -84,14 +84,14 @@ export default {
           key: 'created_at',
           sortable: false
         },
-        {
-          width: 120,
-          // fixed: 'left',
-          title: '处理方式',
-          key: 'status',
-          sortable: false,
-          render: this.constRenderCustomData('status', orderConst.ORDER_STATUS, true, this.data)
-        },
+        // {
+        //   width: 120,
+        //   // fixed: 'left',
+        //   title: '处理方式',
+        //   key: 'status',
+        //   sortable: false,
+        //   render: this.constRenderCustomData('status', orderConst.ORDER_STATUS, true, this.data)
+        // },
         {
           width: 120,
           title: '工程师',

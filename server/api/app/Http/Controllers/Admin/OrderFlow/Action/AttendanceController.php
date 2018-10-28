@@ -124,8 +124,12 @@ class AttendanceController extends BaseController
             'signin_time',
             'location',
             'coordinate',
+            'confirm_user_id',
+            'confirm_user_name',
+            'remark',
         ]);
         $data['staff_id'] = (int)$data['staff_id'];
+        $data['confirm_user_id'] = (int)$data['confirm_user_id'];
         //$data['updated_by'] = '修改';
 
         $ret = $attendance->forceFill($data)->save();

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\OrderAction\Confirm;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\RequestTrait;
 
 class UpdateRequest extends FormRequest
 {
@@ -25,14 +26,14 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'order_id' => 'required',
+            //'service_order_id' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            'order_id.required' => '订单ID必须有值!',
+            'service_order_id.required' => '订单ID必须有值!',
         ];
     }
 }

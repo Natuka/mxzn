@@ -94,8 +94,8 @@ class ServiceController extends BaseController
             'quantity',
             'amount',
             'reward',
-            'land_traffic',
-            'hotel',
+            'is_land_traffic',
+            'is_hotel',
             'settlement_method',
             'working_hours',
             'is_complete',
@@ -112,6 +112,8 @@ class ServiceController extends BaseController
         $data['amount'] = doubleval($data['amount']);
         $data['reward'] = doubleval($data['reward']);
         $data['working_hours'] = doubleval($data['working_hours']);
+        $data['is_land_traffic'] = (int)$data['is_land_traffic'];
+        $data['is_hotel'] = (int)$data['is_hotel'];
 
         $data['service_order_id'] = (int)$order['id'];
         $data['created_by'] = '新增';
@@ -147,8 +149,8 @@ class ServiceController extends BaseController
             'quantity',
             'amount',
             'reward',
-            'land_traffic',
-            'hotel',
+            'is_land_traffic',
+            'is_hotel',
             'settlement_method',
             'working_hours',
             'is_complete',
@@ -165,6 +167,8 @@ class ServiceController extends BaseController
         $data['amount'] = doubleval($data['amount']);
         $data['reward'] = doubleval($data['reward']);
         $data['working_hours'] = doubleval($data['working_hours']);
+        $data['is_land_traffic'] = (int)$data['is_land_traffic'];
+        $data['is_hotel'] = (int)$data['is_hotel'];
 
         $data['updated_by'] = '修改';
 

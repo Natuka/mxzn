@@ -25,7 +25,6 @@
       <br/>
       <Page :current="page" :total="total" show-elevator @on-change="toPage"/>
     </Card>
-    <attendance-add ref="add" @refresh="refresh"></attendance-add>
     <attendance-edit ref="edit" @refresh="refreshWithPage"></attendance-edit>
 
   </div>
@@ -37,7 +36,6 @@
   import Tables from '_c/tables'
 
   import search from './search'
-  import add from './add'
   import edit from './edit'
 
   import listMixin from '@/mixins/list'
@@ -50,7 +48,6 @@
     components: {
       Tables,
       [search.name]: search,
-      [add.name]: add,
       [edit.name]: edit
     },
     mixins: [listMixin, constsMixin, baseMixin],

@@ -2,7 +2,7 @@
   <custom-modal
     ref="ref"
     width="1000px"
-    title="维修工单-新增"
+    title="维修工单-服務項目-新增"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
     class="mxcs-two-column"
@@ -29,7 +29,6 @@
         <FormItem label="服务时间" prop="workday" >
           <Input
             v-model="data.workday"
-            readonly
           ></Input>
         </FormItem>
 
@@ -37,58 +36,60 @@
           <Input
             type="textarea"
             v-model="data.content"
-            readonly
           ></Input>
         </FormItem>
 
         <FormItem label="地区" prop="area" >
-          <Input
-            v-model="data.area"
-            readonly
-          ></Input>
-        </FormItem>
-
-        <FormItem label="单价" prop="price" >
-          <Input
-            v-model="data.price"
-            readonly
-          ></Input>
+          <Select v-model="data.area" >
+            <Option
+              v-for="(type, index) in select.setServiceAreaList"
+              :key="index"
+              :value="index"
+            >{{type}}
+            </Option>
+          </Select>
         </FormItem>
 
         <FormItem label="单位" prop="unit" >
           <Input
             v-model="data.unit"
-            readonly
           ></Input>
         </FormItem>
 
+        <FormItem label="单价" prop="price" >
+          <InputNumber
+            v-model="data.price"
+          ></InputNumber>
+        </FormItem>
+
+
         <FormItem label="数量" prop="quantity" >
-          <Input
+          <InputNumber
             v-model="data.quantity"
-          ></Input>
+          ></InputNumber>
         </FormItem>
 
         <FormItem label="金额" prop="amount" >
-          <Input
+          <InputNumber
             v-model="data.amount"
-            readonly
-          ></Input>
+            disabled
+          ></InputNumber>
         </FormItem>
 
         <FormItem label="提成" prop="reward" >
-          <Input
+          <InputNumber
             v-model="data.reward"
-          ></Input>
+          ></InputNumber>
         </FormItem>
 
-        <FormItem label="提成" prop="working_hours" >
+        <FormItem label="工时" prop="working_hours" >
           <Input
             v-model="data.working_hours"
           ></Input>
         </FormItem>
 
         <FormItem label="含陆运交通费" prop="is_land_traffic">
-          <Select :value="data.is_land_traffic" disabled>
+          <Select v-model="data.is_land_traffic" >
             <Option
               v-for="(type, index) in select.isLandList"
               :key="index"
@@ -99,7 +100,7 @@
         </FormItem>
 
         <FormItem label="住宿" prop="is_hotel">
-          <Select :value="data.is_hotel" disabled>
+          <Select v-model="data.is_hotel" >
             <Option
               v-for="(type, index) in select.isHotelList"
               :key="index"
@@ -110,7 +111,7 @@
         </FormItem>
 
         <FormItem label="结算方式" prop="settlement_method">
-          <Select :value="data.settlement_method">
+          <Select v-model="data.settlement_method">
             <Option
               v-for="(type, index) in select.settlementMothedList"
               :key="index"
@@ -156,135 +157,155 @@
 
 <script>
 
-import ModalMixin from '@/mixins/modal'
-import AreaMixin from '@/mixins/area'
+  import ModalMixin from '@/mixins/modal'
+  import AreaMixin from '@/mixins/area'
 
-import {updateRepairAction} from '@/api/order_flow/repair'
-import * as orderConst from '@/constants/order_flow'
+  import {updateRepairAction} from '@/api/order_flow/repair'
+  import * as orderConst from '@/constants/order_flow'
+  import * as orderFaultConst from '@/constants/order_fault'
 
-export default {
-  name: 'service-edit',
-  mixins: [ModalMixin, AreaMixin],
-  data () {
-    return {
-      data: {
-        service_order_id: 0,
-        service_id: 0,
-        name: '',
-        content: '',
-        workday: 0,
-        area: '',
-        price: 0,
-        unit: '天',
-        quantity: 1,
-        amount: 1,
-        reward: 1,
-        is_land_traffic: 0,
-        is_hotel: 0,
-        settlement_method: 1,
-        working_hours: 7,
-        is_complete: 0,
-        staff_id: 0,
-        staff_name: '',
-        remark: ''
-      },
-      fault: {},
-      rules: {
-        name: [
-          {required: true, message: '姓名不能为空', trigger: 'blur'}
-        ]
-      },
-      select: {
-        isLandList: orderConst.SERVICE_LAND_TRAFFIC,
-        isHotelList: orderConst.SERVICE_HOTEL,
-        isCompleteList: orderConst.SERVICE_COMPLETE,
-        settlementMothedList: orderConst.SERVICE_SETTLEMENT_METHOD
-      },
-      init: {
-        department: [],
-        staff: [],
-        service: []
+  export default {
+    name: 'service-edit',
+    mixins: [ModalMixin, AreaMixin],
+    data () {
+      return {
+        data: {
+          service_order_id: 0,
+          service_id: 0,
+          name: '',
+          content: '',
+          workday: 0,
+          area: 0,
+          price: 0,
+          unit: '天',
+          quantity: 1,
+          amount: 0,
+          reward: 0,
+          is_land_traffic: 0,
+          is_hotel: 0,
+          settlement_method: 1,
+          working_hours: 7,
+          is_complete: 0,
+          staff_id: 0,
+          staff_name: '',
+          remark: ''
+        },
+        fault: {},
+        rules: {
+          content: [
+            {required: true, message: '服务内容不能为空', trigger: 'blur'}
+          ]
+        },
+        select: {
+          isLandList: orderConst.SERVICE_LAND_TRAFFIC,
+          isHotelList: orderConst.SERVICE_HOTEL,
+          isCompleteList: orderConst.SERVICE_COMPLETE,
+          settlementMothedList: orderConst.SERVICE_SETTLEMENT_METHOD,
+          setServiceAreaList: orderConst.SERVICE_AREA
+        },
+        init: {
+          department: [],
+          staff: [],
+          service: []
+        }
       }
-    }
-  },
-  methods: {
-    onSubmit (e) {
-      this.$refs.addForm.validate(async (valid) => {
-        if (valid) {
-          try {
-            let data = await updateRepairAction(this.data, this.data.id, this.data.service_order_id, 'service')
-            console.log('data', data)
-            this.withRefresh(e)
-          } catch (e) {
+    },
+    methods: {
+      onSubmit (e) {
+        this.$refs.addForm.validate(async (valid) => {
+          console.log('onSubmit', valid)
+          if (valid) {
+            try {
+              let data = await updateRepairAction(this.data, this.data.id, this.data.service_order_id, 'service')
+              console.log('data', data)
+              this.withRefresh(e)
+            } catch (e) {
+              this.closeLoading()
+            }
+          } else {
             this.closeLoading()
           }
-        } else {
-          this.closeLoading()
-        }
-      })
-    },
-    setDataBefore (data) {
-      this.fault = data.fault[0]
-      this.data.service_order_id = data.id
-    },
-    onCancel (e) {
-      e()
-    },
-    async beforeOpen () {
-      return true
-    },
-    async afterOpen () {
-      this.init.staff = [{
-        id: this.data.staff_id,
-        name: this.data.staff_name
-      }]
+        })
+      },
+      setDataBefore (data) {
+        this.fault = data.fault[0]
+        this.data.service_order_id = data.id
+      },
+      onCancel (e) {
+        e()
+      },
+      async beforeOpen () {
+        return true
+      },
+      async afterOpen () {
+        this.init.staff = [{
+          id: this.data.staff_id,
+          name: this.data.staff_name
+        }]
 
-      this.init.service = [{
-        id: this.data.service_id,
-        name: this.data.name,
-        content: this.data.content,
-        workday: this.data.workday,
-        area: this.data.area,
-        price: this.data.price,
-        unit: this.data.unit,
-        // quantity: 1,
-        // amount: 1,
-        // reward: 1,
-        is_land_traffic: this.data.is_land_traffic,
-        is_hotel: this.data.is_hotel
-      }]
-      return true
+        this.init.service = [{
+          id: this.data.service_id,
+          name: this.data.name,
+          content: this.data.content,
+          workday: this.data.workday,
+          area: this.data.area,
+          price: this.data.price,
+          unit: this.data.unit,
+          // quantity: 1,
+          // amount: 1,
+          // reward: 1,
+          is_land_traffic: this.data.is_land_traffic,
+          is_hotel: this.data.is_hotel
+        }]
+        return true
+      },
+      async staffChange (staffId) {
+        this.data.staff_id = staffId
+      },
+      async staffChangeData (staff) {
+        this.data.staff_id = staff.id
+        this.data.staff_name = staff.name
+        this.data.staff = staff
+      },
+      async serviceChange (staffId) {
+        this.data.staff_id = staffId
+      },
+      async serviceChangeData (service) {
+        this.data.service_id = service.id
+        this.data.name = service.name
+        this.data.content = service.content
+        this.data.workday = service.workday
+        this.data.area = service.area
+        this.data.price = service.price
+        this.data.unit = service.unit
+        this.data.is_land_traffic = service.is_land_traffic
+        this.data.is_hotel = service.is_hotel
+        // this.data.settlement_method = service.settlement_method
+        // this.data.working_hours = service.working_hours
+        // this.data.is_complete = +service.is_complete
+        this.data.service = service
+      }
     },
-    async staffChange (staffId) {
-      this.data.staff_id = staffId
-    },
-    async staffChangeData (staff) {
-      this.data.staff_id = staff.id
-      this.data.staff_name = staff.name
-      this.data.staff = staff
-    },
-    async serviceChange (staffId) {
-      this.data.staff_id = staffId
-    },
-    async serviceChangeData (service) {
-      this.data.service_id = service.id
-      this.data.name = service.name
-      this.data.content = service.content
-      this.data.workday = service.workday
-      this.data.area = service.area
-      this.data.price = service.price
-      this.data.unit = service.unit
-      this.data.is_land_traffic = service.is_land_traffic
-      this.data.is_hotel = service.is_hotel
-      this.data.service = service
-    }
-  },
-  watch: {
-    'data.quantity' (quantity) {
-      this.data.amount = quantity * this.data.price
+    watch: {
+      'data.quantity' (quantity) {
+        this.data.amount = quantity * this.data.price
+        if (this.data.reward > this.data.amount) {
+          this.data.reward = this.data.amount
+        }
+      },
+      'data.price' (price) {
+        this.data.amount = price * this.data.quantity
+        if (this.data.reward > this.data.amount) {
+          this.data.reward = this.data.amount
+        }
+      },
+      'data.reward' (reward) {
+        if (reward > this.data.amount) {
+          this.data.reward = this.data.amount
+        }
+      }
     }
   }
-}
 </script>
 
 <style>

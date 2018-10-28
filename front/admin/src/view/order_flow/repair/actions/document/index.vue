@@ -37,8 +37,6 @@
 </template>
 
 <script>
-  import dayjs from 'dayjs'
-
   import Tables from '_c/tables'
 
   import search from './search'

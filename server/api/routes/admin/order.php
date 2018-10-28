@@ -9,6 +9,7 @@
 
 Route::group([
     'prefix' => 'order_flow',
+    'middleware' => ['auth:api', 'admin.api'],
     'namespace' => 'Admin\OrderFlow'
 ], function () {
 

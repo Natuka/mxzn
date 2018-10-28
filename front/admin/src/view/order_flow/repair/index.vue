@@ -18,32 +18,12 @@
 
         <Button
           type="primary"
-          @click="refresh"
+          @click="next"
           v-if="accessAdd()"
           class="ml-5"
         >
-          派工
+          下一站
           <Icon type="md-arrow-forward" />
-        </Button>
-
-        <Button
-          type="primary"
-          @click="refresh"
-          v-if="accessAdd()"
-          class="ml-5"
-        >
-          转派
-          <Icon type="md-arrow-forward" />
-        </Button>
-
-        <Button
-          type="warning"
-          @click="refresh"
-          v-if="accessAdd()"
-          class="ml-5"
-        >
-          完工
-          <Icon type="ios-checkmark-circle" />
         </Button>
       </div>
       <repair-search ref="search" @on-search="onSearch"></repair-search>
@@ -56,6 +36,7 @@
         :columns="columns"
         @on-delete="handleDelete"
         @on-row-click="onRowClick"
+        @on-selection-change="selectionChangeHandler"
         :width="tableWidth"
       />
       <br/>
@@ -73,6 +54,7 @@
 <script>
 import Tables from '_c/tables'
 
+import {repairNext} from '@/api/order_flow/repair'
 import search from './search'
 import add from './add'
 import edit from './edit'
@@ -103,6 +85,13 @@ export default {
         remove: 'order_flow_repair_remove'
       },
       columns: [
+        {
+          type: 'selection',
+          width: 45,
+          fixed: 'left',
+          align: 'center',
+          className: 'i-selection'
+        },
         {
           width: 120,
           fixed: 'left',
@@ -287,7 +276,8 @@ export default {
           ]
         }
       ],
-      tableData: []
+      tableData: [],
+      selected: []
     }
   },
   methods: {
@@ -311,7 +301,55 @@ export default {
       e()
     },
     onRowClick (data, index) {
+      // console.log('EditData', data)
       this.$refs.relation.setData(data, index)
+    },
+    next () {
+      if (!this.selected.length) {
+        return this.$Message.error('请选择要操作的项次')
+      }
+
+      let errors = []
+      let post = []
+      this.getSelectedDataFromClone().forEach(el => {
+        post.push({
+          id: el.id,
+        })
+      })
+      console.log('post', post)
+      if (errors.length) {
+        return this.$Message.error(errors.join('\n'))
+      }
+
+      this.$Modal.confirm({
+        title: '提示',
+        content: '确认送往下一站？',
+        loading: true,
+        onOk: () => {
+          repairNext({
+            post
+          }).then(({data}) => {
+            this.$Notice.success({
+              title: '下一站',
+              desc: data.message
+            })
+            this.$Modal.remove()
+            this.refresh()
+          }).catch(({message, response}) => {
+            this.$Notice.error({
+              title: '错误提示',
+              desc: (response && response.data && response.data.message) || message
+            })
+            this.$Modal.remove()
+          })
+        },
+        onCancel: () => {
+
+        }
+      })
+    },
+    selectionChangeHandler (list) {
+      this.selected = list
     }
   },
   mounted () {

@@ -182,7 +182,7 @@ import {selectDepartment} from '@/api/select/department'
 // import * as orderConst from '@/constants/order_flow'
 
 export default {
-  name: 'repair-add',
+  name: 'document-add',
   mixins: [ModalMixin, AreaMixin],
   data () {
     return {
