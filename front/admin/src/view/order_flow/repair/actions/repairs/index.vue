@@ -30,8 +30,8 @@
       <br/>
       <Page :current="page" :total="total" show-elevator @on-change="toPage"/>
     </Card>
-    <repair-add ref="add" @refresh="refresh"></repair-add>
-    <repair-edit ref="edit" @refresh="refreshWithPage"></repair-edit>
+    <repairs-add ref="add" @refresh="refresh"></repairs-add>
+    <repairs-edit ref="edit" @refresh="refreshWithPage"></repairs-edit>
 
   </div>
 </template>

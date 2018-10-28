@@ -15,3 +15,26 @@ export function updateConfirm (data, id) {
 export function deleteConfirm () {
   return deleteApi()
 }
+
+/**
+ * 下一站
+ * @param {[type]} data [description]
+ */
+export function confirmNext (data) {
+  return postApi('order_flow/confirm/next', data)
+}
+
+// 创建
+export function addConfirmAction (data, orderId, type = 'attendance') {
+  return postApi(`order_flow/confirm/${orderId}/${type}`, data)
+}
+
+// 更新
+export function updateConfirmAction (data, id, orderId, type = 'attendance') {
+  return postApi(`order_flow/confirm/${orderId}/${type}/${id}`, data)
+}
+
+// 删除
+export function deleteConfirmAction (id, orderId, type = 'attendance') {
+  return deleteApi(`order_flow/confirm/${orderId}/${type}/${id}`)
+}

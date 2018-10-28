@@ -15,3 +15,26 @@ export function updateClose (data, id) {
 export function deleteClose () {
   return deleteApi()
 }
+
+/**
+ * 下一站
+ * @param {[type]} data [description]
+ */
+export function closeNext (data) {
+  return postApi('order_flow/close/next', data)
+}
+
+// 创建
+export function addCloseAction (data, orderId, type = 'attendance') {
+  return postApi(`order_flow/close/${orderId}/${type}`, data)
+}
+
+// 更新
+export function updateCloseAction (data, id, orderId, type = 'attendance') {
+  return postApi(`order_flow/close/${orderId}/${type}/${id}`, data)
+}
+
+// 删除
+export function deleteCloseAction (id, orderId, type = 'attendance') {
+  return deleteApi(`order_flow/close/${orderId}/${type}/${id}`)
+}

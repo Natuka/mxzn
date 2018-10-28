@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  name: 'repair-search',
+  name: 'addendance-search',
   data () {
     return {
       data: {

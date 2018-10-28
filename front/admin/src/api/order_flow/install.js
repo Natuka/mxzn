@@ -16,6 +16,14 @@ export function deleteInstall () {
   return deleteApi()
 }
 
+/**
+ * 下一站
+ * @param {[type]} data [description]
+ */
+export function installNext (data) {
+  return postApi('order_flow/install/next', data)
+}
+
 // 创建
 export function addInstallAction (data, orderId, type = 'attendance') {
   return postApi(`order_flow/install/${orderId}/${type}`, data)
