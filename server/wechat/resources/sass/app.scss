@@ -1,14 +1,60 @@
 
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+//@import url('https://fonts.googleapis.com/css?family=Nunito');
 
 // Variables
 @import 'variables';
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+//@import '~bootstrap/scss/bootstrap';
 
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+body {
+    background-color: #eee;
+}
+
+.mt-20{
+    margin-top: 20px;
+}
+
+.p-20{
+    padding: 20px;
+}
+
+.p-10{
+    padding: 10px;
+}
+
+.pt-20{
+    padding-top: 20px;
+}
+.pr-20{
+    padding-right: 20px;
+}
+.pl-20{
+    padding-left: 20px;
+}
+
+.mx-label{
+    color: #999;
+    font-size: 14px;
+}
+.mx-label:after{
+    content: ':';
+}
+
+.mx-text-danger{
+    color: #f44;
+}
+
+.mx-flex-1{
+    flex: 1;
+}
+
+.text-right{
+    text-align: right;
 }

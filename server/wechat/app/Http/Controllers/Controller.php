@@ -10,4 +10,14 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    public function user()
+    {
+        return auth()->user();
+    }
+
+    public function staff()
+    {
+        return $this->user()->staff();
+    }
 }
