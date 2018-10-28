@@ -235,10 +235,7 @@ class RepairController extends BaseController
      */
     public function next(Request $request)
     {
-        //exit('aaabbb');
         $user = $request->user();
-        dd($user);
-
         foreach ($request->get('post', []) as $info) {
             $service_order = ServiceOrder::find($info['id']);
             if ($service_order) {
