@@ -11,7 +11,15 @@
           刷新
           <Icon type="md-refresh"/>
         </Button>
-
+        <Button
+          type="primary"
+          @click="next"
+          v-if="accessAdd()"
+          class="ml-5"
+        >
+          下一站
+          <Icon type="md-arrow-forward" />
+        </Button>
         <Button
           type="primary"
           @click="next"
