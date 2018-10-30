@@ -250,7 +250,7 @@ class RepairController extends BaseController
             unset($info);
         }
 
-        return success_json('处理成功');
+        return success_json('操作成功');
     }
 
 
@@ -265,6 +265,5 @@ class RepairController extends BaseController
         if (!$order || $order->id <= 0) {
             return error_json('工单不存在');
         }
-
     }
 }

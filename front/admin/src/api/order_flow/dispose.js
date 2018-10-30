@@ -17,6 +17,14 @@ export function deleteDispose () {
 }
 
 /**
+ * 退回
+ * @param {[type]} data [description]
+ */
+export function disposeBack (data) {
+  return postApi('order_flow/dispose/back', data)
+}
+
+/**
  * 下一站
  * @param {[type]} data [description]
  */

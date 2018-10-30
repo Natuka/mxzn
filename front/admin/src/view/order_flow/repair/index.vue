@@ -17,7 +17,7 @@
         </Button>
 
         <Button
-          type="primary"
+          type="success"
           @click="next"
           v-if="accessAdd()"
           class="ml-5"

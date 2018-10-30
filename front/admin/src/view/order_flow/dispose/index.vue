@@ -11,9 +11,16 @@
           刷新
           <Icon type="md-refresh"/>
         </Button>
-
         <Button
-          type="primary"
+          type="warning"
+          @click="back"
+          v-if="accessAdd()"
+          class="ml-5"
+        ><Icon type="md-arrow-back" />
+          退回
+        </Button>
+        <Button
+          type="success"
           @click="next"
           v-if="accessAdd()"
           class="ml-5"
@@ -50,6 +57,7 @@
 <script>
 import Tables from '_c/tables'
 
+import {disposeBack} from '@/api/order_flow/dispose'
 import {disposeNext} from '@/api/order_flow/dispose'
 import search from './search'
 import add from './add'
@@ -300,22 +308,46 @@ export default {
       // console.log('EditData', data)
       this.$refs.relation.setData(data, index)
     },
+    back () {
+      if (!this.selected.length) {
+        return this.$Message.error('请选择要操作的项次')
+      }
+
+      let post = this.selected.map(el => el.id)
+
+      this.$Modal.confirm({
+        title: '提示',
+        content: '确认退回上一站？',
+        loading: true,
+        onOk: () => {
+          disposeBack({
+            post
+          }).then(({data}) => {
+            this.$Notice.success({
+              title: '上一站',
+              desc: data.message
+            })
+            this.$Modal.remove()
+            this.refresh()
+          }).catch(({message, response}) => {
+            this.$Notice.error({
+              title: '错误提示',
+              desc: (response && response.data && response.data.message) || message
+            })
+            this.$Modal.remove()
+          })
+        },
+        onCancel: () => {
+
+        }
+      })
+    },
     next () {
       if (!this.selected.length) {
         return this.$Message.error('请选择要操作的项次')
       }
 
-      let errors = []
-      let post = []
-      this.getSelectedDataFromClone().forEach(el => {
-        post.push({
-          id: el.id,
-        })
-      })
-      console.log('post', post)
-      if (errors.length) {
-        return this.$Message.error(errors.join('\n'))
-      }
+      let post = this.selected.map(el => el.id)
 
       this.$Modal.confirm({
         title: '提示',

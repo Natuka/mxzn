@@ -17,6 +17,14 @@ export function deleteClose () {
 }
 
 /**
+ * 退回
+ * @param {[type]} data [description]
+ */
+export function closeBack (data) {
+  return postApi('order_flow/close/back', data)
+}
+
+/**
  * 下一站
  * @param {[type]} data [description]
  */

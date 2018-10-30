@@ -17,6 +17,14 @@ export function deleteCharge () {
 }
 
 /**
+ * 退回
+ * @param {[type]} data [description]
+ */
+export function chargeBack (data) {
+  return postApi('order_flow/charge/back', data)
+}
+
+/**
  * 下一站
  * @param {[type]} data [description]
  */

@@ -17,6 +17,14 @@ export function deleteDispatch () {
 }
 
 /**
+ * 退回
+ * @param {[type]} data [description]
+ */
+export function dispatchBack (data) {
+  return postApi('order_flow/dispatch/back', data)
+}
+
+/**
  * 下一站
  * @param {[type]} data [description]
  */

@@ -12,15 +12,6 @@
           <Icon type="md-refresh"/>
         </Button>
 
-        <Button
-          type="primary"
-          @click="next"
-          v-if="accessAdd()"
-          class="ml-5"
-        >
-          下一站
-          <Icon type="md-arrow-forward" />
-        </Button>
       </div>
       <review-search ref="search" @on-search="onSearch"></review-search>
       <tables
@@ -305,17 +296,7 @@ export default {
         return this.$Message.error('请选择要操作的项次')
       }
 
-      let errors = []
-      let post = []
-      this.getSelectedDataFromClone().forEach(el => {
-        post.push({
-          id: el.id,
-        })
-      })
-      console.log('post', post)
-      if (errors.length) {
-        return this.$Message.error(errors.join('\n'))
-      }
+      let post = this.selected.map(el => el.id)
 
       this.$Modal.confirm({
         title: '提示',
