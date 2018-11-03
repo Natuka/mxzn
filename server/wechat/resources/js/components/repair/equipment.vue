@@ -5,7 +5,7 @@
 <script>
 import backMixin from '../../mixins/back'
 export default {
-  name: "equipment.vue",
+  name: "equipment",
     mixins: [backMixin],
 }
 </script>
