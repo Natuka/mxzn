@@ -94,10 +94,10 @@ export default {
     },
     methods: {
         onClickLeft() {
-            Toast('返回');
+            Toast('返回')
         },
         onClickRight() {
-            Toast('按钮');
+            Toast('按钮')
         },
         onMore (item) {
             this.data = item
