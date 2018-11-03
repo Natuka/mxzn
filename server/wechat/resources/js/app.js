@@ -8,11 +8,20 @@ const api = require('./api/index')
 
 import router from './router'
 
+import userMixin from './mixins/user'
+
 require('./bootstrap');
 
 window.Vue = Vue
 
 Vue.use(Vant)
+
+Vue.mixin(userMixin)
+
+import WxJssdk from '@defy/wx-jssdk'
+import VueWxJssdk from '@defy/vue-wx-jssdk';
+
+Vue.use(VueWxJssdk, WxJssdk);
 
 import 'vant/lib/vant-css/index.css'
 

@@ -21,6 +21,14 @@ export default {
                 this.count++;
             }, 500);
         }
+    },
+    // 加载微信，在这边进行初始化
+    async mounted() {
+        let data = await this.$api.getWXConfig()
+        console.log('data', data)
+        let res = await this.$wx.configAsync(data)
+        console.log('res', res)
+        this.$store.dispatch('init')
     }
 }
 </script>
