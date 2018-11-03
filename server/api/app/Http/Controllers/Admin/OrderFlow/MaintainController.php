@@ -8,7 +8,7 @@ use App\Models\ServiceOrder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class MaintainController extends BaseController
+class MaintainController extends OperationController
 {
     /**
      * 状态，单据状态: 制单中 0, 已受理 1,待派单 2,处理中 3,结算收费 4,已关闭 5,客户回访 6
@@ -24,6 +24,7 @@ class MaintainController extends BaseController
     protected $type = 2;
 
     protected $typeWord = 'M';
+
     /**
      * Display a listing of the resource.
      *
@@ -47,7 +48,7 @@ class MaintainController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, ServiceOrder $order)
@@ -137,7 +138,7 @@ class MaintainController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  \App\Order  $order
+     * @param  \App\Order $order
      * @return \Illuminate\Http\Response
      */
     public function show(Order $order)
@@ -148,8 +149,8 @@ class MaintainController extends BaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Order  $order
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Order $order
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, ServiceOrder $order)
@@ -179,11 +180,11 @@ class MaintainController extends BaseController
 
         $equipment = $request->get('equipment', []);
 
-        $data['feedback_at'] = !empty($data['feedback_at'])?form_date($data['feedback_at'], 'Y-m-d H:i:s'):'';
-        $data['receive_at'] = !empty($data['receive_at'])?form_date($data['receive_at'], 'Y-m-d H:i:s'):'';
-        $data['confirm_at'] = !empty($data['confirm_at'])?form_date($data['confirm_at'], 'Y-m-d H:i:s'):'';
-        $data['plan_out_at'] = !empty($data['plan_out_at'])?form_date($data['plan_out_at'], 'Y-m-d H:i:s'):'';
-        $data['plan_finish_at'] = !empty($data['plan_finish_at'])?form_date($data['plan_finish_at'], 'Y-m-d H:i:s'):'';
+        $data['feedback_at'] = !empty($data['feedback_at']) ? form_date($data['feedback_at'], 'Y-m-d H:i:s') : '';
+        $data['receive_at'] = !empty($data['receive_at']) ? form_date($data['receive_at'], 'Y-m-d H:i:s') : '';
+        $data['confirm_at'] = !empty($data['confirm_at']) ? form_date($data['confirm_at'], 'Y-m-d H:i:s') : '';
+        $data['plan_out_at'] = !empty($data['plan_out_at']) ? form_date($data['plan_out_at'], 'Y-m-d H:i:s') : '';
+        $data['plan_finish_at'] = !empty($data['plan_finish_at']) ? form_date($data['plan_finish_at'], 'Y-m-d H:i:s') : '';
 
         if (!empty($equipment)) {
             $data['equipment_id'] = $equipment['id'];
@@ -242,11 +243,10 @@ class MaintainController extends BaseController
     }
 
 
-
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function next(Request $request)
@@ -273,7 +273,7 @@ class MaintainController extends BaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Order  $order
+     * @param  \App\Order $order
      * @return \Illuminate\Http\Response
      */
     public function destroy(ServiceOrder $order)

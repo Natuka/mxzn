@@ -12,7 +12,7 @@ use App\Models\ServiceOrderFault;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class RepairController extends BaseController
+class RepairController extends OperationController
 {
     /**
      * 状态，单据状态: 制单中 0, 已受理 1,待派单 2,处理中 3,结算收费 4,已关闭 5,客户回访 6

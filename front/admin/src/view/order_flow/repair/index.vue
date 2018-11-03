@@ -17,13 +17,50 @@
         </Button>
 
         <Button
+          type="error"
+          @click="handleCancel"
+          v-if="accessAdd()"
+          class="ml-5"
+        >
+          取消
+          <Icon type="md-backspace"/>
+        </Button>
+        <Button
+          type="info"
+          @click="handleDispatch"
+          v-if="accessAdd()"
+          class="ml-5"
+        >
+          派工
+          <Icon type="md-return-right"/>
+        </Button>
+        <Button
+          type="info"
+          @click="handleSwitch"
+          v-if="accessAdd()"
+          class="ml-5"
+        >
+          转派
+          <Icon type="md-repeat"/>
+        </Button>
+        <Button
+          type="success"
+          @click="handleComplete"
+          v-if="accessAdd()"
+          class="ml-5"
+        >
+          完工
+          <Icon type="md-checkmark-circle"/>
+        </Button>
+
+        <Button
           type="success"
           @click="next"
           v-if="accessAdd()"
           class="ml-5"
         >
           下一站
-          <Icon type="md-arrow-forward" />
+          <Icon type="md-arrow-forward"/>
         </Button>
       </div>
       <repair-search ref="search" @on-search="onSearch"></repair-search>
@@ -48,6 +85,10 @@
     <repair-add ref="add" @refresh="refresh"></repair-add>
     <repair-edit ref="edit" @refresh="refreshWithPage"></repair-edit>
 
+    <mx-order-dispatch ref="dispatch" @refresh="refreshWithPage"></mx-order-dispatch>
+    <mx-order-switch ref="switch" @refresh="refreshWithPage"></mx-order-switch>
+    <mx-order-cancel ref="cancel" @refresh="refreshWithPage"></mx-order-cancel>
+
   </div>
 </template>
 
@@ -59,6 +100,9 @@ import search from './search'
 import add from './add'
 import edit from './edit'
 import relation from './relation'
+import orderCancel from './operation/cancel'
+import orderSwitch from './operation/switch'
+import orderDispatch from './operation/dispatch'
 
 import listMixin from '../../../mixins/list'
 import constsMixin from '../../../mixins/consts'
@@ -72,7 +116,10 @@ export default {
     [search.name]: search,
     [add.name]: add,
     [edit.name]: edit,
-    [relation.name]: relation
+    [relation.name]: relation,
+    [orderCancel.name]: orderCancel,
+    [orderSwitch.name]: orderSwitch,
+    [orderDispatch.name]: orderDispatch
   },
   mixins: [listMixin, constsMixin, baseMixin],
   data () {
@@ -222,35 +269,6 @@ export default {
           key: 'handle',
           // options: ['delete'],
           button: [
-            // (h, params, vm) => {
-            //   return h(
-            //     'Poptip',
-            //     {
-            //       props: {
-            //         confirm: true,
-            //         title: '你确定要删除吗?'
-            //       },
-            //       on: {
-            //         'on-ok': () => {
-            //           vm.$emit('on-delete', params)
-            //           vm.$emit(
-            //             'input',
-            //             params.tableData.filter(
-            //               (item, index) => index !== params.row.initRowIndex
-            //             )
-            //           )
-            //         }
-            //       }
-            //     },
-            //     [h('Button', {
-            //       nativeOn: {
-            //         click: this.delayLock((e) => {
-            //           console.log('open poper-show')
-            //         })
-            //       }
-            //     }, '删除')]
-            //   )
-            // },
             (h, params, vm) => {
               if (!this.accessView()) {
                 return
@@ -277,12 +295,42 @@ export default {
         }
       ],
       tableData: [],
-      selected: []
+      selected: [],
+      selectedData : {
+        data: {},
+        index: -1
+      }
     }
   },
   methods: {
     handleDelete (params) {
       console.log(params)
+    },
+    handleCancel () {
+      if (this.selectedData.index < 0) {
+        return this.$Message.info('请选择要操作的工单')
+      }
+      this.$refs.cancel.setData(this.selectedData.data, true)
+      this.$refs.cancel.open()
+    },
+    handleSwitch () {
+      if (this.selectedData.index < 0) {
+        return this.$Message.info('请选择要操作的工单')
+      }
+      this.$refs.switch.setData(this.selectedData.data, true)
+      this.$refs.switch.open()
+    },
+    handleDispatch () {
+      if (this.selectedData.index < 0) {
+        return this.$Message.info('请选择要操作的工单')
+      }
+      this.$refs.dispatch.setData(this.selectedData.data, true)
+      this.$refs.dispatch.open()
+    },
+    handleComplete () {
+      if (this.selectedData.index < 0) {
+        return this.$Message.info('请选择要操作的工单')
+      }
     },
     exportExcel () {
       this.$refs.tables.exportCsv({
@@ -301,6 +349,10 @@ export default {
       e()
     },
     onRowClick (data, index) {
+      this.selectedData = {
+        data,
+        index
+      }
       // console.log('EditData', data)
       this.$refs.relation.setData(data, index)
     },

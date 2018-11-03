@@ -57,6 +57,29 @@ Route::group([
             'visible' => false,
         ]);
 
+        // cancel
+        Route::post('/{order}/cancel', [
+            'uses' => 'RepairController@cancel',
+            'as' => 'order_repair_cancel',
+            'display_name' => '维修工单取消',
+            'visible' => false,
+        ]);
+        // dispatch
+        Route::post('/{order}/dispatch', [
+            'uses' => 'RepairController@orderDispatch',
+            'as' => 'order_repair_dispatch',
+            'display_name' => '维修工单派工',
+            'visible' => false,
+        ]);
+
+        // switch
+        Route::post('/{order}/switch', [
+            'uses' => 'RepairController@switchDispatch',
+            'as' => 'order_repair_update',
+            'display_name' => '维修工单转派',
+            'visible' => false,
+        ]);
+
         Route::delete('/{order}', [
             'uses' => 'RepairController@destroy',
             'as' => 'order_repair_delete',
@@ -116,6 +139,29 @@ Route::group([
             'display_name' => '下一步',
             'visible' => false,
         ]);
+
+        // cancel
+        Route::post('/{order}/cancel', [
+            'uses' => 'InstallController@cancel',
+            'as' => 'order_install_cancel',
+            'display_name' => '安装工单取消',
+            'visible' => false,
+        ]);
+        // dispatch
+        Route::post('/{order}/dispatch', [
+            'uses' => 'InstallController@orderDispatch',
+            'as' => 'order_install_dispatch',
+            'display_name' => '安装工单派工',
+            'visible' => false,
+        ]);
+
+        // switch
+        Route::post('/{order}/switch', [
+            'uses' => 'InstallController@switchDispatch',
+            'as' => 'order_install_update',
+            'display_name' => '安装工单转派',
+            'visible' => false,
+        ]);
     });
 
     Route::group(['prefix' => 'maintain'], function () {
@@ -159,6 +205,29 @@ Route::group([
             'uses' => 'MaintainController@next',
             'as' => 'order_maintain_next',
             'display_name' => '下一步',
+            'visible' => false,
+        ]);
+
+        // cancel
+        Route::post('/{order}/cancel', [
+            'uses' => 'MaintainController@cancel',
+            'as' => 'order_maintain_cancel',
+            'display_name' => '保养工单取消',
+            'visible' => false,
+        ]);
+        // dispatch
+        Route::post('/{order}/dispatch', [
+            'uses' => 'MaintainController@orderDispatch',
+            'as' => 'order_maintain_dispatch',
+            'display_name' => '保养工单派工',
+            'visible' => false,
+        ]);
+
+        // switch
+        Route::post('/{order}/switch', [
+            'uses' => 'MaintainController@switchDispatch',
+            'as' => 'order_maintain_update',
+            'display_name' => '保养工单转派',
             'visible' => false,
         ]);
     });
