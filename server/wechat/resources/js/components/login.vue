@@ -46,7 +46,7 @@ export default {
         }
     },
     methods: {
-        onSendSms () {
+        onSendSms() {
 
         },
         onLogin() {
@@ -54,7 +54,8 @@ export default {
             setTimeout(async () => {
                 try {
                     let data = await this.$api.login(this.phone, this.sms)
-                    console.log('data', data)
+                    await this.$store.dispatch('setUser', data)
+                    this.$router.push('/repair/list')
                 } catch (e) {
                     console.log('e', e)
                 } finally {
@@ -69,16 +70,18 @@ export default {
 
 <style scoped>
 
-    .logo-wrap{
+    .logo-wrap {
         text-align: center;
         padding-top: 100px;
     }
-    .logo{
+
+    .logo {
 
         width: 80%;
         /*margin-top: 100px;*/
         /*margin-bottom: 100px;*/
     }
+
     .login {
         margin-top: 20%;
     }
