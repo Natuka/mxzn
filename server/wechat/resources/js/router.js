@@ -45,6 +45,13 @@ let routes = [
         }
     },
     {
+        path: '/repair/attendance',
+        component: () => import('./components/repair/attendance'),
+        meta: {
+            auth: true
+        }
+    },
+    {
         path: '/repair/cancel',
         component: () => import('./components/repair/cancel'),
         meta: {
@@ -122,6 +129,7 @@ router.beforeEach((to, from, next) => {
         }
     } else {
         if (auth.loggedIn()) {
+            console.log('login', to.path)
             next(false)
         } else {
             next()
@@ -140,10 +148,11 @@ Toast.loading({
 
 // 首先先获取一次用户是否存在，然后进行跳转
 user().then((data) => {
+    console.log('data', data)
     store.dispatch('setUser', data)
     router.push('/repair/list')
     Toast.clear()
 }).catch(() => {
+    localStorage.userId = ''
     router.push('/login')
-    Toast.fail('暂未登陆22')
 })
