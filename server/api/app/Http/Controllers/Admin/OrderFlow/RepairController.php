@@ -236,18 +236,21 @@ class RepairController extends BaseController
     public function next(Request $request)
     {
         $user = $request->user();
-        foreach ($request->get('post', []) as $info) {
-            $service_order = ServiceOrder::find($info['id']);
+        foreach ($request->get('post', []) as $infoId) {
+/*            \Log::info([
+                'next next' => $infoId
+            ]);*/
+            $service_order = ServiceOrder::find($infoId);
             if ($service_order) {
-                $this->assignToContact($info['id'], $user->id);
-                $info['status'] = 1;
-                $info['progress_time'] = date('Y-m-d H:i:s', time());
-                unset($info['id']);
-                $service_order->forceFill($info)->save();
+                //$this->assignToContact($info['id'], $user->id);
+                $data['status'] = 1;
+                //$data['progress_time'] = date('Y-m-d H:i:s', time());
+                $service_order->forceFill($data)->save();
             }
+            unset($info);
         }
 
-        return success_json('处理成功');
+        return success_json('操作成功');
     }
 
 
@@ -262,6 +265,5 @@ class RepairController extends BaseController
         if (!$order || $order->id <= 0) {
             return error_json('工单不存在');
         }
-
     }
 }

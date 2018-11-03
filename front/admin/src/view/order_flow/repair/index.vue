@@ -17,7 +17,7 @@
         </Button>
 
         <Button
-          type="primary"
+          type="success"
           @click="next"
           v-if="accessAdd()"
           class="ml-5"
@@ -310,16 +310,6 @@ export default {
       }
 
       let post = this.selected.map(el => el.id)
-      // let errors = []
-      // let post = []
-      // this.getSelectedDataFromClone().forEach(el => {
-      //   post.push({
-      //     id: el.id
-      //   })
-      // })
-      // if (errors.length) {
-      //   return this.$Message.error(errors.join('\n'))
-      // }
 
       this.$Modal.confirm({
         title: '提示',

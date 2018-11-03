@@ -17,6 +17,14 @@ export function deleteConfirm () {
 }
 
 /**
+ * 退回
+ * @param {[type]} data [description]
+ */
+export function confirmBack (data) {
+  return postApi('order_flow/confirm/back', data)
+}
+
+/**
  * 下一站
  * @param {[type]} data [description]
  */
