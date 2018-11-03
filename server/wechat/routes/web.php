@@ -19,6 +19,7 @@ Route::any('/wechat', 'WeChatController@serve');
 Route::post('/login', 'User\AuthController@login');
 Route::post('/user/create', 'User\CreateController@store');
 Route::get('/user/info', 'User\IndexController@info');
+Route::get('/config', 'WechatController@config');
 
 // 微信必须验证
 // 'wechat.oauth'

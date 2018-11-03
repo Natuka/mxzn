@@ -112,4 +112,13 @@ class WechatController extends Controller
             return '';
         }
     }
+
+    public function config(Request $request)
+    {
+        $app = app('wechat.official_account');
+        $app->jssdk->setUrl($request->get('url', ''));
+
+        $config = $app->jssdk->buildConfig(['onMenuShareQQ', 'onMenuShareWeibo', 'getLocation', 'checkJsApi'], true, false, false);
+        return success_json($config);
+    }
 }
