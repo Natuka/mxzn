@@ -4,7 +4,8 @@ const getters = {}
 
 const actions = {
     async init({dispatch}) {
-
+    },
+    async initWechatConfig () {
     }
 }
 

@@ -54,6 +54,7 @@ export default {
     },
 
     loggedIn() {
+        console.log('localStorage.userId', localStorage.userId, !!localStorage.userId)
         return !!localStorage.userId
     },
 
