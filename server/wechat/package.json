@@ -28,6 +28,8 @@
         "vux-loader": "^1.2.9"
     },
     "dependencies": {
+        "@defy/vue-wx-jssdk": "^0.1.2",
+        "@defy/wx-jssdk": "^1.0.11",
         "babel-core": "^6.26.3",
         "babel-preset-stage-2": "^6.24.1",
         "dayjs": "^1.7.7",
