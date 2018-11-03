@@ -23,10 +23,10 @@
           </Select>
         </FormItem>
 
-        <FormItem label="原因描述" prop="cancel_desc">
+        <FormItem label="原因描述" prop="cancel_cause">
           <Input
             type="textarea"
-            v-model="data.cancel_desc"
+            v-model="data.cancel_cause"
             row="10"
           ></Input>
         </FormItem>
@@ -55,13 +55,13 @@ export default {
     return {
       data: {
         cancel_type: 0,
-        cancel_desc: '',
+        cancel_cause: '',
       },
       select: {
         reason: CANCEL_REASON
       },
       rules: {
-        cancel_desc: [
+        cancel_cause: [
           validate.notEmpty('取消原因必填')
         ]
       }

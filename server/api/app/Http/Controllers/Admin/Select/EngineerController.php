@@ -23,6 +23,10 @@ class EngineerController extends BaseController
             $engineer = $engineer->where('staff_name', 'like', like($name));
         }
 
+        if ($org_id =$request->get('org_id', 0)) {
+            $engineer = $engineer->where('org_id', $org_id);
+        }
+
 //        $id = $request->get('customer_id', 0);
 //        $engineer = $engineer->where('cust_id', $id);
 

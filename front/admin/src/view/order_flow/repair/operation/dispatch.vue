@@ -5,7 +5,6 @@
     title="维修工单-派工"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
-    class="mxcs-three-column"
   >
     <div>
       <Form :model="data"
@@ -13,6 +12,39 @@
             :rules="rules"
             :label-width="90"
       >
+        <FormItem label="派工方式">
+          <Select v-model="data.dispatch_type">
+            <Option
+              v-for="(type, index) in select.dispatch"
+              :key="index"
+              :value="index"
+            >{{type}}
+            </Option>
+          </Select>
+        </FormItem>
+
+        <FormItem label="服务网点" prop="dispatch_org_id">
+          <remote-select
+            label="name"
+            url="select/organization"
+            :filter="(data) => data.name"
+            :valueMap="(data) => data.id"
+            @on-change="organizationChange"
+          ></remote-select>
+
+        </FormItem>
+
+        <FormItem label="工程师" prop="dispatch_engineer">
+          <remote-select
+            :init="data.dispatch_engineer"
+            :params="params"
+            label="staff_name"
+            url="select/engineer"
+            @on-change="engineerChange"
+            @on-change-data="engineerChangeData"
+          ></remote-select>
+
+        </FormItem>
       </Form>
 
     </div>
@@ -23,11 +55,12 @@
 
 import ModalMixin from '@/mixins/modal'
 
-import {addRepair} from '@/api/order_flow/repair'
-import {selectDepartment} from '@/api/select/department'
+import {orderServiceDispatch} from '@/api/order_flow/action'
 import dayjs from 'dayjs'
 
 import * as validate from '@/libs/validate'
+
+import {DISPATCH} from '@/constants/order_flow'
 
 const currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss')
 
@@ -37,6 +70,15 @@ export default {
   data () {
     return {
       data: {
+        dispatch_type: 0,
+        dispatch_org_id: 0,
+        dispatch_engineer: 0
+      },
+      params: {
+        org_id: 0
+      },
+      select: {
+        dispatch: DISPATCH
       },
       rules: {
         name: [
@@ -65,18 +107,16 @@ export default {
       return true
     },
     async organizationChange (id) {
-      this.data.org_id = id
+      this.data.dispatch_org_id = id
       if (!id) {
         return
       }
-      let {data} = await selectDepartment(id)
-      this.select.department = data || []
-      if (data.length) {
-        let info = data.find(info => +info.id === +this.data.dep_id)
-        if (!info) {
-          this.data.dep_id = data[0].id
-        }
-      }
+      this.params.org_id = id
+    },
+    async engineerChange (id) {
+      this.data.dispatch_engineer = id
+    },
+    async engineerChangeData (engineer) {
     }
   }
 }
