@@ -59,9 +59,75 @@ class BaseController extends Controller
      */
     public function where(Request $request, ServiceOrder $order)
     {
-        $type = $request->get('type', 0); //服务类别
         $orderField = $request->get('orderField', 3); // 排序栏位
         $orderBy = $request->get('orderBy', 1); // 排序顺序
+
+        $type = $request->get('schType', 0); //工单类别
+        $sch_field = $request->get('schField', ''); //查询字段或模糊查询
+        $sch_value = $request->get('schValue', ''); //查询字段或模糊查询
+        //$sch_field = 'fuzzy_query';
+        if ($sch_value && $sch_field) {
+            if ($sch_field == 'fuzzy_query') {
+                $order = $order->where(function($query) use($sch_field, $sch_value)
+                                {
+                                    $query = $query->where('number', 'like', '%'.$sch_value.'%');
+                                    $query = $query->orWhere(function($query) use($sch_field, $sch_value)
+                                    {
+                                        $query = $query->whereHas('customer', function ($query) use ($sch_value) {
+                                            $query->where('name', 'like', '%'.$sch_value.'%');
+                                        });
+                                    });
+                                    $query = $query->orWhere(function($query) use($sch_field, $sch_value)
+                                    {
+                                        $query = $query->whereHas('feedbackStaff', function ($query) use ($sch_value) {
+                                            $query->where('name', 'like', '%'.$sch_value.'%');
+                                        });
+                                    });
+                                    $query = $query->orWhere(function($query) use($sch_field, $sch_value)
+                                    {
+                                        $query = $query->whereHas('engineers', function ($query) use ($sch_value) {
+                                            $query->where('staff_name', 'like', '%'.$sch_value.'%');
+                                        });
+                                    });
+                                    $query = $query->orWhere(function($query) use($sch_field, $sch_value)
+                                    {
+                                        $query = $query->whereHas('fault', function ($query) use ($sch_value) {
+                                            $query->where('desc', 'like', '%'.$sch_value.'%');
+                                        });
+                                    });
+
+                                });
+            }else{
+                if (in_array($sch_field, ['number'])) {
+                    $order = $order->where($sch_field, 'like', '%'.$sch_value.'%');
+                }else {
+                    switch ($sch_field) {
+                        case 'customer_name' :
+                            $order = $order->whereHas('customer', function ($query) use ($sch_value) {
+                                $query->where('name', 'like', '%'.$sch_value.'%');
+                            });
+                            break;
+                        case 'feedback_staff' :
+                            $order = $order->whereHas('feedbackStaff', function ($query) use ($sch_value) {
+                                $query->where('name', 'like', '%'.$sch_value.'%');
+                            });
+                            break;
+                        case 'engineer' :
+                            $order = $order->whereHas('engineers', function ($query) use ($sch_value) {
+                                $query->where('staff_name', 'like', '%'.$sch_value.'%');
+                            });
+                            break;
+                        case 'fault_desc' :
+                            $order = $order->whereHas('fault', function ($query) use ($sch_value) {
+                                $query->where('desc', 'like', '%'.$sch_value.'%');
+                            });
+                            break;
+                        default:break;
+                    }
+                }
+
+            }
+        }
 
 /*        $start_date = $request->get('start_date', '');
         $end_date = $request->get('end_date', '');

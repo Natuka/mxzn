@@ -386,6 +386,27 @@
 
         </FormItem>
 
+
+        <FormItem label="取消原因" prop="cancel_type">
+          <Select v-model="data.cancel_type" disabled>
+            <Option
+              v-for="(type, index) in select.reason"
+              :key="index"
+              :value="index"
+            >{{type}}
+            </Option>
+          </Select>
+        </FormItem>
+
+        <FormItem label="取消描述" prop="cancel_cause">
+          <Input
+            type="textarea"
+            v-model="data.cancel_cause"
+            row="5"
+            disabled
+          ></Input>
+        </FormItem>
+
       </Form>
     </div>
   </custom-modal>

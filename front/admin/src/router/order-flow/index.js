@@ -13,46 +13,14 @@ export default [
     component: Main,
     children: [
       {
-        path: 'service',
-        name: 'order_flow_service',
+        path: 'repair',
+        name: 'order_flow_repair_list',
         meta: {
-          access: ['order_flow_service'],
-          icon: 'md-funnel',
-          title: '工单维护'
+          icon: '_qq',
+          title: '工单维护',
+          access: ['order_flow_repair_list']
         },
-        component: parentView,
-        children: [
-          {
-            path: 'repair',
-            name: 'order_flow_repair_list',
-            meta: {
-              icon: '_qq',
-              title: '维修工单',
-              access: ['order_flow_repair_list']
-            },
-            component: () => import('@/view/order_flow/repair/index.vue')
-          },
-          {
-            path: 'install',
-            name: 'order_flow_install_list',
-            meta: {
-              icon: '_qq',
-              title: '安装工单',
-              access: ['order_flow_install_list']
-            },
-            component: () => import('@/view/order_flow/install/index.vue')
-          },
-          {
-            path: 'maintain',
-            name: 'order_flow_maintain_list',
-            meta: {
-              icon: '_qq',
-              title: '保养工单',
-              access: ['order_flow_maintain_list']
-            },
-            component: () => import('@/view/order_flow/maintain/index.vue')
-          }
-        ]
+        component: () => import('@/view/order_flow/repair/index.vue')
       },
       {
         path: 'confirm',
