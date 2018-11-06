@@ -24,5 +24,14 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //
+        $request = app('request');
+        $authorization = $request->header('Authorization');
+        if (!$authorization) {
+            $authorization = $request->get('token');
+        }
+
+        if (!empty($authorization)) {
+            $request->headers->set('Authorization', $authorization);
+        }
     }
 }

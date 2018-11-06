@@ -6,7 +6,6 @@ use App\Http\Requests\Admin\OrderFlow\CreateRequest;
 use App\Http\Requests\Admin\OrderFlow\UpdateRequest;
 use App\Models\ServiceOrder;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class CloseController extends BaseController
 {
