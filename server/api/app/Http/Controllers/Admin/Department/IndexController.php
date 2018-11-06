@@ -23,6 +23,23 @@ class IndexController extends Controller
 
     public function search(Request $request, Department $department)
     {
+        //
+        $sch_field = $request->get('schField', ''); //查询字段或模糊查询
+        $sch_value = $request->get('schValue', ''); //查询字段或模糊查询
+        //$sch_field = 'fuzzy_query';
+        if ($sch_value && $sch_field) {
+            if ($sch_field == 'fuzzy_query') {
+                $department = $department->where(function($query) use($sch_field, $sch_value)
+                                    {
+                                        $query->where('name', 'like', '%'.$sch_value.'%')
+                                              ->orWhere('created_by', 'like', '%'.$sch_value.'%')
+                                              ->orWhere('updated_by', 'like', '%'.$sch_value.'%');
+                                    });
+            }else{
+                $department = $department->where($sch_field, 'like', '%'.$sch_value.'%');
+            }
+        }
+
         $department = $department->with(['parent', 'organization']);
         $department = $department->select(['id', 'parent_id', 'name', 'org_id', 'number', 'number', 'sort_no', 'created_at']);
         return $department;

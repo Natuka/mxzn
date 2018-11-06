@@ -33,5 +33,8 @@ class AppServiceProvider extends ServiceProvider
         if (!empty($authorization)) {
             $request->headers->set('Authorization', $authorization);
         }
+        \DB::listen(function ($query) {
+            \Log::info('sql', [$query->sql, $query->bindings, $query->time]);
+        });
     }
 }

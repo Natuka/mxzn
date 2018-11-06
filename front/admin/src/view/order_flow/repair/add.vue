@@ -38,7 +38,7 @@
         </FormItem>
 
         <FormItem label="服务类别" prop="type">
-          <Select v-model="data.type" disabled>
+          <Select v-model="data.type">
             <Option
               v-for="(type, index) in select.type"
               :key="index"
@@ -117,7 +117,7 @@
           ></Input>
         </FormItem>
 
-        <FormItem label="设备编号" prop="machine_id">
+        <FormItem label="设备编号" prop="init.machine_id">
           <static-select
             :init="init.machine_id"
             :data="select.customerEquipmentList"
@@ -125,11 +125,11 @@
             @on-change-data="machineChange"
           ></static-select>
         </FormItem>
-        <FormItem label="型号规格" prop="model">
+        <FormItem label="型号规格" prop="equipment.model">
           <Input v-model="data.equipment.model" placeholder="型号规格" readonly></Input>
         </FormItem>
 
-        <FormItem label="合同编号" prop="contract_number">
+        <FormItem label="合同编号" prop="equipment.contract_number">
           <Input v-model="data.equipment.contract_number" placeholder="合同编号" readonly></Input>
         </FormItem>
 
@@ -513,8 +513,14 @@ export default {
         emergency_degree: [
           validate.number('请选择紧急程度')
         ],
-        machine_id: [
+        'init.machine_id': [
           validate.number('请选择设备编号')
+        ],
+        'equipment.model': [
+          validate.number('请选择型号规格')
+        ],
+        'equipment.contract_number': [
+          validate.number('请选择合同编号')
         ],
         receive_at: [
           validate.notEmpty('受理时间不能为空')

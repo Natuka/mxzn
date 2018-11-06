@@ -49,6 +49,7 @@ class OperationController extends BaseController
 
         // 关闭
         $order->status = 5;
+        $order->cancel_status = 1;
         $order->cancel_type = $request->get('cancel_type', 0);
         $order->cancel_cause = e($request->get('cancel_cause', ''));
         $order->save();

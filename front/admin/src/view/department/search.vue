@@ -1,7 +1,13 @@
 <template>
   <Form ref="search" :model="data" :rules="ruleInline" inline>
-    <FormItem prop="name">
-      <Input type="text" v-model="data.name" placeholder="请填写部门名称">
+    <FormItem prop="schField">
+      <Select v-model="data.schField" style="width:90px" placeholder="栏位">
+        <Option value="fuzzy_query" >模糊查询</Option>
+        <Option value="name">名称</Option>
+      </Select>
+    </FormItem>
+    <FormItem prop="schValue">
+      <Input type="text" v-model="data.schValue" placeholder="请填写查询内容">
       </Input>
     </FormItem>
     <FormItem>
@@ -16,13 +22,14 @@ export default {
   data () {
     return {
       data: {
-        name: ''
+        schField: 'fuzzy_query',
+        schValue: ''
       },
       ruleInline: {
-        name: [
+        schValue: [
           {
-            required: true,
-            message: '请填写部门名称',
+            required: false,
+            message: '请填写查询内容',
             trigger: 'blur'
           }
         ]

@@ -49,6 +49,7 @@ class RepairController extends OperationController
     {
         //
         $data = $request->only([
+            'type',
             'source',
             'customer_id',
             'equipment_id',
@@ -72,7 +73,7 @@ class RepairController extends OperationController
 
         $equipment = $request->get('equipment', []);
 
-        $data['type'] = $this->type;
+        //$data['type'] = $this->type;
         $data['number'] = $this->createNumber();
 
         $data['feedback_at'] = !empty($data['feedback_at'])?form_date($data['feedback_at'], 'Y-m-d H:i:s'):'';
@@ -80,6 +81,11 @@ class RepairController extends OperationController
         $data['confirm_at'] = !empty($data['confirm_at'])?form_date($data['confirm_at'], 'Y-m-d H:i:s'):'';
         $data['plan_out_at'] = !empty($data['plan_out_at'])?form_date($data['plan_out_at'], 'Y-m-d H:i:s'):'';
         $data['plan_finish_at'] = !empty($data['plan_finish_at'])?form_date($data['plan_finish_at'], 'Y-m-d H:i:s'):'';
+        if (empty($data['feedback_at'])) unset($data['feedback_at']);
+        if (empty($data['receive_at'])) unset($data['receive_at']);
+        if (empty($data['confirm_at'])) unset($data['confirm_at']);
+        if (empty($data['plan_out_at'])) unset($data['plan_out_at']);
+        if (empty($data['plan_finish_at'])) unset($data['plan_finish_at']);
 
         if (!empty($equipment)) {
             $data['equipment_id'] = $equipment['id'];
@@ -168,6 +174,11 @@ class RepairController extends OperationController
         $data['confirm_at'] = !empty($data['confirm_at'])?form_date($data['confirm_at'], 'Y-m-d H:i:s'):'';
         $data['plan_out_at'] = !empty($data['plan_out_at'])?form_date($data['plan_out_at'], 'Y-m-d H:i:s'):'';
         $data['plan_finish_at'] = !empty($data['plan_finish_at'])?form_date($data['plan_finish_at'], 'Y-m-d H:i:s'):'';
+        if (empty($data['feedback_at'])) unset($data['feedback_at']);
+        if (empty($data['receive_at'])) unset($data['receive_at']);
+        if (empty($data['confirm_at'])) unset($data['confirm_at']);
+        if (empty($data['plan_out_at'])) unset($data['plan_out_at']);
+        if (empty($data['plan_finish_at'])) unset($data['plan_finish_at']);
 
         if (!empty($equipment)) {
             $data['equipment_id'] = $equipment['id'];
@@ -224,8 +235,6 @@ class RepairController extends OperationController
 
         return error_json('创建失败，请检查');
     }
-
-
 
     /**
      * Store a newly created resource in storage.
