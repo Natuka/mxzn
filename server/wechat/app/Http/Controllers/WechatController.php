@@ -113,6 +113,36 @@ class WechatController extends Controller
         }
     }
 
+
+    /**
+     * 新增微信资料aa.
+     *
+     * @param [type] $weixinFan [description]
+     *
+     * @return [type] [description]
+     */
+    public function createOrUpdateMember($weixinFan)
+    {
+        $weixinUser = WeixinUser::findByWeixinId($weixinFan->id);
+        if (!$weixinUser) {
+            $weixinUser = new WeixinUser();
+            $data = [
+                'weixin_id' => $weixinFan->id,
+                'name' => $weixinFan->nickname,
+                'avatar' => $this->fetchAvatar($weixinFan->avatar),
+                'sex' => $weixinFan->sex,
+                'progress' => 0,
+                'recommend_type' => 0,
+                'recommendable_type' => '', // 默认调整为空
+                'acct' => null,
+            ];
+            $weixinUser->forceFill($data)->save();
+        }
+
+        return $weixinUser;
+    }
+
+
     public function config(Request $request)
     {
         $app = app('wechat.official_account');
