@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\Fan;
+
 class WechatController extends Controller
 {
     /**
@@ -13,71 +15,42 @@ class WechatController extends Controller
      */
     public function serve()
     {
-        Log::info('request arrived.'); # 注意：Log 为 Laravel 组件，所以它记的日志去 Laravel 日志看，而不是 EasyWeChat 日志
-
         try {
             $app = app('wechat.official_account');
-            $app->server->push(function($message){
-                $user = WechatFan::infoByOpenid($message->FromUserName);
-                $wechatUser = null;
-                if (!$user) {
-                    $wechatUser = app('wechat')->user->get($message->FromUserName);
-                    $user = $this->createOrUpdateWeixinFan($wechatUser);
+            $app->server->push(function($message) use ($app){
+                $fan = Fan::findByOpenId($message->FromUserName);
+                if (!$weixinUser) {
+                    $wechatUser = $app->user->get($message->FromUserName);
+                    $fan = $this->create($wechatUser);
                 }
-                // 绑定之后现在改为创建一个用户资料
-                $weixinUser = $this->createOrUpdateMember($user);
-                $this->setMember($weixinUser);
-                $this->setWeixinUser($user);
 
                 switch ($message->MsgType) {
                     case 'event':
                         // 关注
                         if ('subscribe' === $message->Event) {
-                            // 如果是重新關注，那麼需要重新更新微信關注者的資料
-                            if (!$wechatUser) {
-                                $wechatUser = app('wechat')->user->get($message->FromUserName);
-                                // 更新微信資料
-                                $this->updateWeixinFan($wechatUser, $user);
-                                // 更新微信頭像
-                                $this->updateMember($user, $weixinUser);
-                            }
-
-
                             // 扫描二维码进来
                             if (strpos($message->EventKey, 'qrscene_') !== false) {
                                 $screenId = (int) trim($message->EventKey, 'qrscene_');
                                 if ($screenId) {
-                                    $this->updateUserRecommend($screenId, $weixinUser, $user);
+                            
                                 }
                             }
-                            $user->subscribe = 1;
-                            $user->subscribed_at = date('Y-m-d H:i:s', time());
-                            $user->save();
-                            // 會員未註冊，或者手機號未關聯時
-                            // 或者未產生用戶，產生的用戶未綁定手機號
-                            return ''; //客户要求直接在微信后台编辑欢迎信息,180125 byltf
-//                            if (!$user->mobile || !$weixinUser || !$weixinUser->acct) {
-//                                return sprintf('亲爱的%s , 感谢您的关注！您尚未注册，注册后可免费找工作，也可推荐好友找工作并领取推荐费200元 !推荐满15人还送299元耳机，还等啥呢？火速注册吧！[<a href="%s">注册</a>]',
-//                                    $user->nickname,
-//                                    asset('wxmenu/bind?openid='.$message->FromUserName));
-//                            }
-//
-//                            return '感谢您的关注！';
+
+                            $this->update($fan, $weixinUser);
+                     
+                            return ''; 
                         }
 
                         // 取消关注
                         if ('unsubscribe' === $message->Event) {
-                            $user->subscribe = 0;
-                            $user->unsubscribe_at = $user->subscribed_at = date('Y-m-d H:i:s', time());
-                            $user->save();
+                            $fan->is_subscribe = 0;
+                            $fan->unsubscribed_time = date('Y-m-d H:i:s', time());
+                            $fan->save();
                         }
 
                         // 点击事件
                         if ('CLICK' === $message->Event) {
-                            // QrCode
-                            if ('qrcode' === $message->EventKey) {
-                                return $this->createOrUpdateQrcode();
-                            }
+                         // 暂不执行
                         }
 
                         break;
@@ -113,35 +86,64 @@ class WechatController extends Controller
         }
     }
 
-
     /**
-     * 新增微信资料aa.
+     * 更新用户信息
      *
-     * @param [type] $weixinFan [description]
-     *
-     * @return [type] [description]
+     * @param [type] $fan
+     * @param [type] $wechatUser
+     * @return void
      */
-    public function createOrUpdateMember($weixinFan)
+    public function update($fan, $wechatUser)
     {
-        $weixinUser = WeixinUser::findByWeixinId($weixinFan->id);
-        if (!$weixinUser) {
-            $weixinUser = new WeixinUser();
-            $data = [
-                'weixin_id' => $weixinFan->id,
-                'name' => $weixinFan->nickname,
-                'avatar' => $this->fetchAvatar($weixinFan->avatar),
-                'sex' => $weixinFan->sex,
-                'progress' => 0,
-                'recommend_type' => 0,
-                'recommendable_type' => '', // 默认调整为空
-                'acct' => null,
-            ];
-            $weixinUser->forceFill($data)->save();
+        if ($fan->unionid != $wechatUser->unionid) {
+            $fan->unionid = $wechatUser->unionid;
         }
 
-        return $weixinUser;
+        if ($fan->sex != $wechatUser->sex) {
+            $fan->sex = $wechatUser->sex;
+        }
+
+        if ($fan->language != $wechatUser->language) {
+            $fan->language = $wechatUser->language;
+        }
+
+        if ($fan->city != $wechatUser->city) {
+            $fan->city = $wechatUser->city;
+        }
+
+        if ($fan->province != $wechatUser->province) {
+            $fan->province = $wechatUser->province;
+        }
+
+        if (empty($fan->headimgurl) && $fan->headimgurl != $wechatUser->headimgurl) {
+            $fan->headimgurl = $wechatUser->headimgurl;
+        }
+
+        $fan->save();
     }
 
+    public function create($wechatUser)
+    {
+        $fan = new Fan();
+
+        $fan->forceFill([
+            'is_subscribe' => $wechatUser->subscribe,
+            'groupid' => $wechatUser->groupid,
+            'openid' => $wechatUser->openid,
+            'unionid' => $wechatUser->unionid,
+            'is_subscribe' => $wechatUser->nickname,
+            'sex' => $wechatUser->sex,
+            'language' => $wechatUser->language,
+            'city' => $wechatUser->city,
+            'province' => $wechatUser->province,
+            'country' => $wechatUser->country,
+            'headimgurl' => $wechatUser->headimgurl,
+            'remark' => $wechatUser->remark,
+            'subscribed_time' => date('Y-m-d H:i:s', $wechatUser->subscribe_time),
+        ])->save();
+
+        return $fan;
+    }
 
     public function config(Request $request)
     {
@@ -150,5 +152,35 @@ class WechatController extends Controller
 
         $config = $app->jssdk->buildConfig(['onMenuShareQQ', 'onMenuShareWeibo', 'getLocation', 'checkJsApi'], true, false, false);
         return success_json($config);
+    }
+
+    /**
+     * 获取用户头像
+     * @param $path
+     * @return mixed
+     */
+    public function fetchAvatar($path)
+    {
+        if(empty($path)) {
+            return '/images/avatar/1.png';
+        }
+
+        $urlArr = parse_url($path);
+
+        if(empty($urlArr)) {
+            return '/images/avatar/1.png';
+        }
+
+        $url = ( isset($urlArr['scheme']) && 'http' === $urlArr['scheme'] ? 'http' : 'https') . '://' . $urlArr['host'];
+
+        $client = new Client;
+        $ret = $client->request('GET', $path, ['timeout' => 2, 'header' => [
+            'referer' => $url,
+        ]]);
+
+        $filepathArr = getfilepath('avatar');
+        $filepath = $filepathArr['filepath'];
+        file_put_contents($filepath, $ret->getBody());
+        return $filepathArr['relativeFilename'];
     }
 }
