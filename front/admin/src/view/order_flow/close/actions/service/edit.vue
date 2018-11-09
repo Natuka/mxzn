@@ -160,7 +160,7 @@
   import ModalMixin from '@/mixins/modal'
   import AreaMixin from '@/mixins/area'
 
-  import {updateMaintainAction} from '@/api/order_flow/close'
+  import {updateCloseAction} from '@/api/order_flow/close'
   import * as orderConst from '@/constants/order_flow'
   import * as orderFaultConst from '@/constants/order_fault'
 
@@ -216,7 +216,7 @@
           console.log('onSubmit', valid)
           if (valid) {
             try {
-              let data = await updateMaintainAction(this.data, this.data.id, this.data.service_order_id, 'service')
+              let data = await updateCloseAction(this.data, this.data.id, this.data.service_order_id, 'service')
               console.log('data', data)
               this.withRefresh(e)
             } catch (e) {

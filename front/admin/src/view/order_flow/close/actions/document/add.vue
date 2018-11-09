@@ -177,7 +177,7 @@
 import ModalMixin from '@/mixins/modal'
 import AreaMixin from '@/mixins/area'
 
-import {addMaintainAction} from '@/api/order_flow/close'
+import {addCloseAction} from '@/api/order_flow/close'
 import {selectDepartment} from '@/api/select/department'
 // import * as orderConst from '@/constants/order_flow'
 

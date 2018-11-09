@@ -416,7 +416,7 @@
 import ModalMixin from '@/mixins/modal'
 import AreaMixin from '@/mixins/area'
 
-import {updateMaintain} from '@/api/order_flow/close'
+import {updateClose} from '@/api/order_flow/close'
 import {selectCustomerContact} from '@/api/select/customer-contact'
 import {selectCustomerEquipment} from '@/api/select/customer-equipment'
 import * as orderConst from '@/constants/order_flow'
@@ -627,7 +627,7 @@ export default {
       })
 
       Promise.all(promises).then(async () => {
-        await updateMaintain(this.data, this.data.id)
+        await updateClose(this.data, this.data.id)
         this.withRefresh(e)
       }).catch(err => {
         console.log('failed', err)

@@ -77,7 +77,7 @@
 import ModalMixin from '@/mixins/modal'
 import AreaMixin from '@/mixins/area'
 
-import {addMaintainAction} from '@/api/order_flow/close'
+import {addCloseAction} from '@/api/order_flow/close'
 import * as orderConst from '@/constants/order_flow'
 import * as orderFaultConst from '@/constants/order_fault'
 
@@ -126,7 +126,7 @@ export default {
       this.$refs.addForm.validate(async (valid) => {
         if (valid) {
           try {
-            let data = await addMaintainAction(this.data, this.data.service_order_id, 'follow-up')
+            let data = await addCloseAction(this.data, this.data.service_order_id, 'follow-up')
             console.log('data', data)
             this.withRefresh(e)
           } catch (e) {
