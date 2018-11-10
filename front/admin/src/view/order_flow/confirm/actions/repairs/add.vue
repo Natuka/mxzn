@@ -112,10 +112,11 @@
           ></Input>
         </FormItem>
 
-        <FormItem label="附件" prop="fault.desc" style="width: 100%;">
-          <Upload action="//jsonplaceholder.typicode.com/posts/">
-            <Button icon="ios-cloud-upload-outline">上传</Button>
-          </Upload>
+        <FormItem label="附件" prop="fault.step_doc_ids" style="width: 100%;">
+          <mx-upload-doc
+            :multi="true"
+            @on-change="handleStepDocChange"
+          ></mx-upload-doc>
         </FormItem>
 
         <FormItem label="到达时间" prop="arrived_at">
@@ -145,14 +146,15 @@
           ></Input>
         </FormItem>
 
-        <FormItem label="附件" prop="fault.desc" style="width: 100%;">
-          <Upload action="//jsonplaceholder.typicode.com/posts/">
-            <Button icon="ios-cloud-upload-outline">上传</Button>
-          </Upload>
+        <FormItem label="附件" prop="fault.cause_doc_ids" style="width: 100%;">
+          <mx-upload-doc
+            :multi="true"
+            @on-change="handleCauseDocChange"
+          ></mx-upload-doc>
         </FormItem>
 
-        <FormItem label="下一步处理" prop="next">
-          <Select v-model="data.next">
+        <FormItem label="下一步处理" prop="next_step">
+          <Select v-model="data.next_step">
             <Option
               v-for="(type, index) in select.nextList"
               :key="index"
@@ -171,6 +173,7 @@
 
 import ModalMixin from '@/mixins/modal'
 import AreaMixin from '@/mixins/area'
+import uploadDoc from '@/components/upload/doc'
 
 import {addConfirmAction} from '@/api/order_flow/confirm'
 import * as orderConst from '@/constants/order_flow'
@@ -179,6 +182,9 @@ import * as orderFaultConst from '@/constants/order_fault'
 export default {
   name: 'repairs-add',
   mixins: [ModalMixin, AreaMixin],
+  components: {
+    [uploadDoc.name]: uploadDoc
+  },
   data () {
     return {
       data: {
@@ -191,7 +197,7 @@ export default {
         arrived_at: '',
         complete_at: '',
         cause_id: 0,
-        next: 0,
+        next_step: 0,
         cause: '',
         step_doc_ids: '',
         cause_doc_ids: '',
@@ -250,6 +256,12 @@ export default {
       this.data.staff_id = staff.id
       this.data.staff_name = staff.name
       this.data.staff = staff
+    },
+    async handleStepDocChange (files) {
+      this.data.step_doc_ids = files.map(file => file.id).join(',')
+    },
+    async handleCauseDocChange (files) {
+      this.data.cause_doc_ids = files.map(file => file.id).join(',')
     }
   }
 }

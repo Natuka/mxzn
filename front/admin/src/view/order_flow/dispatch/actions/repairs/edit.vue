@@ -171,6 +171,7 @@
 
 import ModalMixin from '@/mixins/modal'
 import AreaMixin from '@/mixins/area'
+import uploadDoc from '@/components/upload/doc'
 
 import {updateDispatchAction} from '@/api/order_flow/dispatch'
 import * as orderConst from '@/constants/order_flow'
@@ -179,6 +180,9 @@ import * as orderFaultConst from '@/constants/order_fault'
 export default {
   name: 'repairs-edit',
   mixins: [ModalMixin, AreaMixin],
+  components: {
+    [uploadDoc.name]: uploadDoc
+  },
   data () {
     return {
       data: {
@@ -191,7 +195,7 @@ export default {
         arrived_at: '',
         complete_at: '',
         cause_id: 0,
-        next: 0,
+        next_step: 0,
         cause: '',
         step_doc_ids: '',
         step_result: '',
@@ -249,6 +253,25 @@ export default {
         id: this.data.staff_id,
         name: this.data.staff_name
       }]
+
+      let data = this.data
+      if (data.step_doc_ids) {
+        try {
+          let {data: stepDocs} = await getDocList(data.step_doc_ids.split(','))
+          this.$refs.step.initData(stepDocs)
+        } catch (e) {
+          console.log('get step ids fail', e)
+        }
+      }
+
+      if (data.cause_doc_ids) {
+        try {
+          let {data: causeDos} = await getDocList(data.cause_doc_ids.split(','))
+          this.$refs.cause.initData(causeDos)
+        } catch (e) {
+          console.log('get cause ids fail', e)
+        }
+      }
     },
     async staffChange (staffId) {
       this.data.staff_id = staffId
@@ -257,6 +280,12 @@ export default {
       this.data.staff_id = staff.id
       this.data.staff_name = staff.name
       this.data.staff = staff
+    },
+    async handleStepDocChange (files) {
+      this.data.step_doc_ids = files.map(file => file.id).join(',')
+    },
+    async handleCauseDocChange (files) {
+      this.data.cause_doc_ids = files.map(file => file.id).join(',')
     }
   }
 }
