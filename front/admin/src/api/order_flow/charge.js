@@ -39,7 +39,7 @@ export function addChargeAction (data, orderId, type = 'attendance') {
 
 // 更新
 export function updateChargeAction (data, id, orderId, type = 'attendance') {
-  return postApi(`order_flow/charge/${orderId}/${type}/${id}`, data)
+  return putApi(`order_flow/charge/${orderId}/${type}/${id}`, data)
 }
 
 // 删除

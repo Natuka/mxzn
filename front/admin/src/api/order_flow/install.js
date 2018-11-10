@@ -31,7 +31,7 @@ export function addInstallAction (data, orderId, type = 'attendance') {
 
 // 更新
 export function updateInstallAction (data, id, orderId, type = 'attendance') {
-  return postApi(`order_flow/install/${orderId}/${type}/${id}`, data)
+  return putApi(`order_flow/install/${orderId}/${type}/${id}`, data)
 }
 
 // 删除

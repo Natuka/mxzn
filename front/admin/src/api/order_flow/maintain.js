@@ -31,7 +31,7 @@ export function addMaintainAction (data, orderId, type = 'attendance') {
 
 // 更新
 export function updateMaintainAction (data, id, orderId, type = 'attendance') {
-  return postApi(`order_flow/maintain/${orderId}/${type}/${id}`, data)
+  return putApi(`order_flow/maintain/${orderId}/${type}/${id}`, data)
 }
 
 // 删除

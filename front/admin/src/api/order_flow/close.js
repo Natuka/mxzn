@@ -39,7 +39,7 @@ export function addCloseAction (data, orderId, type = 'attendance') {
 
 // 更新
 export function updateCloseAction (data, id, orderId, type = 'attendance') {
-  return postApi(`order_flow/close/${orderId}/${type}/${id}`, data)
+  return putApi(`order_flow/close/${orderId}/${type}/${id}`, data)
 }
 
 // 删除
