@@ -55,7 +55,7 @@ export default {
     return {
       data: {
         cancel_type: 0,
-        cancel_cause: '',
+        cancel_cause: ''
       },
       select: {
         reason: CANCEL_REASON

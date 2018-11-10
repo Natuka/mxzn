@@ -2,13 +2,13 @@
   <custom-modal
     ref="ref"
     width="600px"
-    title="维修工单-派工"
+    title="工单-派工"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
   >
     <div>
       <Form :model="data"
-            ref="cancelForm"
+            ref="dispatchForm"
             :rules="rules"
             :label-width="90"
       >
@@ -81,6 +81,9 @@ export default {
         dispatch: DISPATCH
       },
       rules: {
+        dispatch_engineer: [
+          validate.number('请选择工程师')
+        ],
         name: [
           validate.notEmpty('姓名不能为空')
         ]
@@ -90,7 +93,7 @@ export default {
   methods: {
     onSubmit (e) {
       let refs = this.$refs
-      refs['cancelForm'].validate(async (valid) => {
+      refs['dispatchForm'].validate(async (valid) => {
         if (valid) {
           await orderServiceDispatch(this.data.id, 'repair', this.data)
           this.withRefresh(e)
