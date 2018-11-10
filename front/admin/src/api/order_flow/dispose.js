@@ -39,7 +39,7 @@ export function addDisposeAction (data, orderId, type = 'attendance') {
 
 // 更新
 export function updateDisposeAction (data, id, orderId, type = 'attendance') {
-  return postApi(`order_flow/dispose/${orderId}/${type}/${id}`, data)
+  return putApi(`order_flow/dispose/${orderId}/${type}/${id}`, data)
 }
 
 // 删除

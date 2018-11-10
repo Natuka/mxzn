@@ -39,7 +39,7 @@ export function addDispatchAction (data, orderId, type = 'attendance') {
 
 // 更新
 export function updateDispatchAction (data, id, orderId, type = 'attendance') {
-  return postApi(`order_flow/dispatch/${orderId}/${type}/${id}`, data)
+  return putApi(`order_flow/dispatch/${orderId}/${type}/${id}`, data)
 }
 
 // 删除

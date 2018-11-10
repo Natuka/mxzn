@@ -126,6 +126,9 @@ class RepairsController extends BaseController
      */
     public function update(UpdateRequest $request, ServiceOrder $order, ServiceOrderRepair $repair)
     {
+/*       \Log::info([
+                'next next' => $repair
+        ]);*/
         $data = $request->only([
             'staff_id',
             'staff_name',

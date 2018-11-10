@@ -33,3 +33,11 @@ export function cities (parentId = 0, level = 1) {
 export function allCities () {
   return getApi(`areas/cities`)
 }
+
+/**
+ * 添加
+ * @param {[type]} data [description]
+ */
+export function allDistricts () {
+  return getApi(`areas/districts`)
+}
