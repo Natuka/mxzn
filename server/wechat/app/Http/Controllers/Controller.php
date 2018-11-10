@@ -20,4 +20,27 @@ class Controller extends BaseController
     {
         return $this->user()->staff();
     }
+
+    public function customer()
+    {
+        $this->user()->customer();
+    }
+
+    /**
+     * 是否绑定手机号
+     * @return bool
+     */
+    public function isBind()
+    {
+        $user = $this->user();
+        if (!$user) {
+            return false;
+        }
+
+        if (!$user->mobile) {
+            return true;
+        }
+
+        return true;
+    }
 }
