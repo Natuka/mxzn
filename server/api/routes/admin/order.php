@@ -94,6 +94,13 @@ Route::group([
             'visible' => false,
         ]);
 
+        Route::post('/finished', [
+            'uses' => 'RepairController@finished',
+            'as' => 'order_repair_finished',
+            'display_name' => '完工',
+            'visible' => false,
+        ]);
+
     });
 
     Route::group(['prefix' => 'install'], function () {

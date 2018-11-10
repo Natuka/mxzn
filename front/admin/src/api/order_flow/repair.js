@@ -24,6 +24,14 @@ export function repairNext (data) {
   return postApi('order_flow/repair/next', data)
 }
 
+/**
+ * 完工
+ * @param {[type]} data [description]
+ */
+export function repairFinished (data) {
+  return postApi('order_flow/repair/finished', data)
+}
+
 // 创建
 export function addRepairAction (data, orderId, type = 'attendance') {
   return postApi(`order_flow/repair/${orderId}/${type}`, data)

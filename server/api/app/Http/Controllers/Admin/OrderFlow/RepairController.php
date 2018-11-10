@@ -279,6 +279,32 @@ class RepairController extends OperationController
 
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function finished(Request $request)
+    {
+        $user = $request->user();
+        foreach ($request->get('post', []) as $infoId) {
+            /*            \Log::info([
+                            'next next' => $infoId
+                        ]);*/
+            $service_order = ServiceOrder::find($infoId);
+            if ($service_order) {
+                //$this->assignToContact($info['id'], $user->id);
+                $data['status'] = 5;
+                //$data['progress_time'] = date('Y-m-d H:i:s', time());
+                $service_order->forceFill($data)->save();
+            }
+            unset($info);
+        }
+
+        return success_json('操作成功');
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Order  $order

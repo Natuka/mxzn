@@ -96,6 +96,7 @@
 import Tables from '_c/tables'
 
 import {repairNext} from '@/api/order_flow/repair'
+import {repairFinished} from '@/api/order_flow/repair'
 import search from './search'
 import add from './add'
 import edit from './edit'
@@ -296,7 +297,7 @@ export default {
       ],
       tableData: [],
       selected: [],
-      selectedData : {
+      selectedData: {
         data: {},
         index: -1
       }
@@ -328,9 +329,38 @@ export default {
       this.$refs.dispatch.open()
     },
     handleComplete () {
-      if (this.selectedData.index < 0) {
-        return this.$Message.info('请选择要操作的工单')
+      if (!this.selected.length) {
+        return this.$Message.error('请选择要操作的工单')
       }
+
+      let post = this.selected.map(el => el.id)
+
+      this.$Modal.confirm({
+        title: '提示',
+        content: '确认送往下一站[审核关闭]？',
+        loading: true,
+        onOk: () => {
+          repairFinished({
+            post
+          }).then(({data}) => {
+            this.$Notice.success({
+              title: '下一站',
+              desc: data.message
+            })
+            this.$Modal.remove()
+            this.refresh()
+          }).catch(({message, response}) => {
+            this.$Notice.error({
+              title: '错误提示',
+              desc: (response && response.data && response.data.message) || message
+            })
+            this.$Modal.remove()
+          })
+        },
+        onCancel: () => {
+
+        }
+      })
     },
     exportExcel () {
       this.$refs.tables.exportCsv({
@@ -358,7 +388,7 @@ export default {
     },
     next () {
       if (!this.selected.length) {
-        return this.$Message.error('请选择要操作的项次')
+        return this.$Message.error('请选择要操作的工单')
       }
 
       let post = this.selected.map(el => el.id)
