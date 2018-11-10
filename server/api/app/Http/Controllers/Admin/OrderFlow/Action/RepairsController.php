@@ -96,6 +96,7 @@ class RepairsController extends BaseController
             'cause_id',
             'cause',
             'cause_doc_ids',
+            'next_step',
         ]);
         $data['staff_id'] = (int)$data['staff_id'];
         $data['process_id'] = (int)$data['process_id'];
@@ -141,6 +142,7 @@ class RepairsController extends BaseController
             'cause_id',
             'cause',
             'cause_doc_ids',
+            'next_step',
         ]);
         $data['staff_id'] = (int)$data['staff_id'];
         $data['process_id'] = (int)$data['process_id'];

@@ -8,7 +8,13 @@ Route::group([
     Route::get('/doc', [
         'uses' => 'DocController@get',
         'as' => 'doc_get',
-        'display_name' => '文件保存',
+        'display_name' => '文件',
+    ]);
+
+    Route::get('/doc/list', [
+        'uses' => 'DocController@getList',
+        'as' => 'doc_list',
+        'display_name' => '文件列表',
     ]);
 
     Route::post('/doc', [
