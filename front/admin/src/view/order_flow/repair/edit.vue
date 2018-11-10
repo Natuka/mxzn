@@ -383,7 +383,15 @@
         </FormItem>
 
         <FormItem label="报价附件">
-
+          <Upload
+            multiple
+            type="drag"
+            action="//jsonplaceholder.typicode.com/posts/">
+            <div style="padding: 20px 0">
+              <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+              <p>Click or drag files here to upload</p>
+            </div>
+          </Upload>
         </FormItem>
 
 
@@ -534,6 +542,9 @@ export default {
         ],
         source: [
           validate.number('请选择受理来源')
+        ],
+        machine_id: [
+          validate.number('请选择设备编号')
         ],
         emergency_degree: [
           validate.number('请选择紧急程度')

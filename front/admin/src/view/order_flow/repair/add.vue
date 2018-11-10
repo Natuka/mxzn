@@ -117,7 +117,7 @@
           ></Input>
         </FormItem>
 
-        <FormItem label="设备编号" prop="init.machine_id">
+        <FormItem label="设备编号" prop="machine_id">
           <static-select
             :init="init.machine_id"
             :data="select.customerEquipmentList"
@@ -379,7 +379,7 @@
         </FormItem>
 
         <FormItem label="报价附件">
-
+          <mx-upload-doc></mx-upload-doc>
         </FormItem>
 
       </Form>
@@ -391,6 +391,7 @@
 
 import ModalMixin from '@/mixins/modal'
 import AreaMixin from '@/mixins/area'
+import uploadDoc from '@/components/upload/doc'
 
 import {addRepair} from '@/api/order_flow/repair'
 import {selectDepartment} from '@/api/select/department'
@@ -409,6 +410,9 @@ const currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss')
 export default {
   name: 'repair-add',
   mixins: [ModalMixin, AreaMixin],
+  components: {
+    [uploadDoc.name]: uploadDoc
+  },
   data () {
     return {
       tabsIndex: '0',
@@ -509,6 +513,9 @@ export default {
         ],
         source: [
           validate.number('请选择受理来源')
+        ],
+        machine_id: [
+          validate.number('请选择设备编号')
         ],
         emergency_degree: [
           validate.number('请选择紧急程度')
