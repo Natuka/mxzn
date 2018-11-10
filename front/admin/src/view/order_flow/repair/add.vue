@@ -379,7 +379,10 @@
         </FormItem>
 
         <FormItem label="报价附件">
-          <mx-upload-doc></mx-upload-doc>
+          <mx-upload-doc
+            :multi="true"
+            @on-change="handleDocChange"
+          ></mx-upload-doc>
         </FormItem>
 
       </Form>
@@ -417,6 +420,7 @@ export default {
     return {
       tabsIndex: '0',
       data: {
+        attach_ids: '',
         customer_id: 0,
         feedback_staff_id: 0,
         receive_staff_id: 0,
@@ -693,6 +697,9 @@ export default {
       this.data.engineer_id = engineers[0] ? engineers[0].id : 0
       this.data.engineers = engineers
       console.log('engineers', engineers)
+    },
+    async handleDocChange (files) {
+      this.data.attach_ids = files.map(file => file.id).join(',')
     }
   }
 }

@@ -69,6 +69,7 @@ class RepairController extends OperationController
             'remark',
             'settle_status',
             'status',
+            'attach_ids'    // 附件
         ]);
 
         $equipment = $request->get('equipment', []);
@@ -128,6 +129,13 @@ class RepairController extends OperationController
             }
             //TODO 执行保存确认工程师信息
 
+            // 创建附件
+            $attach_ids = isset($data['attach_ids']) ? explode(',', $data['attach_ids']) : [];
+            // 保存附件
+            if ($attach_ids) {
+                $order->documents()->withTimestamps()->sync($attach_ids);
+            }
+
             return success_json('创建成功');
         }
 
@@ -165,6 +173,7 @@ class RepairController extends OperationController
             'remark',
             'settle_status',
             'status',
+            'attach_ids',
         ]);
 
         $equipment = $request->get('equipment', []);
@@ -229,6 +238,12 @@ class RepairController extends OperationController
             }
             //TODO 执行保存确认工程师信息
 
+            // 创建附件
+            $attach_ids = isset($data['attach_ids']) ? explode(',', $data['attach_ids']) : [];
+            // 保存附件
+            if ($attach_ids) {
+                $order->documents()->withTimestamps()->sync($attach_ids);
+            }
             return success_json('创建成功');
         }
 

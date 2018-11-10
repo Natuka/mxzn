@@ -5,7 +5,7 @@
       <tr>
         <td v-if="list.length">
           <Button v-for="(info, index) in list" class="uploaded-file">
-            {{info.name}}
+            {{info.source_name}}
             <Icon type="md-close-circle" size="20" title="删除" @click="remove(index, info)"/>
           </Button>
         </td>
@@ -81,6 +81,9 @@ export default {
     remove (index) {
       this.list.splice(index, 1)
       this.$emit('on-change', this.list)
+    },
+    initData (list = []) {
+      this.list = list
     }
   }
 }

@@ -382,16 +382,12 @@
           </Select>
         </FormItem>
 
-        <FormItem label="报价附件">
-          <Upload
-            multiple
-            type="drag"
-            action="//jsonplaceholder.typicode.com/posts/">
-            <div style="padding: 20px 0">
-              <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
-              <p>Click or drag files here to upload</p>
-            </div>
-          </Upload>
+        <FormItem label="报价附件" style="width: 100%;">
+          <mx-upload-doc
+            ref="doc"
+            :multi="true"
+            @on-change="handleDocChange"
+          ></mx-upload-doc>
         </FormItem>
 
 
@@ -424,6 +420,7 @@
 
 import ModalMixin from '@/mixins/modal'
 import AreaMixin from '@/mixins/area'
+import uploadDoc from '@/components/upload/doc'
 
 import {updateRepair} from '@/api/order_flow/repair'
 import {selectCustomerContact} from '@/api/select/customer-contact'
@@ -441,6 +438,9 @@ const currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss')
 export default {
   name: 'repair-edit',
   mixins: [ModalMixin, AreaMixin],
+  components: {
+    [uploadDoc.name]: uploadDoc
+  },
   data () {
     return {
       tabsIndex: '0',
@@ -687,6 +687,12 @@ export default {
           this.select.customerEquipmentList = [{...equipment}]
         }
       }
+
+      console.log('data.documents', data.documents)
+      if (data.documents && data.documents.length) {
+        this.$refs.doc.initData(data.documents)
+      }
+
       return true
     },
     async customerChange (customerId) {
@@ -738,6 +744,9 @@ export default {
         data.fault = data.fault[0]
       }
       return Promise.resolve(data)
+    },
+    async handleDocChange (files) {
+      this.data.attach_ids = files.map(file => file.id).join(',')
     }
   }
 }

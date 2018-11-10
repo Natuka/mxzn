@@ -47,7 +47,8 @@ trait UploadTrait
             'id' => $appId,
             'time' => microtime(true),
             'filename' => '',
-            'token' => $request->header('Authorization')
+            'token' => $request->header('Authorization'),
+            'source_name' => $file->getClientOriginalName()
         ];
 
         $fileName = 'doc_' . microtime(true) . '.' . $ext;
@@ -62,6 +63,7 @@ trait UploadTrait
             'type' => $request->get('type', 1),
             'ext' => $ext,
             'size' => $file->getSize(),
+            'source_name' => $file->getClientOriginalName()
         ];
 
         $document->forceFill($data)->save();
@@ -75,6 +77,7 @@ trait UploadTrait
             'saveName' => $saveName,
             'ext' => $ext,
             'size' => $file->getSize(),
+            'source_name' => $file->getClientOriginalName()
         ]);
     }
 
@@ -111,7 +114,8 @@ trait UploadTrait
             'id' => $appId,
             'time' => microtime(true),
             'filename' => '',
-            'token' => $request->header('Authorization')
+            'token' => $request->header('Authorization'),
+            'source_name' => $file->getClientOriginalName()
         ];
 
         $img = Image::make($file);
@@ -128,6 +132,7 @@ trait UploadTrait
             'type' => $request->get('type', 1),
             'ext' => $ext,
             'size' => $file->getSize(),
+            'source_name' => $file->getClientOriginalName()
         ];
 
         $document->forceFill($data)->save();
@@ -141,6 +146,7 @@ trait UploadTrait
             'name' => $fileName,
             'ext' => $ext,
             'size' => $file->getSize(),
+            'source_name' => $file->getClientOriginalName()
         ]);
     }
 
