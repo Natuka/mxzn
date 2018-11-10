@@ -89,7 +89,7 @@ export default {
     },
     highlightRow: {
       type: Boolean,
-      default: false
+      default: true
     },
     rowClassName: {
       type: Function,

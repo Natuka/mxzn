@@ -40,4 +40,23 @@ class User extends Authenticatable
     {
         return static::where('openid', $openid)->first();
     }
+
+    /**
+     * 关联
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+    public function userable()
+    {
+        return $this->morphTo();
+    }
+
+    public function staff()
+    {
+        return $this->belongsTo(Staff::class, 'userable_id', 'id');
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'userable_id', 'id');
+    }
 }
