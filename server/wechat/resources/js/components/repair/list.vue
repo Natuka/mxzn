@@ -1,7 +1,8 @@
 <template>
     <div>
         <van-nav-bar
-            title="标题"
+            fixed
+            title="工单"
             left-text="返回"
             right-text="按钮"
             left-arrow
@@ -32,8 +33,8 @@
 
                             <div slot="header" class="pt-20 pr-20 pl-20 mx-flex">
                                 <van-row type="flex" justify="space-between">
-                                    <span class="mx-flex-1">【处理中】单号：GD-2139238</span>
-                                    <span class="mx-text-danger">已处理34天3小时</span>
+                                    <span class="mx-flex-1">{{getServiceTitle(item)}}</span>
+                                    <span class="mx-text-danger">{{getServiceStatus(item)}}</span>
                                 </van-row>
                             </div>
 
