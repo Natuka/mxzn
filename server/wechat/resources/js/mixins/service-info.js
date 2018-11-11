@@ -40,37 +40,37 @@ export default {
             let text = ORDER_STATUS[info.status]
             return `【${text}】单号：${info.number}`
         },
-        getServiceAddr (info) {
+        getServiceAddr(info) {
             return 'wwww'
         },
-        getServiceArea () {
+        getServiceArea() {
             return 'aaaa'
         },
-        getServiceEquipmentName (info) {
+        getServiceEquipmentName(info) {
             return ''
         },
-        getServiceEquipmentSerializeNo (info) {
+        getServiceEquipmentSerializeNo(info) {
             return '2222'
         },
-        getServiceFaultDesc (info) {
+        getServiceFaultDesc(info) {
             return ''
         },
-        getServiceEngineer (info) {
+        getServiceEngineer(info) {
             return '小于'
         },
-        getServicePlanOoutAt (info) {
+        getServicePlanOoutAt(info) {
             return 0
         },
-        getServicePartFee (info) {
+        getServicePartFee(info) {
             return 0
         },
-        getServiceFee (info) {
+        getServiceFee(info) {
             return 0
         },
-        getServiceExtraFee (info) {
+        getServiceExtraFee(info) {
             return 0
         },
-        getServiceFeeTotal (info) {
+        getServiceFeeTotal(info) {
             return 0
         },
     }

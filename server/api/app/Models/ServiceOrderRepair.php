@@ -9,7 +9,6 @@ class ServiceOrderRepair extends Model
     //
     protected $appends = ['progress_use_time'];
 
-
     public function getProgressUseTimeAttribute()
     {
         $complete_at = $this->attributes['complete_at'];

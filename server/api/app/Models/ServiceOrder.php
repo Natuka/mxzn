@@ -36,9 +36,13 @@ class ServiceOrder extends Model
         return $this->belongsTo(Customer::class, 'customer_id');
     }
 
-    public function documents()
+    public function documents($type = 0)
     {
-        return $this->belongsToMany(Document::class, 'service_order_documents', 'service_order_id', 'document_id');
+        return $this->belongsToMany(Document::class,
+            'service_order_documents',
+            'service_order_id',
+            'document_id')
+            ->wherePivot('type', $type);
     }
 
     /**
