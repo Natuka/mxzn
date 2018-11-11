@@ -95,8 +95,7 @@
 <script>
 import Tables from '_c/tables'
 
-import {repairNext} from '@/api/order_flow/repair'
-import {repairFinished} from '@/api/order_flow/repair'
+import {repairNext, repairFinished} from '@/api/order_flow/repair'
 import search from './search'
 import add from './add'
 import edit from './edit'
