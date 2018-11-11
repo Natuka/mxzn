@@ -111,6 +111,9 @@ class RepairsController extends BaseController
         $ret = $repair->forceFill($data)->save();
 
         if ($ret) {
+            $this->saveDocWithType($order, 1, $repair->step_doc_ids);
+            $this->saveDocWithType($order, 2, $repair->cause_doc_ids);
+
             return success_json($repair, '');
         }
 
@@ -155,10 +158,31 @@ class RepairsController extends BaseController
         $ret = $repair->forceFill($data)->save();
 
         if ($ret) {
+            $this->saveDocWithType($order, 1, $repair->step_doc_ids);
+            $this->saveDocWithType($order, 2, $repair->cause_doc_ids);
+
             return success_json($repair, '');
         }
 
         return error_json('修改失败，请检查');
+    }
+
+    public function saveDocWithType(ServiceOrder $order, $type = 1, $ids = '')
+    {
+        if (!$ids) {
+            $ids = [];
+        } else {
+            $ids = explode(',', $ids);
+        }
+
+        $ret = [];
+        foreach ($ids as $id) {
+            $ret[$id] = [
+                'type' => $type,
+            ];
+        }
+
+        $order->documents($type)->withTimestamps()->sync($ret);
     }
 
     /**
