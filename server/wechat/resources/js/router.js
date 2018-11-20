@@ -66,6 +66,13 @@ let routes = [
         }
     },
     {
+        path: '/repair/create',
+        component: () => import('./components/repair/create'),
+        meta: {
+            auth: true
+        }
+    },
+    {
         path: '/repair/list',
         component: () => import('./components/repair/list.vue'),
         meta: {
