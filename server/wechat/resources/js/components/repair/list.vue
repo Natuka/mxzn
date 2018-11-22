@@ -4,7 +4,7 @@
             fixed
             title="工单"
             left-text="返回"
-            right-text="按钮"
+            right-text="提报"
             left-arrow
             @click-left="onClickLeft"
             @click-right="onClickRight"
@@ -134,97 +134,99 @@
 </template>
 
 <script>
-import {list} from '../../const/repair'
+import { list } from '../../const/repair'
 
 import Action from '../actions'
 import actionMixin from '../../mixins/action'
 import infoMixin from '../../mixins/service-info'
 
-import {repairList} from "../../api";
-import {Toast} from 'vant'
+import { repairList } from '../../api'
+import { Toast } from 'vant'
 
 export default {
-    name: "mx-repair-list",
-    components: {
-        [Action.name]: Action
-    },
-    mixins: [actionMixin, infoMixin],
-    data() {
-        return {
-            active: 2,
-            list: [],
-            loading: false,
-            finished: false,
-            menus: list,
-            isLoading: false,
-            value: '',
-            data: {},
-            page: 1,
-            isRefresh: false
-        };
-    },
-    methods: {
-        onClickLeft() {
-            this.$toast('返回');
-        },
-        onClickRight() {
-            this.$toast('按钮');
-        },
-        async onRefresh() {
-            this.isRefresh = true
-            await this.loadData()
-            await this.onLoad()
-        },
-
-        async setOrderInfo (info) {
-            this.$store.dispatch('setServiceOrder', info)
-            this.$router.push('/repair/info')
-        },
-
-        async loadData () {
-            let dataWrap = this.menus[this.active]
-            if (this.isRefresh) {
-                dataWrap.loading = true
-                dataWrap.finished = false
-                dataWrap.page = 1
-            } else {
-                dataWrap.finished = false
-            }
-
-            try {
-                let {data, current_page, last_page, per_page} = await repairList({page: dataWrap.page, type: dataWrap.type})
-                if (this.isRefresh) {
-                    dataWrap.data = []
-                }
-
-                dataWrap.page++
-                dataWrap.data.push(...data)
-                if (!data.length || data.length < per_page) {
-                    dataWrap.finished = true
-                }
-            } catch (e) {
-            } finally {
-                this.loading = false
-            }
-        },
-
-        async onLoad() {
-            this.isRefresh = false
-            await this.loadData()
-        },
-        onSearch() {
-
-        },
-        onClick (item) {
-            this.data = item
-            this.$refs['action'].open()
-        }
+  name: 'mx-repair-list',
+  components: {
+    [Action.name]: Action
+  },
+  mixins: [actionMixin, infoMixin],
+  data() {
+    return {
+      active: 2,
+      list: [],
+      loading: false,
+      finished: false,
+      menus: list,
+      isLoading: false,
+      value: '',
+      data: {},
+      page: 1,
+      isRefresh: false
     }
+  },
+  methods: {
+    onClickLeft() {
+      this.$toast('返回')
+    },
+    onClickRight() {
+      this.$router.push('/repair/create')
+      //   this.$toast('按钮')
+    },
+    async onRefresh() {
+      this.isRefresh = true
+      await this.loadData()
+      await this.onLoad()
+    },
+
+    async setOrderInfo(info) {
+      this.$store.dispatch('setServiceOrder', info)
+      this.$router.push('/repair/info')
+    },
+
+    async loadData() {
+      let dataWrap = this.menus[this.active]
+      if (this.isRefresh) {
+        dataWrap.loading = true
+        dataWrap.finished = false
+        dataWrap.page = 1
+      } else {
+        dataWrap.finished = false
+      }
+
+      try {
+        let { data, current_page, last_page, per_page } = await repairList({
+          page: dataWrap.page,
+          type: dataWrap.type
+        })
+        if (this.isRefresh) {
+          dataWrap.data = []
+        }
+
+        dataWrap.page++
+        dataWrap.data.push(...data)
+        if (!data.length || data.length < per_page) {
+          dataWrap.finished = true
+        }
+      } catch (e) {
+      } finally {
+        this.loading = false
+      }
+    },
+
+    async onLoad() {
+      this.isRefresh = false
+      await this.loadData()
+    },
+    onSearch() {},
+    onClick(item) {
+      this.data = item
+      this.$refs['action'].open()
+    }
+  }
 }
 </script>
 
 <style scoped>
-.text-right{
-    text-align: right;
+.text-right {
+  text-align: right;
 }
 </style>
