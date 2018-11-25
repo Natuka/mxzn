@@ -24,7 +24,7 @@ class IndexController extends Controller
 
     public function search(Request $request, Customer $customer)
     {
-        $industry = $request->get('industry', 0); //所属行业
+/*        $industry = $request->get('industry', 0); //所属行业
         $type = $request->get('type', 0); //客户类别
         $level = $request->get('level', 0); //客户级别
         $source = $request->get('source', 0); //客户来源
@@ -33,7 +33,7 @@ class IndexController extends Controller
         $customer_name = $request->get('name', ''); // 客户名称
         $short_name = $request->get('name_short', ''); // 客户简称
         $orderField = $request->get('orderField', 0); // 排序栏位
-        $orderBy = $request->get('orderBy', 1); // 排序顺序
+        $orderBy = $request->get('orderBy', 1); // 排序顺序*/
         // 在查寻功能时没有强制必选
         /*        $layerid = $request->input('layerid', 0);
                 if ($layerid) {
@@ -57,7 +57,7 @@ class IndexController extends Controller
                         $customer = $customer->where('customer_type_id', (int) $typeId);
                     }
                 }*/
-
+/*
         if ($industry) {
             $customer = $customer->where('industry', (int)$industry);
         }
@@ -84,8 +84,25 @@ class IndexController extends Controller
         // 公司简称
         if ($short_name) {
             $customer = $customer->where('name_short', 'like', '%' . $short_name . '%');
-        }
+        }*/
 
+        $sch_field = $request->get('schField', ''); //查询字段或模糊查询
+        $sch_value = $request->get('schValue', ''); //查询字段或模糊查询
+        //$sch_field = 'fuzzy_query';
+        if ($sch_value && $sch_field) {
+            if ($sch_field == 'fuzzy_query') {
+                $customer = $customer->where(function($query) use($sch_field, $sch_value)
+                {
+                    $query->where('name', 'like', '%'.$sch_value.'%')
+                        ->orWhere('name_short', 'like', '%'.$sch_value.'%')
+                        ->orWhere('number', 'like', '%'.$sch_value.'%');
+                });
+            }else{
+                $customer = $customer->where($sch_field, 'like', '%'.$sch_value.'%');
+            }
+        }
+        $orderField = $request->get('orderField', 0); // 排序栏位
+        $orderBy = $request->get('orderBy', 1); // 排序顺序
         $orderFieldArray = array('0' => 'number', '1' => 'name', '2' => 'industry', '3' => 'type', '4' => 'level', '5' => 'follow_up_status', '6' => 'source');
         $orderByArray = array('0' => 'ASC', '1' => 'DESC',);
         if (!empty($orderFieldArray[$orderField]) && !empty($orderByArray[$orderBy])) {
