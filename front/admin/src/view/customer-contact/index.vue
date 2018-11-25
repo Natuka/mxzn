@@ -1,5 +1,3 @@
-<script src="../../constants/customercontact.js"></script>
-<script src="../../constants/staff.js"></script>
 <template>
   <div>
     <Card>

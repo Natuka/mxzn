@@ -106,7 +106,6 @@ class IndexController extends Controller
         $orderFieldArray = array('0' => 'number', '1' => 'name', '2' => 'industry', '3' => 'type', '4' => 'level', '5' => 'follow_up_status', '6' => 'source');
         $orderByArray = array('0' => 'ASC', '1' => 'DESC',);
         if (!empty($orderFieldArray[$orderField]) && !empty($orderByArray[$orderBy])) {
-
             $customer = $customer->orderBy($orderFieldArray[$orderField], $orderByArray[$orderBy]);
         }
         return $customer;

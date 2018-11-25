@@ -90,7 +90,7 @@ export default {
         },
         {
           width: 120,
-          title: '出生日期1',
+          title: '出生日期',
           key: 'birthday',
           sortable: false
         },

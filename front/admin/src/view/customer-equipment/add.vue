@@ -2,7 +2,7 @@
   <custom-modal
     ref="ref"
     width="1000px"
-    title="客户资料-新增"
+    title="客户设备-新增"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
     class="mxcs-three-column"
@@ -11,20 +11,40 @@
       <Form :model="data"
             ref="addForm"
             :rules="rules"
-            :label-width="90">
-        <FormItem label="客户编号:" prop="number">
-          <Input v-model="data.number" placeholder="系统自动编号" disabled></Input>
+            :label-width="100"
+      >
+        <FormItem label="客户名称" prop="cust_id">
+          <remote-select
+            :init="data.cust_id"
+            :initData="init.customer"
+            label="name"
+            url="select/customer"
+            :filter="(data) => data.name"
+            :valueMap="(data) => data.id"
+            @on-change="customerChange"
+          ></remote-select>
         </FormItem>
-
-        <FormItem label="客户全称:" prop="name">
-          <Input v-model="data.name" placeholder="客户全称"></Input>
+        <FormItem label="设备编号" prop="number">
+          <Input v-model="data.number" placeholder="设备编号"></Input>
         </FormItem>
-
-        <FormItem label="客户简称:" prop="name_short">
-          <Input v-model="data.name_short" placeholder="客户简称"></Input>
+        <FormItem label="设备名称" prop="name">
+          <Input v-model="data.name" placeholder="设备名称"></Input>
         </FormItem>
-
-        <FormItem label="客户类别:">
+        <FormItem label="物料名称" prop="item_id">
+          <remote-select
+            :init="data.item_id"
+            :initData="init.code"
+            label="name"
+            url="select/code"
+            :filter="(data) => data.name"
+            :valueMap="(data) => data.id"
+            @on-change="codeChange"
+          ></remote-select>
+        </FormItem>
+        <FormItem label="规格型号" prop="model">
+          <Input v-model="data.model" placeholder="规格型号" readonly></Input>
+        </FormItem>
+        <FormItem label="类别" prop="type">
           <Select v-model="data.type">
             <Option
               v-for="(type, index) in typeList"
@@ -34,188 +54,116 @@
             </Option>
           </Select>
         </FormItem>
-
-        <FormItem label="所属行业:">
-          <Select v-model="data.industry">
-            <Option
-              v-for="(type, index) in industryList"
-              :key="index"
-              :value="index"
-            >{{type}}
-            </Option>
-          </Select>
+        <FormItem label="合同编号" prop="number">
+          <Input v-model="data.number" placeholder="合同编号"></Input>
+        </FormItem>
+        <FormItem label="安装人员" prop="installation_staff">
+          <Input v-model="data.installation_staff" placeholder="安装人员"></Input>
+        </FormItem>
+        <FormItem label="技术专管" prop="technology_staff">
+          <Input v-model="data.technology_staff" placeholder="技术专管"></Input>
         </FormItem>
 
-        <FormItem label="客户级别:">
-          <Select v-model="data.level">
-            <Option
-              v-for="(type, index) in levelList"
-              :key="index"
-              :value="index"
-            >{{type}}
-            </Option>
-          </Select>
+        <FormItem label="设备配置" prop="sets">
+          <Input v-model="data.sets" placeholder="设备配置"></Input>
         </FormItem>
-
-        <FormItem label="跟进状态:">
-          <Select v-model="data.follow_up_status">
-            <Option
-              v-for="(type, index) in followUpStatusList"
-              :key="index"
-              :value="index"
-            >{{type}}
-            </Option>
-          </Select>
+        <FormItem label="本体编号" prop="main_no">
+          <Input v-model="data.main_no" placeholder="本体编号"></Input>
         </FormItem>
-
-        <FormItem label="客户来源:">
-          <Select v-model="data.source">
-            <Option
-              v-for="(type, index) in sourceList"
-              :key="index"
-              :value="index"
-            >{{type}}
-            </Option>
-          </Select>
+        <FormItem label="控制箱编号" prop="control_box_no">
+          <Input v-model="data.control_box_no" placeholder="控制箱编号"></Input>
         </FormItem>
-
-        <FormItem label="人员规模:">
-          <Select v-model="data.staff_scale">
-            <Option
-              v-for="(type, index) in staffScaleList"
-              :key="index"
-              :value="index"
-            >{{type}}
-            </Option>
-          </Select>
+        <FormItem label="焊机编号" prop="welding_machine_no">
+          <Input v-model="data.welding_machine_no" placeholder="焊机编号"></Input>
         </FormItem>
-
-        <FormItem label="购买力:">
-          <Select v-model="data.purchasing_power">
-            <Option
-              v-for="(type, index) in purchasingPowerList"
-              :key="index"
-              :value="index"
-            >{{type}}
-            </Option>
-          </Select>
+        <FormItem label="焊机型号" prop="welding_machine_model">
+          <Input v-model="data.welding_machine_model" placeholder="焊机型号"></Input>
         </FormItem>
-
-        <FormItem label="下次跟进时间:">
+        <FormItem label="1轴编号" prop="axis1_no">
+          <Input v-model="data.axis1_no" placeholder="1轴编号"></Input>
+        </FormItem>
+        <FormItem label="2轴编号" prop="axis2_no">
+          <Input v-model="data.axis2_no" placeholder="2轴编号"></Input>
+        </FormItem>
+        <FormItem label="3轴编号" prop="axis3_no">
+          <Input v-model="data.axis3_no" placeholder="3轴编号"></Input>
+        </FormItem>
+        <FormItem label="4轴编号" prop="axis4_no">
+          <Input v-model="data.axis4_no" placeholder="4轴编号"></Input>
+        </FormItem>
+        <FormItem label="5轴编号" prop="axis5_no">
+          <Input v-model="data.axis5_no" placeholder="5轴编号"></Input>
+        </FormItem>
+        <FormItem label="6轴编号" prop="axis6_no">
+          <Input v-model="data.axis6_no" placeholder="6轴编号"></Input>
+        </FormItem>
+        <FormItem label="中文编码" prop="code_chinese">
+          <Input v-model="data.code_chinese" placeholder="中文编码" disabled></Input>
+        </FormItem>
+        <FormItem label="识别码" prop="identification_code">
+          <Input v-model="data.identification_code" placeholder="识别码" disabled></Input>
+        </FormItem>
+        <FormItem label="制造日期" prop="manufacture_date">
           <DatePicker
-            type="datetime"
-            v-model="data.follow_up_nexttime"
-            format="yyyy:MM:dd HH:mm:ss"
+            type="date"
+            placeholder="制造日期"
+            v-model="data.manufacture_date"
+            @on-change="date => this.data.manufacture_date = date"
           ></DatePicker>
         </FormItem>
-
-        <FormItem label="最近联系时间:">
+        <FormItem label="购买日期" prop="purchase_date">
           <DatePicker
-            type="datetime"
-            v-model="data.contact_lasttime"
-            format="yyyy:MM:dd HH:mm:ss"
+            type="date"
+            placeholder="购买日期"
+            v-model="data.purchase_date"
+            @on-change="date => this.data.purchase_date = date"
           ></DatePicker>
         </FormItem>
-
-        <FormItem label="省:" prop="province_id">
-          <Input v-model="data.province_id" placeholder="省"></Input>
-        </FormItem>
-
-        <FormItem label="市:" prop="city_id">
-          <Input v-model="data.city_id" placeholder="简称"></Input>
-        </FormItem>
-
-        <FormItem label="区:" prop="district_county_id">
-          <Input v-model="data.district_county_id" placeholder="简称"></Input>
-        </FormItem>
-
-        <FormItem label="地址:" prop="address">
-          <Input v-model="data.address" placeholder="地址"></Input>
-        </FormItem>
-
-        <FormItem label="电话:" prop="tel">
-          <Input v-model="data.tel" placeholder="电话"></Input>
-        </FormItem>
-
-        <FormItem label="传真:" prop="fax">
-          <Input v-model="data.fax" placeholder="传真"></Input>
-        </FormItem>
-
-        <FormItem label="邮政编码:" prop="zip_code">
-          <Input v-model="data.zip_code" placeholder="邮政编码"></Input>
-        </FormItem>
-
-        <FormItem label="统一信用码:" prop="ent_code">
-          <Input v-model="data.ent_code" placeholder="统一信用码"></Input>
-        </FormItem>
-
-        <FormItem label="银行:" prop="bank">
-          <Input v-model="data.bank" placeholder="银行"></Input>
-        </FormItem>
-
-        <FormItem label="银行账号:" prop="account">
-          <Input v-model="data.account" placeholder="银行账号"></Input>
-        </FormItem>
-
-        <FormItem label="信用额度:" prop="credit_line">
-          <Input v-model="data.credit_line" placeholder="信用额度"></Input>
-        </FormItem>
-
-        <FormItem label="结算方式:">
-          <Select v-model="data.settle_mode">
-            <Option
-              v-for="(type, index) in settleModeList"
-              :key="index"
-              :value="index"
-            >{{type}}
-            </Option>
-          </Select>
-        </FormItem>
-
-        <FormItem label="结算类别:">
-          <Select v-model="data.settle_type">
-            <Option
-              v-for="(type, index) in settleTypeList"
-              :key="index"
-              :value="index"
-            >{{type}}
-            </Option>
-          </Select>
-        </FormItem>
-
-        <FormItem label="备注:" prop="remark">
-          <Input type="textarea" v-model="data.remark" placeholder="备注"></Input>
-        </FormItem>
-
-        <FormItem label="黑名单:">
-          <Select v-model="data.black_list">
-            <Option
-              v-for="(type, index) in blackList"
-              :key="index"
-              :value="index"
-            >{{type}}
-            </Option>
-          </Select>
-        </FormItem>
-
-        <FormItem label="单据状态:">
-          <Select v-model="data.status">
-            <Option
-              v-for="(type, index) in statusList"
-              :key="index"
-              :value="index"
-            >{{type}}
-            </Option>
-          </Select>
-        </FormItem>
-
-        <FormItem label="同步时间:">
+        <FormItem label="安装日期" prop="installation_date">
           <DatePicker
-            type="datetime"
-            v-model="data.syn_datetime"
-            format="yyyy:MM:dd HH:mm:ss"
+            type="date"
+            placeholder="安装日期"
+            v-model="data.installation_date"
+            @on-change="date => this.data.installation_date = date"
           ></DatePicker>
         </FormItem>
+        <FormItem label="验收日期" prop="acceptance_date">
+          <DatePicker
+            type="date"
+            placeholder="验收日期"
+            v-model="data.acceptance_date"
+            @on-change="date => this.data.acceptance_date = date"
+          ></DatePicker>
+        </FormItem>
+        <FormItem label="保修日期" prop="warranty_date">
+          <DatePicker
+            type="date"
+            placeholder="保修日期"
+            v-model="data.warranty_date"
+            @on-change="date => this.data.warranty_date = date"
+          ></DatePicker>
+        </FormItem>
+        <FormItem label="维修次数" prop="maintenance_times">
+          <Input v-model="data.maintenance_times" ></Input>
+        </FormItem>
+        <FormItem label="备注">
+          <Input v-model="data.remark" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
+                 placeholder="备注..."></Input>
+        </FormItem>
+
+        <FormItem label="建立人员">
+          <Input v-model="data.created_by" placeholder="建立人员" disabled></Input>
+        </FormItem>
+        <FormItem label="建立日期">
+          <Input v-model="data.created_at" placeholder="建立日期" disabled></Input>
+        </FormItem>
+        <FormItem label="最近修改人员">
+          <Input v-model="data.updated_by" placeholder="最近修改人员" disabled></Input>
+        </FormItem>
+        <FormItem label="最近修改日期">
+          <Input v-model="data.updated_at" placeholder="最近修改日期" disabled></Input>
+        </FormItem>
+
       </Form>
     </div>
   </custom-modal>
@@ -225,69 +173,65 @@
 
 import ModalMixin from '@/mixins/modal'
 
-import {addCustomer} from '../../api/customer'
-
-import * as customerConst from '../../constants/customer'
+import {addCustomerequipment} from '../../api/customerequipment'
+import {selectCustomer} from '../../api/select/customer'
+import {selectCode} from '../../api/select/code'
+import * as customerequipmentConst from '../../constants/customerequipment'
 
 export default {
-  name: 'customer-add',
+  name: 'customerequipment-add',
   mixins: [ModalMixin],
   data () {
     return {
       data: {
-        erp_cust_id: 0, // ERP 客户ID
-        name: '', // 客户名称
-        number: '', // 客户编号
-        name_short: '',
-        account: '',
-        bank: '',
-        ent_code: '', // 企业统一信用码
-        salesman_id: 0, // 业务员
-        zip_code: '', // 邮政编码
-        fax: '', // 传真
-        tel: '', // 手机
-        address: '', // 地址
-        province_id: 0,
-        city_id: 0,
-        district_county_id: 0,
-        type: 1,
-        industry: 0, // 所属行业, 0 其他
-        level: 0,
-        follow_up_status: 0, // 跟进状态
-        source: 0,
-        staff_scale: 0,
-        purchasing_power: 0,
-        settle_mode: 0,
-        settle_type: 0,
-        black_list: 0,
-        status: 0,
-        remark: '',
-        follow_up_nexttime: '',
-        contact_lasttime: '',
-        syn_datetime: ''
+        cust_id: 0,
+        item_id: 0,
+        type: 0,
+        number: '',
+        name: '',
+        model: '',
+        contract_number: '',
+        installation_staff: '',
+        technology_staff: '',
+        sets: '',
+        main_no: '',
+        control_box_no: '',
+        welding_machine_no: '',
+        welding_machine_model: '',
+        axis1_no: '',
+        axis2_no: '',
+        axis3_no: '',
+        axis4_no: '',
+        axis5_no: '',
+        axis6_no: '',
+        code_chinese: '',
+        identification_code: '',
+        manufacture_date: '',
+        purchase_date: '',
+        installation_date: '',
+        acceptance_date: '',
+        warranty_date: '',
+        maintenance_times: '',
+        created_by: '',
+        updated_by: '',
+        remark: ''
       },
       rules: {
+        // cust_id: [
+        //   validate.number('请选择客户名称')
+        // ],
+        number: [
+          {required: true, message: '设备编号不能为空', trigger: 'blur'}
+        ],
         name: [
-          {required: true, message: '客户全称不能为空', trigger: 'blur'}
-        ],
-        name_short: [
-          {required: true, message: '客户简称不能为空', trigger: 'blur'}
-        ],
-        tel: [
-          {required: true, message: '客户电话不能为空', trigger: 'blur'}
+          {required: true, message: '设备名称不能为空', trigger: 'blur'}
         ]
       },
-      industryList: customerConst.INDUSTRY_LIST,
-      typeList: customerConst.TYPE_LIST,
-      levelList: customerConst.LEVEL_LIST,
-      followUpStatusList: customerConst.FOLLOW_UP_STATUS_LIST,
-      sourceList: customerConst.SOURCE_LIST,
-      staffScaleList: customerConst.STAFF_SCALE_LIST,
-      purchasingPowerList: customerConst.PURCHASING_POWER_LIST,
-      settleModeList: customerConst.SETTLE_MODE_LIST,
-      settleTypeList: customerConst.SETTLE_TYPE_LIST,
-      blackList: customerConst.BLACK_LIST,
-      statusList: customerConst.STATUS_LIST
+      typeList: customerequipmentConst.TYPE_LIST,
+      init: {
+        customer: [],
+        code: []
+      }
     }
   },
   methods: {
@@ -295,7 +239,7 @@ export default {
       this.$refs.addForm.validate(async (valid) => {
         if (valid) {
           try {
-            let data = await addCustomer(this.data)
+            let data = await addCustomerequipment(this.data)
             console.log('data', data)
             this.withRefresh(e)
           } catch (e) {
@@ -308,6 +252,28 @@ export default {
     },
     onCancel (e) {
       e()
+    },
+    async beforeOpen () {
+      return true
+    },
+    async afterOpen () {
+      let data = this.data
+
+      let customers = await selectCustomer({id: data.cust_id})
+      this.init.customer = customers.data
+
+      let codes = await selectCode({id: data.item_id})
+      this.init.code = codes.data
+
+      return true
+    },
+    async customerChange (customerId) {
+      this.data.cust_id = customerId
+    },
+    async codeChange (code) {
+      console.log('code879', code)
+      this.data.item_id = code.id
+      this.data.model = code.model
     }
   }
 }

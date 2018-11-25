@@ -6,12 +6,17 @@
           新增
           <Icon type="md-add"/>
         </Button>
-        <Button type="primary" @click="refresh" v-if="accessAdd()" class="ml-5">
+        <Button
+          type="primary"
+          @click="refresh"
+          v-if="accessAdd()"
+          class="ml-5"
+        >
           刷新
           <Icon type="md-refresh"/>
         </Button>
       </div>
-      <customer-search ref="search" @on-search="onSearch"></customer-search>
+      <customerequipment-search ref="search" @on-search="onSearch"></customerequipment-search>
       <tables
         ref="tables"
         :loading="loading"
@@ -24,10 +29,10 @@
       />
       <br/>
       <Page :current="page" :total="total" show-elevator @on-change="toPage"/>
-      <!--<Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>-->
+      <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>
     </Card>
-    <customer-add ref="add" @refresh="refresh"></customer-add>
-    <customer-edit ref="edit" @refresh="refreshWithPage"></customer-edit>
+    <customerequipment-add ref="add" @refresh="refresh"></customerequipment-add>
+    <customerequipment-edit ref="edit" @refresh="refreshWithPage"></customerequipment-edit>
   </div>
 </template>
 
@@ -38,10 +43,10 @@ import search from './search'
 import add from './add'
 import edit from './edit'
 
-import * as customerConst from '../../constants/customer'
-
 import listMixin from '../../mixins/list'
 import constsMixin from '../../mixins/consts'
+import baseMixin from '../../mixins/base'
+import * as customerequipmentConst from '../../constants/customerequipment'
 
 export default {
   name: 'tables_page',
@@ -51,99 +56,108 @@ export default {
     [add.name]: add,
     [edit.name]: edit
   },
-  mixins: [listMixin, constsMixin],
+  mixins: [listMixin, constsMixin, baseMixin],
   data () {
     return {
-      url: 'customer',
+      url: 'customerequipment',
       access: {
-        add: 'customer_add',
-        view: 'customer_view',
-        edit: 'customer_edit',
-        remove: 'customer_remove'
+        add: 'customerequipment_add',
+        view: 'customerequipment_view',
+        edit: 'customerequipment_edit',
+        remove: 'customerequipment_remove'
       },
       columns: [
         {
-          width: 150,
-          title: '客户',
-          key: 'name_short',
-          sortable: true
+          width: 120,
+          fixed: 'left',
+          title: '序号',
+          key: 'id',
+          sortable: false
         },
         {
           width: 120,
+          fixed: 'left',
+          title: '客户名称',
+          key: 'customer_name',
+          sortable: false,
+          render: (h, {row: {customer}}) => {
+            if (!customer) {
+              return h('span')
+            }
+            return h('sapn', {}, customer.name)
+          }
+        },
+        {
+          width: 120,
+          fixed: 'left',
+          title: '设备名称',
+          key: 'name',
+          sortable: false
+        },
+        {
+          width: 120,
+          fixed: 'left',
+          title: '规格型号',
+          key: 'model',
+          sortable: false
+        },
+        {
+          width: 95,
           title: '类别',
           key: 'type',
-          sortable: true,
-          render: this.constRender('type', customerConst.TYPE_LIST)
+          sortable: false,
+          render: this.constRender('type', customerequipmentConst.TYPE_LIST)
         },
         {
-          width: 120,
+          width: 110,
+          title: '来源',
+          key: 'dfrom',
+          sortable: false,
+          render: this.constRender('dfrom', customerequipmentConst.DFROM_LIST)
+        },
+        {
+          width: 100,
           title: '合同编号',
-          key: 'industry',
-          sortable: true,
-          render: this.constRender('industry', customerConst.INDUSTRY_LIST)
+          key: 'contract_number',
+          sortable: false
         },
         {
-          width: 120,
-          title: '设备编号',
-          key: 'source',
-          sortable: true,
-          render: this.constRender('source', customerConst.SOURCE_LIST)
+          width: 100,
+          title: '安装人员',
+          key: 'installation_staff',
+          sortable: false
         },
         {
-          width: 160,
-          title: '设备名称',
-          key: 'follow_up_status',
-          sortable: true,
-          render: this.constRender('follow_up_status', customerConst.FOLLOW_UP_STATUS_LIST)
+          width: 100,
+          title: '技术专管',
+          key: 'technology_staff',
+          sortable: false
         },
         {
-          width: 120,
-          title: '设备配置',
-          key: 'staff_scale',
-          sortable: true,
-          render: this.constRender('staff_scale', customerConst.STAFF_SCALE_LIST)
+          width: 100,
+          title: '购买日期',
+          key: 'purchase_date',
+          sortable: false
         },
         {
-          width: 120,
+          width: 100,
           title: '安装日期',
-          key: 'purchasing_power',
-          sortable: true,
-          render: this.constRender('purchasing_power', customerConst.PURCHASING_POWER_LIST)
+          key: 'installation_date',
+          sortable: false
         },
         {
           width: 150,
-          title: '验收日期',
-          key: 'address',
+          title: '建档日期',
+          key: 'created_at',
           sortable: false
         },
         {
-          width: 120,
-          title: '制造日期',
-          key: 'salesman_id',
-          sortable: true
-        },
-        {
-          width: 160,
-          title: '最近联系时间',
-          key: 'contact_lasttime',
-          sortable: false
-        },
-        {
-          width: 160,
-          title: '下次跟进时间',
-          key: 'follow_up_nexttime',
-          sortable: false
-        },
-        {
-          width: 120,
-          title: '是否黑名单',
-          key: 'blacklist',
-          // sortable: true,
-          render: this.constRender('blacklist', customerConst.BLACK_LIST)
+          title: ' ',
+          key: ''
         },
         {
           fixed: 'right',
-          width: 120,
+          width: 200,
           title: '操作',
           key: 'handle',
           options: ['delete'],
@@ -154,7 +168,10 @@ export default {
                 {
                   props: {
                     confirm: true,
-                    title: '你确定要删除吗?'
+                    title: '你确定要删除吗?',
+                    options: {
+                      positionFixed: true
+                    }
                   },
                   on: {
                     'on-ok': () => {
@@ -179,7 +196,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.onEdit()
+                      this.onEdit(params.row)
                     }
                   }
                 },
@@ -212,9 +229,21 @@ export default {
       console.log('oncancel', e)
       e()
     }
+    // ,
+    // async fetchList () {
+    //   return getCustomerequipmentList().then(({data}) => ({
+    //     data: data.data,
+    //     total: data.total
+    //   }))
+    // }
   },
   mounted () {
     this.refresh()
+    // getTablePageData().then(res => {
+    //   console.log('res', res)
+    //   this.tableData = res.data.data
+    //   this.total = res.data.total
+    // })
   }
 }
 </script>

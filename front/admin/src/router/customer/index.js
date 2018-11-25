@@ -9,7 +9,7 @@ export default [
       access: ['customer_list'],
       title: '客户管理'
     },
-    redirect: '/customer/doc',
+    // redirect: '/customer/doc',
     children: [
       {
         path: '/',
@@ -32,7 +32,7 @@ export default [
       //   component: () => import('@/view/customer/index.vue')
       // },
       {
-        path: '/',
+        path: '/customer-contact',
         name: 'customercontact_list',
         meta: {
           icon: '_qq',

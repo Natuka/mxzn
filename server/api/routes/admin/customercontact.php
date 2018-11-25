@@ -48,7 +48,7 @@ Route::group([
     ]);
     Route::post('/remove-list', [
         'uses' => 'ContactController@destroyList',
-        'as' => 'customer_list_delete',
+        'as' => 'customercontact_list_delete',
         'display_name' => '客户联系人批量删除',
         'visible' => false,
     ]);
