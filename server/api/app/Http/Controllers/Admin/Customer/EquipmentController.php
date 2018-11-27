@@ -71,7 +71,7 @@ class EquipmentController extends Controller
             'name',
             'model',
             'type',
-            'code_id',
+//            'code_id',
             'contract_number',
             'installation_staff',
             'technology_staff',
@@ -101,7 +101,7 @@ class EquipmentController extends Controller
         $data['cust_id'] = (int)$data['cust_id'];
         $data['item_id'] = (int)$data['item_id'];
         $data['type'] = (int)$data['type'];
-        $data['code_id'] = (int)$data['code_id'];
+//        $data['code_id'] = (int)$data['code_id'];
         $data['maintenance_times'] = (int)$data['maintenance_times'];
 
         $data['manufacture_date'] = date('Y-m-d', strtotime($data['manufacture_date']));
@@ -114,6 +114,10 @@ class EquipmentController extends Controller
         if (empty($data['installation_date']) || ($data['installation_date'] <= '1991-01-01')) $data['installation_date'] = NULL;
         if (empty($data['acceptance_date']) || ($data['acceptance_date'] <= '1991-01-01')) $data['acceptance_date'] = NULL;
         if (empty($data['warranty_date']) || ($data['warranty_date'] <= '1991-01-01')) $data['warranty_date'] = NULL;
+
+        $qrcode_key = 'CEQ'.md5(microtime());
+        $data['qrcode_key'] = $qrcode_key;
+        $data['qrcode_url'] = 'https://api.mxcs.com/machine/'.$qrcode_key;
 
         $data['created_by'] = '新增';
         $data['updated_by'] = '新增';
@@ -175,7 +179,7 @@ class EquipmentController extends Controller
             'name',
             'model',
             'type',
-            'code_id',
+//            'code_id',
             'contract_number',
             'installation_staff',
             'technology_staff',
@@ -204,7 +208,7 @@ class EquipmentController extends Controller
         $data['cust_id'] = (int)$data['cust_id'];
         $data['item_id'] = (int)$data['item_id'];
         $data['type'] = (int)$data['type'];
-        $data['code_id'] = (int)$data['code_id'];
+//        $data['code_id'] = (int)$data['code_id'];
         $data['maintenance_times'] = (int)$data['maintenance_times'];
 
         $data['manufacture_date'] = date('Y-m-d', strtotime($data['manufacture_date']));

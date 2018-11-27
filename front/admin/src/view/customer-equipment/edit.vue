@@ -5,149 +5,146 @@
     title="客户设备-修改"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
-    class="mxcs-two-column"
+    class="mxcs-three-column"
   >
     <div>
       <Form :model="data"
             ref="addForm"
             :rules="rules"
-            :label-width="90"
+            :label-width="100"
       >
-        <FormItem label="组织/公司" prop="org_id">
+        <FormItem label="客户名称" prop="cust_id">
           <remote-select
-            :init="data.org_id"
-            :initData="init.organization"
+            :init="data.cust_id"
+            :initData="init.customer"
             label="name"
-            url="select/organization"
+            url="select/customer"
             :filter="(data) => data.name"
             :valueMap="(data) => data.id"
-            @on-change="id => this.data.org_id = id"
+            @on-change="customerChange"
           ></remote-select>
-
         </FormItem>
-        <FormItem label="编号" prop="number">
-          <Input v-model="data.number" placeholder="编号" disabled></Input>
+        <FormItem label="设备编号" prop="number">
+          <Input v-model="data.number" placeholder="设备编号"></Input>
         </FormItem>
-        <FormItem label="姓名" prop="name">
-          <Input v-model="data.name" placeholder="姓名"></Input>
+        <FormItem label="设备名称" prop="name">
+          <Input v-model="data.name" placeholder="设备名称"></Input>
         </FormItem>
-        <FormItem label="性别">
-          <RadioGroup v-model="data.sex">
-            <Radio :label="1">
-              <Icon type="md-male"></Icon>
-              <span>男</span>
-            </Radio>
-            <Radio :label="0">
-              <Icon type="md-female"></Icon>
-              <span>女</span>
-            </Radio>
-          </RadioGroup>
-        </FormItem>
-        <FormItem label="出生日期" prop="birthday">
-          <DatePicker
-            type="date"
-            placeholder="生日"
-            v-model="data.birthday"
-            @on-change="date => this.data.birthday = date"
-          ></DatePicker>
-        </FormItem>
-        <FormItem label="部门" prop="dep_id">
-          <static-select
-            :data="select.department"
-            :init="data.dep_id"
-            @on-change="(value) => this.data.dep_id = value"
-          ></static-select>
-        </FormItem>
-        <FormItem label="职位" prop="post">
-          <static-select
-            :data="select.post"
-            :init="data.post"
-            @on-change="(value) => this.data.post = value"
-          ></static-select>
-        </FormItem>
-        <FormItem label="职务" prop="job">
-          <static-select
-            :init="data.job"
+        <FormItem label="物料名称" prop="item_id">
+          <remote-select
+            :init="data.item_id"
+            :initData="init.materiel"
             label="name"
-            :data="select.job"
-            @on-change="(value) => this.data.job = value"
-          ></static-select>
+            url="select/materiel"
+            :filter="(data) => data.name"
+            :valueMap="(data) => data.id"
+            @on-change-data="materielChange"
+          ></remote-select>
+        </FormItem>
+        <FormItem label="规格型号" prop="model">
+          <Input v-model="data.model" placeholder="规格型号" readonly></Input>
+        </FormItem>
+        <FormItem label="类别" prop="type">
+          <Select v-model="data.type">
+            <Option
+              v-for="(type, index) in typeList"
+              :key="index"
+              :value="index"
+            >{{type}}
+            </Option>
+          </Select>
+        </FormItem>
+        <FormItem label="合同编号" prop="number">
+          <Input v-model="data.number" placeholder="合同编号"></Input>
+        </FormItem>
+        <FormItem label="安装人员" prop="installation_staff">
+          <Input v-model="data.installation_staff" placeholder="安装人员"></Input>
+        </FormItem>
+        <FormItem label="技术专管" prop="technology_staff">
+          <Input v-model="data.technology_staff" placeholder="技术专管"></Input>
+        </FormItem>
 
+        <FormItem label="设备配置" prop="sets">
+          <Input v-model="data.sets" placeholder="设备配置"></Input>
         </FormItem>
-        <FormItem label="毕业院校" prop="graduated_school">
-          <Input v-model="data.graduated_school" placeholder="毕业院校"></Input>
+        <FormItem label="本体编号" prop="main_no">
+          <Input v-model="data.main_no" placeholder="本体编号"></Input>
         </FormItem>
-        <FormItem label="学历">
-          <static-select
-            :data="select.education"
-            :init="data.education"
-            @on-change="(value) => this.data.education = value"
-          ></static-select>
+        <FormItem label="控制箱编号" prop="control_box_no">
+          <Input v-model="data.control_box_no" placeholder="控制箱编号"></Input>
         </FormItem>
-        <FormItem label="技能专长" prop="skill_expertise">
-          <Input v-model="data.skill_expertise" placeholder="技能专长"></Input>
+        <FormItem label="焊机编号" prop="welding_machine_no">
+          <Input v-model="data.welding_machine_no" placeholder="焊机编号"></Input>
         </FormItem>
-        <FormItem label="兴趣爱好" prop="hobby">
-          <Input v-model="data.hobby" placeholder="兴趣爱好"></Input>
+        <FormItem label="焊机型号" prop="welding_machine_model">
+          <Input v-model="data.welding_machine_model" placeholder="焊机型号"></Input>
         </FormItem>
-        <FormItem label="手机" prop="mobile">
-          <Input v-model="data.mobile" placeholder="手机"></Input>
+        <FormItem label="1轴编号" prop="axis1_no">
+          <Input v-model="data.axis1_no" placeholder="1轴编号"></Input>
         </FormItem>
-        <FormItem label="邮箱" prop="email">
-          <Input v-model="data.email" placeholder="邮箱"></Input>
+        <FormItem label="2轴编号" prop="axis2_no">
+          <Input v-model="data.axis2_no" placeholder="2轴编号"></Input>
         </FormItem>
-        <FormItem label="入职日期" prop="entry_date">
+        <FormItem label="3轴编号" prop="axis3_no">
+          <Input v-model="data.axis3_no" placeholder="3轴编号"></Input>
+        </FormItem>
+        <FormItem label="4轴编号" prop="axis4_no">
+          <Input v-model="data.axis4_no" placeholder="4轴编号"></Input>
+        </FormItem>
+        <FormItem label="5轴编号" prop="axis5_no">
+          <Input v-model="data.axis5_no" placeholder="5轴编号"></Input>
+        </FormItem>
+        <FormItem label="6轴编号" prop="axis6_no">
+          <Input v-model="data.axis6_no" placeholder="6轴编号"></Input>
+        </FormItem>
+        <FormItem label="中文编码" prop="code_chinese">
+          <Input v-model="data.code_chinese" placeholder="中文编码" disabled></Input>
+        </FormItem>
+        <FormItem label="识别码" prop="identification_code">
+          <Input v-model="data.identification_code" placeholder="识别码" disabled></Input>
+        </FormItem>
+        <FormItem label="制造日期" prop="manufacture_date">
           <DatePicker
             type="date"
-            placeholder="入职日期"
-            v-model="data.entry_date"
-            @on-change="date => this.data.entry_date = date"
+            placeholder="制造日期"
+            v-model="data.manufacture_date"
+            @on-change="date => this.data.manufacture_date = date"
           ></DatePicker>
         </FormItem>
-        <FormItem label="在职状态">
-          <RadioGroup v-model="data.status">
-            <Radio :label="1">
-              <span>在职</span>
-            </Radio>
-            <Radio :label="0">
-              <span>离职</span>
-            </Radio>
-          </RadioGroup>
-        </FormItem>
-        <FormItem label="离职日期" prop="leave_date">
+        <FormItem label="购买日期" prop="purchase_date">
           <DatePicker
             type="date"
-            placeholder="离职日期"
-            v-model="data.leave_date"
-            @on-change="date => this.data.leave_date = date"
+            placeholder="购买日期"
+            v-model="data.purchase_date"
+            @on-change="date => this.data.purchase_date = date"
           ></DatePicker>
         </FormItem>
-        <FormItem label="所在省">
-          <static-select
-            :init="data.province_id"
-            label="areaname"
-            :data="provinces"
-            @on-change="provinceChange"
-          ></static-select>
+        <FormItem label="安装日期" prop="installation_date">
+          <DatePicker
+            type="date"
+            placeholder="安装日期"
+            v-model="data.installation_date"
+            @on-change="date => this.data.installation_date = date"
+          ></DatePicker>
         </FormItem>
-        <FormItem label="所在市">
-          <static-select
-            :init="data.city_id"
-            label="areaname"
-            :data="cities"
-            @on-change="cityChange"
-          ></static-select>
+        <FormItem label="验收日期" prop="acceptance_date">
+          <DatePicker
+            type="date"
+            placeholder="验收日期"
+            v-model="data.acceptance_date"
+            @on-change="date => this.data.acceptance_date = date"
+          ></DatePicker>
         </FormItem>
-        <FormItem label="所在县">
-          <static-select
-            :init="data.district_id"
-            label="areaname"
-            :data="counties"
-            @on-change="countyChange"
-          ></static-select>
+        <FormItem label="保修日期" prop="warranty_date">
+          <DatePicker
+            type="date"
+            placeholder="保修日期"
+            v-model="data.warranty_date"
+            @on-change="date => this.data.warranty_date = date"
+          ></DatePicker>
         </FormItem>
-        <FormItem label="详细地址">
-          <Input v-model="data.address" placeholder="详细地址"></Input>
+        <FormItem label="维修次数" prop="maintenance_times">
+          <Input v-model="data.maintenance_times" ></Input>
         </FormItem>
         <FormItem label="备注">
           <Input v-model="data.remark" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
@@ -175,56 +172,65 @@
 <script>
 
 import ModalMixin from '@/mixins/modal'
-import AreaMixin from '@/mixins/area'
 
 import {updateCustomerequipment} from '../../api/customerequipment'
-import {selectOrganization} from '../../api/select/organization'
-import {selectDepartment} from '../../api/select/department'
-
+import {selectCustomer} from '../../api/select/customer'
+import {selectMateriel} from '../../api/select/materiel'
 import * as customerequipmentConst from '../../constants/customerequipment'
 
 export default {
   name: 'customerequipment-edit',
-  mixins: [ModalMixin, AreaMixin],
+  mixins: [ModalMixin],
   data () {
     return {
       data: {
-        org_id: 0,
+        cust_id: 0,
+        item_id: 0,
+        type: 0,
         number: '',
         name: '',
-        sex: 1,
-        birthday: '',
-        dep_id: 0,
-        post: 0,
-        job: 0,
-        graduated_school: '',
-        education: 0,
-        skill_expertise: '',
-        hobby: '',
-        mobile: '',
-        email: '',
-        entry_date: '',
-        status: 1,
-        leave_date: '',
-        province_id: 0,
-        city_id: 0,
-        district_id: 0,
-        address: '',
+        model: '',
+        contract_number: '',
+        installation_staff: '',
+        technology_staff: '',
+        sets: '',
+        main_no: '',
+        control_box_no: '',
+        welding_machine_no: '',
+        welding_machine_model: '',
+        axis1_no: '',
+        axis2_no: '',
+        axis3_no: '',
+        axis4_no: '',
+        axis5_no: '',
+        axis6_no: '',
+        code_chinese: '',
+        identification_code: '',
+        manufacture_date: '',
+        purchase_date: '',
+        installation_date: '',
+        acceptance_date: '',
+        warranty_date: '',
+        maintenance_times: '',
+        created_by: '',
+        updated_by: '',
         remark: ''
       },
       rules: {
+        // cust_id: [
+        //   validate.number('请选择客户名称')
+        // ],
+        number: [
+          {required: true, message: '设备编号不能为空', trigger: 'blur'}
+        ],
         name: [
-          {required: true, message: '姓名不能为空', trigger: 'blur'}
+          {required: true, message: '设备名称不能为空', trigger: 'blur'}
         ]
       },
-      educationList: customerequipmentConst.EDUCATION_LIST,
-      select: {
-        job: [],
-        post: [],
-        education: []
-      },
+      typeList: customerequipmentConst.TYPE_LIST,
       init: {
-        organization: []
+        customer: [],
+        materiel: []
       }
     }
   },
@@ -233,8 +239,8 @@ export default {
       this.$refs.addForm.validate(async (valid) => {
         if (valid) {
           try {
-            console.log('data', data)
             let data = await updateCustomerequipment(this.data, this.data.id)
+            // console.log('data', data)
             this.withRefresh(e)
           } catch (e) {
             this.closeLoading()
@@ -248,70 +254,27 @@ export default {
       e()
     },
     async beforeOpen () {
-      let job = await this.$store.dispatch('getJob')
-      let post = await this.$store.dispatch('getPost')
-      let education = await this.$store.dispatch('getEducation')
-      this.select.job = job
-      this.select.post = post
-      this.select.education = education
-
       return true
     },
     async afterOpen () {
       let data = this.data
-      // 省份
-      console.log('afterOpen', data)
-      await this.getAllByIds(data.province_id, data.city_id, data.district_id)
 
-      let {job, post, education} = this.data
-      this.data.job = 0
-      this.data.post = 0
-      this.data.education = 0
+      let customers = await selectCustomer({id: data.cust_id})
+      this.init.customer = customers.data
 
-      let organizations = await selectOrganization({id: data.org_id})
-      this.init.organization = organizations.data
+      let materiels = await selectMateriel({id: data.item_id})
+      this.init.materiel = materiels.data
 
-      await this.organizationChange(data.org_id)
-
-      this.data.job = job
-      this.data.post = post
-      this.data.education = education
       return true
     },
-    async organizationChange (id) {
-      this.data.org_id = id
-      if (!id) {
-        return
-      }
-      let {data} = await selectDepartment(id)
-      this.select.department = data || []
-      if (data.length) {
-        let info = data.find(info => +info.id === +this.data.dep_id)
-        if (!info) {
-          this.data.dep_id = data[0].id
-        }
-      }
+    async customerChange (customerId) {
+      this.data.cust_id = customerId
     },
-    async provinceChange (provinceId) {
-      if (+this.data.province_id !== +provinceId) {
-        this.data.province_id = provinceId
-        let cities = await this.getCities(provinceId)
-        if (!this.hasArea(cities, this.data.city_id)) {
-          this.cityChange(cities[0].id)
-        }
-      }
-    },
-    async cityChange (cityId) {
-      if (+cityId !== this.data.city_id) {
-        this.data.city_id = cityId
-        let counties = await this.getCountie(cityId)
-        if (counties.length) {
-          this.data.district_id = counties[0].id
-        }
-      }
-    },
-    async countyChange (countyId) {
-      this.data.district_id = countyId
+    async materielChange (materiel) {
+      console.log('materiel879', materiel)
+      this.data.item_id = materiel.id
+      this.data.model = materiel.model
+      // this.data.name = materiel.name
     }
   }
 }

@@ -33,12 +33,12 @@
         <FormItem label="物料名称" prop="item_id">
           <remote-select
             :init="data.item_id"
-            :initData="init.code"
+            :initData="init.materiel"
             label="name"
-            url="select/code"
+            url="select/materiel"
             :filter="(data) => data.name"
             :valueMap="(data) => data.id"
-            @on-change="codeChange"
+            @on-change-data="materielChange"
           ></remote-select>
         </FormItem>
         <FormItem label="规格型号" prop="model">
@@ -175,7 +175,7 @@ import ModalMixin from '@/mixins/modal'
 
 import {addCustomerequipment} from '../../api/customerequipment'
 import {selectCustomer} from '../../api/select/customer'
-import {selectCode} from '../../api/select/code'
+import {selectMateriel} from '../../api/select/materiel'
 import * as customerequipmentConst from '../../constants/customerequipment'
 
 export default {
@@ -230,7 +230,7 @@ export default {
       typeList: customerequipmentConst.TYPE_LIST,
       init: {
         customer: [],
-        code: []
+        materiel: []
       }
     }
   },
@@ -262,18 +262,19 @@ export default {
       let customers = await selectCustomer({id: data.cust_id})
       this.init.customer = customers.data
 
-      let codes = await selectCode({id: data.item_id})
-      this.init.code = codes.data
+      let materiels = await selectMateriel({id: data.item_id})
+      this.init.materiel = materiels.data
 
       return true
     },
     async customerChange (customerId) {
       this.data.cust_id = customerId
     },
-    async codeChange (code) {
-      console.log('code879', code)
-      this.data.item_id = code.id
-      this.data.model = code.model
+    async materielChange (materiel) {
+      console.log('materiel879', materiel)
+      this.data.item_id = materiel.id
+      this.data.model = materiel.model
+      // this.data.name = materiel.name
     }
   }
 }

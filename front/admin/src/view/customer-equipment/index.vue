@@ -117,6 +117,12 @@ export default {
         },
         {
           width: 100,
+          title: '二维码',
+          key: '',
+          sortable: false
+        },
+        {
+          width: 100,
           title: '合同编号',
           key: 'contract_number',
           sortable: false

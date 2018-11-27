@@ -23,8 +23,9 @@ class MaterielController extends BaseController
         }
 
         $itemId = (int)$request->get('item_id');
-
-        $machine = $machine->where('id', $itemId);
+        if ($itemId > 0) {
+            $machine = $machine->where('id', $itemId);
+        }
 
         return $machine;
     }
