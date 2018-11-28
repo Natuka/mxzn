@@ -54,8 +54,8 @@
             </Option>
           </Select>
         </FormItem>
-        <FormItem label="合同编号" prop="number">
-          <Input v-model="data.number" placeholder="合同编号"></Input>
+        <FormItem label="合同编号" prop="contract_number">
+          <Input v-model="data.contract_number" placeholder="合同编号"></Input>
         </FormItem>
         <FormItem label="安装人员" prop="installation_staff">
           <Input v-model="data.installation_staff" placeholder="安装人员"></Input>

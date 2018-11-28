@@ -1,4 +1,4 @@
-import {getApi, postApi, deleteApi, patchApi} from '../libs/api.request'
+import {getApi, postApi, deleteApi, patchApi, putApi} from '../libs/api.request'
 
 export function getCustomerequipmentList (params) {
   return getApi('customerequipment', params)
@@ -9,7 +9,7 @@ export function addCustomerequipment (data) {
 }
 
 export function updateCustomerequipment (data, id) {
-  return patchApi('customerequipment/' + id, data)
+  return putApi('customerequipment/' + id, data)
 }
 
 export function deleteCustomerequipment () {

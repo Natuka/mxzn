@@ -188,8 +188,13 @@ export default {
               )
             },
             (h, params, vm) => {
+              let buttonTile = '查看'
               if (!this.accessView()) {
                 return
+              } else {
+                if (this.accessEdit()) {
+                  buttonTile = '修改'
+                }
               }
               return h(
                 'Button',
@@ -206,7 +211,7 @@ export default {
                     }
                   }
                 },
-                '修改'
+                buttonTile
               )
             }
           ]

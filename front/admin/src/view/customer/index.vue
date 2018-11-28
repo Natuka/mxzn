@@ -156,12 +156,15 @@ export default {
         },
         {
           fixed: 'right',
-          width: 120,
+          width: 160,
           title: '操作',
           key: 'handle',
           options: ['delete'],
           button: [
             (h, params, vm) => {
+              if (!this.accessEdit()) {
+                return
+              }
               return h(
                 'Poptip',
                 {
@@ -178,8 +181,13 @@ export default {
               )
             },
             (h, params, vm) => {
+              let buttonTile = '查看'
               if (!this.accessView()) {
                 return
+              } else {
+                if (this.accessEdit()) {
+                  buttonTile = '修改'
+                }
               }
               return h(
                 'Button',
@@ -192,11 +200,11 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.onEdit()
+                      this.onEdit(params.row)
                     }
                   }
                 },
-                '修改'
+                buttonTile
               )
             }
           ]

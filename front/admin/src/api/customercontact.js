@@ -1,4 +1,4 @@
-import {getApi, postApi, deleteApi, patchApi} from '../libs/api.request'
+import {getApi, postApi, deleteApi, patchApi, putApi} from '../libs/api.request'
 
 export function getCustomercontactList (params) {
   return getApi('customercontact', params)
@@ -9,7 +9,7 @@ export function addCustomercontact (data) {
 }
 
 export function updateCustomercontact (data, id) {
-  return patchApi('customercontact/' + id, data)
+  return putApi('customercontact/' + id, data)
 }
 
 export function deleteCustomercontact () {

@@ -69,11 +69,24 @@ export default {
       },
       columns: [
         {
-          width: 120,
+          width: 60,
           fixed: 'left',
-          title: '公司',
-          key: 'cust_id',
+          title: '序号',
+          key: 'id',
           sortable: false
+        },
+        {
+          width: 150,
+          fixed: 'left',
+          title: '客户名称',
+          key: 'customer_name',
+          sortable: false,
+          render: (h, {row: {customer}}) => {
+            if (!customer) {
+              return h('span')
+            }
+            return h('sapn', {}, customer.name)
+          }
         },
         {
           width: 120,
@@ -142,7 +155,7 @@ export default {
         },
         {
           fixed: 'right',
-          width: 300,
+          width: 160,
           title: '操作',
           key: 'handle',
           options: ['delete'],
@@ -164,8 +177,13 @@ export default {
               )
             },
             (h, params, vm) => {
+              let buttonTile = '查看'
               if (!this.accessView()) {
                 return
+              } else {
+                if (this.accessEdit()) {
+                  buttonTile = '修改'
+                }
               }
               return h(
                 'Button',
@@ -178,11 +196,11 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.onEdit()
+                      this.onEdit(params.row)
                     }
                   }
                 },
-                '修改'
+                buttonTile
               )
             }
           ]

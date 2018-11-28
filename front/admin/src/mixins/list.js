@@ -19,6 +19,7 @@ export default {
       access: {
         add: '',
         edit: '',
+        del: '',
         view: ''
       },
       lock: false
@@ -36,6 +37,10 @@ export default {
     // 允许新增
     accessAdd () {
       return this.$store.getters.hasAccess(this.access.add)
+    },
+    // 允许删除
+    accessDel () {
+      return this.$store.getters.hasAccess(this.access.del)
     },
     // 暂时执行空转函数
     // 用于需要自定义设定值时

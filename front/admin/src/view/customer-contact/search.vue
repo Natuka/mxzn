@@ -3,9 +3,9 @@
     <FormItem prop="schField">
       <Select v-model="data.schField" style="width:90px" placeholder="栏位">
         <Option value="fuzzy_query" >模糊查询</Option>
-        <Option value="number">客户编号</Option>
-        <Option value="name">公司名称</Option>
-        <Option value="name_short">公司简称</Option>
+        <Option value="cust_id">客户名称</Option>
+        <Option value="name">姓名</Option>
+        <Option value="mobile">手机</Option>
       </Select>
     </FormItem>
     <FormItem prop="schValue">

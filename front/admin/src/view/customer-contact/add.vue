@@ -12,12 +12,16 @@
             ref="addForm"
             :rules="rules"
             :label-width="90">
-        <FormItem label="客户公司" prop="org_id">
-          <Select v-model="data.cust_id">
-            <Option value="beijing">New York</Option>
-            <Option value="shanghai">London</Option>
-            <Option value="shenzhen">Sydney</Option>
-          </Select>
+        <FormItem label="客户名称" prop="cust_id">
+          <remote-select
+            :init="data.cust_id"
+            :initData="init.customer"
+            label="name"
+            url="select/customer"
+            :filter="(data) => data.name"
+            :valueMap="(data) => data.id"
+            @on-change="customerChange"
+          ></remote-select>
         </FormItem>
         <FormItem label="姓名" prop="name">
           <Input v-model="data.name" placeholder="姓名"></Input>
@@ -47,8 +51,8 @@
             </Option>
           </Select>
         </FormItem>
-        <FormItem label="职位" prop="post">
-          <Select v-model="data.post">
+        <FormItem label="职位" prop="department">
+          <Select v-model="data.department">
             <Option
               v-for="(type, index) in postList"
               :key="index"
@@ -116,7 +120,7 @@
 import ModalMixin from '@/mixins/modal'
 
 import {addCustomercontact} from '../../api/customercontact'
-
+import {selectCustomer} from '../../api/select/customer'
 import * as customercontactConst from '../../constants/customercontact'
 
 export default {
@@ -149,7 +153,10 @@ export default {
       postList: customercontactConst.POST_LIST,
       statusList: customercontactConst.STATUS_LIST,
       deptList: customercontactConst.DEPT_LIST,
-      sexList: customercontactConst.SEX_LIST
+      sexList: customercontactConst.SEX_LIST,
+      init: {
+        customer: []
+      }
     }
   },
   methods: {
@@ -170,6 +177,20 @@ export default {
     },
     onCancel (e) {
       e()
+    },
+    async beforeOpen () {
+      return true
+    },
+    async afterOpen () {
+      let data = this.data
+
+      let customers = await selectCustomer({id: data.cust_id})
+      this.init.customer = customers.data
+
+      return true
+    },
+    async customerChange (customerId) {
+      this.data.cust_id = customerId
     }
   }
 }
