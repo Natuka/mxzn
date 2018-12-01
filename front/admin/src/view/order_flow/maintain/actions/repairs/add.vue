@@ -151,8 +151,8 @@
           </Upload>
         </FormItem>
 
-        <FormItem label="下一步处理" prop="next">
-          <Select v-model="data.next">
+        <FormItem label="下一步处理" prop="next_step">
+          <Select v-model="data.next_step">
             <Option
               v-for="(type, index) in select.nextList"
               :key="index"
@@ -191,7 +191,7 @@ export default {
         arrived_at: '',
         complete_at: '',
         cause_id: 0,
-        next: 0,
+        next_step: 0,
         cause: '',
         step_doc_ids: '',
         cause_doc_ids: '',

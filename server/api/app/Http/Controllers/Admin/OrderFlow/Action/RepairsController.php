@@ -103,6 +103,7 @@ class RepairsController extends BaseController
         $data['cause_id'] = (int)$data['cause_id'];
         $data['arrived_at'] = format_date($data['arrived_at']);
         $data['complete_at'] = format_date($data['complete_at']);
+        $data['next_step'] = (int)$data['next_step'];
 
         $data['service_order_id'] = (int)$order['id'];
         $data['created_by'] = '新增';
@@ -113,6 +114,23 @@ class RepairsController extends BaseController
         if ($ret) {
             $this->saveDocWithType($order, 1, $repair->step_doc_ids);
             $this->saveDocWithType($order, 2, $repair->cause_doc_ids);
+
+            /*          下步处理，选择完工关闭，工单状态修改为：待结算
+            下步处理，选择暂不关闭，工单状态不变：处理中
+            下步处理，选择内部派工，工单状态不变：处理中，通知新的服务工程师处理
+            下步处理，选择派给网点，工单状态不变：处理中，通知新的服务工程师处理*/
+            if ($data['next_step'] ==1) {
+//                下步处理，选择完工关闭，工单状态修改为：待结算
+                if ($order) {
+                    //$this->assignToContact($info['id'], $user->id);
+                    $save_data['status'] = 4;
+                    //$data['progress_time'] = date('Y-m-d H:i:s', time());
+                    $order->forceFill($save_data)->save();
+                }
+            }elseif ($data['next_step'] ==2 || $data['next_step'] ==3) {
+//                TODO 通知新的服务工程师处理
+
+            }
 
             return success_json($repair, '');
         }
@@ -160,6 +178,23 @@ class RepairsController extends BaseController
         if ($ret) {
             $this->saveDocWithType($order, 1, $repair->step_doc_ids);
             $this->saveDocWithType($order, 2, $repair->cause_doc_ids);
+
+/*          下步处理，选择完工关闭，工单状态修改为：待结算
+            下步处理，选择暂不关闭，工单状态不变：处理中
+            下步处理，选择内部派工，工单状态不变：处理中，通知新的服务工程师处理
+            下步处理，选择派给网点，工单状态不变：处理中，通知新的服务工程师处理*/
+            if ($data['next_step'] ==1) {
+//                下步处理，选择完工关闭，工单状态修改为：待结算
+                if ($order) {
+                    //$this->assignToContact($info['id'], $user->id);
+                    $save_data['status'] = 4;
+                    //$data['progress_time'] = date('Y-m-d H:i:s', time());
+                    $order->forceFill($save_data)->save();
+                }
+            }elseif ($data['next_step'] ==2 || $data['next_step'] ==3) {
+//                TODO 通知新的服务工程师处理
+
+            }
 
             return success_json($repair, '');
         }

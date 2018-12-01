@@ -271,7 +271,7 @@ class RepairController extends OperationController
                 //$data['progress_time'] = date('Y-m-d H:i:s', time());
                 $service_order->forceFill($data)->save();
             }
-            unset($info);
+            unset($infoId);
         }
 
         return success_json('操作成功');
