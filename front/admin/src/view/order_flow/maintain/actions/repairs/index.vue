@@ -147,7 +147,8 @@ export default {
           width: 160,
           title: '下一步处理',
           key: 'next_step',
-          sortable: false
+          sortable: false,
+          render: this.constRender('next_step', orderConst.REPAIR_NEXT)
         },
         {
           width: 160,
