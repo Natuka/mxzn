@@ -1,4 +1,4 @@
-import {getApi, postApi, deleteApi, patchApi, putApi} from '../libs/api.request'
+import {getApi, postApi, deleteApi, putApi} from '../libs/api.request'
 
 export function getCustomerequipmentList (params) {
   return getApi('customerequipment', params)

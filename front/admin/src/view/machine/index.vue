@@ -67,7 +67,7 @@ export default {
       },
       columns: [
         {
-          width: 100,
+          width: 130,
           title: '料号',
           key: 'number',
           sortable: false
@@ -124,6 +124,10 @@ export default {
           title: '供应商',
           key: 'vendor',
           sortable: false
+        },
+        {
+          title: ' ',
+          key: ''
         },
         {
           width: 200,

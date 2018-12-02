@@ -240,7 +240,7 @@ export default {
         if (valid) {
           try {
             let data = await updateCustomerequipment(this.data, this.data.id)
-            // console.log('data', data)
+            console.log('data', data)
             this.withRefresh(e)
           } catch (e) {
             this.closeLoading()

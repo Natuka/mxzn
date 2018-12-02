@@ -23,6 +23,29 @@ class IndexController extends Controller
 
     public function search(Request $request, Machine $machine)
     {
+        $sch_field = $request->get('schField', ''); //查询字段或模糊查询
+        $sch_value = $request->get('schValue', ''); //查询字段或模糊查询
+        //$sch_field = 'fuzzy_query';
+        if ($sch_value && $sch_field) {
+            if ($sch_field == 'fuzzy_query') {
+                $machine = $machine->where(function($query) use($sch_field, $sch_value)
+                {
+                    $query->where('name', 'like', '%'.$sch_value.'%')
+                        ->orWhere('model', 'like', '%'.$sch_value.'%')
+                        ->orWhere('brand', 'like', '%'.$sch_value.'%')
+                        ->orWhere('number', 'like', '%'.$sch_value.'%');
+                });
+            }else{
+                $machine = $machine->where($sch_field, 'like', '%'.$sch_value.'%');
+            }
+        }
+        $orderField = $request->get('orderField', 0); // 排序栏位
+        $orderBy = $request->get('orderBy', 0); // 排序顺序
+        $orderFieldArray = array('0' => 'number', '1' => 'name');
+        $orderByArray = array('0' => 'ASC', '1' => 'DESC',);
+        if (!empty($orderFieldArray[$orderField]) && !empty($orderByArray[$orderBy])) {
+            $machine = $machine->orderBy($orderFieldArray[$orderField], $orderByArray[$orderBy]);
+        }
         return $machine;
     }
 
@@ -112,7 +135,27 @@ class IndexController extends Controller
     public function update(UpdateRequest $request, Machine $machine)
     {
         $data = $request->only([
+            'erp_itemid',
+            'number',
             'name',
+            'model',
+            'brand',
+            'stock_qty',
+            'unit',
+            'safety_stock_qty',
+            'store',
+            'price_ave',
+            'price_pur1',
+            'price_pur2',
+            'price_pur3',
+            'price_sale_unified',
+            'price_sale_least',
+            'price_sale1',
+            'price_sale2',
+            'price_sale3',
+            'vendor',
+            'remark',
+            'syn_datetime',
         ]);
         $data['updated_by'] = '修改';
         $ret = $machine->forceFill($data)->save();

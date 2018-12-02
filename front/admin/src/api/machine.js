@@ -1,4 +1,4 @@
-import {getApi, postApi, deleteApi, patchApi} from '../libs/api.request'
+import {getApi, postApi, deleteApi, putApi} from '../libs/api.request'
 
 export function getMachineList (params) {
   return getApi('machine', params)
@@ -9,7 +9,7 @@ export function addMachine (data) {
 }
 
 export function updateMachine (data, id) {
-  return patchApi('machine/' + id, data)
+  return putApi('machine/' + id, data)
 }
 
 export function deleteMachine () {
