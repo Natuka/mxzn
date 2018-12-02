@@ -42,14 +42,14 @@ export default [
         component: () => import('@/view/machine/index.vue')
       },
       {
-        path: '/qrcode',
-        name: 'machine_qrcode',
+        path: '/machine-qrcode',
+        name: 'machine-qrcode',
         meta: {
           icon: '_qq',
           title: '设备二维码管理',
           access: ['machine_qrcode']
         },
-        component: () => import('@/view/machine/index.vue')
+        component: () => import('@/view/machine-qrcode/index.vue')
       },
       {
         path: '/customer-equipment',

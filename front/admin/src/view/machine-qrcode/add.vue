@@ -2,18 +2,18 @@
   <custom-modal
     ref="ref"
     width="1000px"
-    title="物料基础资料-修改"
+    title="物料基础资料-新增"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
     class="mxcs-three-column"
   >
-    <div>
+      <div>
       <Form :model="data"
             ref="addForm"
             :rules="rules"
             :label-width="100">
         <FormItem label="料号:" prop="number">
-          <Input v-model="data.number" placeholder="料号" readonly="true"></Input>
+          <Input v-model="data.number" placeholder="料号"></Input>
         </FormItem>
 
         <FormItem label="品名:" prop="name">
@@ -95,8 +95,8 @@
             format="yyyy:MM:dd HH:mm:ss"
           ></DatePicker>
         </FormItem>
-      </Form>
-    </div>
+        </Form>
+      </div>
   </custom-modal>
 </template>
 
@@ -104,12 +104,12 @@
 
 import ModalMixin from '@/mixins/modal'
 
-import {updateMachine} from '../../api/machine'
+import {addMachine} from '../../api/machine'
 
 // import * as machineConst from '../../constants/machine'
 
 export default {
-  name: 'machine-edit',
+  name: 'machine-add',
   mixins: [ModalMixin],
   data () {
     return {
@@ -152,7 +152,7 @@ export default {
       this.$refs.addForm.validate(async (valid) => {
         if (valid) {
           try {
-            let data = await updateMachine(this.data, this.data.id)
+            let data = await addMachine(this.data)
             console.log('data', data)
             this.withRefresh(e)
           } catch (e) {
