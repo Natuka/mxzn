@@ -6,7 +6,7 @@
         <Option value="number">编号</Option>
         <Option value="name">设备名称</Option>
         <Option value="model">设备配置</Option>
-        <Option value="serial_number">系列</Option>
+        <Option value="serial_number">系列号</Option>
       </Select>
     </FormItem>
     <FormItem prop="schValue">

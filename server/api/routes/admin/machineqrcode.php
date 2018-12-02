@@ -26,8 +26,8 @@ Route::group([
         ]);*/
 
     Route::post('/', [
-        'uses' => 'IndexController@create',
-        'as' => 'machineqrcode_create',
+        'uses' => 'IndexController@store',
+        'as' => 'machineqrcode_store',
         'display_name' => '设备二维码新增',
     ]);
 

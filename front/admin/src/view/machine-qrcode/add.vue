@@ -2,99 +2,66 @@
   <custom-modal
     ref="ref"
     width="1000px"
-    title="物料基础资料-新增"
+    title="设备二维码-新增"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
-    class="mxcs-three-column"
+    class="mxcs-two-column"
   >
       <div>
       <Form :model="data"
             ref="addForm"
             :rules="rules"
             :label-width="100">
-        <FormItem label="料号:" prop="number">
-          <Input v-model="data.number" placeholder="料号"></Input>
+        <FormItem label="编号:" prop="number">
+          <Input v-model="data.number" placeholder="编号(唯一)"></Input>
         </FormItem>
 
-        <FormItem label="品名:" prop="name">
-          <Input v-model="data.name" placeholder="品名"></Input>
+        <FormItem label="设备名称:" prop="name">
+          <Input v-model="data.name" placeholder="设备名称"></Input>
         </FormItem>
 
-        <FormItem label="型号规格:" prop="model">
-          <Input v-model="data.model" placeholder="型号规格"></Input>
+        <FormItem label="设备配置:" prop="model">
+          <Input v-model="data.model" placeholder="设备配置"></Input>
         </FormItem>
 
-        <FormItem label="品牌:" prop="brand">
-          <Input v-model="data.brand" placeholder="品牌"></Input>
+        <FormItem label="系列号:" prop="serial_number">
+          <Input v-model="data.serial_number" placeholder="系列号"></Input>
         </FormItem>
 
-        <FormItem label="库存数量:" prop="stock_qty">
-          <Input v-model="data.stock_qty" placeholder="库存数量"></Input>
+        <FormItem label="制造日期" prop="manufacture_date">
+          <DatePicker
+            type="date"
+            placeholder="制造日期"
+            v-model="data.manufacture_date"
+            @on-change="date => this.data.manufacture_date = date"
+          ></DatePicker>
+        </FormItem>
+        <FormItem label="采购日期" prop="purchase_date">
+          <DatePicker
+            type="date"
+            placeholder="采购日期"
+            v-model="data.purchase_date"
+            @on-change="date => this.data.purchase_date = date"
+          ></DatePicker>
         </FormItem>
 
-        <FormItem label="单位:" prop="unit">
-          <Input v-model="data.unit" placeholder="单位"></Input>
-        </FormItem>
-
-        <FormItem label="安全库存量:" prop="safety_stock_qty">
-          <Input v-model="data.safety_stock_qty" placeholder="安全库存量"></Input>
-        </FormItem>
-
-        <FormItem label="默认仓库:" prop="store">
-          <Input v-model="data.store" placeholder="默认仓库"></Input>
-        </FormItem>
-
-        <FormItem label="平均采购单价:" prop="price_ave">
-          <Input v-model="data.price_ave" placeholder="平均采购单价"></Input>
-        </FormItem>
-
-        <FormItem label="最近采购单价1:" prop="price_pur1">
-          <Input v-model="data.price_pur1" placeholder="最近采购单价1"></Input>
-        </FormItem>
-
-        <FormItem label="最近采购单价2:" prop="price_pur2">
-          <Input v-model="data.price_pur2" placeholder="最近采购单价2"></Input>
-        </FormItem>
-
-        <FormItem label="最近采购单价3:" prop="price_pur3">
-          <Input v-model="data.price_pur3" placeholder="最近采购单价3"></Input>
-        </FormItem>
-
-        <FormItem label="统一销售价:" prop="price_sale_unified">
-          <Input v-model="data.price_sale_unified" placeholder="统一销售价"></Input>
-        </FormItem>
-
-        <FormItem label="最低销售价:" prop="price_sale_least">
-          <Input v-model="data.price_sale_least" placeholder="最低销售价"></Input>
-        </FormItem>
-
-        <FormItem label="销售价1:" prop="price_sale1">
-          <Input v-model="data.price_sale1" placeholder="销售价1"></Input>
-        </FormItem>
-
-        <FormItem label="销售价2:" prop="price_sale2">
-          <Input v-model="data.price_sale2" placeholder="销售价2"></Input>
-        </FormItem>
-
-        <FormItem label="销售价3:" prop="price_sale3">
-          <Input v-model="data.price_sale3" placeholder="销售价3"></Input>
-        </FormItem>
-
-        <FormItem label="供应商:" prop="vendor">
-          <Input v-model="data.vendor" placeholder="供应商"></Input>
-        </FormItem>
-
-        <FormItem label="备注:" prop="remark">
+        <FormItem label="备注:" prop="remark" style="width: 100%">
           <Input v-model="data.remark" placeholder="备注"></Input>
         </FormItem>
 
-        <FormItem label="同步时间:">
-          <DatePicker
-            type="datetime"
-            v-model="data.syn_datetime"
-            format="yyyy:MM:dd HH:mm:ss"
-          ></DatePicker>
+        <FormItem label="建立人员">
+          <Input v-model="data.created_by" placeholder="建立人员" disabled></Input>
         </FormItem>
+        <FormItem label="建立日期">
+          <Input v-model="data.created_at" placeholder="建立日期" disabled></Input>
+        </FormItem>
+        <FormItem label="最近修改人员">
+          <Input v-model="data.updated_by" placeholder="最近修改人员" disabled></Input>
+        </FormItem>
+        <FormItem label="最近修改日期">
+          <Input v-model="data.updated_at" placeholder="最近修改日期" disabled></Input>
+        </FormItem>
+
         </Form>
       </div>
   </custom-modal>
@@ -104,12 +71,12 @@
 
 import ModalMixin from '@/mixins/modal'
 
-import {addMachine} from '../../api/machine'
+import {addMachineqrcode} from '../../api/machineqrcode'
 
 // import * as machineConst from '../../constants/machine'
 
 export default {
-  name: 'machine-add',
+  name: 'machineqrcode-add',
   mixins: [ModalMixin],
   data () {
     return {
@@ -117,32 +84,20 @@ export default {
         number: '',
         name: '',
         model: '',
-        brand: '',
-        stock_qty: 0,
-        unit: 'PCS',
-        safety_stock_qty: 0,
-        store: '售后仓',
-        price_ave: '',
-        price_pur1: '',
-        price_pur2: '',
-        price_pur3: '',
-        price_sale_unified: '',
-        price_sale_least: '',
-        price_sale1: '',
-        price_sale2: '',
-        price_sale3: '',
-        vendor: '',
+        manufacture_date: '',
+        purchase_date: '',
+        serial_number: '',
         remark: ''
       },
       rules: {
         number: [
-          {required: true, message: '料号不能为空', trigger: 'blur'}
+          {required: true, message: '编码不能为空', trigger: 'blur'}
         ],
         name: [
-          {required: true, message: '品名不能为空', trigger: 'blur'}
+          {required: true, message: '设备名称不能为空', trigger: 'blur'}
         ],
         model: [
-          {required: true, message: '型号规格不能为空', trigger: 'blur'}
+          {required: true, message: '设备配置不能为空', trigger: 'blur'}
         ]
       }
     }
@@ -152,7 +107,7 @@ export default {
       this.$refs.addForm.validate(async (valid) => {
         if (valid) {
           try {
-            let data = await addMachine(this.data)
+            let data = await addMachineqrcode(this.data)
             console.log('data', data)
             this.withRefresh(e)
           } catch (e) {

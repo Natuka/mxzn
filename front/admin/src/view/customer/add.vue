@@ -117,20 +117,36 @@
           ></DatePicker>
         </FormItem>
 
-        <FormItem label="省:" prop="province_id">
-          <Input v-model="data.province_id" placeholder="省"></Input>
+        <FormItem label="所在省">
+          <static-select
+            :init="data.province_id"
+            label="areaname"
+            :data="provinces"
+            @on-change="provinceChange"
+          ></static-select>
+        </FormItem>
+        <FormItem label="所在市">
+          <static-select
+            :init="data.city_id"
+            label="areaname"
+            :data="cities"
+            @on-change="cityChange"
+          ></static-select>
+        </FormItem>
+        <FormItem label="所在县">
+          <static-select
+            :init="data.district_id"
+            label="areaname"
+            :data="counties"
+            @on-change="countyChange"
+          ></static-select>
+        </FormItem>
+        <FormItem label="详细地址">
+          <Input v-model="data.address" placeholder="详细地址"></Input>
         </FormItem>
 
-        <FormItem label="市:" prop="city_id">
-          <Input v-model="data.city_id" placeholder="简称"></Input>
-        </FormItem>
-
-        <FormItem label="区:" prop="district_county_id">
-          <Input v-model="data.district_county_id" placeholder="简称"></Input>
-        </FormItem>
-
-        <FormItem label="地址:" prop="address">
-          <Input v-model="data.address" placeholder="地址"></Input>
+        <FormItem label="邮政编码:" prop="zip_code">
+          <Input v-model="data.zip_code" placeholder="邮政编码"></Input>
         </FormItem>
 
         <FormItem label="电话:" prop="tel">
@@ -139,10 +155,6 @@
 
         <FormItem label="传真:" prop="fax">
           <Input v-model="data.fax" placeholder="传真"></Input>
-        </FormItem>
-
-        <FormItem label="邮政编码:" prop="zip_code">
-          <Input v-model="data.zip_code" placeholder="邮政编码"></Input>
         </FormItem>
 
         <FormItem label="统一信用码:" prop="ent_code">
@@ -224,6 +236,7 @@
 <script>
 
 import ModalMixin from '@/mixins/modal'
+import AreaMixin from '@/mixins/area'
 
 import {addCustomer} from '../../api/customer'
 
@@ -231,7 +244,7 @@ import * as customerConst from '../../constants/customer'
 
 export default {
   name: 'customer-add',
-  mixins: [ModalMixin],
+  mixins: [ModalMixin, AreaMixin],
   data () {
     return {
       data: {
@@ -249,7 +262,7 @@ export default {
         address: '', // 地址
         province_id: 0,
         city_id: 0,
-        district_county_id: 0,
+        district_id: 0,
         type: 1,
         industry: 0, // 所属行业, 0 其他
         level: 0,
@@ -308,6 +321,46 @@ export default {
     },
     onCancel (e) {
       e()
+    },
+    async beforeOpen () {
+      // 省份
+      let [provinces, cities, counties] = await this.getAllByFirstProvinceId()
+      this.data.province_id = 0
+      this.data.city_id = 0
+      this.data.district_id = 0
+
+      this.forceLock(() => {
+        this.data.province_id = provinces[0].id
+        this.data.city_id = cities[0].id
+        this.data.district_id = counties[0].id
+      })
+      return true
+    },
+    async afterOpen () {
+      // let data = this.data
+      return true
+    },
+    // 省变更
+    async provinceChange (provinceId) {
+      if (+this.data.province_id !== +provinceId) {
+        this.data.province_id = provinceId
+        let cities = await this.getCities(provinceId)
+        if (!this.hasArea(cities, this.data.city_id)) {
+          this.cityChange(cities[0].id)
+        }
+      }
+    },
+    async cityChange (cityId) {
+      if (+cityId !== this.data.city_id) {
+        this.data.city_id = cityId
+        let counties = await this.getCountie(cityId)
+        if (counties.length) {
+          this.data.district_id = counties[0].id
+        }
+      }
+    },
+    async countyChange (countyId) {
+      this.data.district_id = countyId
     }
   }
 }

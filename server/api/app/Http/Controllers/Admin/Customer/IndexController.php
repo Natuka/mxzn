@@ -133,7 +133,7 @@ class IndexController extends Controller
             'contact_lasttime',
             'province_id',
             'city_id',
-            'district_county_id',
+            'district_id',
             'address',
             'tel',
             'fax',
@@ -154,6 +154,10 @@ class IndexController extends Controller
         $data['follow_up_nexttime'] = date('Y-m-d H:i:s', strtotime($data['follow_up_nexttime']));
         $data['contact_lasttime'] = date('Y-m-d H:i:s', strtotime($data['contact_lasttime']));
         $data['syn_datetime'] = date('Y-m-d H:i:s', strtotime($data['syn_datetime']));
+        if (empty($data['follow_up_nexttime']) || ($data['follow_up_nexttime'] <= '1991-01-01 00:00:00')) $data['follow_up_nexttime'] = NULL;
+        if (empty($data['contact_lasttime']) || ($data['contact_lasttime'] <= '1991-01-01 00:00:00')) $data['contact_lasttime'] = NULL;
+        if (empty($data['syn_datetime']) || ($data['syn_datetime'] <= '1991-01-01 00:00:00')) $data['syn_datetime'] = NULL;
+
         //dd($data);
         $ret = $customer->forceFill($data)->save();
 
@@ -216,7 +220,7 @@ class IndexController extends Controller
             'contact_lasttime',
             'province_id',
             'city_id',
-            'district_county_id',
+            'district_id',
             'address',
             'tel',
             'fax',
@@ -235,6 +239,9 @@ class IndexController extends Controller
         $data['follow_up_nexttime'] = date('Y-m-d H:i:s', strtotime($data['follow_up_nexttime']));
         $data['contact_lasttime'] = date('Y-m-d H:i:s', strtotime($data['contact_lasttime']));
         $data['syn_datetime'] = date('Y-m-d H:i:s', strtotime($data['syn_datetime']));
+        if (empty($data['follow_up_nexttime']) || ($data['follow_up_nexttime'] <= '1991-01-01 00:00:00')) $data['follow_up_nexttime'] = NULL;
+        if (empty($data['contact_lasttime']) || ($data['contact_lasttime'] <= '1991-01-01 00:00:00')) $data['contact_lasttime'] = NULL;
+        if (empty($data['syn_datetime']) || ($data['syn_datetime'] <= '1991-01-01 00:00:00')) $data['syn_datetime'] = NULL;
 
         $ret = $customer->forceFill($data)->save();
         if ($ret) {
