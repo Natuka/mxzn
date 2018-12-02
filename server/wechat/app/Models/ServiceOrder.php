@@ -12,6 +12,23 @@ class ServiceOrder extends Model
     protected $appends = [];
 
     /**
+     * 获取编号
+     * @param string $prefix
+     * @return bool|int|string
+     */
+    public static function createNumber($prefix = '')
+    {
+        $suffix = 1;
+        $number = self::where('number', 'like', like_right($prefix))->orderBy('id', 'desc')->value('number');
+        if ($number) {
+            $suffix = substr($number, strpos($number, '-') + 1) + 1;
+        }
+
+        return sprintf('%s-%04d', $prefix, $suffix);
+    }
+
+
+    /**
      * 客户
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

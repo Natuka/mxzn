@@ -1,12 +1,12 @@
 import store from './store'
 
-import Vue from "vue";
-import VueRouter from "vue-router";
+import Vue from 'vue'
+import VueRouter from 'vue-router'
 
 import auth from './auth'
-import {user} from "./api";
+import { user } from './api'
 
-import {Toast} from 'vant'
+import { Toast } from 'vant'
 
 let routes = [
     {
@@ -108,6 +108,13 @@ let routes = [
         }
     },
     {
+        path: '/repair/evaluate',
+        component: () => import('./components/repair/evaluate'),
+        meta: {
+            auth: true
+        }
+    },
+    {
         path: '/repair/service',
         component: () => import('./components/repair/service'),
         meta: {
@@ -129,7 +136,7 @@ router.beforeEach((to, from, next) => {
         if (!auth.loggedIn()) {
             next({
                 path: '/login',
-                query: {redirect: to.fullPath}
+                query: { redirect: to.fullPath }
             })
         } else {
             next()
@@ -144,9 +151,7 @@ router.beforeEach((to, from, next) => {
     }
 })
 
-router.afterEach((to, from) => {
-
-})
+router.afterEach((to, from) => {})
 
 Toast.loading({
     mask: true,
@@ -154,12 +159,14 @@ Toast.loading({
 })
 
 // 首先先获取一次用户是否存在，然后进行跳转
-user().then((data) => {
-    console.log('data', data)
-    store.dispatch('setUser', data)
-    router.push('/repair/list')
-    Toast.clear()
-}).catch(() => {
-    localStorage.userId = ''
-    router.push('/login')
-})
+user()
+    .then(data => {
+        console.log('data', data)
+        store.dispatch('setUser', data)
+        router.push('/repair/evaluate')
+        Toast.clear()
+    })
+    .catch(() => {
+        localStorage.userId = ''
+        router.push('/login')
+    })
