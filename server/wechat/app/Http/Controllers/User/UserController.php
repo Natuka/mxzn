@@ -13,7 +13,7 @@ class UserController extends Controller
     {
         $user = auth()->user();
         if ($user) {
-            return success_json($user);
+            return success_json($user, '222');
         }
 
         return error_json('未登录', 403);

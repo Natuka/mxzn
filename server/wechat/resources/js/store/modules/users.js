@@ -3,13 +3,33 @@ const state = {
 }
 
 const getters = {
-    user({info}) {
+    user({ info }) {
         return info
+    },
+    isAdmin({ info }) {
+        return info.is_admin
+    },
+    isCustomer({ info }) {
+        return ingo.is_customer
+    },
+    isEngineer({ info }) {
+        return info.is_engineer
+    },
+    customer({ info }) {
+        if (!info.is_customer) {
+            return null
+        }
+
+        if (!info.info || !info.info.customer) {
+            return null
+        }
+
+        return info.info.customer
     }
 }
 
 const actions = {
-    async setUser ({commit}, info) {
+    async setUser({ commit }, info) {
         commit('set_user', info)
     }
 }

@@ -23,7 +23,12 @@ class Controller extends BaseController
 
     public function customer()
     {
-        $this->user()->customer();
+        $user = $this->user();
+        if (!$user || !$user->isCustomer) {
+            return null;
+        }
+
+        return $user->info && $user->info->customer ? $user->info->customer : null;
     }
 
     /**

@@ -10,7 +10,9 @@ import router from './router'
 
 import userMixin from './mixins/user'
 
-require('./bootstrap');
+import './component'
+
+require('./bootstrap')
 
 window.Vue = Vue
 
@@ -19,9 +21,9 @@ Vue.use(Vant)
 Vue.mixin(userMixin)
 
 import WxJssdk from '@defy/wx-jssdk'
-import VueWxJssdk from '@defy/vue-wx-jssdk';
+import VueWxJssdk from '@defy/vue-wx-jssdk'
 
-Vue.use(VueWxJssdk, WxJssdk);
+Vue.use(VueWxJssdk, WxJssdk)
 
 import 'vant/lib/vant-css/index.css'
 
@@ -43,7 +45,7 @@ const app = new Vue({
     router,
     store,
     el: '#app',
-    render (h) {
+    render(h) {
         return h(App)
     }
 })

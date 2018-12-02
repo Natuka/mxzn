@@ -28,8 +28,32 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'userable_type', 'userable_id'
     ];
+
+    protected $appends = ['is_customer', 'is_engineer', 'is_admin', 'info'];
+
+
+    public function getIsCustomerAttribute()
+    {
+        return $this->isCustomer();
+    }
+
+    public function getIsEngineerAttribute()
+    {
+        return $this->isEngineer();
+    }
+
+    public function getIsAdminAttribute()
+    {
+        return $this->isAdmin();
+    }
+
+    public function getInfoAttribute()
+    {
+        return $this->userable;
+    }
+
 
     public static function findByMobile($mobile)
     {
@@ -57,6 +81,22 @@ class User extends Authenticatable
 
     public function customer()
     {
-        return $this->belongsTo(Customer::class, 'userable_id', 'id');
+        return $this->belongsTo(CustomerContact::class, 'userable_id', 'id');
+    }
+
+
+    public function isCustomer()
+    {
+        return $this->attributes['userable_type'] === 'App\Models\CustomerContact';
+    }
+
+    public function isEngineer()
+    {
+        return $this->attributes['userable_type'] === 'App\Models\Staff';
+    }
+
+    public function isAdmin()
+    {
+        return $this->attributes['userable_type'] === 'App\Models\AdminUser';
     }
 }

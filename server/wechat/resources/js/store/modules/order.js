@@ -3,13 +3,16 @@ const state = {
 }
 
 const getters = {
-    sreviceOrder({info}) {
+    sreviceOrder({ info }) {
+        return info
+    },
+    order({ info }) {
         return info
     }
 }
 
 const actions = {
-    async setServiceOrder ({commit}, info) {
+    async setServiceOrder({ commit }, info) {
         commit('set_service_order', info)
     }
 }
