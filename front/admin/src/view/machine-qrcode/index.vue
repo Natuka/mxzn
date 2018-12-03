@@ -7,11 +7,6 @@
           <Icon type="md-add"/>
         </Button>
 
-        <Button type="primary" @click="onImport" v-if="accessAdd()" class="ml-5">
-          导入
-          <Icon type="md-add"/>
-        </Button>
-
         <Button type="primary" @click="refresh" v-if="accessAdd()" class="ml-5">
           刷新
           <Icon type="md-refresh"/>
@@ -88,6 +83,21 @@ export default {
         },
         {
           width: 100,
+          title: '制造日期',
+          key: 'manufacture_date'
+        },
+        {
+          width: 100,
+          title: '采购日期',
+          key: 'purchase_date'
+        },
+        {
+          width: 100,
+          title: '二维码',
+          key: 'qr_code'
+        },
+        {
+          width: 100,
           title: '系列号',
           key: 'serial_number',
           editable: false,
@@ -95,34 +105,19 @@ export default {
         },
         {
           width: 100,
-          title: '统一销售价',
-          key: 'price_sale_least'
-        },
-        {
-          width: 100,
-          title: '库存数量',
-          key: 'stock_qty'
-        },
-        {
-          width: 100,
-          title: '单位',
-          key: 'unit'
-        },
-        {
-          width: 100,
-          title: '默认仓库',
-          key: 'store',
+          title: '备注',
+          key: 'remark',
           sortable: false
         },
         {
           width: 100,
-          title: '安全库存量',
-          key: 'safety_stock_qty'
+          title: '建立人员',
+          key: 'created_by'
         },
         {
-          width: 100,
-          title: '供应商',
-          key: 'vendor',
+          width: 150,
+          title: '建立日期',
+          key: 'created_at',
           sortable: false
         },
         {
@@ -130,7 +125,7 @@ export default {
           key: ''
         },
         {
-          width: 200,
+          width: 180,
           fixed: 'right',
           title: '操作',
           key: 'handle',

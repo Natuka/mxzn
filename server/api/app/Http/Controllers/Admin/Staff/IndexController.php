@@ -18,7 +18,11 @@ class IndexController extends Controller
     public function index(Request $request, Staff $staff)
     {
         $staff = $this->search($request, $staff);
-        return success_json($staff->paginate(config('pageinfo.per_page')));
+        return success_json($staff->with(['dept' => function( $query ){
+            $query->select(['id','name']);
+        },'organization' => function( $query ){
+            $query->select(['id','name']);
+        }])->paginate(config('pageinfo.per_page')));
     }
 
     public function search(Request $request, Staff $staff)
@@ -168,6 +172,9 @@ class IndexController extends Controller
         $data['entry_date'] = format_date($data['entry_date']);
         $data['leave_date'] = format_date($data['leave_date']);
         $data['birthday'] = format_date($data['birthday']);
+        if (empty($data['entry_date']) || ($data['entry_date'] <= '1901-01-01')) $data['entry_date'] = NULL;
+        if (empty($data['leave_date']) || ($data['leave_date'] <= '1901-01-01')) $data['leave_date'] = NULL;
+        if (empty($data['birthday']) || ($data['birthday'] <= '1901-01-01')) $data['birthday'] = NULL;
 
         $ret = $staff->forceFill($data)->save();
 

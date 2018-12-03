@@ -30,7 +30,7 @@ class CreateCustomersTable extends Migration
             $table->datetime('contact_lasttime')->nullable()->comment('最近联系时间');
             $table->integer('province_id')->nullable()->comment('所在省');
             $table->integer('city_id')->nullable()->comment('市');
-            $table->integer('district_county_id')->nullable()->comment('区县');
+            $table->integer('district_id')->nullable()->comment('区县');
             $table->string('address',255)->nullable()->comment('详细地址');
             $table->string('tel',30)->nullable()->comment('电话');
             $table->string('fax',30)->nullable()->comment('传真');

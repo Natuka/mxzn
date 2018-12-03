@@ -54,35 +54,28 @@ class IndexController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(CreateRequest $request, Machineqrcode $machineqrcode)
+    public function store(CreateRequest $request, Machineqrcode $machineqrcode)
     {
         $data = $request->only([
-            'erp_itemid',
             'number',
             'name',
             'model',
-            'brand',
-            'stock_qty',
-            'unit',
-            'safety_stock_qty',
-            'store',
-            'price_ave',
-            'price_pur1',
-            'price_pur2',
-            'price_pur3',
-            'price_sale_unified',
-            'price_sale_least',
-            'price_sale1',
-            'price_sale2',
-            'price_sale3',
-            'vendor',
-            'remark',
-            'syn_datetime',
+            'manufacture_date',
+            'purchase_date',
+            'serial_number',
+            'remark'
         ]);
         $data['created_by'] = '新增';
 
-        $data['syn_datetime'] = date('Y-m-d H:i:s', strtotime($data['syn_datetime']));
+        $data['manufacture_date'] = date('Y-m-d', strtotime($data['manufacture_date']));
+        $data['purchase_date'] = date('Y-m-d', strtotime($data['purchase_date']));
+        if (empty($data['manufacture_date']) || ($data['manufacture_date'] <= '1991-01-01')) $data['manufacture_date'] = NULL;
+        if (empty($data['purchase_date']) || ($data['purchase_date'] <= '1991-01-01')) $data['purchase_date'] = NULL;
         //dd($data);
+        $qrcode_key = 'MAC'.md5(microtime());
+        $data['qrcode_key'] = $qrcode_key;
+        $data['qrcode_url'] = 'https://api.mxcs.com/machine/'.$qrcode_key;
+
         $ret = $machineqrcode->forceFill($data)->save();
 
         if ($ret) {
@@ -90,17 +83,6 @@ class IndexController extends Controller
         }
 
         return error_json('新增失败，请检查');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -135,29 +117,21 @@ class IndexController extends Controller
     public function update(UpdateRequest $request, Machineqrcode $machineqrcode)
     {
         $data = $request->only([
-            'erp_itemid',
             'number',
             'name',
             'model',
-            'brand',
-            'stock_qty',
-            'unit',
-            'safety_stock_qty',
-            'store',
-            'price_ave',
-            'price_pur1',
-            'price_pur2',
-            'price_pur3',
-            'price_sale_unified',
-            'price_sale_least',
-            'price_sale1',
-            'price_sale2',
-            'price_sale3',
-            'vendor',
-            'remark',
-            'syn_datetime',
+            'manufacture_date',
+            'purchase_date',
+            'serial_number',
+            'remark'
         ]);
         $data['updated_by'] = '修改';
+
+        $data['manufacture_date'] = date('Y-m-d', strtotime($data['manufacture_date']));
+        $data['purchase_date'] = date('Y-m-d', strtotime($data['purchase_date']));
+        if (empty($data['manufacture_date']) || ($data['manufacture_date'] <= '1991-01-01')) $data['manufacture_date'] = NULL;
+        if (empty($data['purchase_date']) || ($data['purchase_date'] <= '1991-01-01')) $data['purchase_date'] = NULL;
+
         $ret = $machineqrcode->forceFill($data)->save();
 
         if ($ret) {

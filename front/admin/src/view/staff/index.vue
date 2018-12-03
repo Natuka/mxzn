@@ -82,7 +82,7 @@ export default {
           sortable: false
         },
         {
-          width: 60,
+          width: 70,
           title: '性别',
           key: 'sex',
           sortable: false,
@@ -95,10 +95,28 @@ export default {
           sortable: false
         },
         {
-          width: 120,
+          width: 160,
+          title: '组织/公司',
+          key: 'org_id',
+          sortable: false,
+          render: (h, {row: {organization}}) => {
+            if (!organization) {
+              return h('span')
+            }
+            return h('sapn', {}, organization.name)
+          }
+        },
+        {
+          width: 150,
           title: '部门',
           key: 'department',
-          sortable: false
+          sortable: false,
+          render: (h, {row: {dept}}) => {
+            if (!dept) {
+              return h('span')
+            }
+            return h('sapn', {}, dept.name)
+          }
         },
         {
           width: 80,
@@ -128,7 +146,7 @@ export default {
           render: this.constRender('status', staffConst.STATUS_LIST)
         },
         {
-          width: 120,
+          width: 150,
           title: '建档日期',
           key: 'created_at',
           sortable: false
@@ -139,7 +157,7 @@ export default {
         },
         {
           fixed: 'right',
-          width: 250,
+          width: 160,
           title: '操作',
           key: 'handle',
           options: ['delete'],

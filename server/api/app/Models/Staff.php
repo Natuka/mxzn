@@ -27,4 +27,27 @@ class Staff extends Model
     {
         return $this->morphOne(User::class, 'userable');
     }
+
+    /**
+     * 部门
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function dept()
+    {
+        return $this->belongsTo(Department::class, 'dep_id');
+//        关联查询出部分字段
+//        return $this->belongsTo(Customer::class, 'cust_id')->select(['id','name']);
+    }
+
+
+    /**
+     * 组织/公司
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class, 'org_id');
+//        关联查询出部分字段
+//        return $this->belongsTo(Customer::class, 'cust_id')->select(['id','name']);
+    }
 }
