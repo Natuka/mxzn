@@ -48,6 +48,16 @@ import backMixin from "../../mixins/back";
 import Action from "../actions";
 import actionMixin from "../../mixins/action";
 import dayjs from "dayjs";
+
+const defaultData = {
+  is_solve: 1,
+  overall_satisfaction: 5,
+  timeliness: 5,
+  service_staff_atisfaction: 5,
+  cost_performance: 5,
+  opinions_suggestions: ""
+};
+
 export default {
   name: "mx-evaluate",
   components: {
@@ -57,12 +67,7 @@ export default {
   data() {
     return {
       data: {
-        is_solve: 1,
-        overall_satisfaction: 5,
-        timeliness: 5,
-        service_staff_atisfaction: 5,
-        cost_performance: 5,
-        opinions_suggestions: ""
+        ...defaultData
       }
     };
   },
@@ -84,6 +89,7 @@ export default {
           this.$store.getters.order.id || 1,
           this.data
         );
+        this.data = { ...defaultData };
       } catch (e) {
         console.log("e", e);
       }

@@ -24,6 +24,13 @@ let routes = [
         }
     },
     {
+        path: '/upload',
+        component: () => import('./components/upload'),
+        meta: {
+            auth: true
+        }
+    },
+    {
         path: '/',
         component: () => import('./components/index'),
         meta: {
@@ -163,7 +170,8 @@ user()
     .then(data => {
         console.log('data', data)
         store.dispatch('setUser', data)
-        router.push('/repair/evaluate')
+        // router.push('/repair/evaluate')
+        router.push('/upload')
         Toast.clear()
     })
     .catch(() => {
