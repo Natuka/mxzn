@@ -25,7 +25,6 @@ class EvaluateController extends Controller
             'confirm_user_id',
             'confirm_user_name',
             'opinions_suggestions',
-
         ]);
 
         $data['confirm_user_id'] = $user->userable_id;
