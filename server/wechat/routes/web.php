@@ -33,6 +33,8 @@ Route::group(['middleware' => []], function () {
 
     // 机器报修
     Route::get('/machine/{machine}', 'Order\ConfirmController@get');
+    // 机器
+    Route::get('/equipment', 'Equipment\IndexController@index');
 
     // 机器报修
     Route::get('/repair/machine', 'Order\ConfirmController@get');
@@ -42,6 +44,7 @@ Route::group(['middleware' => []], function () {
         // 订单列表
         Route::get('list', 'IndexController@index');
         Route::get('info/{order}', 'IndexController@get');
+
         // 签到
         Route::get('attendances/{order}', 'AttendanceController@get');
         // 处理
@@ -60,6 +63,9 @@ Route::group(['middleware' => []], function () {
         Route::get('log/{order}', 'LogController@get');
         // 催单记录
         Route::get('followup/{order}', 'FollowupController@get');
+
+        Route::post('create', 'CreateController@store');
+        Route::post('evaluate/{order}', 'EvaluateController@store');
     });
 
     Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
