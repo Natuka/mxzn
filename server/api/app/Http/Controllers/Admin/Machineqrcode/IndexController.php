@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\Machineqrcode\UpdateRequest;
 use App\Models\Code AS Machineqrcode;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use QrCode;
 
 class IndexController extends Controller
 {
@@ -74,7 +75,11 @@ class IndexController extends Controller
         //dd($data);
         $qrcode_key = 'MAC'.md5(microtime());
         $data['qrcode_key'] = $qrcode_key;
-        $data['qrcode_url'] = 'https://api.mxcs.com/machine/'.$qrcode_key;
+        $data['qrcode_url'] = 'https://wx.mxhj.com/machine/'.$qrcode_key;
+        $data['qrcode_img'] = 'qrcodes/'.$qrcode_key.'.png';
+        //产生QRCODE
+        QrCode::format('png')->size(300)->generate($data['qrcode_url'], public_path($data['qrcode_img']));
+
 
         $ret = $machineqrcode->forceFill($data)->save();
 

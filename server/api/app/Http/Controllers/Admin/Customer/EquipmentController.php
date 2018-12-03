@@ -117,7 +117,10 @@ class EquipmentController extends Controller
 
         $qrcode_key = 'CEQ'.md5(microtime());
         $data['qrcode_key'] = $qrcode_key;
-        $data['qrcode_url'] = 'https://api.mxcs.com/machine/'.$qrcode_key;
+        $data['qrcode_url'] = 'https://wx.mxhj.com/machine/'.$qrcode_key;
+        $data['qrcode_img'] = 'qrcodes/'.$qrcode_key.'.png';
+        //产生QRCODE
+        QrCode::format('png')->size(300)->generate($data['qrcode_url'], public_path($data['qrcode_img']));
 
         $data['created_by'] = '新增';
         $data['updated_by'] = '新增';
