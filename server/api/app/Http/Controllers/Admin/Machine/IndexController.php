@@ -82,6 +82,8 @@ class IndexController extends Controller
         $data['created_by'] = '新增';
 
         $data['syn_datetime'] = date('Y-m-d H:i:s', strtotime($data['syn_datetime']));
+        if (empty($data['syn_datetime']) || ($data['syn_datetime'] <= '1991-01-01 00:00:00')) $data['syn_datetime'] = NULL;
+
         //dd($data);
         $ret = $machine->forceFill($data)->save();
 

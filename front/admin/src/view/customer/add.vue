@@ -105,7 +105,7 @@
           <DatePicker
             type="datetime"
             v-model="data.follow_up_nexttime"
-            format="yyyy:MM:dd HH:mm:ss"
+            format="yyyy-MM-dd HH:mm:ss"
           ></DatePicker>
         </FormItem>
 
@@ -113,7 +113,7 @@
           <DatePicker
             type="datetime"
             v-model="data.contact_lasttime"
-            format="yyyy:MM:dd HH:mm:ss"
+            format="yyyy-MM-dd HH:mm:ss"
           ></DatePicker>
         </FormItem>
 
@@ -225,7 +225,7 @@
           <DatePicker
             type="datetime"
             v-model="data.syn_datetime"
-            format="yyyy:MM:dd HH:mm:ss"
+            format="yyyy-MM-dd HH:mm:ss"
           ></DatePicker>
         </FormItem>
       </Form>

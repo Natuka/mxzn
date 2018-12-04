@@ -92,7 +92,7 @@
           <DatePicker
             type="datetime"
             v-model="data.syn_datetime"
-            format="yyyy:MM:dd HH:mm:ss"
+            format="yyyy-MM-dd HH:mm:ss"
           ></DatePicker>
         </FormItem>
       </Form>
