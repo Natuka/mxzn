@@ -27,8 +27,8 @@ Route::group([
         ]);*/
 
     Route::post('/', [
-        'uses' => 'EquipmentController@create',
-        'as' => 'customerequipment_create',
+        'uses' => 'EquipmentController@store',
+        'as' => 'customerequipment_store',
         'display_name' => '客户设备新增',
         'visible' => false,
     ]);

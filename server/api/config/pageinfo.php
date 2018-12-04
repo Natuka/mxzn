@@ -1,5 +1,5 @@
 <?php
 return [
     // 每页多少笔
-    'per_page' => 15,
+    'per_page' => 10,
 ];

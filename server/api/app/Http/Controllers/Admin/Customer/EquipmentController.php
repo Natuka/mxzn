@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\CustomerEquipment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use QrCode;
 
 class EquipmentController extends Controller
 {
@@ -16,22 +17,22 @@ class EquipmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, CustomerEquipment $customerEquipment)
+    public function index(Request $request, CustomerEquipment $customerequipment)
     {
-        $customerEquipment = $this->search($request, $customerEquipment);
-        return success_json($customerEquipment->with(['customer' => function( $query ){
+        $customerequipment = $this->search($request, $customerequipment);
+        return success_json($customerequipment->with(['customer' => function( $query ){
             $query->select(['id','name']);
         }])->paginate( config('pageinfo.per_page') ));
     }
 
-    public function search(Request $request, CustomerEquipment $customerEquipment)
+    public function search(Request $request, CustomerEquipment $customerequipment)
     {
         $sch_field = $request->get('schField', ''); //查询字段或模糊查询
         $sch_value = $request->get('schValue', ''); //查询字段或模糊查询
         //$sch_field = 'fuzzy_query';
         if ($sch_value && $sch_field) {
             if ($sch_field == 'fuzzy_query') {
-                $customerEquipment = $customerEquipment->where(function($query) use($sch_field, $sch_value)
+                $customerequipment = $customerequipment->where(function($query) use($sch_field, $sch_value)
                 {
                     $query->where('name', 'like', '%'.$sch_value.'%')
                         ->orWhere('model', 'like', '%'.$sch_value.'%')
@@ -40,11 +41,11 @@ class EquipmentController extends Controller
                 });
             }else{
                 if ($sch_field == 'cust_id') {
-                    $customerEquipment = $customerEquipment->whereHas('customer', function ($query) use ($sch_value) {
+                    $customerequipment = $customerequipment->whereHas('customer', function ($query) use ($sch_value) {
                         $query->where('name', 'like', '%'.$sch_value.'%');
                     });
                 }else{
-                    $customerEquipment = $customerEquipment->where($sch_field, 'like', '%'.$sch_value.'%');
+                    $customerequipment = $customerequipment->where($sch_field, 'like', '%'.$sch_value.'%');
                 }
             }
         }
@@ -53,9 +54,9 @@ class EquipmentController extends Controller
         $orderFieldArray = array('0' => 'number', '1' => 'name');
         $orderByArray = array('0' => 'ASC', '1' => 'DESC',);
         if (!empty($orderFieldArray[$orderField]) && !empty($orderByArray[$orderBy])) {
-            $customerEquipment = $customerEquipment->orderBy($orderFieldArray[$orderField], $orderByArray[$orderBy]);
+            $customerequipment = $customerequipment->orderBy($orderFieldArray[$orderField], $orderByArray[$orderBy]);
         }
-        return $customerEquipment;
+        return $customerequipment;
     }
 
     /**
@@ -63,7 +64,7 @@ class EquipmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(CreateRequest $request, CustomerEquipment $customerEquipment)
+    public function store(CreateRequest $request, CustomerEquipment $customerequipment)
     {
         $data = $request->only([
             'cust_id',
@@ -125,33 +126,22 @@ class EquipmentController extends Controller
         $data['created_by'] = '新增';
         $data['updated_by'] = '新增';
 
-        $ret = $customerEquipment->forceFill($data)->save();
+        $ret = $customerequipment->forceFill($data)->save();
 
         if ($ret) {
-            return success_json($customerEquipment, '');
+            return success_json($customerequipment, '');
         }
 
         return error_json('新增失败，请检查');
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
-     * @param  \App\Models\CustomerEquipment  $customerEquipment
+     * @param  \App\Models\CustomerEquipment  $customerequipment
      * @return \Illuminate\Http\Response
      */
-    public function show(CustomerEquipment $customerEquipment)
+    public function show(CustomerEquipment $customerequipment)
     {
         //
     }
@@ -159,10 +149,10 @@ class EquipmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\CustomerEquipment  $customerEquipment
+     * @param  \App\Models\CustomerEquipment  $customerequipment
      * @return \Illuminate\Http\Response
      */
-    public function edit(CustomerEquipment $customerEquipment)
+    public function edit(CustomerEquipment $customerequipment)
     {
         //
     }
@@ -171,10 +161,10 @@ class EquipmentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\CustomerEquipment  $customerEquipment
+     * @param  \App\Models\CustomerEquipment  $customerequipment
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRequest $request, CustomerEquipment $customerEquipment)
+    public function update(UpdateRequest $request, CustomerEquipment $customerequipment)
     {
         $data = $request->only([
             'cust_id',
@@ -226,24 +216,26 @@ class EquipmentController extends Controller
         if (empty($data['warranty_date']) || ($data['warranty_date'] <= '1991-01-01')) $data['warranty_date'] = NULL;
 
         $data['updated_by'] = '修改';
-        $ret = $customerEquipment->forceFill($data)->save();
 
-        if ($ret) {
-            return success_json($customerEquipment, '');
+        if ($customerequipment) {
+            $ret = $customerequipment->forceFill($data)->save();
+
+            if ($ret) {
+                return success_json($customerequipment, '');
+            }
         }
-
         return error_json('修改失败，请检查');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\CustomerEquipment  $customerEquipment
+     * @param  \App\Models\CustomerEquipment  $customerequipment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CustomerEquipment $customerEquipment)
+    public function destroy(CustomerEquipment $customerequipment)
     {
-        $customerEquipment->delete();
-        return success_json($customerEquipment, '删除成功');
+        $customerequipment->delete();
+        return success_json($customerequipment, '删除成功');
     }
 }

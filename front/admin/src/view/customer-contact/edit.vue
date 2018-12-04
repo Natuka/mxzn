@@ -190,6 +190,7 @@ export default {
       return true
     },
     async customerChange (customerId) {
+      console.log('customerId879', customerId)
       this.data.cust_id = customerId
     }
   }

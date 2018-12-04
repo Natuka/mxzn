@@ -16,22 +16,22 @@ class ContactController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, CustomerContact $customerContact)
+    public function index(Request $request, CustomerContact $customercontact)
     {
-        $customerContact = $this->search($request, $customerContact);
-        return success_json($customerContact->with(['customer' => function( $query ){
+        $customercontact = $this->search($request, $customercontact);
+        return success_json($customercontact->with(['customer' => function( $query ){
             $query->select(['id','name']);
         }])->paginate( config('pageinfo.per_page') ));
     }
 
-    public function search(Request $request, CustomerContact $customerContact)
+    public function search(Request $request, CustomerContact $customercontact)
     {
         $sch_field = $request->get('schField', ''); //查询字段或模糊查询
         $sch_value = $request->get('schValue', ''); //查询字段或模糊查询
         //$sch_field = 'fuzzy_query';
         if ($sch_value && $sch_field) {
             if ($sch_field == 'fuzzy_query') {
-                $customerContact = $customerContact->where(function($query) use($sch_field, $sch_value)
+                $customercontact = $customercontact->where(function($query) use($sch_field, $sch_value)
                 {
                     $query->where('name', 'like', '%'.$sch_value.'%')
                         ->orWhere('mobile', 'like', '%'.$sch_value.'%')
@@ -39,17 +39,17 @@ class ContactController extends Controller
                 });
             }else{
                 if ($sch_field == 'cust_id') {
-                    $customerContact = $customerContact->whereHas('customer', function ($query) use ($sch_value) {
+                    $customercontact = $customercontact->whereHas('customer', function ($query) use ($sch_value) {
                         $query->where('name', 'like', '%'.$sch_value.'%');
                     });
                 }else{
-                    $customerContact = $customerContact->where($sch_field, 'like', '%'.$sch_value.'%');
+                    $customercontact = $customercontact->where($sch_field, 'like', '%'.$sch_value.'%');
                 }
             }
         }
 
 
-        return $customerContact;
+        return $customercontact;
     }
 
     /**
@@ -57,7 +57,7 @@ class ContactController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(CreateRequest $request, CustomerContact $customerContact)
+    public function create(CreateRequest $request, CustomerContact $customercontact)
     {
         $data = $request->only([
             'cust_id',
@@ -84,10 +84,10 @@ class ContactController extends Controller
         $data['created_by'] = '新增';
         $data['updated_by'] = '新增';
 
-        $ret = $customerContact->forceFill($data)->save();
+        $ret = $customercontact->forceFill($data)->save();
 
         if ($ret) {
-            return success_json($customerContact, '');
+            return success_json($customercontact, '');
         }
 
         return error_json('新增失败，请检查');
@@ -107,10 +107,10 @@ class ContactController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\CustomerContact  $customerContact
+     * @param  \App\Models\CustomerContact  $customercontact
      * @return \Illuminate\Http\Response
      */
-    public function show(CustomerContact $customerContact)
+    public function show(CustomerContact $customercontact)
     {
         //
     }
@@ -118,10 +118,10 @@ class ContactController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\CustomerContact  $customerContact
+     * @param  \App\Models\CustomerContact  $customercontact
      * @return \Illuminate\Http\Response
      */
-    public function edit(CustomerContact $customerContact)
+    public function edit(CustomerContact $customercontact)
     {
         //
     }
@@ -130,10 +130,10 @@ class ContactController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\CustomerContact  $customerContact
+     * @param  \App\Models\CustomerContact  $customercontact
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRequest $request, CustomerContact $customerContact)
+    public function update(UpdateRequest $request, CustomerContact $customercontact)
     {
         $data = $request->only([
             'cust_id',
@@ -157,10 +157,10 @@ class ContactController extends Controller
         $data['post'] = (int)$data['post'];
         $data['birthday'] = date('Y-m-d', strtotime($data['birthday']));
         $data['updated_by'] = '修改';
-        $ret = $customerContact->forceFill($data)->save();
+        $ret = $customercontact->forceFill($data)->save();
 
         if ($ret) {
-            return success_json($customerContact, '');
+            return success_json($customercontact, '');
         }
 
         return error_json('修改失败，请检查');
@@ -169,12 +169,12 @@ class ContactController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\CustomerContact  $customerContact
+     * @param  \App\Models\CustomerContact  $customercontact
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CustomerContact $customerContact)
+    public function destroy(CustomerContact $customercontact)
     {
-        $customerContact->delete();
-        return success_json($customerContact, '删除成功');
+        $customercontact->delete();
+        return success_json($customercontact, '删除成功');
     }
 }

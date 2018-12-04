@@ -68,7 +68,7 @@ export default {
       },
       columns: [
         {
-          width: 120,
+          width: 80,
           fixed: 'left',
           title: '序号',
           key: 'id',
@@ -86,6 +86,13 @@ export default {
             }
             return h('sapn', {}, customer.name)
           }
+        },
+        {
+          width: 120,
+          fixed: 'left',
+          title: '设备编号',
+          key: 'number',
+          sortable: false
         },
         {
           width: 120,
