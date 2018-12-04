@@ -106,6 +106,7 @@
             type="datetime"
             v-model="data.follow_up_nexttime"
             format="yyyy-MM-dd HH:mm:ss"
+            @on-change="date => this.data.follow_up_nexttime = date"
           ></DatePicker>
         </FormItem>
 
@@ -114,6 +115,7 @@
             type="datetime"
             v-model="data.contact_lasttime"
             format="yyyy-MM-dd HH:mm:ss"
+            @on-change="date => this.data.contact_lasttime = date"
           ></DatePicker>
         </FormItem>
 
@@ -214,6 +216,7 @@
             type="datetime"
             v-model="data.syn_datetime"
             format="yyyy-MM-dd HH:mm:ss"
+            @on-change="date => this.data.syn_datetime = date"
           ></DatePicker>
         </FormItem>
       </Form>

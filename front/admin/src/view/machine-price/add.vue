@@ -93,6 +93,7 @@
             type="datetime"
             v-model="data.syn_datetime"
             format="yyyy-MM-dd HH:mm:ss"
+            @on-change="date => this.data.syn_datetime = date"
           ></DatePicker>
         </FormItem>
         </Form>

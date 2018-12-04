@@ -93,6 +93,7 @@
             type="datetime"
             v-model="data.syn_datetime"
             format="yyyy-MM-dd HH:mm:ss"
+            @on-change="date => this.data.syn_datetime = date"
           ></DatePicker>
         </FormItem>
         </Form>
@@ -132,6 +133,7 @@ export default {
         price_sale2: '',
         price_sale3: '',
         vendor: '',
+        syn_datetime: '',
         remark: ''
       },
       rules: {

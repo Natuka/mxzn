@@ -160,6 +160,11 @@ class IndexController extends Controller
             'syn_datetime',
         ]);
         $data['updated_by'] = '修改';
+
+        $data['syn_datetime'] = date('Y-m-d H:i:s', strtotime($data['syn_datetime']));
+        if (empty($data['syn_datetime']) || ($data['syn_datetime'] <= '1991-01-01 00:00:00')) $data['syn_datetime'] = NULL;
+
+        
         $ret = $machine->forceFill($data)->save();
 
         if ($ret) {
