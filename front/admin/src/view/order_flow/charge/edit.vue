@@ -225,16 +225,6 @@
                 </Option>
               </Select>
             </FormItem>
-            <FormItem label="故障频率" prop="fault.sequence">
-              <Select v-model="data.fault.sequence">
-                <Option
-                  v-for="(type, index) in select.sequenceType"
-                  :key="index"
-                  :value="index"
-                >{{type}}
-                </Option>
-              </Select>
-            </FormItem>
 
           </Form>
         </TabPane>
