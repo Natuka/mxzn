@@ -328,9 +328,9 @@ export default {
     async beforeOpen () {
       // 省份
       let [provinces, cities, counties] = await this.getAllByFirstProvinceId()
-      this.data.province_id = 0
-      this.data.city_id = 0
-      this.data.district_id = 0
+      // this.data.province_id = 0
+      // this.data.city_id = 0
+      // this.data.district_id = 0
 
       this.forceLock(() => {
         this.data.province_id = provinces[0].id
@@ -349,7 +349,9 @@ export default {
         this.data.province_id = provinceId
         let cities = await this.getCities(provinceId)
         if (!this.hasArea(cities, this.data.city_id)) {
-          this.cityChange(cities[0].id)
+          if (cities.length) {
+            this.cityChange(cities[0].id)
+          }
         }
       }
     },

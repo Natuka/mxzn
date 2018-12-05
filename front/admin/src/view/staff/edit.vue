@@ -261,12 +261,13 @@ export default {
       this.data.province_id = 0
       this.data.city_id = 0
       this.data.district_id = 0
-
+      console.log('beforeOpen123', this.data)
       this.forceLock(() => {
         this.data.province_id = provinces[0].id
         this.data.city_id = cities[0].id
         this.data.district_id = counties[0].id
       })
+      console.log('beforeOpen789', this.data)
       return true
     },
     async afterOpen () {
@@ -293,11 +294,15 @@ export default {
     },
     // 省变更
     async provinceChange (provinceId) {
+      console.log('beforeOpen000', this.data)
       if (+this.data.province_id !== +provinceId) {
         this.data.province_id = provinceId
         let cities = await this.getCities(provinceId)
+        console.log('cities000', cities)
         if (!this.hasArea(cities, this.data.city_id)) {
-          this.cityChange(cities[0].id)
+          if (cities.length) {
+            this.cityChange(cities[0].id)
+          }
         }
       }
     },

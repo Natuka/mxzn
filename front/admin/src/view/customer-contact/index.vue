@@ -85,7 +85,7 @@ export default {
             if (!customer) {
               return h('span')
             }
-            return h('sapn', {}, customer.name)
+            return h('span', {}, customer.name)
           }
         },
         {

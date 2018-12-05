@@ -70,8 +70,14 @@
         <FormItem label="本体编号" prop="main_no">
           <Input v-model="data.main_no" placeholder="本体编号"></Input>
         </FormItem>
+        <FormItem label="本体型号" prop="main_model">
+          <Input v-model="data.main_model" placeholder="本体型号"></Input>
+        </FormItem>
         <FormItem label="控制箱编号" prop="control_box_no">
           <Input v-model="data.control_box_no" placeholder="控制箱编号"></Input>
+        </FormItem>
+        <FormItem label="控制箱型号" prop="control_box_model">
+          <Input v-model="data.control_box_model" placeholder="控制箱型号"></Input>
         </FormItem>
         <FormItem label="焊机编号" prop="welding_machine_no">
           <Input v-model="data.welding_machine_no" placeholder="焊机编号"></Input>
@@ -196,6 +202,8 @@ export default {
         sets: '',
         main_no: '',
         control_box_no: '',
+        main_model: '',
+        control_box_model: '',
         welding_machine_no: '',
         welding_machine_model: '',
         axis1_no: '',

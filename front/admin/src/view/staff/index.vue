@@ -103,7 +103,7 @@ export default {
             if (!organization) {
               return h('span')
             }
-            return h('sapn', {}, organization.name)
+            return h('span', {}, organization.name)
           }
         },
         {
@@ -115,7 +115,7 @@ export default {
             if (!dept) {
               return h('span')
             }
-            return h('sapn', {}, dept.name)
+            return h('span', {}, dept.name)
           }
         },
         {
@@ -149,6 +149,12 @@ export default {
           width: 150,
           title: '建档日期',
           key: 'created_at',
+          sortable: false
+        },
+        {
+          width: 150,
+          title: '省份ID',
+          key: 'province_id',
           sortable: false
         },
         {
@@ -196,6 +202,7 @@ export default {
                   },
                   on: {
                     click: () => {
+                      console.log('beforeOpenXXX', params.row)
                       this.onEdit(params.row)
                     }
                   }

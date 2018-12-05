@@ -80,6 +80,8 @@ class EquipmentController extends Controller
             'sets',
             'main_no',
             'control_box_no',
+            'main_model',
+            'control_box_model',
             'welding_machine_no',
             'welding_machine_model',
             'axis1_no',
@@ -180,6 +182,8 @@ class EquipmentController extends Controller
             'sets',
             'main_no',
             'control_box_no',
+            'main_model',
+            'control_box_model',
             'welding_machine_no',
             'welding_machine_model',
             'axis1_no',
@@ -216,6 +220,14 @@ class EquipmentController extends Controller
         if (empty($data['warranty_date']) || ($data['warranty_date'] <= '1991-01-01')) $data['warranty_date'] = NULL;
 
         $data['updated_by'] = '修改';
+        if (empty($customerequipment->qrcode_key)) {
+            $qrcode_key = 'CEQ'.md5(microtime());
+            $data['qrcode_key'] = $qrcode_key;
+            $data['qrcode_url'] = 'https://wx.mxhj.com/machine/'.$qrcode_key;
+            $data['qrcode_img'] = 'qrcodes/'.$qrcode_key.'.png';
+            //产生QRCODE
+            QrCode::format('png')->size(300)->generate($data['qrcode_url'], public_path($data['qrcode_img']));
+        }
 
         if ($customerequipment) {
             $ret = $customerequipment->forceFill($data)->save();

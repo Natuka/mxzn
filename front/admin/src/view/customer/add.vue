@@ -349,7 +349,9 @@ export default {
         this.data.province_id = provinceId
         let cities = await this.getCities(provinceId)
         if (!this.hasArea(cities, this.data.city_id)) {
-          this.cityChange(cities[0].id)
+          if (cities.length) {
+            this.cityChange(cities[0].id)
+          }
         }
       }
     },
