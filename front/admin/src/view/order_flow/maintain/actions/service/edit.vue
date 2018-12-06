@@ -157,155 +157,155 @@
 
 <script>
 
-  import ModalMixin from '@/mixins/modal'
-  import AreaMixin from '@/mixins/area'
+import ModalMixin from '@/mixins/modal'
+import AreaMixin from '@/mixins/area'
 
-  import {updateMaintainAction} from '@/api/order_flow/maintain'
-  import * as orderConst from '@/constants/order_flow'
-  import * as orderFaultConst from '@/constants/order_fault'
+import {updateMaintainAction} from '@/api/order_flow/maintain'
+import * as orderConst from '@/constants/order_flow'
+import * as orderFaultConst from '@/constants/order_fault'
 
-  export default {
-    name: 'service-edit',
-    mixins: [ModalMixin, AreaMixin],
-    data () {
-      return {
-        data: {
-          service_order_id: 0,
-          service_id: 0,
-          name: '',
-          content: '',
-          workday: 0,
-          area: 0,
-          price: 0,
-          unit: '天',
-          quantity: 1,
-          amount: 0,
-          reward: 0,
-          is_land_traffic: 0,
-          is_hotel: 0,
-          settlement_method: 1,
-          working_hours: 7,
-          is_complete: 0,
-          staff_id: 0,
-          staff_name: '',
-          remark: ''
-        },
-        fault: {},
-        rules: {
-          content: [
-            {required: true, message: '服务内容不能为空', trigger: 'blur'}
-          ]
-        },
-        select: {
-          isLandList: orderConst.SERVICE_LAND_TRAFFIC,
-          isHotelList: orderConst.SERVICE_HOTEL,
-          isCompleteList: orderConst.SERVICE_COMPLETE,
-          settlementMothedList: orderConst.SERVICE_SETTLEMENT_METHOD,
-          setServiceAreaList: orderConst.SERVICE_AREA
-        },
-        init: {
-          department: [],
-          staff: [],
-          service: []
-        }
+export default {
+  name: 'service-edit',
+  mixins: [ModalMixin, AreaMixin],
+  data () {
+    return {
+      data: {
+        service_order_id: 0,
+        service_id: 0,
+        name: '',
+        content: '',
+        workday: 0,
+        area: 0,
+        price: 0,
+        unit: '天',
+        quantity: 1,
+        amount: 0,
+        reward: 0,
+        is_land_traffic: 0,
+        is_hotel: 0,
+        settlement_method: 1,
+        working_hours: 7,
+        is_complete: 0,
+        staff_id: 0,
+        staff_name: '',
+        remark: ''
+      },
+      fault: {},
+      rules: {
+        content: [
+          {required: true, message: '服务内容不能为空', trigger: 'blur'}
+        ]
+      },
+      select: {
+        isLandList: orderConst.SERVICE_LAND_TRAFFIC,
+        isHotelList: orderConst.SERVICE_HOTEL,
+        isCompleteList: orderConst.SERVICE_COMPLETE,
+        settlementMothedList: orderConst.SERVICE_SETTLEMENT_METHOD,
+        setServiceAreaList: orderConst.SERVICE_AREA
+      },
+      init: {
+        department: [],
+        staff: [],
+        service: []
       }
-    },
-    methods: {
-      onSubmit (e) {
-        this.$refs.addForm.validate(async (valid) => {
-          console.log('onSubmit', valid)
-          if (valid) {
-            try {
-              let data = await updateMaintainAction(this.data, this.data.id, this.data.service_order_id, 'service')
-              console.log('data', data)
-              this.withRefresh(e)
-            } catch (e) {
-              this.closeLoading()
-            }
-          } else {
+    }
+  },
+  methods: {
+    onSubmit (e) {
+      this.$refs.addForm.validate(async (valid) => {
+        console.log('onSubmit', valid)
+        if (valid) {
+          try {
+            let data = await updateMaintainAction(this.data, this.data.id, this.data.service_order_id, 'service')
+            console.log('data', data)
+            this.withRefresh(e)
+          } catch (e) {
             this.closeLoading()
           }
-        })
-      },
-      setDataBefore (data) {
-        this.fault = data.fault[0]
-        this.data.service_order_id = data.id
-      },
-      onCancel (e) {
-        e()
-      },
-      async beforeOpen () {
-        return true
-      },
-      async afterOpen () {
-        this.init.staff = [{
-          id: this.data.staff_id,
-          name: this.data.staff_name
-        }]
+        } else {
+          this.closeLoading()
+        }
+      })
+    },
+    setDataBefore (data) {
+      this.fault = data.fault[0]
+      this.data.service_order_id = data.id
+    },
+    onCancel (e) {
+      e()
+    },
+    async beforeOpen () {
+      return true
+    },
+    async afterOpen () {
+      this.init.staff = [{
+        id: this.data.staff_id,
+        name: this.data.staff_name
+      }]
 
-        this.init.service = [{
-          id: this.data.service_id,
-          name: this.data.name,
-          content: this.data.content,
-          workday: this.data.workday,
-          area: this.data.area,
-          price: this.data.price,
-          unit: this.data.unit,
-          // quantity: 1,
-          // amount: 1,
-          // reward: 1,
-          is_land_traffic: this.data.is_land_traffic,
-          is_hotel: this.data.is_hotel
-        }]
-        return true
-      },
-      async staffChange (staffId) {
-        this.data.staff_id = staffId
-      },
-      async staffChangeData (staff) {
-        this.data.staff_id = staff.id
-        this.data.staff_name = staff.name
-        this.data.staff = staff
-      },
-      async serviceChange (staffId) {
-        this.data.staff_id = staffId
-      },
-      async serviceChangeData (service) {
-        this.data.service_id = service.id
-        this.data.name = service.name
-        this.data.content = service.content
-        this.data.workday = service.workday
-        this.data.area = service.area
-        this.data.price = service.price
-        this.data.unit = service.unit
-        this.data.is_land_traffic = service.is_land_traffic
-        this.data.is_hotel = service.is_hotel
-        // this.data.settlement_method = service.settlement_method
-        // this.data.working_hours = service.working_hours
-        // this.data.is_complete = +service.is_complete
-        this.data.service = service
+      this.init.service = [{
+        id: this.data.service_id,
+        name: this.data.name,
+        content: this.data.content,
+        workday: this.data.workday,
+        area: this.data.area,
+        price: this.data.price,
+        unit: this.data.unit,
+        // quantity: 1,
+        // amount: 1,
+        // reward: 1,
+        is_land_traffic: this.data.is_land_traffic,
+        is_hotel: this.data.is_hotel
+      }]
+      return true
+    },
+    async staffChange (staffId) {
+      this.data.staff_id = staffId
+    },
+    async staffChangeData (staff) {
+      this.data.staff_id = staff.id
+      this.data.staff_name = staff.name
+      this.data.staff = staff
+    },
+    async serviceChange (staffId) {
+      this.data.staff_id = staffId
+    },
+    async serviceChangeData (service) {
+      this.data.service_id = service.id
+      this.data.name = service.name
+      this.data.content = service.content
+      this.data.workday = service.workday
+      this.data.area = service.area
+      this.data.price = service.price
+      this.data.unit = service.unit
+      this.data.is_land_traffic = service.is_land_traffic
+      this.data.is_hotel = service.is_hotel
+      // this.data.settlement_method = service.settlement_method
+      // this.data.working_hours = service.working_hours
+      // this.data.is_complete = +service.is_complete
+      this.data.service = service
+    }
+  },
+  watch: {
+    'data.quantity' (quantity) {
+      this.data.amount = quantity * this.data.price
+      if (this.data.reward > this.data.amount) {
+        this.data.reward = this.data.amount
       }
     },
-    watch: {
-      'data.quantity' (quantity) {
-        this.data.amount = quantity * this.data.price
-        if (this.data.reward > this.data.amount) {
-          this.data.reward = this.data.amount
-        }
-      },
-      'data.price' (price) {
-        this.data.amount = price * this.data.quantity
-        if (this.data.reward > this.data.amount) {
-          this.data.reward = this.data.amount
-        }
-      },
-      'data.reward' (reward) {
-        if (reward > this.data.amount) {
-          this.data.reward = this.data.amount
-        }
+    'data.price' (price) {
+      this.data.amount = price * this.data.quantity
+      if (this.data.reward > this.data.amount) {
+        this.data.reward = this.data.amount
+      }
+    },
+    'data.reward' (reward) {
+      if (reward > this.data.amount) {
+        this.data.reward = this.data.amount
       }
     }
   }
+}
 </script>
 
 <style>

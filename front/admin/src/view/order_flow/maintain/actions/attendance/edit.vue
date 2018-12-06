@@ -64,114 +64,114 @@
 
 <script>
 
-  import ModalMixin from '@/mixins/modal'
-  import AreaMixin from '@/mixins/area'
+import ModalMixin from '@/mixins/modal'
+import AreaMixin from '@/mixins/area'
 
-  import {updateMaintainAction} from '@/api/order_flow/maintain'
-  import * as orderConst from '@/constants/order_flow'
-  import * as orderFaultConst from '@/constants/order_fault'
+import {updateMaintainAction} from '@/api/order_flow/maintain'
+import * as orderConst from '@/constants/order_flow'
+import * as orderFaultConst from '@/constants/order_fault'
 
-  export default {
-    name: 'attendance-edit',
-    mixins: [ModalMixin, AreaMixin],
-    data () {
-      return {
-        data: {
-          service_order_id: 0,
-          staff_id: 0,
-          staff_name: '',
-          signin_time: '',
-          location: '',
-          coordinate: '',
-          confirm_user_id: 0,
-          confirm_user_name: '',
-          remark: '',
-          created_by: '',
-          updated_by: ''
-        },
-        fault: {},
-        rules: {
-          staff_id: [
-            {required: true, message: '签到人员不能为空', trigger: 'blur'}
-          ],
-          signin_time: [
-            {required: true, message: '时间不能为空', trigger: 'blur'}
-          ],
-          location: [
-            {required: true, message: '位置不能为空', trigger: 'blur'}
-          ],
-          coordinate: [
-            {required: true, message: '坐标不能为空', trigger: 'blur'}
-          ]
-        },
-        init: {
-          staff: [],
-          engineer_staff: [],
-          confirm_staff: []
-        }
+export default {
+  name: 'attendance-edit',
+  mixins: [ModalMixin, AreaMixin],
+  data () {
+    return {
+      data: {
+        service_order_id: 0,
+        staff_id: 0,
+        staff_name: '',
+        signin_time: '',
+        location: '',
+        coordinate: '',
+        confirm_user_id: 0,
+        confirm_user_name: '',
+        remark: '',
+        created_by: '',
+        updated_by: ''
+      },
+      fault: {},
+      rules: {
+        staff_id: [
+          {required: true, message: '签到人员不能为空', trigger: 'blur'}
+        ],
+        signin_time: [
+          {required: true, message: '时间不能为空', trigger: 'blur'}
+        ],
+        location: [
+          {required: true, message: '位置不能为空', trigger: 'blur'}
+        ],
+        coordinate: [
+          {required: true, message: '坐标不能为空', trigger: 'blur'}
+        ]
+      },
+      init: {
+        staff: [],
+        engineer_staff: [],
+        confirm_staff: []
       }
-    },
-    methods: {
-      onSubmit (e) {
-        this.$refs.addForm.validate(async (valid) => {
-          console.log('onSubmit', valid)
-          if (valid) {
-            try {
-              console.log('onSubmit IN')
-              let data = await updateMaintainAction(this.data, this.data.id, this.data.service_order_id, 'attendance')
-              console.log('data', data)
-              this.withRefresh(e)
-            } catch (e) {
-              this.closeLoading()
-            }
-          } else {
+    }
+  },
+  methods: {
+    onSubmit (e) {
+      this.$refs.addForm.validate(async (valid) => {
+        console.log('onSubmit', valid)
+        if (valid) {
+          try {
+            console.log('onSubmit IN')
+            let data = await updateMaintainAction(this.data, this.data.id, this.data.service_order_id, 'attendance')
+            console.log('data', data)
+            this.withRefresh(e)
+          } catch (e) {
             this.closeLoading()
           }
-        })
-      },
-      setDataBefore (data) {
-        this.data.service_order_id = data.id
-      },
-      onCancel (e) {
-        e()
-      },
-      async beforeOpen () {
-        return true
-      },
-      async afterOpen () {
-        this.init.confirm_staff = [{
-          id: this.data.confirm_user_id,
-          name: this.data.confirm_user_name
-        }]
-
-        this.init.engineer_staff = [{
-          id: this.data.staff_id,
-          staff_name: this.data.staff_name
-        }]
-        return true
-      },
-      async engineerChange () {
-      },
-      async engineerChangeData (engineers = []) {
-        // console.log('engineers', engineers)
-        this.data.staff_id = engineers ? engineers.id : 0
-        this.data.staff_name = engineers ? engineers.staff_name : ''
-        // console.log('staff_name', this.data.staff_name)
-        this.data.engineer_staff = engineers
-      },
-      async confirmChange () {
-      },
-      async confirmChangeData (staff = []) {
-        // console.log('staff', staff)
-        this.data.confirm_user_id = staff ? staff.id : 0
-        this.data.confirm_user_name = staff ? staff.name : ''
-        // console.log('staff_name', this.data.confirm_user_name)
-        this.data.confirm_staff = staff
-      }
+        } else {
+          this.closeLoading()
+        }
+      })
     },
-    watch: {
+    setDataBefore (data) {
+      this.data.service_order_id = data.id
+    },
+    onCancel (e) {
+      e()
+    },
+    async beforeOpen () {
+      return true
+    },
+    async afterOpen () {
+      this.init.confirm_staff = [{
+        id: this.data.confirm_user_id,
+        name: this.data.confirm_user_name
+      }]
+
+      this.init.engineer_staff = [{
+        id: this.data.staff_id,
+        staff_name: this.data.staff_name
+      }]
+      return true
+    },
+    async engineerChange () {
+    },
+    async engineerChangeData (engineers = []) {
+      // console.log('engineers', engineers)
+      this.data.staff_id = engineers ? engineers.id : 0
+      this.data.staff_name = engineers ? engineers.staff_name : ''
+      // console.log('staff_name', this.data.staff_name)
+      this.data.engineer_staff = engineers
+    },
+    async confirmChange () {
+    },
+    async confirmChangeData (staff = []) {
+      // console.log('staff', staff)
+      this.data.confirm_user_id = staff ? staff.id : 0
+      this.data.confirm_user_name = staff ? staff.name : ''
+      // console.log('staff_name', this.data.confirm_user_name)
+      this.data.confirm_staff = staff
     }
+  },
+  watch: {
   }
+}
 </script>
 
 <style>

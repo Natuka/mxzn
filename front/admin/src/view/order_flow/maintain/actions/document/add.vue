@@ -232,7 +232,7 @@ export default {
       this.$refs.addForm.validate(async (valid) => {
         if (valid) {
           try {
-            let data = await addRepair(this.data)
+            let data = await addMaintainAction(this.data, this.data.service_order_id, 'doc')
             console.log('data', data)
             this.withRefresh(e)
           } catch (e) {

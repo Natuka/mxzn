@@ -62,70 +62,70 @@
 
 <script>
 
-  import ModalMixin from '@/mixins/modal'
-  import AreaMixin from '@/mixins/area'
+import ModalMixin from '@/mixins/modal'
+import AreaMixin from '@/mixins/area'
 
-  import {addMaintainAction} from '@/api/order_flow/maintain'
-  import * as orderConst from '@/constants/order_flow'
-  import * as orderFaultConst from '@/constants/order_fault'
+import {addMaintainAction} from '@/api/order_flow/maintain'
+import * as orderConst from '@/constants/order_flow'
+import * as orderFaultConst from '@/constants/order_fault'
 
-  export default {
-    name: 'confirm-add',
-    mixins: [ModalMixin, AreaMixin],
-    data () {
-      return {
-        data: {
-          service_order_id: 0,
-          is_solve: 1,
-          overall_satisfaction: 3,
-          timeliness: 3,
-          service_staff_atisfaction: 3,
-          cost_performance: 3,
-          confirm_user_id: 0,
-          confirm_user_name: '',
-          opinions_suggestions: '',
-          created_by: '',
-          updated_by: ''
-        },
-        fault: {},
-        rules: {
-          opinions_suggestions: [
-            {required: true, message: '建议与意见不能为空', trigger: 'blur'}
-          ]
-        },
-        init: {
-        }
+export default {
+  name: 'confirm-add',
+  mixins: [ModalMixin, AreaMixin],
+  data () {
+    return {
+      data: {
+        service_order_id: 0,
+        is_solve: 1,
+        overall_satisfaction: 3,
+        timeliness: 3,
+        service_staff_atisfaction: 3,
+        cost_performance: 3,
+        confirm_user_id: 0,
+        confirm_user_name: '',
+        opinions_suggestions: '',
+        created_by: '',
+        updated_by: ''
+      },
+      fault: {},
+      rules: {
+        opinions_suggestions: [
+          {required: true, message: '建议与意见不能为空', trigger: 'blur'}
+        ]
+      },
+      init: {
       }
-    },
-    methods: {
-      onSubmit (e) {
-        this.$refs.addForm.validate(async (valid) => {
-          if (valid) {
-            try {
-              let data = await addMaintainAction(this.data, this.data.service_order_id, 'confirm')
-              console.log('data', data)
-              this.withRefresh(e)
-            } catch (e) {
-              this.closeLoading()
-            }
-          } else {
+    }
+  },
+  methods: {
+    onSubmit (e) {
+      this.$refs.addForm.validate(async (valid) => {
+        if (valid) {
+          try {
+            let data = await addMaintainAction(this.data, this.data.service_order_id, 'confirm')
+            console.log('data', data)
+            this.withRefresh(e)
+          } catch (e) {
             this.closeLoading()
           }
-        })
-      },
-      setDataBefore (data) {
-        this.data.service_order_id = data.id
-      },
-      onCancel (e) {
-        e()
-      },
-      async beforeOpen () {
-        return true
-      }
+        } else {
+          this.closeLoading()
+        }
+      })
     },
-    watch: {
+    setDataBefore (data) {
+      this.data.service_order_id = data.id
+    },
+    onCancel (e) {
+      e()
+    },
+    async beforeOpen () {
+      return true
     }
+  },
+  watch: {
   }
+}
 </script>
 
 <style>

@@ -64,88 +64,88 @@
 
 <script>
 
-  import ModalMixin from '@/mixins/modal'
-  import AreaMixin from '@/mixins/area'
+import ModalMixin from '@/mixins/modal'
+import AreaMixin from '@/mixins/area'
 
-  import {updateMaintainAction} from '@/api/order_flow/maintain'
-  import * as orderConst from '@/constants/order_flow'
+import {updateMaintainAction} from '@/api/order_flow/maintain'
+import * as orderConst from '@/constants/order_flow'
 
-  export default {
-    name: 'confirm-edit',
-    mixins: [ModalMixin, AreaMixin],
-    data () {
-      return {
-        data: {
-          service_order_id: 0,
-          is_solve: 0,
-          overall_satisfaction: 0,
-          timeliness: 0,
-          service_staff_atisfaction: 0,
-          cost_performance: 0,
-          confirm_user_id: 0,
-          confirm_user_name: '',
-          opinions_suggestions: '',
-          created_by: '',
-          updated_by: ''
-        },
-        fault: {},
-        rules: {
-          opinions_suggestions: [
-            {required: true, message: '建议与意见不能为空', trigger: 'blur'}
-          ]
-        },
-        init: {
-          confirm_staff: []
-        }
+export default {
+  name: 'confirm-edit',
+  mixins: [ModalMixin, AreaMixin],
+  data () {
+    return {
+      data: {
+        service_order_id: 0,
+        is_solve: 0,
+        overall_satisfaction: 0,
+        timeliness: 0,
+        service_staff_atisfaction: 0,
+        cost_performance: 0,
+        confirm_user_id: 0,
+        confirm_user_name: '',
+        opinions_suggestions: '',
+        created_by: '',
+        updated_by: ''
+      },
+      fault: {},
+      rules: {
+        opinions_suggestions: [
+          {required: true, message: '建议与意见不能为空', trigger: 'blur'}
+        ]
+      },
+      init: {
+        confirm_staff: []
       }
-    },
-    methods: {
-      onSubmit (e) {
-        this.$refs.addForm.validate(async (valid) => {
-          console.log('onSubmit', valid)
-          if (valid) {
-            try {
-              console.log('onSubmit IN')
-              let data = await updateMaintainAction(this.data, this.data.id, this.data.service_order_id, 'confirm')
-              console.log('data', data)
-              this.withRefresh(e)
-            } catch (e) {
-              this.closeLoading()
-            }
-          } else {
+    }
+  },
+  methods: {
+    onSubmit (e) {
+      this.$refs.addForm.validate(async (valid) => {
+        console.log('onSubmit', valid)
+        if (valid) {
+          try {
+            console.log('onSubmit IN')
+            let data = await updateMaintainAction(this.data, this.data.id, this.data.service_order_id, 'confirm')
+            console.log('data', data)
+            this.withRefresh(e)
+          } catch (e) {
             this.closeLoading()
           }
-        })
-      },
-      setDataBefore (data) {
-        this.data.service_order_id = data.id
-      },
-      onCancel (e) {
-        e()
-      },
-      async beforeOpen () {
-        return true
-      },
-      async afterOpen () {
-        this.init.confirm_staff = [{
-          id: this.data.confirm_user_id,
-          name: this.data.confirm_user_name
-        }]
-        return true
-      },
-      async confirmChange () {
-      },
-      async confirmChangeData (staff = []) {
-        // console.log('staff', staff)
-        this.data.confirm_user_id = staff ? staff.id : 0
-        this.data.confirm_user_name = staff ? staff.name : ''
-        // console.log('staff_name', this.data.confirm_user_name)
-        this.data.confirm_staff = staff
-      }
+        } else {
+          this.closeLoading()
+        }
+      })
     },
-    watch: {
+    setDataBefore (data) {
+      this.data.service_order_id = data.id
+    },
+    onCancel (e) {
+      e()
+    },
+    async beforeOpen () {
+      return true
+    },
+    async afterOpen () {
+      this.init.confirm_staff = [{
+        id: this.data.confirm_user_id,
+        name: this.data.confirm_user_name
+      }]
+      return true
+    },
+    async confirmChange () {
+    },
+    async confirmChangeData (staff = []) {
+      // console.log('staff', staff)
+      this.data.confirm_user_id = staff ? staff.id : 0
+      this.data.confirm_user_name = staff ? staff.name : ''
+      // console.log('staff_name', this.data.confirm_user_name)
+      this.data.confirm_staff = staff
     }
+  },
+  watch: {
   }
+}
 </script>
 
 <style>

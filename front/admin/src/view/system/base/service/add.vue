@@ -2,156 +2,96 @@
   <custom-modal
     ref="ref"
     width="1000px"
-    title="人事档案-新增"
+    title="服务项目-新增"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
-    class="mxcs-three-column"
+    class="mxcs-two-column"
   >
-    <div>
+      <div>
       <Form :model="data"
             ref="addForm"
             :rules="rules"
-            :label-width="100"
-      >
-        <FormItem label="组织/公司" prop="org_id">
-          <remote-select
-            :init="data.org_id"
-            :initData="init.organization"
-            label="name"
-            url="select/organization"
-            :filter="(data) => data.name"
-            :valueMap="(data) => data.id"
-            @on-change="organizationChange"
-          ></remote-select>
+            :label-width="100">
+        <FormItem label="编号:" prop="number">
+          <Input v-model="data.number" placeholder="编号(唯一)" readonly></Input>
+        </FormItem>
 
+        <FormItem label="服务名称:" prop="name">
+          <Input v-model="data.name" placeholder="服务名称"></Input>
         </FormItem>
-        <FormItem label="编号" prop="number">
-          <Input v-model="data.number" placeholder="编号" disabled></Input>
+
+        <FormItem label="服务内容:" prop="content">
+          <Input v-model="data.content" placeholder="服务内容"></Input>
         </FormItem>
-        <FormItem label="姓名" prop="name">
-          <Input v-model="data.name" placeholder="姓名"></Input>
+
+        <FormItem label="服务时间:" prop="workday">
+          <Input v-model="data.workday" placeholder="服务时间"></Input>
         </FormItem>
-        <FormItem label="性别">
-          <RadioGroup v-model="data.sex">
+
+        <FormItem label="地区:" prop="area">
+          <Select v-model="data.area">
+            <Option
+              v-for="(type, index) in areaList"
+              :key="index"
+              :value="index"
+            >{{type}}
+            </Option>
+          </Select>
+        </FormItem>
+
+        <FormItem label="单价:" prop="price">
+          <Input v-model="data.price" placeholder="单价"></Input>
+        </FormItem>
+
+        <FormItem label="单位:" prop="unit">
+          <Input v-model="data.unit" placeholder="单位"></Input>
+        </FormItem>
+
+        <FormItem label="含陆路交通费">
+          <RadioGroup v-model="data.is_land_traffic">
             <Radio :label="1">
-              <Icon type="md-male"></Icon>
-              <span>男</span>
+              <Icon type="md-checkmark" />
+              <span>是</span>
             </Radio>
             <Radio :label="0">
-              <Icon type="md-female"></Icon>
-              <span>女</span>
+              <Icon type="md-close" />
+              <span>否</span>
             </Radio>
           </RadioGroup>
         </FormItem>
-        <FormItem label="出生日期" prop="birthday">
-          <DatePicker
-            type="date"
-            placeholder="生日"
-            v-model="data.birthday"
-            @on-change="date => this.data.birthday = date"
-          ></DatePicker>
-        </FormItem>
-        <FormItem label="部门" prop="dep_id">
-          <static-select
-            :data="select.department"
-            :init="data.dep_id"
-            @on-change="(value) => this.data.dep_id = value"
-          ></static-select>
-        </FormItem>
-        <FormItem label="职位" prop="post">
-          <static-select
-            :data="select.post"
-            :init="data.post"
-            @on-change="(value) => this.data.post = value"
-          ></static-select>
-        </FormItem>
-        <FormItem label="职务" prop="job">
 
-          <static-select
-            :init="data.job"
-            label="name"
-            :data="select.job"
-            @on-change="(value) => this.data.job = value"
-          ></static-select>
-        </FormItem>
-        <FormItem label="毕业院校" prop="graduated_school">
-          <Input v-model="data.graduated_school" placeholder="毕业院校"></Input>
-        </FormItem>
-        <FormItem label="学历">
-          <static-select
-            :data="select.education"
-            :init="data.education"
-            @on-change="(value) => this.data.education = value"
-          ></static-select>
-        </FormItem>
-        <FormItem label="技能专长" prop="skill_expertise">
-          <Input v-model="data.skill_expertise" placeholder="技能专长"></Input>
-        </FormItem>
-        <FormItem label="兴趣爱好" prop="hobby">
-          <Input v-model="data.hobby" placeholder="兴趣爱好"></Input>
-        </FormItem>
-        <FormItem label="手机" prop="mobile">
-          <Input v-model="data.mobile" placeholder="手机"></Input>
-        </FormItem>
-        <FormItem label="邮箱" prop="email">
-          <Input v-model="data.email" placeholder="邮箱"></Input>
-        </FormItem>
-        <FormItem label="入职日期" prop="entry_date">
-          <DatePicker
-            type="date"
-            placeholder="入职日期"
-            v-model="data.entry_date"
-            @on-change="date => this.data.entry_date = date"
-          ></DatePicker>
-        </FormItem>
-        <FormItem label="在职状态">
-          <RadioGroup v-model="data.status">
+        <FormItem label="含住宿">
+          <RadioGroup v-model="data.is_hotel">
             <Radio :label="1">
-              <span>在职</span>
+              <Icon type="md-checkmark" />
+              <span>是</span>
             </Radio>
             <Radio :label="0">
-              <span>离职</span>
+              <Icon type="md-close" />
+              <span>否</span>
             </Radio>
           </RadioGroup>
         </FormItem>
-        <FormItem label="离职日期" prop="leave_date">
+
+        <FormItem label="生效日期" prop="effective_date">
           <DatePicker
             type="date"
-            placeholder="离职日期"
-            v-model="data.leave_date"
-            @on-change="date => this.data.leave_date = date"
+            placeholder="生效日期"
+            v-model="data.effective_date"
+            @on-change="date => this.data.effective_date = date"
           ></DatePicker>
         </FormItem>
-        <FormItem label="所在省">
-          <static-select
-            :init="data.province_id"
-            label="areaname"
-            :data="provinces"
-            @on-change="provinceChange"
-          ></static-select>
+        <FormItem label="失效日期" prop="expiration_date">
+          <DatePicker
+            type="date"
+            placeholder="失效日期"
+            v-model="data.expiration_date"
+            @on-change="date => this.data.expiration_date = date"
+          ></DatePicker>
         </FormItem>
-        <FormItem label="所在市">
-          <static-select
-            :init="data.city_id"
-            label="areaname"
-            :data="cities"
-            @on-change="cityChange"
-          ></static-select>
-        </FormItem>
-        <FormItem label="所在县">
-          <static-select
-            :init="data.district_id"
-            label="areaname"
-            :data="counties"
-            @on-change="countyChange"
-          ></static-select>
-        </FormItem>
-        <FormItem label="详细地址">
-          <Input v-model="data.address" placeholder="详细地址"></Input>
-        </FormItem>
-        <FormItem label="备注">
-          <Input v-model="data.remark" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
-                 placeholder="备注..."></Input>
+
+        <FormItem label="备注:" prop="remark" style="width: 100%">
+          <Input v-model="data.remark" placeholder="备注"></Input>
         </FormItem>
 
         <FormItem label="建立人员">
@@ -167,66 +107,46 @@
           <Input v-model="data.updated_at" placeholder="最近修改日期" disabled></Input>
         </FormItem>
 
-      </Form>
-    </div>
+        </Form>
+      </div>
   </custom-modal>
 </template>
 
 <script>
 
 import ModalMixin from '@/mixins/modal'
-import AreaMixin from '@/mixins/area'
 
-import {addStaff} from '../../api/staff'
-// import {selectOrganization} from '../../api/select/organization'
-import {selectDepartment} from '../../api/select/department'
-import * as staffConst from '../../constants/staff'
+import {addService} from '@/api/base/service'
+import * as serviceConst from '../../../../constants/service'
 
 export default {
-  name: 'staff-add',
-  mixins: [ModalMixin, AreaMixin],
+  name: 'service-add',
+  mixins: [ModalMixin],
   data () {
     return {
       data: {
-        org_id: 0,
         number: '',
         name: '',
-        sex: 1,
-        birthday: '',
-        dep_id: 0,
-        post: 0,
-        job: 0,
-        graduated_school: '',
-        education: 0,
-        skill_expertise: '',
-        hobby: '',
-        mobile: '',
-        email: '',
-        entry_date: '',
-        status: 1,
-        leave_date: '',
-        province_id: 0,
-        city_id: 0,
-        district_id: 0,
-        address: '',
+        content: '',
+        workday: '',
+        area: 0,
+        price: 0,
+        unit: '',
+        is_land_traffic: 0,
+        is_hotel: 0,
+        effective_date: '',
+        expiration_date: '',
         remark: ''
       },
       rules: {
         name: [
-          {required: true, message: '姓名不能为空', trigger: 'blur'}
+          {required: true, message: '服务名称不能为空', trigger: 'blur'}
+        ],
+        content: [
+          {required: true, message: '服务内容不能为空', trigger: 'blur'}
         ]
       },
-      educationList: staffConst.EDUCATION_LIST,
-      select: {
-        job: [],
-        post: [],
-        education: [],
-        department: []
-      },
-      init: {
-        organization: [],
-        department: []
-      }
+      areaList: serviceConst.SERVICE_AREA
     }
   },
   methods: {
@@ -234,7 +154,7 @@ export default {
       this.$refs.addForm.validate(async (valid) => {
         if (valid) {
           try {
-            let data = await addStaff(this.data)
+            let data = await addService(this.data)
             console.log('data', data)
             this.withRefresh(e)
           } catch (e) {
@@ -247,63 +167,6 @@ export default {
     },
     onCancel (e) {
       e()
-    },
-    async beforeOpen () {
-      let job = await this.$store.dispatch('getJob')
-      let post = await this.$store.dispatch('getPost')
-      let education = await this.$store.dispatch('getEducation')
-      this.select.job = job
-      this.select.post = post
-      this.select.education = education
-
-      // 省份
-      let [provinces, cities, counties] = await this.getAllByFirstProvinceId()
-      this.data.province_id = 0
-      this.data.city_id = 0
-      this.data.district_id = 0
-
-      this.forceLock(() => {
-        this.data.province_id = provinces[0].id
-        this.data.city_id = cities[0].id
-        this.data.district_id = counties[0].id
-      })
-      return true
-    },
-    async organizationChange (id) {
-      this.data.org_id = id
-      if (!id) {
-        return
-      }
-      let {data} = await selectDepartment(id)
-      this.select.department = data || []
-      if (data.length) {
-        let info = data.find(info => +info.id === +this.data.dep_id)
-        if (!info) {
-          this.data.dep_id = data[0].id
-        }
-      }
-    },
-    // 省变更
-    async provinceChange (provinceId) {
-      if (+this.data.province_id !== +provinceId) {
-        this.data.province_id = provinceId
-        let cities = await this.getCities(provinceId)
-        if (!this.hasArea(cities, this.data.city_id)) {
-          this.cityChange(cities[0].id)
-        }
-      }
-    },
-    async cityChange (cityId) {
-      if (+cityId !== this.data.city_id) {
-        this.data.city_id = cityId
-        let counties = await this.getCountie(cityId)
-        if (counties.length) {
-          this.data.district_id = counties[0].id
-        }
-      }
-    },
-    async countyChange (countyId) {
-      this.data.district_id = countyId
     }
   }
 }

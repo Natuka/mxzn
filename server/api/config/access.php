@@ -162,4 +162,10 @@ return ['super_admin',
     'organization_add',
     'organization_view',
     'organization_edit',
+
+    'base_service',
+    'base_service_list',
+    'base_service_add',
+    'base_service_view',
+    'base_service_edit',
 ];

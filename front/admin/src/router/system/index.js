@@ -29,7 +29,7 @@ export default [
               icon: 'md-funnel',
               title: '服务项目'
             },
-            component: () => import('@/view/system/base/level-3-1.vue')
+            component: () => import('@/view/system/base/service/index.vue')
           },
           {
             path: 'vendor',
