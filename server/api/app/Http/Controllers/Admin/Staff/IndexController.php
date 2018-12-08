@@ -233,11 +233,17 @@ class IndexController extends Controller
      */
     public function updateLoginAccount(Staff $staff, Request $request)
     {
+        $data_save = [
+            'name' => $staff->name,
+            'code' => $staff->number,
+            'email' => $staff->email ?: 'S' . $staff->number . '@mxcs.com',
+            'number' => $staff->number,
+            'mobile' => (int)$staff->mobile,
+        ];
         if ($request->get('update_password')) {
-            $staff->user()->update([
-                'password' => bcrypt($request->get('password', default_password())),
-            ]);
+            $data_save['password'] = bcrypt($request->get('password', default_password()));
         }
+        $staff->user()->update($data_save);
     }
 
     /**
