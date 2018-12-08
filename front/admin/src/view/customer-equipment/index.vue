@@ -33,6 +33,7 @@
     </Card>
     <customerequipment-add ref="add" @refresh="refresh"></customerequipment-add>
     <customerequipment-edit ref="edit" @refresh="refreshWithPage"></customerequipment-edit>
+    <customerequipment-view ref="view" @refresh="refreshWithPage"></customerequipment-view>
   </div>
 </template>
 
@@ -42,6 +43,7 @@ import Tables from '_c/tables'
 import search from './search'
 import add from './add'
 import edit from './edit'
+import view from './qrcode'
 
 import listMixin from '../../mixins/list'
 import constsMixin from '../../mixins/consts'
@@ -54,7 +56,8 @@ export default {
     Tables,
     [search.name]: search,
     [add.name]: add,
-    [edit.name]: edit
+    [edit.name]: edit,
+    [view.name]: view
   },
   mixins: [listMixin, constsMixin, baseMixin],
   data () {
@@ -96,7 +99,6 @@ export default {
         },
         {
           width: 120,
-          fixed: 'left',
           title: '设备名称',
           key: 'name',
           sortable: false
@@ -107,6 +109,35 @@ export default {
           title: '规格型号',
           key: 'model',
           sortable: false
+        },
+        {
+          title: '  二维码',
+          key: 'handle',
+          width: 100,
+          button: [
+            (h, params, vm) => {
+              if (!this.accessView()) {
+                return
+              }
+              return h(
+                'Button',
+                {
+                  props: {
+                    type: 'primary'
+                  },
+                  style: {
+                    marginLeft: '.6rem'
+                  },
+                  on: {
+                    click: () => {
+                      this.onView(params.row)
+                    }
+                  }
+                },
+                '查看'
+              )
+            }
+          ]
         },
         {
           width: 95,

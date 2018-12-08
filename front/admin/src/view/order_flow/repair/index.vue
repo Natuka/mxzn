@@ -329,7 +329,7 @@ export default {
     },
     handleComplete () {
       if (!this.selected.length) {
-        return this.$Message.error('请选择要操作的工单')
+        return this.$Message.error('请选择要操作的工单[复选框]')
       }
 
       let post = this.selected.map(el => el.id)

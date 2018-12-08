@@ -29,6 +29,7 @@
     </Card>
     <machineqrcode-add ref="add" @refresh="refresh"></machineqrcode-add>
     <machineqrcode-edit ref="edit" @refresh="refreshWithPage"></machineqrcode-edit>
+    <machineqrcode-view ref="view" @refresh="refreshWithPage"></machineqrcode-view>
   </div>
 </template>
 
@@ -38,6 +39,7 @@ import Tables from '_c/tables'
 import search from './search'
 import add from './add'
 import edit from './edit'
+import view from './qrcode'
 
 import listMixin from '../../mixins/list'
 // import constsMixin from '../../mixins/consts'
@@ -48,7 +50,8 @@ export default {
     Tables,
     [search.name]: search,
     [add.name]: add,
-    [edit.name]: edit
+    [edit.name]: edit,
+    [view.name]: view
   },
   mixins: [listMixin],
   data () {
@@ -92,9 +95,33 @@ export default {
           key: 'purchase_date'
         },
         {
+          title: '  二维码',
+          key: 'handle',
           width: 100,
-          title: '二维码',
-          key: 'qr_code'
+          button: [
+            (h, params, vm) => {
+              if (!this.accessView()) {
+                return
+              }
+              return h(
+                'Button',
+                {
+                  props: {
+                    type: 'primary'
+                  },
+                  style: {
+                    marginLeft: '.6rem'
+                  },
+                  on: {
+                    click: () => {
+                      this.onView(params.row)
+                    }
+                  }
+                },
+                '查看'
+              )
+            }
+          ]
         },
         {
           width: 100,

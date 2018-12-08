@@ -49,6 +49,9 @@ export default {
     // 添加时，额外设定内容
     onEditSetData () {
     },
+    // 添加时，额外设定内容
+    onViewSetData () {
+    },
     onAdd () {
       console.log('onAdd')
       this.onAddSetData()
@@ -59,6 +62,12 @@ export default {
       this.onEditSetData()
       await edit.setData(data, this.accessEdit())
       edit.open()
+    },
+    async onView (data) {
+      let view = this.$refs.view
+      this.onViewSetData()
+      await view.setData(data, this.accessView())
+      view.open()
     },
     // 跳转到第x页
     async toPage (page = 1) {

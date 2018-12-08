@@ -2,7 +2,7 @@
   <custom-modal
     ref="ref"
     width="1000px"
-    title="设备二维码-查看"
+    title="客户设备二维码-查看"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
     class="mxcs-two-column"
@@ -29,8 +29,8 @@
           </FormItem>
         </FormItem>
 
-        <FormItem label="系列号:" prop="serial_number">
-          <Input v-model="data.serial_number" placeholder="系列号" disabled></Input>
+        <FormItem label="规格型号:" prop="model">
+          <Input v-model="data.model" placeholder="规格型号" disabled></Input>
         </FormItem>
 
         <FormItem label="备注:" prop="remark" style="width: 100%">
@@ -47,15 +47,15 @@
 import ModalMixin from '@/mixins/modal'
 
 export default {
-  name: 'machineqrcode-view',
+  name: 'customerequipment-view',
   mixins: [ModalMixin],
   data () {
     return {
       data: {
         number: '',
         name: '',
+        model: '',
         qrcode_img: '',
-        serial_number: '',
         remark: ''
       }
     }
