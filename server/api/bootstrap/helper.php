@@ -66,3 +66,12 @@ function form_date($date, $format='Y-m-d') {
 function format_date($date, $format='Y-m-d') {
     return date($format, strtotime($date));
 }
+
+function mydb_format_date($date, $format='Y-m-d', $greaterDate='1900-01-01') {
+    if (!empty($date)) {
+        $date = date($format, strtotime($date));
+        if (empty($date) || ($date <= $greaterDate)) $date = NULL;
+        return $date;
+    }
+    return NULL;
+}

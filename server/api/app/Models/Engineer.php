@@ -8,6 +8,8 @@ class Engineer extends Model
 {
 
     protected $table = 'base_engineers';
+    protected $fillable=['user_id', 'org_id', 'staff_id', 'staff_name', 'status', 'remark'];
+
     //
     public function user()
     {

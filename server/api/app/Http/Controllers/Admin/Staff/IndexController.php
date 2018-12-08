@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Staff;
 use App\Http\Requests\Admin\Staff\CreateRequest;
 use App\Http\Requests\Admin\Staff\UpdateRequest;
 use App\Models\Staff;
+use App\Models\Engineer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -68,6 +69,7 @@ class IndexController extends Controller
             'department',
             'post',
             'job',
+            'is_engineer',
             'graduated_school',
             'education',
             'skill_expertise',
@@ -90,6 +92,7 @@ class IndexController extends Controller
         $data['city_id'] = (int)$data['city_id'];
         $data['district_id'] = (int)$data['district_id'];
         $data['dep_id'] = (int)$data['dep_id'];
+        $data['is_engineer'] = (int)$data['is_engineer'];
 
         $data['created_by'] = '新增';
         $data['updated_by'] = '新增';
@@ -98,7 +101,13 @@ class IndexController extends Controller
         $ret = $staff->forceFill($data)->save();
 
         if ($ret) {
-            $this->createLoginAccount($staff, $request);
+            $new_user_id = $this->createLoginAccount($staff, $request);
+
+//            是否工程师，新增另一张表
+            if ($data['is_engineer'] == 1 && $data['status'] == 1) {
+                $this->createOrUpdateEngineer($staff, $new_user_id);
+            }
+
             return success_json($staff, '');
         }
 
@@ -120,13 +129,35 @@ class IndexController extends Controller
             'password' => bcrypt($request->get('password', default_password())),
         ];
 
-        if ($staff->user()->create($data)) {
+        if ($new_user = $staff->user()->create($data)) {
             \Log::info('用户创建成功');
+            return $new_user->id;
         } else {
             \Log::info('用户创建失败');
+            return -1;
         }
     }
 
+    public function createOrUpdateEngineer(Staff $staff, $user_id)
+    {
+//        \Log::info('xxx-xx--xx'. $staff->user()->value('id'));
+        if ($staff->is_engineer == 1 && $staff->status == 1) $status = 1;
+        else $status = 0;
+        $data = [
+            'user_id' => (int)$staff->user()->value('id'),
+            'org_id' => $staff->org_id,
+            'staff_id' => $staff->id,
+            'staff_name' => $staff->name,
+            'status' => $status,
+        ];
+        $ret = Engineer::updateOrCreate(array('staff_id' => $staff->id), $data);
+
+        if ($ret) {
+            \Log::info('工程师创建成功');
+        } else {
+            \Log::info('工程师创建失败');
+        }
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -136,6 +167,7 @@ class IndexController extends Controller
      */
     public function update(UpdateRequest $request, Staff $staff)
     {
+        $is_engineer_org = $staff->is_engineer; //原来的状态
         $data = $request->only([
             'org_id',
             'name',
@@ -145,6 +177,7 @@ class IndexController extends Controller
             'department',
             'post',
             'job',
+            'is_engineer',
             'graduated_school',
             'education',
             'skill_expertise',
@@ -168,6 +201,7 @@ class IndexController extends Controller
         $data['city_id'] = (int)$data['city_id'];
         $data['district_id'] = (int)$data['district_id'];
         $data['dep_id'] = (int)$data['dep_id'];
+        $data['is_engineer'] = (int)$data['is_engineer'];
 
         $data['entry_date'] = format_date($data['entry_date']);
         $data['leave_date'] = format_date($data['leave_date']);
@@ -180,6 +214,12 @@ class IndexController extends Controller
 
         if ($ret) {
             $this->updateLoginAccount($staff, $request);
+
+            // 是否工程师，新增另一张表
+            if ($data['is_engineer'] == 1 || ($data['is_engineer'] != $is_engineer_org) ) {
+                $this->createOrUpdateEngineer($staff, 8);
+            }
+
             return success_json($staff, '');
         }
 

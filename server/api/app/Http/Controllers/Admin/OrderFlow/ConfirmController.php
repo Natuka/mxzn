@@ -109,11 +109,11 @@ class ConfirmController extends BaseController
 
         $equipment = $request->get('equipment', []);
 
-        $data['feedback_at'] = !empty($data['feedback_at'])?form_date($data['feedback_at'], 'Y-m-d H:i:s'):'';
-        $data['receive_at'] = !empty($data['receive_at'])?form_date($data['receive_at'], 'Y-m-d H:i:s'):'';
-        $data['confirm_at'] = !empty($data['confirm_at'])?form_date($data['confirm_at'], 'Y-m-d H:i:s'):'';
-        $data['plan_out_at'] = !empty($data['plan_out_at'])?form_date($data['plan_out_at'], 'Y-m-d H:i:s'):'';
-        $data['plan_finish_at'] = !empty($data['plan_finish_at'])?form_date($data['plan_finish_at'], 'Y-m-d H:i:s'):'';
+        $data['feedback_at'] = mydb_format_date($data['feedback_at'], 'Y-m-d H:i:s', '1991-01-01 00:00:00');
+        $data['receive_at'] = mydb_format_date($data['receive_at'], 'Y-m-d H:i:s', '1991-01-01 00:00:00');
+        $data['confirm_at'] = mydb_format_date($data['confirm_at'], 'Y-m-d H:i:s', '1991-01-01 00:00:00');
+        $data['plan_out_at'] = mydb_format_date($data['plan_out_at'], 'Y-m-d H:i:s', '1991-01-01 00:00:00');
+        $data['plan_finish_at'] = mydb_format_date($data['plan_finish_at'], 'Y-m-d H:i:s', '1991-01-01 00:00:00');
 
         if (!empty($equipment)) {
             $data['equipment_id'] = $equipment['id'];
