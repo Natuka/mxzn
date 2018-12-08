@@ -12,6 +12,15 @@
           <Icon type="md-refresh"/>
         </Button>
         <Button
+          type="info"
+          @click="handleSwitch"
+          v-if="accessAdd()"
+          class="ml-5"
+        >
+          转派
+          <Icon type="md-repeat"/>
+        </Button>
+        <Button
           type="warning"
           @click="back"
           v-if="accessAdd()"
@@ -50,19 +59,19 @@
     </Card>
     <dispose-add ref="add" @refresh="refresh"></dispose-add>
     <dispose-edit ref="edit" @refresh="refreshWithPage"></dispose-edit>
-
+    <mx-order-switch ref="switch" @refresh="refreshWithPage"></mx-order-switch>
   </div>
 </template>
 
 <script>
 import Tables from '_c/tables'
 
-import {disposeBack} from '@/api/order_flow/dispose'
-import {disposeNext} from '@/api/order_flow/dispose'
+import {disposeBack, disposeNext} from '@/api/order_flow/dispose'
 import search from './search'
 import add from './add'
 import edit from './edit'
 import relation from './relation'
+import orderSwitch from './operation/switch'
 
 import listMixin from '../../../mixins/list'
 import constsMixin from '../../../mixins/consts'
@@ -76,7 +85,8 @@ export default {
     [search.name]: search,
     [add.name]: add,
     [edit.name]: edit,
-    [relation.name]: relation
+    [relation.name]: relation,
+    [orderSwitch.name]: orderSwitch
   },
   mixins: [listMixin, constsMixin, baseMixin],
   data () {
@@ -281,12 +291,31 @@ export default {
         }
       ],
       tableData: [],
-      selected: []
+      selected: [],
+      selectedData: {
+        data: {},
+        index: -1
+      }
     }
   },
   methods: {
     handleDelete (params) {
       console.log(params)
+    },
+    handleSwitch () {
+      if (this.selectedData.index < 0) {
+        return this.$Message.info('请选择要操作的工单')
+      }
+      this.$refs.switch.setData(this.selectedData.data, true)
+      this.$refs.switch.open()
+    },
+    onRowClick (data, index) {
+      this.selectedData = {
+        data,
+        index
+      }
+      // console.log('EditData', data)
+      this.$refs.relation.setData(data, index)
     },
     exportExcel () {
       this.$refs.tables.exportCsv({
@@ -303,10 +332,6 @@ export default {
     onCancel (e) {
       console.log('oncancel', e)
       e()
-    },
-    onRowClick (data, index) {
-      // console.log('EditData', data)
-      this.$refs.relation.setData(data, index)
     },
     back () {
       if (!this.selected.length) {

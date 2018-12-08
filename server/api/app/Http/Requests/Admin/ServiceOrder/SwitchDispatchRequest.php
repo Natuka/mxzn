@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\ServiceOrder;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\RequestTrait;
 
 class SwitchDispatchRequest extends FormRequest
 {
@@ -25,7 +26,7 @@ class SwitchDispatchRequest extends FormRequest
     public function rules()
     {
         return [
-            'dispatch_type' => 'required',
+//            'dispatch_type' => 'required',
             'dispatch_engineer' => 'required',
         ];
     }
@@ -33,7 +34,7 @@ class SwitchDispatchRequest extends FormRequest
     public function messages()
     {
         return [
-            'dispatch_type.required' => '派工方式必填',
+//            'dispatch_type.required' => '派工方式必填',
             'dispatch_engineer.required' => '工程师必填',
         ];
     }

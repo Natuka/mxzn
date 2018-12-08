@@ -133,11 +133,18 @@
           <Input v-model="data.equipment.contract_number" placeholder="合同编号" readonly></Input>
         </FormItem>
 
-        <FormItem label="类别" prop="type">
-          <Input :value="equipmentType" placeholder="类别" readonly></Input>
+        <FormItem label="类别" prop="data.equipment.type">
+          <Select v-model="data.equipment.type" disabled>
+            <Option
+              v-for="(type, index) in typeList"
+              :key="index"
+              :value="index"
+            >{{type}}
+            </Option>
+          </Select>
         </FormItem>
 
-        <FormItem label="安装日期" prop="equipment.model">
+        <FormItem label="安装日期" prop="equipment.installation_date">
           <Input v-model="data.equipment.installation_date" placeholder="安装日期" readonly></Input>
         </FormItem>
 
@@ -248,14 +255,14 @@
             <FormItem label="本体编号" prop="equipment.main_no">
               <Input v-model="data.equipment.main_no" readonly></Input>
             </FormItem>
-            <FormItem label="本体型号" prop="equipment.model">
-              <Input v-model="data.equipment.model" readonly></Input>
+            <FormItem label="本体型号" prop="equipment.main_model">
+              <Input v-model="data.equipment.main_model" readonly></Input>
             </FormItem>
             <FormItem label="控制箱编号" prop="equipment.control_box_no">
               <Input v-model="data.equipment.control_box_no" readonly></Input>
             </FormItem>
-            <FormItem label="控制箱型号" prop="equipment.technology_staff">
-              <Input v-model="data.equipment.technology_staff" readonly></Input>
+            <FormItem label="控制箱型号" prop="equipment.control_box_model">
+              <Input v-model="data.equipment.control_box_model" readonly></Input>
             </FormItem>
             <FormItem label="焊机编号" prop="equipment.welding_machine_no">
               <Input v-model="data.equipment.welding_machine_no" readonly></Input>
@@ -387,12 +394,15 @@ import uploadDoc from '@/components/upload/doc'
 
 import {addRepair} from '@/api/order_flow/repair'
 import {selectDepartment} from '@/api/select/department'
+import {selectStaff} from '@/api/select/staff'
+import {selectCustomer} from '@/api/select/customer'
 import {selectCustomerContact} from '@/api/select/customer-contact'
 import {selectCustomerEquipment} from '@/api/select/customer-equipment'
 import * as orderConst from '@/constants/order_flow'
 import * as orderMachineConst from '@/constants/machine'
 import * as orderFaultConst from '@/constants/order_fault'
 import * as customerConst from '@/constants/customer'
+import * as customerequipmentConst from '@/constants/customerequipment'
 import dayjs from 'dayjs'
 
 import * as validate from '@/libs/validate'
@@ -519,9 +529,9 @@ export default {
         'equipment.model': [
           validate.number('请选择型号规格')
         ],
-        'equipment.contract_number': [
-          validate.number('请选择合同编号')
-        ],
+        // 'equipment.contract_number': [
+        //   validate.number('请选择合同编号')
+        // ],
         receive_at: [
           validate.notEmpty('受理时间不能为空')
         ],
@@ -538,6 +548,7 @@ export default {
           validate.notEmpty('故障描述不能为空')
         ]
       },
+      typeList: customerequipmentConst.TYPE_LIST,
       select: {
         source: orderConst.ORDER_SOURCE,
         type: orderConst.ORDER_TYPE,
@@ -621,6 +632,17 @@ export default {
       console.log('currentDate', currentDate)
       return true
     },
+    async afterOpen () {
+      let data = this.data
+
+      let customers = await selectCustomer({id: data.customer_id})
+      this.init.customer = customers.data
+
+      let staffs = await selectStaff({id: data.receive_staff_id})
+      this.init.receiveStaff = staffs.data
+
+      return true
+    },
     async organizationChange (id) {
       this.data.org_id = id
       if (!id) {
@@ -671,6 +693,7 @@ export default {
     },
     async machineChange (machine) {
       this.data.machine_id = machine.id
+      // console.log('machine258', machine)
       this.data.equipment = machine
     },
     async receiveStaffChange (staffId) {

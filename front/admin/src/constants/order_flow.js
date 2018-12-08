@@ -23,4 +23,5 @@ export const SERVICE_LAND_TRAFFIC = '否,是'.split(',')
 export const SERVICE_AREA = '省内,省外,公司内,客户现场'.split(',')
 export const CANCEL_REASON = '客户撤销,问题解决,其他'.split(',')
 
-export const DISPATCH = '内部派工,网点派工'.split(',')
+export const DISPATCH = '内部派工'.split(',')
+export const DISPATCH_NO = '内部派工,网点派工'.split(',')

@@ -15,6 +15,7 @@ use App\Http\Requests\Admin\ServiceOrder\SwitchDispatchRequest;
 use App\Models\ServiceOrder;
 use App\Models\Engineer;
 use App\Models\ServiceOrderEngineer;
+use App\Models\ServiceOrderRepair;
 
 class OperationController extends BaseController
 {
@@ -45,6 +46,13 @@ class OperationController extends BaseController
                 $new_engineer['type'] = 0;
                 $new_engineer['is_change'] = 0;
                 $orderEngineer->forceFill($new_engineer)->save();
+
+                //产生一笔处理过程
+                $orderRepair = new ServiceOrderRepair();
+                $new_repair['service_order_id'] = $order->id;
+                $new_repair['staff_id'] = $engineer->staff_id;
+                $new_repair['staff_name'] = $engineer->staff_name;
+                $orderRepair->forceFill($new_repair)->save();
 
                 //送到工单处理
                 $order->status = 3;
@@ -112,6 +120,13 @@ class OperationController extends BaseController
                 $new_engineer['type'] = 0;
                 $new_engineer['is_change'] = 0;
                 $orderEngineer->forceFill($new_engineer)->save();
+
+                //产生一笔处理过程
+                $orderRepair = new ServiceOrderRepair();
+                $new_repair['service_order_id'] = $order->id;
+                $new_repair['staff_id'] = $engineer->staff_id;
+                $new_repair['staff_name'] = $engineer->staff_name;
+                $orderRepair->forceFill($new_repair)->save();
 
                 //送到工单处理
                 $order->status = 3;

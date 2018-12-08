@@ -19,6 +19,8 @@ class EngineerController extends BaseController
 
     public function search(Request $request, Engineer $engineer)
     {
+        $engineer = $engineer->where('status', 1);
+
         if ($name = $request->get('name', '')) {
             $engineer = $engineer->where('staff_name', 'like', like($name));
         }

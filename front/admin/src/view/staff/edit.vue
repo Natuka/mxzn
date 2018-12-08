@@ -74,6 +74,18 @@
             @on-change="(value) => this.data.job = value"
           ></static-select>
         </FormItem>
+
+        <FormItem label="工程师">
+          <RadioGroup v-model="data.is_engineer">
+            <Radio :label="1">
+              <span>是</span>
+            </Radio>
+            <Radio :label="0">
+              <span>否</span>
+            </Radio>
+          </RadioGroup>
+        </FormItem>
+
         <FormItem label="毕业院校" prop="graduated_school">
           <Input v-model="data.graduated_school" placeholder="毕业院校"></Input>
         </FormItem>
@@ -196,6 +208,7 @@ export default {
         dep_id: 0,
         post: 0,
         job: 0,
+        is_engineer: 0,
         graduated_school: '',
         education: 0,
         skill_expertise: '',

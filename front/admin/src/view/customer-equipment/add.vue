@@ -104,10 +104,10 @@
           <Input v-model="data.axis6_no" placeholder="6轴编号"></Input>
         </FormItem>
         <FormItem label="中文编码" prop="code_chinese">
-          <Input v-model="data.code_chinese" placeholder="中文编码" disabled></Input>
+          <Input v-model="data.code_chinese" placeholder="中文编码"></Input>
         </FormItem>
         <FormItem label="识别码" prop="identification_code">
-          <Input v-model="data.identification_code" placeholder="识别码" disabled></Input>
+          <Input v-model="data.identification_code" placeholder="识别码"></Input>
         </FormItem>
         <FormItem label="制造日期" prop="manufacture_date">
           <DatePicker

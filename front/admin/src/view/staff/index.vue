@@ -133,6 +133,13 @@ export default {
           render: this.baseRender('job', 'findJob')
         },
         {
+          width: 80,
+          title: '工程师',
+          key: 'is_engineer',
+          sortable: false,
+          render: this.constRender('is_engineer', staffConst.YESNO_LIST)
+        },
+        {
           width: 100,
           title: '手机',
           key: 'mobile',

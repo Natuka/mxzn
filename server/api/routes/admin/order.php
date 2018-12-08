@@ -75,7 +75,7 @@ Route::group([
         // switch
         Route::post('/{order}/switch', [
             'uses' => 'RepairController@switchDispatch',
-            'as' => 'order_repair_update',
+            'as' => 'order_repair_switch',
             'display_name' => '维修工单转派',
             'visible' => false,
         ]);

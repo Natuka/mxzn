@@ -27,7 +27,7 @@ class DispatchRequest extends FormRequest
     public function rules()
     {
         return [
-            'dispatch_type' => 'required',
+//            'dispatch_type' => 'required',
             'dispatch_engineer' => 'required',
         ];
     }
@@ -35,7 +35,7 @@ class DispatchRequest extends FormRequest
     public function messages()
     {
         return [
-            'dispatch_type.required' => '派工方式必填',
+//            'dispatch_type.required' => '派工方式必填',
             'dispatch_engineer.required' => '工程师必填',
         ];
     }

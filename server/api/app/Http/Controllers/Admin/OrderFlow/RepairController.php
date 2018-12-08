@@ -8,6 +8,7 @@ use App\Models\OrderEngineer;
 use App\Models\OrderMachineFault;
 use App\Models\ServiceOrder;
 use App\Models\ServiceOrderEngineer;
+use App\Models\ServiceOrderRepair;
 use App\Models\ServiceOrderFault;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -114,12 +115,18 @@ class RepairController extends OperationController
             $engineers = $request->get('engineers');
             if (!empty($engineers)) {
                 foreach ($engineers as $engineer) {
-                    $engineer = array_only($engineer, ['staff_id', 'staff_name']);
+                    $engineer = $new_repair = array_only($engineer, ['staff_id', 'staff_name']);
                     $orderEngineer = new ServiceOrderEngineer();
                     $engineer['service_order_id'] = $order->id;
                     $engineer['type'] = 0;
                     $engineer['is_change'] = 0;
                     $orderEngineer->forceFill($engineer)->save();
+
+                    //产生一笔处理过程
+                    $orderRepair = new ServiceOrderRepair();
+                    $new_repair['service_order_id'] = $order->id;
+                    $orderRepair->forceFill($new_repair)->save();
+                    unset($engineer, $new_repair);
                 }
             }
             //TODO 执行保存确认工程师信息

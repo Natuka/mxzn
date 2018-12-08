@@ -19,8 +19,8 @@
           <Input v-model="data.name" placeholder="设备名称" disabled></Input>
         </FormItem>
 
-        <FormItem label="二维码图片:" prop="model">
-          <FormItem  prop="code">
+        <FormItem label="二维码图片:" prop="model" style="height: 320px;">
+          <FormItem  prop="qrcode_img">
             <img v-if="src" :src="src" width="300" />
             <span v-else>暂无图片</span>
           </FormItem>
@@ -63,7 +63,7 @@ export default {
   computed: {
     src () {
       if (this.data.qrcode_img) {
-        return 'https://api.mxhj.net/qrcodes/' + this.data.qrcode_img
+        return 'https://api.mxhj.net/' + this.data.qrcode_img
       }
       return ''
     },

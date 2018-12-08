@@ -118,10 +118,9 @@ class IndexController extends Controller
     public function createLoginAccount(Staff $staff, Request $request)
     {
         $data = [
-            'name' => $staff->name,
+            'name' => $staff->number,
             'code' => $staff->number,
             'email' => $staff->email ?: 'S' . $staff->number . '@mxcs.com',
-            'number' => $staff->number,
             'mobile' => (int)$staff->mobile,
             'qq' => '0',
             'wechat' => '',
@@ -234,10 +233,9 @@ class IndexController extends Controller
     public function updateLoginAccount(Staff $staff, Request $request)
     {
         $data_save = [
-            'name' => $staff->name,
+            'name' => $staff->number,
             'code' => $staff->number,
             'email' => $staff->email ?: 'S' . $staff->number . '@mxcs.com',
-            'number' => $staff->number,
             'mobile' => (int)$staff->mobile,
         ];
         if ($request->get('update_password')) {
