@@ -10,7 +10,8 @@
 
 Route::group([
     'prefix' => 'machineqrcode',
-    'namespace' => 'Admin\Machineqrcode'
+    'namespace' => 'Admin\Machineqrcode',
+    'middleware' => ['auth:api', 'admin.api'],
 ], function () {
     Route::get('/', [
         'uses' => 'IndexController@index',

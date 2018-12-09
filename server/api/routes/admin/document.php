@@ -10,7 +10,8 @@
 
 Route::group([
     'prefix' => 'document',
-    'namespace' => 'Admin\Document'
+    'namespace' => 'Admin\Document',
+    'middleware' => ['auth:api', 'admin.api'],
 ], function () {
     Route::get('/', [
         'uses' => 'IndexController@index',

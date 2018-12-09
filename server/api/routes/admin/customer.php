@@ -10,7 +10,8 @@
 
 Route::group([
     'prefix' => 'customer',
-    'namespace' => 'Admin\Customer'
+    'namespace' => 'Admin\Customer',
+    'middleware' => ['auth:api', 'admin.api'],
 ], function () {
     Route::get('/', [
         'uses' => 'IndexController@index',

@@ -190,8 +190,8 @@ class ContactController extends Controller
         $ret = $customercontact->forceFill($data)->save();
 
         if ($ret) {
-            //$this->updateLoginAccount($customercontact, $request);
-            $this->createLoginAccount($customercontact, $request);
+            $this->updateLoginAccount($customercontact, $request);
+//            $this->createLoginAccount($customercontact, $request);
             return success_json($customercontact, '');
         }
 

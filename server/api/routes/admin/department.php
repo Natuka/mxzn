@@ -10,7 +10,8 @@
 
 Route::group([
     'prefix' => 'department',
-    'namespace' => 'Admin\Department'
+    'namespace' => 'Admin\Department',
+    'middleware' => ['auth:api', 'admin.api'],
 ], function () {
     Route::get('/', [
         'uses' => 'IndexController@index',

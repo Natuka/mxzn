@@ -10,7 +10,8 @@
 
 Route::group([
     'prefix' => 'outstaff',
-    'namespace' => 'Admin\Staff'
+    'namespace' => 'Admin\Staff',
+    'middleware' => ['auth:api', 'admin.api'],
 ], function () {
     Route::get('/', [
         'uses' => 'OutController@index',

@@ -10,7 +10,8 @@
 
 Route::group([
     'prefix' => 'machine',
-    'namespace' => 'Admin\Machine'
+    'namespace' => 'Admin\Machine',
+    'middleware' => ['auth:api', 'admin.api'],
 ], function () {
     Route::get('/', [
         'uses' => 'IndexController@index',

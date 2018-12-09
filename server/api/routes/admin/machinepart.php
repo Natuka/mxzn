@@ -10,7 +10,8 @@
 
 Route::group([
     'prefix' => 'machinepart',
-    'namespace' => 'Admin\MachinePart'
+    'namespace' => 'Admin\MachinePart',
+    'middleware' => ['auth:api', 'admin.api'],
 ], function () {
     Route::get('/', [
         'uses' => 'IndexController@index',

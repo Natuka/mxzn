@@ -138,6 +138,9 @@ class IndexController extends Controller
     public function update(UpdateRequest $request, Machine $machine)
     {
         $user = $request->user();
+//        \Log::info([
+//            'XXXX789651' => $user
+//        ]);
         $data = $request->only([
             'erp_itemid',
             'number',
