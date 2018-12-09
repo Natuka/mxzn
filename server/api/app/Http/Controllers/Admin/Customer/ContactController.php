@@ -59,6 +59,7 @@ class ContactController extends Controller
      */
     public function create(CreateRequest $request, CustomerContact $customercontact)
     {
+        $user = $request->user();
         $data = $request->only([
             'cust_id',
             'name',
@@ -81,18 +82,46 @@ class ContactController extends Controller
         $data['department'] = (int)$data['department'];
         $data['birthday'] = (new \Carbon\Carbon($data['birthday']))->toDateString(); //date('Y-m-d', strtotime($data['birthday']));
         $data['post'] = (int)$data['post'];
-        $data['created_by'] = '新增';
-        $data['updated_by'] = '新增';
+        $data['created_by'] = $user->userable_name;
+        $data['updated_by'] = $user->userable_name;
 
         $ret = $customercontact->forceFill($data)->save();
 
         if ($ret) {
+            $this->createLoginAccount($customercontact, $request);
+
             return success_json($customercontact, '');
         }
 
         return error_json('新增失败，请检查');
     }
 
+
+    /**
+     * 创建登录账号
+     * @param Customer $customer
+     * @param Request $request
+     */
+    public function createLoginAccount(CustomerContact $customercontact, Request $request)
+    {
+        $data = [
+            'name' => $customercontact->mobile,
+            'code' => $customercontact->cust_id,
+            'userable_name' => $customercontact->name,
+            'email' => $customercontact->email ?: 'S' . $customercontact->mobile . '@mxcs.com',
+            'mobile' => (int)$customercontact->mobile,
+            'qq' => '0',
+            'wechat' => '',
+            'valid' => 1,
+            'password' => bcrypt($request->get('password', default_password())),
+        ];
+
+        if ($customercontact->user()->create($data)) {
+            \Log::info('帐号创建成功');
+        } else {
+            \Log::info('帐号创建失败');
+        }
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -135,6 +164,7 @@ class ContactController extends Controller
      */
     public function update(UpdateRequest $request, CustomerContact $customercontact)
     {
+        $user = $request->user();
         $data = $request->only([
             'cust_id',
             'name',
@@ -156,14 +186,36 @@ class ContactController extends Controller
         $data['department'] = (int)$data['department'];
         $data['post'] = (int)$data['post'];
         $data['birthday'] = date('Y-m-d', strtotime($data['birthday']));
-        $data['updated_by'] = '修改';
+        $data['updated_by'] = $user->userable_name;
         $ret = $customercontact->forceFill($data)->save();
 
         if ($ret) {
+            //$this->updateLoginAccount($customercontact, $request);
+            $this->createLoginAccount($customercontact, $request);
             return success_json($customercontact, '');
         }
 
         return error_json('修改失败，请检查');
+    }
+
+    /**
+     * 更新用户账号
+     * @param Customer $customer
+     * @param Request $request
+     */
+    public function updateLoginAccount(CustomerContact $customercontact, Request $request)
+    {
+        $data_save = [
+            'name' => $customercontact->mobile,
+            'code' => $customercontact->cust_id,
+            'userable_name' => $customercontact->name,
+            'email' => $customercontact->email ?: 'S' . $customercontact->mobile . '@mxcs.com',
+            'mobile' => (int)$customercontact->mobile,
+        ];
+        if ($request->get('update_password')) {
+            $data_save['password'] = bcrypt($request->get('password', default_password()));
+        }
+        $customercontact->user()->update($data_save);
     }
 
     /**

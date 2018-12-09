@@ -16,6 +16,7 @@ class User extends Authenticatable
         'App\Models\Customer',
         'App\Models\Staff',
         'App\Models\OutStaff',
+        'App\Models\CustomerContact',
     ];
 
     /**
@@ -24,7 +25,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'code', 'mobile', 'qq', 'wechat',
+        'name', 'email', 'password', 'code', 'mobile', 'qq', 'wechat', 'userable_name',
     ];
 
     /**

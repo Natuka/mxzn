@@ -60,6 +60,7 @@ class IndexController extends Controller
      */
     public function create(CreateRequest $request, Staff $staff)
     {
+        $user = $request->user();
         $data = $request->only([
             'org_id',
             'name',
@@ -94,8 +95,8 @@ class IndexController extends Controller
         $data['dep_id'] = (int)$data['dep_id'];
         $data['is_engineer'] = (int)$data['is_engineer'];
 
-        $data['created_by'] = '新增';
-        $data['updated_by'] = '新增';
+        $data['created_by'] = $user->userable_name;
+        $data['updated_by'] = $user->userable_name;
         $data['number'] = Staff::staffCode(date('Y-m-d')); //(系统自动编号)
 
         $ret = $staff->forceFill($data)->save();
@@ -120,6 +121,7 @@ class IndexController extends Controller
         $data = [
             'name' => $staff->number,
             'code' => $staff->number,
+            'userable_name' => $staff->name,
             'email' => $staff->email ?: 'S' . $staff->number . '@mxcs.com',
             'mobile' => (int)$staff->mobile,
             'qq' => '0',
@@ -166,6 +168,10 @@ class IndexController extends Controller
      */
     public function update(UpdateRequest $request, Staff $staff)
     {
+        $user = $request->user();
+//        \Log::info([
+//            'XXXX78965' => $user
+//        ]);
         $is_engineer_org = $staff->is_engineer; //原来的状态
         $data = $request->only([
             'org_id',
@@ -194,7 +200,7 @@ class IndexController extends Controller
             'address',
             'remark',
         ]);
-        $data['updated_by'] = '修改';
+        $data['updated_by'] = $user->userable_name;
 
         $data['province_id'] = (int)$data['province_id'];
         $data['city_id'] = (int)$data['city_id'];
@@ -235,6 +241,7 @@ class IndexController extends Controller
         $data_save = [
             'name' => $staff->number,
             'code' => $staff->number,
+            'userable_name' => $staff->name,
             'email' => $staff->email ?: 'S' . $staff->number . '@mxcs.com',
             'mobile' => (int)$staff->mobile,
         ];

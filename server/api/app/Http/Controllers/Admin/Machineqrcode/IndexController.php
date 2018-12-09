@@ -57,6 +57,7 @@ class IndexController extends Controller
      */
     public function store(CreateRequest $request, Machineqrcode $machineqrcode)
     {
+        $user = $request->user();
         $data = $request->only([
             'number',
             'name',
@@ -66,7 +67,7 @@ class IndexController extends Controller
             'serial_number',
             'remark'
         ]);
-        $data['created_by'] = '新增';
+        $data['created_by'] = $user->userable_name;
 
         $data['manufacture_date'] = date('Y-m-d', strtotime($data['manufacture_date']));
         $data['purchase_date'] = date('Y-m-d', strtotime($data['purchase_date']));
@@ -121,6 +122,7 @@ class IndexController extends Controller
      */
     public function update(UpdateRequest $request, Machineqrcode $machineqrcode)
     {
+        $user = $request->user();
         $data = $request->only([
             'number',
             'name',
@@ -130,7 +132,7 @@ class IndexController extends Controller
             'serial_number',
             'remark'
         ]);
-        $data['updated_by'] = '修改';
+        $data['updated_by'] = $user->userable_name;
 
         $data['manufacture_date'] = date('Y-m-d', strtotime($data['manufacture_date']));
         $data['purchase_date'] = date('Y-m-d', strtotime($data['purchase_date']));

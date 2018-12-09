@@ -118,6 +118,7 @@ class IndexController extends Controller
      */
     public function create(CreateRequest $request, Customer $customer)
     {
+        $user = $request->user();
         $data = $request->only([
             'erp_cust_id',
             'name',
@@ -148,7 +149,7 @@ class IndexController extends Controller
             'syn_datetime',
         ]);
         //$request['source'] = $request->get('source', 3);
-        $data['created_by'] = '新增';
+        $data['created_by'] = $user->userable_name;
         $data['number'] = Customer::customerCode(date('Y-m-d')); //(系统自动编号)
 
         $data['follow_up_nexttime'] = date('Y-m-d H:i:s', strtotime($data['follow_up_nexttime']));
@@ -162,7 +163,7 @@ class IndexController extends Controller
         $ret = $customer->forceFill($data)->save();
 
         if ($ret) {
-            $this->createLoginAccount($customer, $request);
+            //$this->createLoginAccount($customer, $request);
             return success_json($customer, '');
         }
 
@@ -205,6 +206,7 @@ class IndexController extends Controller
     public function update(UpdateRequest $request, Customer $customer)
     {
 //        dd($request->getContent(), $request->all());
+        $user = $request->user();
         $data = $request->only([
             'erp_cust_id',
             'name',
@@ -234,7 +236,7 @@ class IndexController extends Controller
             'status',
             'syn_datetime',
         ]);
-        $data['updated_by'] = '修改';
+        $data['updated_by'] = $user->userable_name;
 
         $data['follow_up_nexttime'] = date('Y-m-d H:i:s', strtotime($data['follow_up_nexttime']));
         $data['contact_lasttime'] = date('Y-m-d H:i:s', strtotime($data['contact_lasttime']));
@@ -246,7 +248,7 @@ class IndexController extends Controller
         $ret = $customer->forceFill($data)->save();
         if ($ret) {
 
-            $this->updateLoginAccount($customer, $request);
+//            $this->updateLoginAccount($customer, $request);
 
             return success_json($customer, '');
         }

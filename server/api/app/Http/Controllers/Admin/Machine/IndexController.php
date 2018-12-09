@@ -56,6 +56,7 @@ class IndexController extends Controller
      */
     public function create(CreateRequest $request, Machine $machine)
     {
+        $user = $request->user();
         $data = $request->only([
             'erp_itemid',
             'number',
@@ -79,7 +80,7 @@ class IndexController extends Controller
             'remark',
             'syn_datetime',
         ]);
-        $data['created_by'] = '新增';
+        $data['created_by'] = $user->userable_name;
 
         $data['syn_datetime'] = date('Y-m-d H:i:s', strtotime($data['syn_datetime']));
         if (empty($data['syn_datetime']) || ($data['syn_datetime'] <= '1991-01-01 00:00:00')) $data['syn_datetime'] = NULL;
@@ -136,6 +137,7 @@ class IndexController extends Controller
      */
     public function update(UpdateRequest $request, Machine $machine)
     {
+        $user = $request->user();
         $data = $request->only([
             'erp_itemid',
             'number',
@@ -159,7 +161,7 @@ class IndexController extends Controller
             'remark',
             'syn_datetime',
         ]);
-        $data['updated_by'] = '修改';
+        $data['updated_by'] = $user->userable_name;
 
         $data['syn_datetime'] = date('Y-m-d H:i:s', strtotime($data['syn_datetime']));
         if (empty($data['syn_datetime']) || ($data['syn_datetime'] <= '1991-01-01 00:00:00')) $data['syn_datetime'] = NULL;

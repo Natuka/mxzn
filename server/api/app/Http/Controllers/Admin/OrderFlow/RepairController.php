@@ -49,6 +49,7 @@ class RepairController extends OperationController
     public function store(Request $request, ServiceOrder $order)
     {
         //
+        $user = $request->user();
         $data = $request->only([
             'type',
             'source',
@@ -87,6 +88,8 @@ class RepairController extends OperationController
         if (!empty($equipment)) {
             $data['equipment_id'] = $equipment['id'];
         }
+        $data['created_by'] = $user->userable_name;
+        $data['updated_by'] = $user->userable_name;
 
         $order->forceFill($data);
 
@@ -155,6 +158,7 @@ class RepairController extends OperationController
     public function update(Request $request, ServiceOrder $order)
     {
         //
+        $user = $request->user();
         $data = $request->only([
             'source',
             'customer_id',
@@ -189,6 +193,7 @@ class RepairController extends OperationController
         if (!empty($equipment)) {
             $data['equipment_id'] = $equipment['id'];
         }
+        $data['updated_by'] = $user->userable_name;
 
         $order->forceFill($data);
 

@@ -55,6 +55,7 @@ class IndexController extends Controller
      */
     public function store(CreateRequest $request, Service $service)
     {
+        $user = $request->user();
         $data = $request->only([
             'name',
             'content',
@@ -70,7 +71,7 @@ class IndexController extends Controller
         ]);
         $data['number'] = Service::serviceCode(date('Y-m-d')); //(系统自动编号)
 
-        $data['created_by'] = '新增';
+        $data['created_by'] = $user->userable_name;
         $data['area'] = intval($data['area']);
         $data['is_land_traffic'] = intval($data['is_land_traffic']);
         $data['is_hotel'] = intval($data['is_hotel']);
@@ -121,6 +122,7 @@ class IndexController extends Controller
      */
     public function update(UpdateRequest $request, Service $service)
     {
+        $user = $request->user();
         $data = $request->only([
             'name',
             'content',
@@ -134,7 +136,7 @@ class IndexController extends Controller
             'expiration_date',
             'remark'
         ]);
-        $data['updated_by'] = '修改';
+        $data['updated_by'] = $user->userable_name;
         $data['area'] = intval($data['area']);
         $data['is_land_traffic'] = intval($data['is_land_traffic']);
         $data['is_hotel'] = intval($data['is_hotel']);

@@ -18,4 +18,9 @@ class CustomerContact extends Model
 //        关联查询出部分字段
 //        return $this->belongsTo(Customer::class, 'cust_id')->select(['id','name']);
     }
+
+    public function user()
+    {
+        return $this->morphOne(User::class, 'userable');
+    }
 }

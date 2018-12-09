@@ -66,6 +66,7 @@ class EquipmentController extends Controller
      */
     public function store(CreateRequest $request, CustomerEquipment $customerequipment)
     {
+        $user = $request->user();
         $data = $request->only([
             'cust_id',
             'item_id',
@@ -125,8 +126,8 @@ class EquipmentController extends Controller
         //产生QRCODE
         QrCode::format('png')->size(300)->generate($data['qrcode_url'], public_path($data['qrcode_img']));
 
-        $data['created_by'] = '新增';
-        $data['updated_by'] = '新增';
+        $data['created_by'] = $user->userable_name;
+        $data['updated_by'] = $user->userable_name;
 
         $ret = $customerequipment->forceFill($data)->save();
 
@@ -168,6 +169,7 @@ class EquipmentController extends Controller
      */
     public function update(UpdateRequest $request, CustomerEquipment $customerequipment)
     {
+        $user = $request->user();
         $data = $request->only([
             'cust_id',
             'item_id',
@@ -219,7 +221,7 @@ class EquipmentController extends Controller
         if (empty($data['acceptance_date']) || ($data['acceptance_date'] <= '1991-01-01')) $data['acceptance_date'] = NULL;
         if (empty($data['warranty_date']) || ($data['warranty_date'] <= '1991-01-01')) $data['warranty_date'] = NULL;
 
-        $data['updated_by'] = '修改';
+        $data['updated_by'] = $user->userable_name;
         if (empty($customerequipment->qrcode_key)) {
             $qrcode_key = 'CEQ'.md5(microtime());
             $data['qrcode_key'] = $qrcode_key;
