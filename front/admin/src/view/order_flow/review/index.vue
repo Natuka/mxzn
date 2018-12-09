@@ -222,6 +222,10 @@ export default {
         //   render: this.constRender('status', orderConst.ORDER_STATUS)
         // },
         {
+          title: ' ',
+          key: ''
+        },
+        {
           fixed: 'right',
           width: 250,
           title: '操作',

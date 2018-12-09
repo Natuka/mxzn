@@ -143,6 +143,10 @@ export default {
         //   }
         // },
         {
+          title: ' ',
+          key: ''
+        },
+        {
           width: 120,
           title: '客户设备',
           key: 'equipment_id',

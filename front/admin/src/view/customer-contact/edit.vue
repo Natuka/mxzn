@@ -147,6 +147,9 @@ export default {
       rules: {
         name: [
           {required: true, message: '姓名不能为空', trigger: 'blur'}
+        ],
+        mobile: [
+          {required: true, message: '手机不能为空', trigger: 'blur'}
         ]
       },
       postList: customercontactConst.POST_LIST,
