@@ -6,6 +6,7 @@ export default [
     name: 'staff',
     component: Main,
     meta: {
+      icon: 'ios-people-outline',
       access: ['staff_list'],
       title: '人员管理'
     },

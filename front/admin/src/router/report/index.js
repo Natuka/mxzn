@@ -6,8 +6,9 @@ export default [
     name: 'report',
     component: Main,
     meta: {
+      icon: 'ios-podium-outline',
       access: ['report_list'],
-      title: '报表管理',
+      title: '报表管理'
     },
     redirect: '/kpm/doc',
     children: [

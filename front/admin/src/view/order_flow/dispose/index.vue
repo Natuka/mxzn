@@ -58,7 +58,7 @@
       <mx-relation ref="relation"></mx-relation>
     </Card>
     <dispose-add ref="add" @refresh="refresh"></dispose-add>
-    <dispose-edit ref="edit" @refresh="refreshWithPage"></dispose-edit>
+    <repair-edit ref="edit" @refresh="refreshWithPage"></repair-edit>
     <mx-order-switch ref="switch" @refresh="refreshWithPage"></mx-order-switch>
   </div>
 </template>
@@ -69,7 +69,7 @@ import Tables from '_c/tables'
 import {disposeBack, disposeNext} from '@/api/order_flow/dispose'
 import search from './search'
 import add from './add'
-import edit from './edit'
+import edit from '../repair/edit'
 import relation from './relation'
 import orderSwitch from './operation/switch'
 
@@ -136,16 +136,51 @@ export default {
         },
         {
           width: 120,
-          title: '处理进度',
-          key: 'progress',
-          sortable: false
+          title: '客户名称',
+          key: 'customer_id',
+          sortable: false,
+          render: (h, {row}) => {
+            return h('span', row.customer ? row.customer.name : '')
+          }
         },
+        // {
+        //   width: 120,
+        //   title: '服务级别',
+        //   key: 'level',
+        //   sortable: false,
+        //   render: (h, {row}) => {
+        //     let level = row.customer ? row.customer.level : 0
+        //     return this.constRender(level, orderConst.ORDER_LEVEL)
+        //   }
+        // },
         {
           width: 120,
-          title: '处理时长',
-          key: 'progress_use_time',
-          sortable: false
+          title: '客户设备',
+          key: 'equipment_id',
+          sortable: false,
+          render: (h, {row}) => {
+            if (row.fault.length <= 0) {
+              return h('span', '1')
+            }
+            let equipment = row.fault[0].equipment
+            if (equipment.length <= 0) {
+              return h('span', '2')
+            }
+            return h('span', equipment ? equipment.name : '3')
+          }
         },
+        // {
+        //   width: 120,
+        //   title: '处理进度',
+        //   key: 'progress',
+        //   sortable: false
+        // },
+        // {
+        //   width: 120,
+        //   title: '处理时长',
+        //   key: 'progress_use_time',
+        //   sortable: false
+        // },
         {
           width: 120,
           title: '工程师',
@@ -157,22 +192,6 @@ export default {
             }
             return h('span', row.engineers.map(info => info.staff_name).join(', '))
           }
-        },
-        {
-          width: 120,
-          title: '客户名称',
-          key: 'customer_id',
-          sortable: false,
-          render: (h, {row}) => {
-            return h('span', row.customer ? row.customer.name : '')
-          }
-        },
-        {
-          width: 120,
-          title: '服务级别',
-          key: 'level',
-          sortable: false,
-          render: this.constRender('level', orderConst.ORDER_LEVEL)
         },
         {
           width: 160,

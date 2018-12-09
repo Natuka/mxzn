@@ -2,7 +2,7 @@
   <custom-modal
     ref="ref"
     width="1200px"
-    title="维修工单-修改"
+    title="工单-修改"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
     class="mxcs-three-column"
@@ -119,25 +119,32 @@
           ></Input>
         </FormItem>
 
-        <FormItem label="设备编号" prop="machine_id">
+        <FormItem label="客户设备" prop="equipment_id">
           <static-select
-            :init="init.machine_id"
+            :init="init.equipment_id"
             :data="select.customerEquipmentList"
             label="name"
             @on-change-data="machineChange"
           ></static-select>
         </FormItem>
 
-        <FormItem label="型号规格" prop="model">
+        <FormItem label="型号规格" prop="equipment.model">
           <Input v-model="data.equipment.model" placeholder="型号规格" readonly></Input>
         </FormItem>
 
-        <FormItem label="合同编号" prop="contract_number">
+        <FormItem label="合同编号" prop="equipment.contract_number">
           <Input v-model="data.equipment.contract_number" placeholder="合同编号" readonly></Input>
         </FormItem>
 
-        <FormItem label="类别" prop="type">
-          <Input v-model="equipmentType" placeholder="类别" readonly></Input>
+        <FormItem label="类别" prop="equipment.type">
+          <Select v-model="data.equipment.type" disabled>
+            <Option
+              v-for="(type, index) in typeList"
+              :key="index"
+              :value="index"
+            >{{type}}
+            </Option>
+          </Select>
         </FormItem>
 
         <FormItem label="安装日期" prop="equipment.installation_date">
@@ -252,14 +259,14 @@
             <FormItem label="本体编号" prop="equipment.main_no">
               <Input v-model="data.equipment.main_no" readonly></Input>
             </FormItem>
-            <FormItem label="本体型号" prop="equipment.model">
-              <Input v-model="data.equipment.model" readonly></Input>
+            <FormItem label="本体型号" prop="equipment.main_model">
+              <Input v-model="data.equipment.main_model" readonly></Input>
             </FormItem>
             <FormItem label="控制箱编号" prop="equipment.control_box_no">
               <Input v-model="data.equipment.control_box_no" readonly></Input>
             </FormItem>
-            <FormItem label="控制箱型号" prop="equipment.technology_staff">
-              <Input v-model="data.equipment.technology_staff" readonly></Input>
+            <FormItem label="控制箱型号" prop="equipment.control_box_model">
+              <Input v-model="data.equipment.control_box_model" readonly></Input>
             </FormItem>
             <FormItem label="焊机编号" prop="equipment.welding_machine_no">
               <Input v-model="data.equipment.welding_machine_no" readonly></Input>
@@ -412,12 +419,16 @@ import AreaMixin from '@/mixins/area'
 import uploadDoc from '@/components/upload/doc'
 
 import {updateRepair} from '@/api/order_flow/repair'
+import {selectStaff} from '@/api/select/staff'
+import {selectEngineer} from '@/api/select/engineer'
+import {selectCustomer} from '@/api/select/customer'
 import {selectCustomerContact} from '@/api/select/customer-contact'
 import {selectCustomerEquipment} from '@/api/select/customer-equipment'
 import * as orderConst from '@/constants/order_flow'
 import * as orderMachineConst from '@/constants/machine'
 import * as orderFaultConst from '@/constants/order_fault'
 import * as customerConst from '@/constants/customer'
+import * as customerequipmentConst from '@/constants/customerequipment'
 import dayjs from 'dayjs'
 
 import * as validate from '@/libs/validate'
@@ -459,7 +470,7 @@ export default {
         remark: '',
         engineers: [],
         engineer_ids: [], // 工程师列表
-        machine_id: 0,
+        equipment_id: 0,
         customer: {
           id: 0,
           erp_cust_id: 0,
@@ -532,14 +543,14 @@ export default {
         source: [
           validate.number('请选择受理来源')
         ],
-        machine_id: [
-          validate.number('请选择设备编号')
+        equipment_id: [
+          validate.number('请选择客户设备')
         ],
         emergency_degree: [
           validate.number('请选择紧急程度')
         ],
-        machine_id: [
-          validate.number('请选择设备编号')
+        'init.equipment_id': [
+          validate.number('请选择客户设备！')
         ],
         receive_at: [
           validate.notEmpty('受理时间不能为空')
@@ -557,6 +568,7 @@ export default {
           validate.notEmpty('故障描述不能为空')
         ]
       },
+      typeList: customerequipmentConst.TYPE_LIST,
       select: {
         source: orderConst.ORDER_SOURCE,
         type: orderConst.ORDER_TYPE,
@@ -581,7 +593,7 @@ export default {
         confirm_staff: [],
         confirmStaff: [],
         fault: [],
-        machine_id: 0
+        equipment_id: 0
       }
     }
   },
@@ -643,16 +655,21 @@ export default {
     },
     async afterOpen () {
       let data = this.data
+      console.log('data78955', data)
       // TODO 加载工程师
       if (data.engineers && data.engineers.length) {
         this.init.engineers = data.engineers
         this.data.engineer_ids = data.engineers.map(info => info.id)
       }
       // 加载接收人员
-      if (data.receive_staff) {
-        this.init.receiveStaff = [{...data.receive_staff}]
-      }
-      // 加载接收人员
+      let staffs = await selectStaff({id: data.receive_staff_id})
+      this.init.receiveStaff = staffs.data
+      // if (data.receive_staff) {
+      //   this.init.receiveStaff = [{...data.receive_staff}]
+      // }
+      // 加载确认工程师
+      // let engineers = await selectEngineer(0)
+      // this.init.engineers = engineers.data
       if (data.confirm_staff) {
         this.init.confirmStaff = [{...data.confirm_staff}]
       }
@@ -663,10 +680,12 @@ export default {
         await this.feedbackStaffChangeData(data.feedback_staff)
       }
       // 加载客户
-      if (data.customer) {
-        this.init.customer = [{...data.customer}]
-        // await this.customerChangeData(data.customer)
-      }
+      let customers = await selectCustomer({id: data.customer_id})
+      this.init.customer = customers.data
+      // if (data.customer) {
+      //   this.init.customer = [{...data.customer}]
+      //   // await this.customerChangeData(data.customer)
+      // }
       // 加载故障
       if (data.fault && data.fault.length) {
         this.init.fault = [...data.fault]
@@ -708,7 +727,7 @@ export default {
     async confirmStaffChangeData (staff) {
     },
     async machineChange (machine) {
-      this.data.machine_id = machine.id
+      this.data.equipment_id = machine.id
       this.data.equipment = machine
     },
     async receiveStaffChange (staffId) {
@@ -729,7 +748,7 @@ export default {
       data.equipment = {}
       if (data.fault && data.fault.length && data.fault[0].equipment) {
         data.quipment = data.fault[0].equipment
-        this.init.machine_id = data.quipment.id
+        this.init.equipment_id = data.quipment.id
         data.fault = data.fault[0]
       }
       return Promise.resolve(data)

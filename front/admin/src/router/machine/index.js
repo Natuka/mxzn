@@ -7,6 +7,7 @@ export default [
     name: 'machine',
     component: Main,
     meta: {
+      icon: 'ios-construct-outline',
       access: ['machine_list'],
       title: '设备管理'
     },

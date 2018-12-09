@@ -6,6 +6,7 @@ export default [
     name: 'customer',
     component: Main,
     meta: {
+      icon: 'md-contacts',
       access: ['customer_list'],
       title: '客户管理'
     },

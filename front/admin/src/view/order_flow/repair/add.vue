@@ -2,7 +2,7 @@
   <custom-modal
     ref="ref"
     width="1200px"
-    title="维修工单-新增"
+    title="工单-新增"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
     class="mxcs-three-column"
@@ -117,9 +117,9 @@
           ></Input>
         </FormItem>
 
-        <FormItem label="设备编号" prop="machine_id">
+        <FormItem label="客户设备" prop="equipment_id">
           <static-select
-            :init="init.machine_id"
+            :init="init.equipment_id"
             :data="select.customerEquipmentList"
             label="name"
             @on-change-data="machineChange"
@@ -133,7 +133,7 @@
           <Input v-model="data.equipment.contract_number" placeholder="合同编号" readonly></Input>
         </FormItem>
 
-        <FormItem label="类别" prop="data.equipment.type">
+        <FormItem label="类别" prop="equipment.type">
           <Select v-model="data.equipment.type" disabled>
             <Option
               v-for="(type, index) in typeList"
@@ -155,7 +155,7 @@
         <FormItem label="确认工程师" prop="confirm_staff_id">
           <remote-select
             :init="data.confirm_staff_id"
-            :initData="init.confirm_staff"
+            :initData="init.engineers"
             label="staff_name"
             url="select/engineer"
             @on-change="confirmStaffChange"
@@ -395,6 +395,7 @@ import uploadDoc from '@/components/upload/doc'
 import {addRepair} from '@/api/order_flow/repair'
 import {selectDepartment} from '@/api/select/department'
 import {selectStaff} from '@/api/select/staff'
+import {selectEngineer} from '@/api/select/engineer'
 import {selectCustomer} from '@/api/select/customer'
 import {selectCustomerContact} from '@/api/select/customer-contact'
 import {selectCustomerEquipment} from '@/api/select/customer-equipment'
@@ -444,7 +445,7 @@ export default {
         remark: '',
         engineers: [],
         engineer_ids: [], // 工程师列表
-        machine_id: 0,
+        equipment_id: 0,
         customer: {
           id: 0,
           erp_cust_id: 0,
@@ -517,14 +518,14 @@ export default {
         source: [
           validate.number('请选择受理来源')
         ],
-        machine_id: [
-          validate.number('请选择设备编号')
+        equipment_id: [
+          validate.number('请选择客户设备')
         ],
         emergency_degree: [
           validate.number('请选择紧急程度')
         ],
-        'init.machine_id': [
-          validate.number('请选择设备编号')
+        'init.equipment_id': [
+          validate.number('请选择客户设备！')
         ],
         'equipment.model': [
           validate.number('请选择型号规格')
@@ -685,14 +686,15 @@ export default {
       this.data.mobile = contact.mobile
     },
     async confirmStaffChange (staffId) {
-      this.data.confirm_staff_id = staffId
+      // this.data.confirm_staff_id = staffId
     },
     async confirmStaffChangeData (staff) {
-      console.log('staff', staff)
+      console.log('staff5825', staff)
+      // this.data.confirm_staff_id = staff.staff_id
       // this.data.confirm_staff_id = staff
     },
     async machineChange (machine) {
-      this.data.machine_id = machine.id
+      this.data.equipment_id = machine.id
       // console.log('machine258', machine)
       this.data.equipment = machine
     },
@@ -702,6 +704,10 @@ export default {
     async receiveStaffChangeData (staff) {
       this.data.receive_staff_id = staff.id
       this.data.receive_staff = staff
+
+      // 关联出同个组织架构的工程师,ID有问题
+      let engineers = await selectEngineer(staff.org_id)
+      this.init.engineers = engineers.data
     },
     async engineerChange () {
     },

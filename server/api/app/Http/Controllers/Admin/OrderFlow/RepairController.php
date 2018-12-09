@@ -241,11 +241,11 @@ class RepairController extends OperationController
             if ($attach_ids) {
                 $order->documents()->withTimestamps()->sync($attach_ids);
             }
-            return success_json('创建成功');
+            return success_json('修改成功');
         }
 
 
-        return error_json('创建失败，请检查');
+        return error_json('修改失败，请检查');
     }
 
     /**
