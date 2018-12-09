@@ -4,7 +4,12 @@ namespace App\Http\Controllers\Admin\OrderFlow;
 
 use App\Http\Requests\Admin\OrderFlow\CreateRequest;
 use App\Http\Requests\Admin\OrderFlow\UpdateRequest;
+use App\Models\OrderEngineer;
+use App\Models\OrderMachineFault;
 use App\Models\ServiceOrder;
+use App\Models\ServiceOrderEngineer;
+use App\Models\ServiceOrderRepair;
+use App\Models\ServiceOrderFault;
 use Illuminate\Http\Request;
 
 class CloseController extends BaseController
