@@ -19,6 +19,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\ExceptionEvent' => [
             'App\Listeners\ExceptionListener',
         ],
+        \App\Events\NotifyEvent::class => [
+            \App\Listeners\NotifyListener::class,
+        ],
     ];
 
     /**
