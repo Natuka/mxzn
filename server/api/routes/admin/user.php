@@ -11,7 +11,6 @@
 Route::group([
     'prefix' => 'user',
     'namespace' => 'Admin\User',
-    'middleware' => ['auth:api', 'admin.api'],
 ], function () {
     Route::post('/login', [
         'uses' => 'IndexController@login',
