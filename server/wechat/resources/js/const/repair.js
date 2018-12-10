@@ -56,3 +56,9 @@ export const PART_BROKEN = '否,是,未知'.split(',')
 export const MACHINE_TYPE = '请选择,软件故障,硬件故障,软硬件故障,待定'.split(
     ','
 )
+
+// 处理进度
+export const REPAIR_PROCESS = '请选择,故障检测中,配件维修中,等待配件更换,测试观察中,已处理完成,不能处理,其他'.split(
+    ','
+)
+export const REPAIR_NEXT = '暂不关闭,完工关闭,内部派工,派给网点'.split(',')

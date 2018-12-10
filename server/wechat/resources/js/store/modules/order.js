@@ -1,13 +1,28 @@
+import { order } from '../../const/service-order'
 const state = {
-    info: {}
+    info: {
+        ...order
+    }
 }
 
 const getters = {
-    sreviceOrder({ info }) {
+    serviceOrder({ info }) {
         return info
     },
     order({ info }) {
         return info
+    },
+    fault({ info }) {
+        if (info.fault.length) {
+            return info.fault[0]
+        }
+        return {}
+    },
+    equipment({ info }) {
+        if (info.fault.length) {
+            return info.fault[0].equipment || {}
+        }
+        return {}
     }
 }
 

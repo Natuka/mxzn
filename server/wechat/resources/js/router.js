@@ -20,7 +20,7 @@ let routes = [
         path: '/bind',
         component: () => import('./components/bind'),
         meta: {
-            auth: false
+            auth: true
         }
     },
     {
@@ -115,6 +115,20 @@ let routes = [
         }
     },
     {
+        path: '/repair/action',
+        component: () => import('./components/repair/action'),
+        meta: {
+            auth: true
+        }
+    },
+    {
+        path: '/repair/repair-list',
+        component: () => import('./components/repair/repair-list'),
+        meta: {
+            auth: true
+        }
+    },
+    {
         path: '/repair/evaluate',
         component: () => import('./components/repair/evaluate'),
         meta: {
@@ -124,6 +138,27 @@ let routes = [
     {
         path: '/repair/service',
         component: () => import('./components/repair/service'),
+        meta: {
+            auth: true
+        }
+    },
+    {
+        path: '/select/engineer',
+        component: () => import('./components/select/engineer'),
+        meta: {
+            auth: true
+        }
+    },
+    {
+        path: '/select/project',
+        component: () => import('./components/select/project'),
+        meta: {
+            auth: true
+        }
+    },
+    {
+        path: '/select/part',
+        component: () => import('./components/select/part'),
         meta: {
             auth: true
         }
@@ -138,6 +173,8 @@ const router = new VueRouter({
 
 export default router
 
+const toPage = location.hash.splice(1)
+
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.auth)) {
         if (!auth.loggedIn()) {
@@ -145,16 +182,16 @@ router.beforeEach((to, from, next) => {
                 path: '/login',
                 query: { redirect: to.fullPath }
             })
-        } else {
-            next()
+            return
         }
+        next()
+        return
+    }
+
+    if (auth.loggedIn()) {
+        next(false)
     } else {
-        if (auth.loggedIn()) {
-            console.log('login', to.path)
-            next(false)
-        } else {
-            next()
-        }
+        next()
     }
 })
 
@@ -168,10 +205,18 @@ Toast.loading({
 // 首先先获取一次用户是否存在，然后进行跳转
 user()
     .then(data => {
-        console.log('data', data)
         store.dispatch('setUser', data)
-        // router.push('/repair/evaluate')
-        router.push('/upload')
+        if (!data.mobile) {
+            router.push({
+                path: '/bind',
+                query: {
+                    redirect: toPage || '/repair/list'
+                }
+            })
+        } else {
+            router.push(toPage || '/repair/list')
+        }
+
         Toast.clear()
     })
     .catch(() => {

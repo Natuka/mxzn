@@ -9,7 +9,7 @@ export default {
             this.onChange(true)
             return
         }
-        pretendRequest(email, pass, (res) => {
+        pretendRequest(email, pass, res => {
             if (res.authenticated) {
                 localStorage.is_admin = res.is_admin
                 localStorage.name = res.name
@@ -41,34 +41,30 @@ export default {
     },
 
     logout(cb) {
-        axios.get(config.host + 'admin/logout')
-            .then(function (response) {
-
-            })
-            .catch(function (err) {
-
-            })
+        axios
+            .get(config.host + 'admin/logout')
+            .then(function(response) {})
+            .catch(function(err) {})
         delete localStorage.token
         if (cb) cb()
         this.onChange(false)
     },
 
     loggedIn() {
-        console.log('localStorage.userId', localStorage.userId, !!localStorage.userId)
         return !!localStorage.userId
     },
 
-    onChange() {
-    }
+    onChange() {}
 }
 
 function pretendRequest(email, pass, cb) {
     setTimeout(() => {
-        axios.post(config.host + 'admin/login', {
-            username: email,
-            password: pass
-        })
-            .then(function (response) {
+        axios
+            .post(config.host + 'admin/login', {
+                username: email,
+                password: pass
+            })
+            .then(function(response) {
                 console.log(response)
                 if (response.data.code == 0) {
                     cb({
@@ -79,13 +75,11 @@ function pretendRequest(email, pass, cb) {
                         token: response.data.token
                     })
                 } else {
-                    cb({authenticated: false})
+                    cb({ authenticated: false })
                 }
-
             })
-            .catch(function (err) {
+            .catch(function(err) {
                 console.log(err)
             })
     }, 0)
-
 }

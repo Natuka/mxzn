@@ -48,4 +48,14 @@ class Controller extends BaseController
 
         return true;
     }
+
+    /**
+     * @param Model $model
+     * @param null $customPage
+     * @return mixed
+     */
+    public function paginate($model, $customPage = null)
+    {
+        return $model->paginate($customPage ? (int) $customPage : config('pageinfo.per_page'));
+    }
 }

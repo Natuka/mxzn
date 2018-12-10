@@ -1,6 +1,6 @@
 export default {
     computed: {
-        from () {
+        from() {
             return this.$route.fullPath
         }
     },

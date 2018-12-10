@@ -1,4 +1,4 @@
-import {getApi, postApi} from '../util/axios'
+import { getApi, postApi } from '../util/axios'
 
 export function repairList(params = {}) {
     return getApi('repair/list', params)
@@ -9,9 +9,14 @@ export function repairCreate(params = {}) {
     return postApi('repair/create', params)
 }
 
+// 工单处理
+export function repairCreateRepair(serviceOrderId, params = {}) {
+    return postApi(`repair/${serviceOrderId}/repair`, params)
+}
+
 // 获取信息
 export function repairInfo(serviceOrderId, params) {
-    return getApi(`repair/${serviceOrderId}`, params)
+    return getApi(`repair/${serviceOrderId}/info`, params)
 }
 
 // 编辑

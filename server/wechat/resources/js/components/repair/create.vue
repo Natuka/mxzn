@@ -28,28 +28,6 @@
 
       <van-cell title="客户名称" :value="customer && customer.name"/>
       <van-cell title="地址" :value="customerAddr()"/>
-      <!-- <van-field
-        v-model="data.address"
-        label="地址"
-        type="textarea"
-        placeholder="地址"
-        rows="3"
-        :autosize="{ maxHeight: 100, minHeight: 50 }"
-      />-->
-      <!-- <van-cell title="服务类别" is-link value="GD-12173237-2323"/>
-            <van-cell title="受理方式" is-link value="GD-12173237-2323"/>
-            <van-cell title="受理时间" is-link value="GD-12173237-2323"/>
-            <van-cell title="受理人" is-link value="GD-12173237-2323">
-                <span class="mx-text-danger" slot="title">受理人</span>
-            </van-cell>
-            <van-cell title="服务号" is-link value="GD-12173237-2323">
-                <span class="mx-text-danger" slot="title">客户名称</span>
-            </van-cell>
-            <van-cell title="报修人" is-link value="GD-12173237-2323"/>
-            <van-cell title="报修电话" is-link value="GD-12173237-2323"/>
-            <van-cell title="联系地址" is-link value="GD-12173237-2323"/>
-            <van-cell title="所属区域" is-link value="GD-12173237-2323"/>
-      <van-cell title="技术员" is-link value="GD-12173237-2323"/>-->
     </van-cell-group>
     <van-collapse v-model="equipment" class="mt-20">
       <van-collapse-item title="机器信息" name="equipment">

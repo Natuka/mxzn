@@ -26,12 +26,20 @@ class IndexController extends Controller
         if ($type === 1) {
             $builder = $builder->whereIn('status', [0, 1, 2])->where('cancel_status', 0);
         } else if ($type === 2) {
-            $builder = $builder->whereIn('status', 3)->where('cancel_status', 0);
+            $builder = $builder->whereIn('status', [3])->where('cancel_status', 0);
         } else if ($type === 3) {
-            $builder = $builder->whereIn('status', 3)->where('cancel_status', 0);
+            $builder = $builder->whereIn('status', [3])->where('cancel_status', 0);
         }
 
-        $data = ServiceOrder::with([
+        $data = $builder->paginate();
+
+        return success_json($data);
+    }
+
+    // 单据状态: 制单中 0, 已受理 1,待派单 2,处理中 3,已取消 4,已关闭 5,无法处理 6
+    public function get(ServiceOrder $order, Request $request)
+    {
+        $order = $order->with([
             'fault',
             'documents',
             'customer',
@@ -39,13 +47,10 @@ class IndexController extends Controller
             'feedbackStaff',
             'receiveStaff',
             'confirmStaff',
-        ])->paginate();
+        ]);
 
-        return success_json($data);
+        return success_json($order->first());
     }
 
-    public function get()
-    {
-//        return view('order.repair-info');
-    }
+
 }

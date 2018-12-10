@@ -1,4 +1,4 @@
-import {ORDER_STATUS} from "../const/repair";
+import { ORDER_STATUS } from '../const/repair'
 
 // 制单中 0, 已受理 1,待派单 2,处理中 3,已取消 4,已关闭 5,无法处理 6
 
@@ -6,6 +6,10 @@ import dayjs from 'dayjs'
 
 export default {
     methods: {
+        // 设置服务项目
+        setServiceOrder(info) {
+            this.$store.dispatch('setServiceOrder', info)
+        },
         getServiceStatus(info) {
             switch (info.status) {
                 case 0:
@@ -32,7 +36,6 @@ export default {
                     return '已关闭'
                 case 6:
                 default:
-
             }
             return ''
         },
@@ -72,6 +75,6 @@ export default {
         },
         getServiceFeeTotal(info) {
             return 0
-        },
+        }
     }
 }

@@ -86,3 +86,21 @@ export default {
         remark: '' // 备注
     }
 }
+
+export const repair = {
+    staff: {},
+    staff_id: 0,
+    service_order_id: 0,
+    staff_name: '',
+    process_id: 1, // 进度ID
+    process: '333', // 进度内容
+    step_result: '', // 处理措施结果
+    arrived_at: '',
+    complete_at: '',
+    cause_id: 1,
+    next_step: 1,
+    cause: 'aaaa',
+    step_doc_ids: '',
+    cause_doc_ids: '',
+    remark: 'aaaaa'
+}

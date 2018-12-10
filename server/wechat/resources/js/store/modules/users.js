@@ -10,7 +10,7 @@ const getters = {
         return info.is_admin
     },
     isCustomer({ info }) {
-        return ingo.is_customer
+        return info.is_customer
     },
     isEngineer({ info }) {
         return info.is_engineer
