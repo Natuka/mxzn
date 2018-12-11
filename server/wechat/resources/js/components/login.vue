@@ -38,7 +38,6 @@ export default {
           await this.$store.dispatch("setUser", data);
           this.$router.push("/repair/list");
         } catch (e) {
-          console.log("e", e);
         } finally {
           this.loading = false;
         }
