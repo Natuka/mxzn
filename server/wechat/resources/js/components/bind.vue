@@ -5,7 +5,7 @@
     </div>
 
     <van-cell-group class="login">
-      <van-field v-model="phone" label="手机号" placeholder="请输入手机号"/>
+      <van-field v-model="mobile" label="手机号" placeholder="请输入手机号"/>
 
       <!-- <van-field
                 v-model="sms"
@@ -29,7 +29,7 @@ export default {
   name: "mx-bind",
   data() {
     return {
-      phone: "",
+      mobile: "",
       sms: "",
       loading: false
     };
@@ -49,7 +49,7 @@ export default {
 
       this.loading = true;
       try {
-        await this.$api.bindMobile(this.phone);
+        await this.$api.bindMobile(this.mobile);
         this.$router.push(this.$route.query.redirect || "/repair/list");
         this.loading = false;
       } catch (e) {

@@ -37,9 +37,9 @@ class IndexController extends Controller
     }
 
     // 单据状态: 制单中 0, 已受理 1,待派单 2,处理中 3,已取消 4,已关闭 5,无法处理 6
-    public function get(ServiceOrder $order, Request $request)
+    public function get( $orderId, Request $request)
     {
-        $order = $order->with([
+        $order = ServiceOrder::with([
             'fault',
             'documents',
             'customer',
@@ -47,7 +47,7 @@ class IndexController extends Controller
             'feedbackStaff',
             'receiveStaff',
             'confirmStaff',
-        ]);
+        ])->where('id', $orderId);
 
         return success_json($order->first());
     }

@@ -31,8 +31,8 @@ Route::group(['middleware' => ['wechat.oauth','auth']], function () {
     Route::get('/', 'IndexController@index');
 
     // 绑定手机号
-    Route::get('/mobile/bind', 'User\MobileController@get');
-    Route::post('/mobile/bind', 'User\MobileController@post');
+    Route::get('/mobile/bind', 'User\BindController@get');
+    Route::post('/mobile/bind', 'User\BindController@post');
     Route::post('/upload', 'UploadController@post');
 
     // 机器码
