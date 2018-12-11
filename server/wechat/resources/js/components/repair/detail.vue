@@ -2,17 +2,13 @@
   <div>
     <van-nav-bar title="服务单详情" left-text="返回" left-arrow @click-left="onClickLeft"/>
     <van-cell-group>
-      <van-cell title="工单单号" :value="order.number"/>
+      <van-cell title="工单单号" :value="orderNumber()"/>
       <van-cell title="当前状态" :value="getStatus()"/>
       <van-cell title="工单类型" :value="getType()"/>
-      <van-cell title="处理方式" :value="actionType()"/>
+      <van-cell title="处理方式" :value="processMode()"/>
       <van-cell title="受理时间" :value="receiveAt()"/>
-      <van-cell title="受理人员" value="GD-12173237-2323">
-        <span class="mx-text-danger" slot="title">{{receiveStaff()}}</span>
-      </van-cell>
-      <van-cell title="紧急程度" value="GD-12173237-2323">
-        <span class="mx-text-danger" slot="title">{{orderDegree()}}</span>
-      </van-cell>
+      <van-cell title="受理人员" :value="receiveStaff()"></van-cell>
+      <van-cell title="紧急程度" :value="orderDegree()"></van-cell>
       <van-cell title="服务级别" :value="orderLevel()"/>
       <van-cell title="客户名称" :value="orderCustomer()"/>
       <van-cell title="报修人员" :value="orderFeedbackStaff()"/>
@@ -115,25 +111,27 @@ export default {
     if (to.query.id) {
       repairInfo(to.query.id)
         .then(data => {
+          console.log("dat", data);
+
           window.store.commit("set_service_order", data);
           next();
         })
         .catch(e => {
-          next(false);
+          next("/403");
         });
       return;
     }
     next();
   },
   methods: {
-    onClickLeft() {
-      Toast("返回");
-    },
     onClickRight() {},
     onMore(item) {
       this.data = item;
       this.$refs["action"].open();
     }
+  },
+  mounted() {
+    this.$docTitle("详情");
   }
 };
 </script>

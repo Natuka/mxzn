@@ -20,10 +20,13 @@ export default {
             return this.$store.getters.fault
         },
         equipment() {
-            return this.$stoer.getters.equipment
+            return this.$store.getters.equipment
         }
     },
     methods: {
+        orderNumber() {
+            return this.order.number || ''
+        },
         getStatus(info = null) {
             if (!info) {
                 info = this.order
