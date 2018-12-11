@@ -60,6 +60,9 @@ export default {
     onSearch() {},
     onClickRight() {
       this.$router.push("/repair/create");
+    },
+    mounted() {
+      this.$docTitle("工单列表");
     }
   }
 };

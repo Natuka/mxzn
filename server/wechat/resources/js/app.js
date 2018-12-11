@@ -36,6 +36,25 @@ Object.defineProperty(Vue.prototype, '$api', {
 window.router = router
 window.store = store
 
+window.setDocumentTitle = function(title) {
+    document.title = title
+    if (/ip(hone|od|ad)/i.test(navigator.userAgent)) {
+        var i = document.createElement('iframe')
+        i.src = '/favicon.ico'
+        i.style.display = 'none'
+        i.onload = function() {
+            setTimeout(function() {
+                i.remove()
+            }, 9)
+        }
+        document.body.appendChild(i)
+    }
+}
+
+Object.defineProperty(Vue.prototype, '$docTitle', {
+    value: setDocumentTitle
+})
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

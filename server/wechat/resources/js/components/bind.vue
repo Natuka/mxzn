@@ -58,6 +58,9 @@ export default {
         this.loading = false;
       }
     }
+  },
+  mounted() {
+    this.$docTitle("手机号绑定");
   }
 };
 </script>

@@ -38,6 +38,9 @@ export default {
       this.data = item;
       this.$refs["action"].open();
     }
+  },
+  mounted() {
+    this.$docTitle("签到");
   }
 };
 </script>

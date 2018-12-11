@@ -1,13 +1,6 @@
 <template>
   <div>
-    <van-nav-bar
-      title="服务单提交"
-      left-text="返回"
-      right-text="按钮"
-      left-arrow
-      @click-left="onClickLeft"
-      @click-right="onClickRight"
-    />
+    <van-nav-bar title="服务单提交" left-text="返回" left-arrow @click-left="onClickLeft"/>
     <van-cell-group>
       <van-cell title="服务类别">
         <span @click="$refs.level.open()">{{selectValue('level', '请选择',orderTypes)}}</span>
@@ -162,12 +155,6 @@ export default {
     }
   },
   methods: {
-    onClickLeft() {
-      Toast("返回");
-    },
-    onClickRight() {
-      Toast("按钮");
-    },
     onMore(item) {
       this.data = item;
       this.$refs["action"].open();
@@ -220,6 +207,7 @@ export default {
   },
   mounted() {
     this.fetchEquipmentList();
+    this.$docTitle("提报");
   }
 };
 </script>

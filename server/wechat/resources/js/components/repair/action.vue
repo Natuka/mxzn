@@ -184,6 +184,9 @@ export default {
     handleCause(e) {
       this.$store.commit("setCause", e);
     }
+  },
+  mounted() {
+    this.$docTitle("工单处理");
   }
 };
 </script>

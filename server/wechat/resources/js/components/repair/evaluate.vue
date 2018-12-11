@@ -94,6 +94,9 @@ export default {
         console.log("e", e);
       }
     }
+  },
+  mounted() {
+    this.$docTitle("评价");
   }
 };
 </script>
