@@ -30,7 +30,8 @@ class BindController extends Controller
             $user->userable_type = 'App\Models\CustomerContact';
 
             $user->mobile = $mobile;
-            return success_json('绑定成功');
+            $user->save();
+            return success_json('绑定成功,已提交审核');
         }
 
         $engineer = Staff::findByMobile($mobile);
@@ -40,7 +41,8 @@ class BindController extends Controller
             $user->userable_type = 'App\Models\Staff';
 
             $user->mobile = $mobile;
-            return success_json('绑定成功');
+            $user->save();
+            return success_json('绑定成功,已提交审核');
         }
 
         $admin = AdminUser::findByMobile($mobile);
@@ -49,7 +51,8 @@ class BindController extends Controller
             $user->userable_id = $admin->id;
             $user->userable_type = 'App\Models\AdminUser';
             $user->mobile = $mobile;
-            return success_json('绑定成功');
+            $user->save();
+            return success_json('绑定成功,已提交审核');
         }
 
         return success_json('该手机号无效');

@@ -10,6 +10,20 @@ import { Toast } from 'vant'
 
 let routes = [
     {
+        path: '/404',
+        component: () => import('./components/404'),
+        meta: {
+            auth: false
+        }
+    },
+    {
+        path: '/403',
+        component: () => import('./components/403'),
+        meta: {
+            auth: false
+        }
+    },
+    {
         path: '/login',
         component: () => import('./components/login'),
         meta: {
@@ -178,10 +192,7 @@ const toPage = location.hash.splice(1)
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.auth)) {
         if (!auth.loggedIn()) {
-            next({
-                path: '/login',
-                query: { redirect: to.fullPath }
-            })
+            next({ path: '/403', query: { redirect: to.fullPath } })
             return
         }
         next()
@@ -221,5 +232,5 @@ user()
     })
     .catch(() => {
         localStorage.userId = ''
-        router.push('/login')
+        router.push('/403')
     })

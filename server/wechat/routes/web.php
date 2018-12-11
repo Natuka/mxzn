@@ -26,13 +26,13 @@ Route::get('/debug', 'DebugController@index');
 Route::get('order/{order}', 'Order\IndexController@get');
 
 // 微信必须验证
-// 'wechat.oauth'
-Route::group(['middleware' => ['wechat.oauth','auth']], function () {
+// 'wechat.oauth' 'wechat.oauth','auth'
+Route::group(['middleware' => []], function () {
     Route::get('/', 'IndexController@index');
 
     // 绑定手机号
-    Route::get('/mobile/bind', 'User\MobileController@get');
-    Route::post('/mobile/bind', 'User\MobileController@post');
+    Route::get('/mobile/bind', 'User\BindController@get');
+    Route::post('/mobile/bind', 'User\BindController@postBind');
     Route::post('/upload', 'UploadController@post');
 
     // 机器码
