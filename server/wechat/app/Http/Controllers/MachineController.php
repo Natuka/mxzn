@@ -9,7 +9,7 @@ class MachineController extends Controller
 {
     public function get($code = '', Request $request)
     {
-        return redirect('/?' . $request->getRequestUri());
+        return redirect('/#/machine/info?id=' . $code );
     }
 
     /**

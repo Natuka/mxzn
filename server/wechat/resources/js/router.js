@@ -53,6 +53,13 @@ let routes = [
         }
     },
     {
+        path: '/machine/info',
+        component: () => import('./components/repair/machine'),
+        meta: {
+            auth: true
+        }
+    },
+    {
         path: '/repair/detail',
         component: () => import('./components/repair/detail'),
         meta: {
