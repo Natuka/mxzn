@@ -27,7 +27,7 @@ Route::get('order/{order}', 'Order\IndexController@get');
 
 // 微信必须验证
 // 'wechat.oauth' 'wechat.oauth','auth'
-Route::group(['middleware' => []], function () {
+Route::group(['middleware' => [ 'wechat.oauth','auth']], function () {
     Route::get('/', 'IndexController@index');
 
     // 绑定手机号
