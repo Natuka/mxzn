@@ -46,6 +46,7 @@ let routes = [
     },
     {
         path: '/',
+        redirect: '/403',
         component: () => import('./components/index'),
         meta: {
             auth: true
@@ -187,7 +188,7 @@ const router = new VueRouter({
 
 export default router
 
-const toPage = location.hash.splice(1)
+const toPage = location.hash.slice(1)
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.auth)) {
@@ -199,7 +200,7 @@ router.beforeEach((to, from, next) => {
         return
     }
 
-    if (auth.loggedIn()) {
+    if (auth.loggedIn() && to.path === 'login') {
         next(false)
     } else {
         next()
