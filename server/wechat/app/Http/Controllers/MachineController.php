@@ -22,11 +22,11 @@ class MachineController extends Controller
     {
         $equipment = CustomerEquipment::findByQRCode($code);
 
-        $user = $this->user();
-
-        if (!$user->isCustomer()) {
-            return error_json('没有权限', 404);
-        }
+//        $user = $this->user();
+//
+//        if (!$user->isCustomer()) {
+//            return error_json('没有权限', 404);
+//        }
 
         return success_json($equipment);
     }
