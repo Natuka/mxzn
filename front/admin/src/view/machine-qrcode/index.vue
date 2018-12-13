@@ -95,7 +95,7 @@ export default {
           key: 'purchase_date'
         },
         {
-          title: '  二维码',
+          title: '二维码',
           key: 'handle',
           width: 100,
           button: [

@@ -181,7 +181,7 @@
                 :label-width="90"
                 v-show="tabsIndex === '0'"
           >
-            <FormItem label="故障描述" prop="fault.desc" class="form-item-auto-height">
+            <FormItem label="故障描述" prop="fault.desc" class="form-item-auto-height" style="width: 99%;">
               <Input
                 type="textarea"
                 v-model="data.fault.desc"
@@ -208,25 +208,40 @@
                 </Option>
               </Select>
             </FormItem>
+            <FormItem label="故障代码" prop="fault.code">
+              <Input v-model="data.fault.code" placeholder="故障代码"></Input>
+            </FormItem>
             <FormItem label="线路是否破损" prop="fault.is_line_broken">
-              <Select v-model="data.fault.is_line_broken">
-                <Option
-                  v-for="(type, index) in select.lineBroken"
-                  :key="index"
-                  :value="index"
-                >{{type}}
-                </Option>
-              </Select>
+              <RadioGroup v-model="data.fault.is_line_broken">
+                <Radio :label="0">
+                  <span>否</span>
+                </Radio>
+                <Radio :label="1">
+                  <span>是</span>
+                </Radio>
+                <Radio :label="2">
+                  <span>未知</span>
+                </Radio>
+              </RadioGroup>
             </FormItem>
             <FormItem label="部品是否损坏" prop="fault.is_part_broken">
-              <Select v-model="data.fault.is_part_broken">
-                <Option
-                  v-for="(type, index) in select.partBroken"
-                  :key="index"
-                  :value="index"
-                >{{type}}
-                </Option>
-              </Select>
+              <RadioGroup v-model="data.fault.is_part_broken">
+                <Radio :label="0">
+                  <span>否</span>
+                </Radio>
+                <Radio :label="1">
+                  <span>是</span>
+                </Radio>
+                <Radio :label="2">
+                  <span>未知</span>
+                </Radio>
+              </RadioGroup>
+            </FormItem>
+            <FormItem label="故障附件">
+              <mx-upload-doc
+                :multi="true"
+                @on-change="handleFaultChange"
+              ></mx-upload-doc>
             </FormItem>
           </Form>
         </TabPane>
@@ -498,7 +513,7 @@ export default {
           is_part_broken: 0, // 部品是否损坏
           desc: '',
           code: '', // 故障代码
-          file: '', // 故障附件
+          fault_doc_ids: '', // 故障附件
           remark: '' // 备注
         }
       },
@@ -539,12 +554,12 @@ export default {
         feedback_at: [
           validate.notEmpty('报修时间不能为空')
         ],
-        plan_out_at: [
-          validate.notEmpty('预计上门时间不能为空')
-        ],
-        plan_finish_at: [
-          validate.notEmpty('预计完成时间不能为空')
-        ],
+        // plan_out_at: [
+        //   validate.notEmpty('预计上门时间不能为空')
+        // ],
+        // plan_finish_at: [
+        //   validate.notEmpty('预计完成时间不能为空')
+        // ],
         'fault.desc': [
           validate.notEmpty('故障描述不能为空')
         ]
@@ -718,6 +733,9 @@ export default {
     },
     async handleDocChange (files) {
       this.data.attach_ids = files.map(file => file.id).join(',')
+    },
+    async handleFaultChange (files) {
+      this.data.fault.fault_doc_ids = files.map(file => file.id).join(',')
     }
   }
 }
