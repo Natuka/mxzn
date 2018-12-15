@@ -3,7 +3,6 @@
     <van-nav-bar
       title="客户确认与评价"
       left-text="返回"
-      right-text="按钮"
       left-arrow
       @click-left="onClickLeft"
       @click-right="onClickRight"
@@ -73,12 +72,6 @@ export default {
   },
 
   methods: {
-    onClickLeft() {
-      Toast("返回");
-    },
-    onClickRight() {
-      Toast("按钮");
-    },
     onMore(item) {
       this.data = item;
       this.$refs["action"].open();

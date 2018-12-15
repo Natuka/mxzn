@@ -1,13 +1,6 @@
 <template>
   <div>
-    <van-nav-bar
-      title="工单处理"
-      left-text="返回"
-      right-text
-      left-arrow
-      @click-left="onClickLeft"
-      @click-right="onClickRight"
-    />
+    <van-nav-bar title="工单处理" left-text="返回" left-arrow @click-left="onClickLeft"/>
 
     <van-cell-group class="mx-sign-up">
       <van-field
@@ -137,12 +130,7 @@ export default {
         console.log("onSubmit", e);
       }
     },
-    onClickLeft() {
-      Toast("返回");
-    },
-    onClickRight() {
-      Toast("按钮");
-    },
+
     onMore(item) {
       this.data = item;
       this.$refs["action"].open();
