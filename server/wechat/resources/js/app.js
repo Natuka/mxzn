@@ -71,3 +71,5 @@ const app = new Vue({
         return h(App)
     }
 })
+
+window.app = app

@@ -27,8 +27,9 @@ Route::get('order/{order}', 'Order\IndexController@get');
 
 // 微信必须验证
 // 'wechat.oauth' 'wechat.oauth','auth'
-Route::group(['middleware' => [ 'wechat.oauth','auth']], function () {
+Route::group(['middleware' => [ ]], function () {
     Route::get('/', 'IndexController@index');
+    Route::get('/geo', 'GeoController@get');
 
     // 绑定手机号
     Route::get('/mobile/bind', 'User\BindController@get');
@@ -114,6 +115,9 @@ Route::group(['middleware' => [ 'wechat.oauth','auth']], function () {
 
         // 签到
         Route::get('{order}/attendances', 'AttendanceController@get');
+
+        // 签到提交
+        Route::post('{order}/attendance', 'AttendanceController@store');
         // 处理
         Route::get('action/{order}', 'ActionController@get');
         Route::post('/{order}/repair', 'RepairController@store');
