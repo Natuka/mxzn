@@ -32,6 +32,6 @@ class Engineer extends Model
      */
     public function fan()
     {
-        return Fan::where('userable_type', 'App\Models\Engineer')->where('userable_id', $this->staff_id)->first();
+        return Fan::where('userable_type', 'App\Models\Staff')->where('userable_id', $this->staff_id)->first();
     }
 }
