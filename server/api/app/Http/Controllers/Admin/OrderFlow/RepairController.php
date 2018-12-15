@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin\OrderFlow;
 
+use App\Events\NotifyEvent;
 use App\Http\Requests\Admin\OrderFlow\CreateRequest;
 use App\Http\Requests\Admin\OrderFlow\UpdateRequest;
-use App\Models\OrderEngineer;
+use App\Models\Engineer;
 use App\Models\OrderMachineFault;
 use App\Models\ServiceOrder;
 use App\Models\ServiceOrderEngineer;
@@ -118,6 +119,7 @@ class RepairController extends OperationController
             $engineers = $request->get('engineers');
             if (!empty($engineers)) {
                 foreach ($engineers as $engineer) {
+                    $engineer_idarr = array_only($engineer, ['id']);
                     $engineer = $new_repair = array_only($engineer, ['staff_id', 'staff_name']);
                     $orderEngineer = new ServiceOrderEngineer();
                     $engineer['service_order_id'] = $order->id;
@@ -129,6 +131,15 @@ class RepairController extends OperationController
                     $orderRepair = new ServiceOrderRepair();
                     $new_repair['service_order_id'] = $order->id;
                     $orderRepair->forceFill($new_repair)->save();
+
+                    // 微信端通知工程师
+//                    \Log::info([
+//                        'orderEngineer769558' => $engineer_idarr
+//                    ]);
+                    $base_engineer = Engineer::find($engineer_idarr['id']);
+                    if ($base_engineer) {
+                        event(new NotifyEvent($order, $base_engineer));
+                    }
                     unset($engineer, $new_repair);
                 }
             }

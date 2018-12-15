@@ -111,7 +111,7 @@ export default {
           sortable: false
         },
         {
-          title: '  二维码',
+          title: '二维码',
           key: 'handle',
           width: 100,
           button: [
@@ -152,12 +152,6 @@ export default {
           key: 'dfrom',
           sortable: false,
           render: this.constRender('dfrom', customerequipmentConst.DFROM_LIST)
-        },
-        {
-          width: 100,
-          title: '二维码',
-          key: '',
-          sortable: false
         },
         {
           width: 100,

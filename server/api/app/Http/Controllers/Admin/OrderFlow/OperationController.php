@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Admin\OrderFlow;
 
 
+use App\Events\NotifyEvent;
 use App\Http\Requests\Admin\ServiceOrder\CancelRequest;
 use App\Http\Requests\Admin\ServiceOrder\DispatchRequest;
 use App\Http\Requests\Admin\ServiceOrder\SwitchDispatchRequest;
@@ -57,6 +58,9 @@ class OperationController extends BaseController
                 //送到工单处理
                 $order->status = 3;
                 $order->save();
+
+                // 微信端通知工程师
+                event(new NotifyEvent($order, $engineer));
 
                 return success_json('success');
             }
@@ -131,6 +135,12 @@ class OperationController extends BaseController
                 //送到工单处理
                 $order->status = 3;
                 $order->save();
+
+//               \Log::info([
+//                        'orderEngineer789558' => $orderEngineer
+//                ]);
+                // 微信端通知工程师
+                event(new NotifyEvent($order, $engineer));
 
                 return success_json('success');
             }
