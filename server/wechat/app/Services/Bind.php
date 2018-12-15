@@ -8,6 +8,9 @@
 
 namespace App\Services;
 
+use App\Models\Staff;
+use App\Models\CustomerContact;
+use App\Models\AdminUser;
 
 class Bind
 {

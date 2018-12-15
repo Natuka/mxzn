@@ -44,9 +44,14 @@ export function repairService(serviceOrderId) {
     return getApi(`repair/${serviceOrderId}/service`)
 }
 
-// 签到
+// 签到记录
 export function repairAttendance(serviceOrderId) {
     return getApi(`repair/${serviceOrderId}/attendance`)
+}
+
+// 签到
+export function postRepairAttendance(serviceOrderId, params) {
+    return postApi(`repair/${serviceOrderId}/attendance`, params)
 }
 
 // 操作日志

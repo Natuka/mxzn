@@ -18,7 +18,7 @@ class Controller extends BaseController
 
     public function staff()
     {
-        return $this->user()->staff();
+        return $this->user()->staff;
     }
 
     public function customer()

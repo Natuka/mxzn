@@ -8,10 +8,10 @@ class Engineer extends Model
 {
     protected $table = 'base_engineers';
     //
-    public function user()
-    {
-        return $this->morphOne(User::class, 'userable');
-    }
+//    public function user()
+//    {
+//        return $this->morphOne(User::class, 'userable');
+//    }
 
     /**
      * 员工
@@ -28,6 +28,6 @@ class Engineer extends Model
      */
     public function fan()
     {
-        return Fan::where('userable_type', 'App\Models\Engineer')->where('userable_id', $this->staff_id)->first();
+        return Fan::where('userable_type', 'App\Models\Staff')->where('userable_id', $this->staff_id)->first();
     }
 }
