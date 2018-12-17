@@ -19,7 +19,15 @@ class QuotationController extends Controller
     public function index(Request $request, Quotation $quotation)
     {
         $quotation = $this->search($request, $quotation);
-        return success_json($quotation->paginate( config('pageinfo.per_page') ));
+        return success_json($quotation->with(['customer' => function( $query ){
+                $query->select(['id','name_short']);
+            },
+            'contact' => function( $query ){
+                $query->select(['id','name','mobile']);
+            },
+            'order' => function( $query ){
+                $query->select(['id','number']);
+            }])->paginate( config('pageinfo.per_page') ));
     }
 
     public function search(Request $request, Quotation $quotation)

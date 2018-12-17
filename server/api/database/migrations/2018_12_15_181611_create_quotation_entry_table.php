@@ -15,7 +15,7 @@ class CreateQuotationEntryTable extends Migration
     {
         Schema::create('quotation_entry', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('parent_id')->nullable()->comment('父表id');
+            $table->integer('quotation_id')->nullable()->comment('父表id');
             $table->integer('item_id')->nullable()->comment('物料id');
             $table->string('number',20)->nullable()->comment('物料编号');
             $table->string('name',30)->nullable()->comment('物料名称');

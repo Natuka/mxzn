@@ -79,73 +79,94 @@ export default {
           width: 150,
           fixed: 'left',
           title: '制单日期',
-          key: 'customer_name',
+          key: 'created_at',
           sortable: false
         },
         {
           width: 120,
           fixed: 'left',
-          title: '姓名',
-          key: 'name',
+          title: '报价单号',
+          key: 'billno',
           sortable: false
         },
         {
           width: 120,
-          title: '性别',
-          key: 'sex',
+          title: '单据状态',
+          key: 'status',
           sortable: true,
-          render: this.constRender('sex', customerquotationConst.SEX_LIST)
+          render: this.constRender('status', customerquotationConst.STATUS_LIST)
         },
         {
           width: 120,
-          title: '出生日期',
-          key: 'birthday',
+          title: '有效日期',
+          key: 'expiration_date',
           sortable: true
         },
         {
           width: 120,
-          title: '所属部门',
-          key: 'department',
-          sortable: true,
-          render: this.constRender('department', customerquotationConst.DEPT_LIST)
-        },
-        {
-          width: 120,
-          title: '职位',
-          key: 'post',
+          title: '客户名称',
+          key: 'customer_name',
           sortable: false,
-          render: this.constRender('post', customerquotationConst.POST_LIST)
+          render: (h, {row: {customer}}) => {
+            if (!customer) {
+              return h('span')
+            }
+            return h('span', {}, customer.name_short)
+          }
         },
         {
           width: 120,
-          title: '职务',
-          key: 'job',
-          sortable: false
+          title: '联系人',
+          key: 'contact_name',
+          sortable: false,
+          render: (h, {row: {contact}}) => {
+            if (!contact) {
+              return h('span')
+            }
+            return h('span', {}, contact.name)
+          }
         },
         {
           width: 120,
           title: '手机',
-          key: 'mobile',
-          sortable: true
-        },
-        {
-          width: 120,
-          title: '微信',
-          key: 'weixin',
-          sortable: true
-        },
-        {
-          width: 120,
-          title: '在职状态',
-          key: 'status',
+          key: 'contact_mobile',
           sortable: false,
-          render: this.constRender('status', customerquotationConst.STATUS_LIST)
+          render: (h, {row: {contact}}) => {
+            if (!contact) {
+              return h('span')
+            }
+            return h('span', {}, contact.mobile)
+          }
         },
         {
-          width: 160,
-          title: '建档日期',
-          key: 'created_at',
-          sortable: false
+          width: 120,
+          title: '付款方式',
+          key: 'pay',
+          sortable: true,
+          render: this.constRender('pay', customerquotationConst.PAY_LIST)
+        },
+        {
+          width: 120,
+          title: '运费',
+          key: 'carriage',
+          sortable: true,
+          render: this.constRender('carriage', customerquotationConst.CARRIAGE_LIST)
+        },
+        {
+          width: 120,
+          title: '工单编号',
+          key: 'order_number',
+          sortable: false,
+          render: (h, {row: {order}}) => {
+            if (!order) {
+              return h('span')
+            }
+            return h('span', {}, order.number)
+          }
+        },
+        {
+          title: ' ',
+          key: ''
         },
         {
           fixed: 'right',
