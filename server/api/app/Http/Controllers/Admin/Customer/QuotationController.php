@@ -67,67 +67,37 @@ class QuotationController extends Controller
     {
         $user = $request->user();
         $data = $request->only([
-            'cust_id',
-            'name',
-            'sex',
-            'birthday',
-            'department',
-            'post',
-            'job',
-            'mobile',
-            'weixin',
-            'qq',
-            'email',
-            'hobby',
-            'address',
+            'service_order_id',
+            'customer_id',
+            'customer_contact_id',
+            'pay',
+            'carriage',
+            'effective_date',
+            'expiration_date',
+            'delivery_date',
             'remark',
-            'status',
         ]);
         //$request['source'] = $request->get('source', 3);
-        $data['cust_id'] = (int)$data['cust_id'];
-        $data['department'] = (int)$data['department'];
-        $data['birthday'] = (new \Carbon\Carbon($data['birthday']))->toDateString(); //date('Y-m-d', strtotime($data['birthday']));
-        $data['post'] = (int)$data['post'];
+        $data['service_order_id'] = (int)$data['service_order_id'];
+        $data['customer_id'] = (int)$data['customer_id'];
+        $data['customer_contact_id'] = (int)$data['customer_contact_id'];
+        $data['pay'] = (int)$data['pay'];
+        $data['carriage'] = (int)$data['carriage'];
+        $data['effective_date'] = mydb_format_date($data['effective_date'], 'Y-m-d', '1991-01-01');
+        $data['expiration_date'] = mydb_format_date($data['expiration_date'], 'Y-m-d', '1991-01-01');
+        $data['delivery_date'] = mydb_format_date($data['delivery_date'], 'Y-m-d', '1991-01-01');
         $data['created_by'] = $user->userable_name;
         $data['updated_by'] = $user->userable_name;
 
         $ret = $quotation->forceFill($data)->save();
 
         if ($ret) {
-            $this->createLoginAccount($quotation, $request);
-
             return success_json($quotation, '');
         }
 
         return error_json('新增失败，请检查');
     }
 
-
-    /**
-     * 创建登录账号
-     * @param Customer $customer
-     * @param Request $request
-     */
-    public function createLoginAccount(Quotation $quotation, Request $request)
-    {
-        $data = [
-            'name' => $quotation->mobile,
-            'code' => $quotation->cust_id,
-            'userable_name' => $quotation->name,
-            'email' => $quotation->email ?: 'S' . $quotation->mobile . '@mxcs.com',
-            'mobile' => (int)$quotation->mobile,
-            'qq' => '0',
-            'wechat' => '',
-            'valid' => 1,
-            'password' => bcrypt($request->get('password', default_password())),
-        ];
-
-        if ($quotation->user()->create($data)) {
-            \Log::info('帐号创建成功');
-        } else {
-            \Log::info('帐号创建失败');
-        }
-    }
     /**
      * Store a newly created resource in storage.
      *
@@ -202,26 +172,6 @@ class QuotationController extends Controller
         }
 
         return error_json('修改失败，请检查');
-    }
-
-    /**
-     * 更新用户账号
-     * @param Customer $customer
-     * @param Request $request
-     */
-    public function updateLoginAccount(Quotation $quotation, Request $request)
-    {
-        $data_save = [
-            'name' => $quotation->mobile,
-            'code' => $quotation->cust_id,
-            'userable_name' => $quotation->name,
-            'email' => $quotation->email ?: 'S' . $quotation->mobile . '@mxcs.com',
-            'mobile' => (int)$quotation->mobile,
-        ];
-        if ($request->get('update_password')) {
-            $data_save['password'] = bcrypt($request->get('password', default_password()));
-        }
-        $quotation->user()->update($data_save);
     }
 
     /**
