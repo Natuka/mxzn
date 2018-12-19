@@ -59,6 +59,15 @@ class QuotationController extends Controller
     }
 
     /**
+     * 报价编号,Q1809-0001,Q+年份2码+月份2码+流水码4码
+     * @return string
+     */
+    public function createNumber()
+    {
+        $prefix = sprintf('%s%s', 'Q', date('ym'));
+        return Quotation::createNumber($prefix);
+    }
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -77,7 +86,6 @@ class QuotationController extends Controller
             'delivery_date',
             'remark',
         ]);
-        //$request['source'] = $request->get('source', 3);
         $data['service_order_id'] = (int)$data['service_order_id'];
         $data['customer_id'] = (int)$data['customer_id'];
         $data['customer_contact_id'] = (int)$data['customer_contact_id'];
@@ -88,7 +96,8 @@ class QuotationController extends Controller
         $data['delivery_date'] = mydb_format_date($data['delivery_date'], 'Y-m-d', '1991-01-01');
         $data['created_by'] = $user->userable_name;
         $data['updated_by'] = $user->userable_name;
-
+        $data['billno'] = $this->createNumber();
+        
         $ret = $quotation->forceFill($data)->save();
 
         if ($ret) {

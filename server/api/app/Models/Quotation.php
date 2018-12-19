@@ -9,6 +9,22 @@ class Quotation extends Model
     //物料基础资料
     protected $table = 'quotation';
 
+
+    /**
+     * 获取编号
+     * @param string $prefix
+     * @return bool|int|string
+     */
+    public static function createNumber($prefix = '')
+    {
+        $suffix = 1;
+        $number = self::where('billno', 'like', like_right($prefix))->orderBy('id', 'desc')->value('billno');
+        if ($number) {
+            $suffix = substr($number, strpos($number, '-') + 1) + 1;
+        }
+
+        return sprintf('%s-%04d', $prefix, $suffix);
+    }
     /**
      * 客户
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -12,8 +12,8 @@
             ref="addForm"
             :rules="rules"
             :label-width="90">
-        <FormItem label="单据单号" prop="number">
-          <Input v-model="data.number" placeholder="单据单号" disabled></Input>
+        <FormItem label="单据单号" prop="billno">
+          <Input v-model="data.billno" placeholder="单据单号" disabled></Input>
         </FormItem>
         <FormItem label="起始日期" prop="effective_date">
           <DatePicker
@@ -129,6 +129,7 @@
         </FormItem>
 
       </Form>
+
     </div>
   </custom-modal>
 </template>
@@ -154,25 +155,24 @@ export default {
   data () {
     return {
       data: {
-        cust_id: 0,
-        name: '',
-        sex: 1,
-        birthday: '',
-        department: 0,
-        post: '',
-        job: '',
-        mobile: '',
-        email: '',
-        weixin: '',
-        qq: '',
-        hobby: '',
-        status: 1,
-        address: '',
-        remark: ''
+        service_order_id: 0,
+        customer_id: 0,
+        customer_contact_id: 0,
+        pay: 0,
+        carriage: 0,
+        status: 0,
+        effective_date: '',
+        expiration_date: '',
+        delivery_date: '',
+        remark: '',
+        billno: ''
       },
       rules: {
-        name: [
-          {required: true, message: '姓名不能为空', trigger: 'blur'}
+        effective_date: [
+          {required: true, message: '起始日期不能为空', trigger: 'blur'}
+        ],
+        expiration_date: [
+          {required: true, message: '截止日期不能为空', trigger: 'blur'}
         ],
         mobile: [
           {required: true, message: '手机不能为空', trigger: 'blur'}
