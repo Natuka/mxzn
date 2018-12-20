@@ -153,32 +153,28 @@ class QuotationController extends Controller
     {
         $user = $request->user();
         $data = $request->only([
-            'cust_id',
-            'name',
-            'sex',
-            'birthday',
-            'department',
-            'post',
-            'job',
-            'mobile',
-            'weixin',
-            'qq',
-            'email',
-            'hobby',
-            'address',
+            'service_order_id',
+            'customer_id',
+            'customer_contact_id',
+            'pay',
+            'carriage',
+            'effective_date',
+            'expiration_date',
+            'delivery_date',
             'remark',
-            'status',
         ]);
-        $data['cust_id'] = (int)$data['cust_id'];
-        $data['department'] = (int)$data['department'];
-        $data['post'] = (int)$data['post'];
-        $data['birthday'] = date('Y-m-d', strtotime($data['birthday']));
+        $data['service_order_id'] = (int)$data['service_order_id'];
+        $data['customer_id'] = (int)$data['customer_id'];
+        $data['customer_contact_id'] = (int)$data['customer_contact_id'];
+        $data['pay'] = (int)$data['pay'];
+        $data['carriage'] = (int)$data['carriage'];
+        $data['effective_date'] = mydb_format_date($data['effective_date'], 'Y-m-d', '1991-01-01');
+        $data['expiration_date'] = mydb_format_date($data['expiration_date'], 'Y-m-d', '1991-01-01');
+        $data['delivery_date'] = mydb_format_date($data['delivery_date'], 'Y-m-d', '1991-01-01');
         $data['updated_by'] = $user->userable_name;
         $ret = $quotation->forceFill($data)->save();
 
         if ($ret) {
-            $this->updateLoginAccount($quotation, $request);
-//            $this->createLoginAccount($quotation, $request);
             return success_json($quotation, '');
         }
 
