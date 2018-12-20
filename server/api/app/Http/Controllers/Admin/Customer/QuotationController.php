@@ -54,6 +54,8 @@ class QuotationController extends Controller
             }
         }
 
+        //排序
+        $quotation = $quotation->orderBy('id', 'desc');
 
         return $quotation;
     }

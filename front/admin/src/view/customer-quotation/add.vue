@@ -82,9 +82,10 @@
         <FormItem label="工单编号" prop="service_order_id">
           <remote-select
             :init="data.service_order_id"
-            :initData="init.customer"
-            label="name"
-            url="select/customer"
+            :initData="init.serviceorder"
+            label="number"
+            url="select/serviceorder"
+            @on-change="serviceorderChange"
           ></remote-select>
         </FormItem>
 
@@ -129,18 +130,21 @@
         </FormItem>
 
       </Form>
-
+      <br>
+      <mx-order-materiel ref="materiel" :quotation_id="data.id"></mx-order-materiel>
     </div>
   </custom-modal>
 </template>
 
 <script>
-
+import Tables from '_c/tables'
 import ModalMixin from '@/mixins/modal'
+import materiel from './materiel/index'
 
 import {addCustomerquotation} from '../../api/customerquotation'
 import {selectCustomer} from '../../api/select/customer'
 import {selectCustomerContact} from '@/api/select/customer-contact'
+import {selectServiceOrder} from '../../api/select/serviceorder'
 import * as customerquotationConst from '../../constants/customerquotation'
 import dayjs from 'dayjs'
 
@@ -151,16 +155,22 @@ const currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss')
 
 export default {
   name: 'customerquotation-add',
+  components: {
+    Tables,
+    [materiel.name]: materiel
+  },
   mixins: [ModalMixin],
   data () {
     return {
       data: {
+        id: 0,
         service_order_id: 0,
         customer_id: 0,
         customer_contact_id: 0,
         pay: 0,
         carriage: 0,
         status: 0,
+        mobile: '',
         effective_date: '',
         expiration_date: '',
         delivery_date: '',
@@ -185,7 +195,8 @@ export default {
         customerConcatList: []
       },
       init: {
-        customer: []
+        customer: [],
+        serviceorder: []
       }
     }
   },
@@ -217,7 +228,13 @@ export default {
       let customers = await selectCustomer({id: data.customer_id})
       this.init.customer = customers.data
 
+      let serviceorders = await selectServiceOrder({id: data.service_order_id})
+      this.init.serviceorder = serviceorders.data
+
       return true
+    },
+    async serviceorderChange (serviceorderdId) {
+      this.data.service_order_id = serviceorderdId
     },
     async customerChange (customerId) {
       this.data.customer_id = customerId

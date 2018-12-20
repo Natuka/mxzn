@@ -5,169 +5,207 @@
     title="客户联系人-修改"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
-    class="mxcs-two-column"
+    class="mxcs-three-column"
   >
     <div>
       <Form :model="data"
             ref="addForm"
             :rules="rules"
             :label-width="90">
-        <FormItem label="客户名称" prop="cust_id">
+        <FormItem label="单据单号" prop="billno">
+          <Input v-model="data.billno" placeholder="单据单号" disabled></Input>
+        </FormItem>
+        <FormItem label="起始日期" prop="effective_date">
+          <DatePicker
+            type="date"
+            placeholder="起始日期"
+            :value="data.effective_date"
+            @on-change="date => this.data.effective_date = date"
+          ></DatePicker>
+        </FormItem>
+        <FormItem label="截止日期" prop="expiration_date">
+          <DatePicker
+            type="date"
+            placeholder="截止日期"
+            :value="data.expiration_date"
+            @on-change="date => this.data.expiration_date = date"
+          ></DatePicker>
+        </FormItem>
+
+        <FormItem label="客户名称" prop="customer_id">
           <remote-select
-            :init="data.cust_id"
+            :init="data.customer_id"
             :initData="init.customer"
             label="name"
             url="select/customer"
-            :filter="(data) => data.name"
-            :valueMap="(data) => data.id"
             @on-change="customerChange"
+            @on-change-data="customerChangeData"
+          ></remote-select>
+
+        </FormItem>
+
+        <FormItem label="联系人" prop="customer_contact_id">
+          <static-select
+            :init="init.customer_contact_id"
+            :data="select.customerConcatList"
+            label="name"
+            @on-change-data="feedbackStaffChangeData"
+          ></static-select>
+
+        </FormItem>
+
+        <FormItem label="手机" prop="mobile">
+          <Input :value="data.mobile" placeholder="手机" readonly></Input>
+        </FormItem>
+
+        <FormItem label="付款方式" prop="pay">
+          <Select v-model="data.pay">
+            <Option
+              v-for="(type, index) in payList"
+              :key="index"
+              :value="index"
+            >{{type}}
+            </Option>
+          </Select>
+        </FormItem>
+        <FormItem label="运费" prop="carriage">
+          <Select v-model="data.carriage">
+            <Option
+              v-for="(type, index) in carriageList"
+              :key="index"
+              :value="index"
+            >{{type}}
+            </Option>
+          </Select>
+        </FormItem>
+
+        <FormItem label="工单编号" prop="service_order_id">
+          <remote-select
+            :init="data.service_order_id"
+            :initData="init.serviceorder"
+            label="number"
+            url="select/serviceorder"
+            @on-change="serviceorderChange"
           ></remote-select>
         </FormItem>
-        <FormItem label="姓名" prop="name">
-          <Input v-model="data.name" placeholder="姓名"></Input>
-        </FormItem>
-        <FormItem label="出生日期" prop="birthday">
-          <DatePicker type="date" placeholder="生日" v-model="data.birthday"></DatePicker>
-        </FormItem>
-        <FormItem label="性别">
-          <RadioGroup v-model="data.sex">
-            <Radio :label="1">
-              <Icon type="md-male"></Icon>
-              <span>男</span>
-            </Radio>
-            <Radio :label="0">
-              <Icon type="md-female"></Icon>
-              <span>女</span>
-            </Radio>
-          </RadioGroup>
-        </FormItem>
-        <FormItem label="部门" prop="department">
-          <Select v-model="data.department">
+
+        <!--<FormItem label="交货日期" prop="delivery_date">-->
+        <!--<DatePicker-->
+        <!--type="date"-->
+        <!--placeholder="交货日期"-->
+        <!--:value="data.delivery_date"-->
+        <!--@on-change="date => this.data.delivery_date = date"-->
+        <!--&gt;</DatePicker>-->
+        <!--</FormItem>-->
+
+        <FormItem label="单据状态" prop="status">
+          <Select v-model="data.status">
             <Option
-              v-for="(type, index) in deptList"
+              v-for="(type, index) in statusList"
               :key="index"
               :value="index"
             >{{type}}
             </Option>
           </Select>
         </FormItem>
-        <FormItem label="职位" prop="post">
-          <Select v-model="data.post">
-            <Option
-              v-for="(type, index) in postList"
-              :key="index"
-              :value="index"
-            >{{type}}
-            </Option>
-          </Select>
+        <FormItem label="审核人员">
+          <Input v-model="data.checked_by" placeholder="审核人员" disabled></Input>
         </FormItem>
-        <FormItem label="职务" prop="job">
-          <Input v-model="data.job" placeholder="职务"></Input>
+        <FormItem label="审核日期">
+          <Input v-model="data.checked_date" placeholder="审核日期" disabled></Input>
         </FormItem>
-        <FormItem label="手机" prop="mobile">
-          <Input v-model="data.mobile" placeholder="手机"></Input>
-        </FormItem>
-        <FormItem label="微信" prop="weixin">
-          <Input v-model="data.weixin" placeholder="微信"></Input>
-        </FormItem>
-        <FormItem label="QQ" prop="qq">
-          <Input v-model="data.qq" placeholder="QQ"></Input>
-        </FormItem>
-        <FormItem label="邮箱" prop="email">
-          <Input v-model="data.email" placeholder="邮箱"></Input>
-        </FormItem>
-        <FormItem label="兴趣爱好" prop="hobby">
-          <Input v-model="data.hobby" placeholder="兴趣爱好"></Input>
-        </FormItem>
-        <FormItem label="详细地址">
-          <Input v-model="data.address" placeholder="详细地址"></Input>
-        </FormItem>
-        <FormItem label="在职状态" >
-          <RadioGroup v-model="data.status">
-            <Radio :label="1">
-              <span>在职</span>
-            </Radio>
-            <Radio :label="0">
-              <span>离职</span>
-            </Radio>
-          </RadioGroup>
-        </FormItem>
-        <FormItem label="备注">
+
+        <FormItem label="备注" style="width: 99%;">
           <Input v-model="data.remark" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
                  placeholder="备注..."></Input>
         </FormItem>
 
-        <FormItem label="建立人员">
-          <Input v-model="data.created_by" placeholder="建立人员" disabled></Input>
+        <FormItem label="建立人员/日期" style="width: 49%;">
+          <Input v-model="data.created_by" style="width: auto;" placeholder="建立人员" disabled></Input>
+          <Input v-model="data.created_at" style="width: auto;margin-left: 10px;" placeholder="建立日期" disabled></Input>
         </FormItem>
-        <FormItem label="建立日期">
-          <Input v-model="data.created_at" placeholder="建立日期" disabled></Input>
-        </FormItem>
-        <FormItem label="最近修改人员">
-          <Input v-model="data.updated_by" placeholder="最近修改人员" disabled></Input>
-        </FormItem>
-        <FormItem label="最近修改日期">
-          <Input v-model="data.updated_at" placeholder="最近修改日期" disabled></Input>
+        <FormItem label="修改人员/日期" style="width: 49%;">
+          <Input v-model="data.updated_by" style="width: auto" placeholder="最近修改人员" disabled></Input>
+          <Input v-model="data.updated_at" style="width: auto;margin-left: 10px;" placeholder="最近修改日期" disabled></Input>
         </FormItem>
 
       </Form>
+      <br>
+      <mx-order-materiel ref="materiel" :quotation_id="data.id"></mx-order-materiel>
     </div>
   </custom-modal>
 </template>
 
 <script>
+import Tables from '_c/tables'
 import ModalMixin from '@/mixins/modal'
+import materiel from './materiel/index'
 
-import {updateCustomercontact} from '../../api/customercontact'
+import {updateCustomerquotation} from '../../api/customerquotation'
 import {selectCustomer} from '../../api/select/customer'
-import * as customercontactConst from '../../constants/customercontact'
+import {selectCustomerContact} from '@/api/select/customer-contact'
+import {selectServiceOrder} from '../../api/select/serviceorder'
+import * as customerquotationConst from '../../constants/customerquotation'
+import dayjs from 'dayjs'
+
+import * as validate from '@/libs/validate'
+
+const currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss')
+
 
 export default {
-  name: 'customercontact-edit',
+  name: 'customerquotation-edit',
+  components: {
+    Tables,
+    [materiel.name]: materiel
+  },
   mixins: [ModalMixin],
   data () {
     return {
       data: {
-        cust_id: 0,
-        name: '',
-        sex: 1,
-        birthday: '',
-        department: 0,
-        post: '',
-        job: '',
+        id: 0,
+        service_order_id: 0,
+        customer_id: 0,
+        customer_contact_id: 0,
+        pay: 0,
+        carriage: 0,
+        status: 0,
         mobile: '',
-        email: '',
-        weixin: '',
-        qq: '',
-        hobby: '',
-        status: 1,
-        address: '',
-        remark: ''
+        effective_date: '',
+        expiration_date: '',
+        delivery_date: '',
+        remark: '',
+        billno: ''
       },
       rules: {
-        name: [
-          {required: true, message: '姓名不能为空', trigger: 'blur'}
+        effective_date: [
+          {required: true, message: '起始日期不能为空', trigger: 'blur'}
+        ],
+        expiration_date: [
+          {required: true, message: '截止日期不能为空', trigger: 'blur'}
         ],
         mobile: [
           {required: true, message: '手机不能为空', trigger: 'blur'}
         ]
       },
-      postList: customercontactConst.POST_LIST,
-      statusList: customercontactConst.STATUS_LIST,
-      deptList: customercontactConst.DEPT_LIST,
-      sexList: customercontactConst.SEX_LIST,
+      statusList: customerquotationConst.STATUS_LIST,
+      carriageList: customerquotationConst.CARRIAGE_LIST,
+      payList: customerquotationConst.PAY_LIST,
+      select: {
+        customerConcatList: []
+      },
       init: {
-        customer: []
+        customer: [],
+        serviceorder: []
       }
     }
   },
   methods: {
     onSubmit (e) {
       this.$refs.addForm.validate(async (valid) => {
-        console.log('data789', 'dddd')
         if (valid) {
           try {
-            let data = await updateCustomercontact(this.data, this.data.id)
+            let data = await updateCustomerquotation(this.data, this.data.id)
             console.log('data', data)
             this.withRefresh(e)
           } catch (e) {
@@ -187,14 +225,31 @@ export default {
     async afterOpen () {
       let data = this.data
 
-      let customers = await selectCustomer({id: data.cust_id})
+      let customers = await selectCustomer({id: data.customer_id})
       this.init.customer = customers.data
+
+      let serviceorders = await selectServiceOrder({id: data.service_order_id})
+      this.init.serviceorder = serviceorders.data
 
       return true
     },
+    async serviceorderChange (serviceorderdId) {
+      this.data.service_order_id = serviceorderdId
+    },
     async customerChange (customerId) {
-      console.log('customerId879', customerId)
-      this.data.cust_id = customerId
+      this.data.customer_id = customerId
+    },
+    // 客户变更
+    async customerChangeData (customer) {
+      this.data.customer_id = customer.id
+      this.data.customer = customer
+      // console.log('customer', customer)
+      let {data} = await selectCustomerContact(customer.id)
+      this.select.customerConcatList = data
+    },
+    async feedbackStaffChangeData (contact) {
+      this.data.customer_contact_id = contact.id
+      this.data.mobile = contact.mobile
     }
   }
 }
