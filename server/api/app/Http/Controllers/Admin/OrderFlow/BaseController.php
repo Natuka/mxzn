@@ -59,44 +59,109 @@ class BaseController extends Controller
      */
     public function where(Request $request, ServiceOrder $order)
     {
-        $orderField = $request->get('orderField', 3); // 排序栏位
-        $orderBy = $request->get('orderBy', 1); // 排序顺序
-
         $type = $request->get('schType', 0); //工单类别
+        // 服务类别
+        if ($type) {
+            $order = $order->where('type', $type);
+        }
+        $degree = $request->get('schDegree', 0); //紧急程度
+        if ($degree) {
+            $order = $order->where('emergency_degree', $degree);
+        }
         $sch_field = $request->get('schField', ''); //查询字段或模糊查询
         $sch_value = $request->get('schValue', ''); //查询字段或模糊查询
-        //$sch_field = 'fuzzy_query';
+        $order = $this->where_group($sch_field, $sch_value, $order);
+        $sch_field = $request->get('schField2', ''); //查询字段或模糊查询
+        $sch_value = $request->get('schValue2', ''); //查询字段或模糊查询
+        $order = $this->where_group($sch_field, $sch_value, $order);
+        $sch_field = $request->get('schField3', ''); //查询字段或模糊查询
+        $sch_value = $request->get('schValue3', ''); //查询字段或模糊查询
+        $order = $this->where_group($sch_field, $sch_value, $order);
+
+/*        $start_date = $request->get('start_date', '');
+        $end_date = $request->get('end_date', '');
+
+        if (!empty($start_date) && !empty($end_date)) {
+            $dateField = '';
+            if (4 == $this->progress) {
+                $dateField = 'progress_date';
+            }elseif (8 == $this->progress) {
+                $dateField = 'retracing_date';
+            }
+            if (!empty($dateField)) {
+                $order = $order->whereNotNull($dateField);
+                $order = $order->where($dateField, '>=', $start_date);
+                $order = $order->where($dateField, '<', $end_date);
+            }
+        }*/
+
+        //排序
+        $orderField = $request->get('orderField', 0); // 排序栏位
+        $orderBy = $request->get('orderBy', 1); // 排序顺序
+        $orderFieldArray = array('0'=>'id');
+        $orderByArray = array('0'=>'ASC', '1'=>'DESC',);
+        if (!empty($orderFieldArray[$orderField]) && !empty($orderByArray[$orderBy])){
+            $order = $order->orderBy($orderFieldArray[$orderField], $orderByArray[$orderBy]);
+        }
+
+        $order = $order->with([
+            'fault',
+            'documents',
+            'customer',
+            'engineers',
+            'feedbackStaff',
+            'receiveStaff',
+            'confirmStaff',
+        ]);
+
+        return $order;
+    }
+
+    /**
+     * 查询
+     * @param  [type] $request        [description]
+     * @param  [type] $order         [description]
+     * @return [type]                 [description]
+     */
+    public function where_group($sch_field, $sch_value, $order)
+    {
         if ($sch_value && $sch_field) {
             if ($sch_field == 'fuzzy_query') {
                 $order = $order->where(function($query) use($sch_field, $sch_value)
-                                {
-                                    $query = $query->where('number', 'like', '%'.$sch_value.'%');
-                                    $query = $query->orWhere(function($query) use($sch_field, $sch_value)
-                                    {
-                                        $query = $query->whereHas('customer', function ($query) use ($sch_value) {
-                                            $query->where('name', 'like', '%'.$sch_value.'%');
-                                        });
-                                    });
-                                    $query = $query->orWhere(function($query) use($sch_field, $sch_value)
-                                    {
-                                        $query = $query->whereHas('feedbackStaff', function ($query) use ($sch_value) {
-                                            $query->where('name', 'like', '%'.$sch_value.'%');
-                                        });
-                                    });
-                                    $query = $query->orWhere(function($query) use($sch_field, $sch_value)
-                                    {
-                                        $query = $query->whereHas('engineers', function ($query) use ($sch_value) {
-                                            $query->where('staff_name', 'like', '%'.$sch_value.'%');
-                                        });
-                                    });
-                                    $query = $query->orWhere(function($query) use($sch_field, $sch_value)
-                                    {
-                                        $query = $query->whereHas('fault', function ($query) use ($sch_value) {
-                                            $query->where('desc', 'like', '%'.$sch_value.'%');
-                                        });
-                                    });
+                {
+                    $query = $query->where('number', 'like', '%'.$sch_value.'%');
+                    $query = $query->orWhere(function($query) use($sch_field, $sch_value)
+                    {
+                        $query = $query->whereHas('customer', function ($query) use ($sch_value) {
+                            $query->where('name', 'like', '%'.$sch_value.'%');
+                        });
+                    });
+                    $query = $query->orWhere(function($query) use($sch_field, $sch_value)
+                    {
+                        $query = $query->whereHas('feedbackStaff', function ($query) use ($sch_value) {
+                            $query->where('name', 'like', '%'.$sch_value.'%');
+                        });
+                    });
+                    $query = $query->orWhere(function($query) use($sch_field, $sch_value)
+                    {
+                        $query = $query->whereHas('receive_staff', function ($query) use ($sch_value) {
+                            $query->where('name', 'like', '%'.$sch_value.'%');
+                        });
+                    });
+                    $query = $query->orWhere(function($query) use($sch_field, $sch_value)
+                    {
+                        $query = $query->whereHas('engineers', function ($query) use ($sch_value) {
+                            $query->where('staff_name', 'like', '%'.$sch_value.'%');
+                        });
+                    });
+                    $query = $query->orWhere(function($query) use($sch_field, $sch_value)
+                    {
+                        $query = $query->whereHas('fault', function ($query) use ($sch_value) {
+                            $query->where('desc', 'like', '%'.$sch_value.'%');
+                        });
+                    });
 
-                                });
+                });
             }else{
                 if (in_array($sch_field, ['number'])) {
                     $order = $order->where($sch_field, 'like', '%'.$sch_value.'%');
@@ -109,6 +174,11 @@ class BaseController extends Controller
                             break;
                         case 'feedback_staff' :
                             $order = $order->whereHas('feedbackStaff', function ($query) use ($sch_value) {
+                                $query->where('name', 'like', '%'.$sch_value.'%');
+                            });
+                            break;
+                        case 'receive_staff' :
+                            $order = $order->whereHas('receiveStaff', function ($query) use ($sch_value) {
                                 $query->where('name', 'like', '%'.$sch_value.'%');
                             });
                             break;
@@ -128,51 +198,6 @@ class BaseController extends Controller
 
             }
         }
-
-/*        $start_date = $request->get('start_date', '');
-        $end_date = $request->get('end_date', '');
-
-        if (!empty($start_date) && !empty($end_date)) {
-            $dateField = '';
-            if (4 == $this->progress) {
-                $dateField = 'progress_date';
-            }elseif (8 == $this->progress) {
-                $dateField = 'retracing_date';
-            }
-            if (!empty($dateField)) {
-                $order = $order->whereNotNull($dateField);
-                $order = $order->where($dateField, '>=', $start_date);
-                $order = $order->where($dateField, '<', $end_date);
-            }
-        }*/
-
-
-        // 服务类别
-        if ($type) {
-            $order = $order->where('type', $type);
-        }
-
-        //已过期
-/*        if ($request->get('report_overdue', 0)) {
-            $order = $order->where('progress_date', '<', carbon(null)->toDateString());
-        }*/
-
-        //排序
-//        $orderFieldArray = array('0'=>'name', '1'=>'acct', '2'=>'birth', '3'=>'progress_time', '4'=>'id','5'=>'progress_date','6'=>'business_man');
-//        $orderByArray = array('0'=>'ASC', '1'=>'DESC',);
-//        if (!empty($orderFieldArray[$orderField]) && !empty($orderByArray[$orderBy])){
-//            $order = $order->orderBy($orderFieldArray[$orderField], $orderByArray[$orderBy]);
-//        }
-
-        $order = $order->with([
-            'fault',
-            'documents',
-            'customer',
-            'engineers',
-            'feedbackStaff',
-            'receiveStaff',
-            'confirmStaff',
-        ]);
 
         return $order;
     }
