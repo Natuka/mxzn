@@ -64,6 +64,9 @@ export default {
   },
   data() {
     return {
+      data: {
+        id: 0,
+      },
       url: "customerquotation/materiel",
       access: {
         add: "customerquotation_materiel_add",
@@ -74,7 +77,7 @@ export default {
       showBtn: false,
       columns: [
         {
-          width: 100,
+          width: 120,
           // fixed: 'left',
           title: "料号",
           key: "number",
@@ -93,7 +96,7 @@ export default {
           sortable: false
         },
         {
-          width: 60,
+          width: 80,
           title: "单位",
           key: "unit",
           sortable: false
@@ -125,27 +128,27 @@ export default {
         {
           width: 100,
           title: "折扣后金额",
-          key: "amount_dis",
+          key: "discount_amount",
           sortable: false
         },
         {
           width: 60,
           title: "税率",
-          key: "warranty_date",
-          sortable: false
-        },
-        {
-          width: 60,
-          title: "税率",
-          key: "warranty_date",
+          key: "tax_rate",
           sortable: false
         },
         {
           width: 100,
-          title: "备注",
-          key: "remark",
+          title: "交货日期",
+          key: "delivery_date",
           sortable: false
         },
+        // {
+        //   width: 100,
+        //   title: "备注",
+        //   key: "remark",
+        //   sortable: false
+        // },
         {
           fixed: "right",
           width: 180,
@@ -172,8 +175,7 @@ export default {
                       );
                     }
                   }
-                },
-                [h("Button", "删除")]
+                }
               );
             },
             (h, params, vm) => {
@@ -229,12 +231,13 @@ export default {
       console.log("data", data, index);
     },
     setUrl(quotation_id) {
-      console.log("quotation_id76867", quotation_id, this.url);
+      // console.log("quotation_id76867", quotation_id, this.url);
+      this.data.id = quotation_id
       this.url = `customerquotation/`+ quotation_id + `/materiel`;
       this.refresh()
     },
     onAddSetData() {
-      // console.log('data', this.data)
+      // console.log('data678454', this.data)
       this.$refs.add.setDataBefore(this.data);
     },
     onEditSetData() {

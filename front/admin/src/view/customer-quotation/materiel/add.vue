@@ -21,23 +21,6 @@
           ></remote-select>
         </FormItem>
 
-        <!--<FormItem label="编号" prop="serial_number" >
-          <Input
-            v-model="data.serial_number"
-            readonly
-          ></Input>
-        </FormItem>
-
-        <FormItem label="编号" prop="base_code_id">
-          <remote-select
-            :init="data.base_code_id"
-            :initData="init.code"
-            label="name"
-            url="select/code"
-            @on-change="codeChange"
-            @on-change-data="codeChangeData"
-          ></remote-select>
-        </FormItem>-->
         <FormItem label="料号" prop="number">
           <Input v-model="data.number" disabled></Input>
         </FormItem>
@@ -70,26 +53,33 @@
           <InputNumber :max="10" :min="0" v-model="data.discount"></InputNumber>
         </FormItem>
 
-        <FormItem label="折扣后金额" prop="amount_dis">
-          <Input v-model="data.amount_dis" disabled></Input>
+        <FormItem label="折扣后金额" prop="discount_amount">
+          <Input v-model="data.discount_amount" disabled></Input>
         </FormItem>
 
-        <FormItem label="结算方式" prop="warranty_months">
-          <Select :value="data.warranty_months">
-            <Option
-              v-for="(type, index) in select.settlementMothedList"
-              :key="index"
-              :value="index"
-            >{{type}}</Option>
-          </Select>
+        <FormItem label="税率" prop="tax_rate">
+          <RadioGroup v-model="data.tax_rate">
+            <Radio :label="16">
+              <span>16%</span>
+            </Radio>
+            <Radio :label="10">
+              <span>10%</span>
+            </Radio>
+            <Radio :label="6">
+              <span>6%</span>
+            </Radio>
+            <Radio :label="0">
+              <span>不含税</span>
+            </Radio>
+          </RadioGroup>
         </FormItem>
 
-        <FormItem label="结算日期" prop="warranty_date">
+        <FormItem label="交货日期" prop="delivery_date">
           <DatePicker
             type="date"
-            placeholder="结算日期"
-            :value="data.warranty_date"
-            @on-change="date => this.data.warranty_date = date"
+            placeholder="交货日期"
+            :value="data.delivery_date"
+            @on-change="date => this.data.delivery_date = date"
             :start-date="new Date()"
           ></DatePicker>
         </FormItem>
@@ -106,8 +96,7 @@
 import ModalMixin from "@/mixins/modal";
 import AreaMixin from "@/mixins/area";
 
-import { addRepairAction } from "@/api/order_flow/repair";
-import * as orderConst from "@/constants/order_flow";
+import { addMaterielAction } from "@/api/customerquotation";
 
 export default {
   name: "materiel-add",
@@ -115,47 +104,29 @@ export default {
   data() {
     return {
       data: {
-        service_order_id: 0,
-        base_part_id: 0,
-        base_code_id: 0,
-        service_id: 0,
+        quotation_id: 0,
+        item_id: 0,
         name: "",
-        code: "",
         number: "",
         model: "",
-        content: "",
-        workday: 0,
-        area: "",
         price: 0,
         unit: "PCS",
         quantity: 1,
         amount: 0,
         discount: 10,
-        amount_dis: 0,
-        warranty_months: 1,
-        warranty_date: "",
-        remark: "",
-        serial_number: "",
-        code: {}
+        discount_amount: 0,
+        tax_rate: 6,
+        delivery_date: "",
+        remark: ""
       },
-      fault: {},
       rules: {
-        // base_part_id: [
+        // item_id: [
         //   {required: true, message: '配件不能为空', trigger: 'blur'}
         // ],
         number: [{ required: true, message: "料号不能为空", trigger: "blur" }],
         name: [{ required: true, message: "品名不能为空", trigger: "blur" }]
       },
-      select: {
-        isLandList: orderConst.SERVICE_LAND_TRAFFIC,
-        isHotelList: orderConst.SERVICE_HOTEL,
-        isCompleteList: orderConst.SERVICE_COMPLETE,
-        settlementMothedList: orderConst.SERVICE_SETTLEMENT_METHOD
-      },
       init: {
-        department: [],
-        staff: [],
-        service: [],
         part: []
       }
     };
@@ -165,10 +136,11 @@ export default {
       this.$refs.addForm.validate(async valid => {
         if (valid) {
           try {
-            let data = await addRepairAction(
+            console.log("data3423452", this.data);
+            let data = await addMaterielAction(
               this.data,
-              this.data.service_order_id,
-              "parts"
+              this.data.quotation_id,
+              "materiel"
             );
             console.log("data", data);
             this.withRefresh(e);
@@ -181,8 +153,7 @@ export default {
       });
     },
     setDataBefore(data) {
-      // this.fault = data.fault[0]
-      this.data.service_order_id = (data && data.id) || 0;
+      this.data.quotation_id = (data && data.id) || 0;
     },
     onCancel(e) {
       e();
@@ -190,40 +161,30 @@ export default {
     async beforeOpen() {
       return true;
     },
-    async codeChange(codeId) {
-      this.data.base_code_id = codeId;
-    },
-    async codeChangeData(code) {
-      this.data.base_code_id = code.id;
-      // this.data.staff_name = code.name
-      this.data.code = code;
-      // this.data.serial_number = code.serial_number
-    },
     async partChange(partId) {
-      this.data.base_part_id = partId;
+      this.data.item_id = partId;
     },
     async partChangeData(part) {
-      this.data.base_part_id = part.id;
+      this.data.item_id = part.id;
       this.data.number = part.number;
       this.data.name = part.name;
       this.data.model = part.model;
-      this.data.brand = part.brand;
+      // this.data.brand = part.brand;
       this.data.unit = part.unit;
       this.data.price = part.price_sale_unified;
-      this.codeChangeData(part.code);
     }
   },
   watch: {
     "data.quantity"(quantity) {
       this.data.amount = quantity * this.data.price;
-      this.data.amount_dis = (this.data.amount * this.data.discount) / 10;
+      this.data.discount_amount = (this.data.amount * this.data.discount) / 10;
     },
     "data.price"(price) {
       this.data.amount = price * this.data.quantity;
-      this.data.amount_dis = (this.data.amount * this.data.discount) / 10;
+      this.data.discount_amount = (this.data.amount * this.data.discount) / 10;
     },
     "data.discount"(discount) {
-      this.data.amount_dis = (this.data.amount * discount) / 10;
+      this.data.discount_amount = (this.data.amount * discount) / 10;
     }
   }
 };

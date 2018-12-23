@@ -24,7 +24,7 @@ class CreateQuotationEntryTable extends Migration
             $table->integer('quantity')->nullable()->comment('数量');
             $table->float('price',8,2)->nullable()->comment('单价');
             $table->float('amount',8,2)->nullable()->comment('金额');
-            $table->float('discount',4,3)->nullable()->comment('折扣');
+            $table->float('discount',6,3)->nullable()->comment('折扣');
             $table->float('discount_amount',8,2)->nullable()->comment('折扣后金额');
             $table->integer('tax_rate')->comment('税率: 16% 16，10% 10，6% 6，不含税 0');
             $table->date('delivery_date')->nullable()->comment('交货日期');

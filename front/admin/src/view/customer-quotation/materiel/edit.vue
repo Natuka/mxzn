@@ -2,22 +2,17 @@
   <custom-modal
     ref="ref"
     width="1000px"
-    title="配件耗材-修改"
+    title="报价单-配件耗材-新增"
+    z-index="10000000"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
     class="mxcs-two-column"
   >
     <div test="1245">
-
-      <Form :model="data"
-            ref="addForm"
-            :rules="rules"
-            :label-width="90"
-            class="mxcs-two-column"
-      >
-        <FormItem label="配件" prop="base_part_id">
+      <Form :model="data" ref="addForm" :rules="rules" :label-width="90" class="mxcs-two-column">
+        <FormItem label="配件" prop="item_id">
           <remote-select
-            :init="data.base_part_id"
+            :init="data.item_id"
             :initData="init.part"
             label="name"
             url="select/part"
@@ -26,101 +21,71 @@
           ></remote-select>
         </FormItem>
 
-        <!--<FormItem label="编号" prop="serial_number">
-          <Input
-            v-model="data.serial_number"
-            readonly
-          ></Input>
-        </FormItem>-->
-
         <FormItem label="料号" prop="number">
-          <Input
-            v-model="data.number"
-            disabled
-          ></Input>
+          <Input v-model="data.number" disabled></Input>
         </FormItem>
 
         <FormItem label="品名" prop="name">
-          <Input
-            v-model="data.name"
-            disabled
-          ></Input>
+          <Input v-model="data.name" disabled></Input>
         </FormItem>
 
         <FormItem label="规格型号" prop="model">
-          <Input
-            v-model="data.model"
-            disabled
-          ></Input>
+          <Input v-model="data.model" disabled></Input>
         </FormItem>
 
         <FormItem label="单价" prop="price">
-          <Input
-            v-model="data.price"
-            disabled
-          ></Input>
+          <Input v-model="data.price" disabled></Input>
         </FormItem>
 
         <FormItem label="单位" prop="unit">
-          <Input
-            v-model="data.unit"
-            disabled
-          ></Input>
+          <Input v-model="data.unit" disabled></Input>
         </FormItem>
 
         <FormItem label="数量" prop="quantity">
-          <InputNumber
-            v-model="data.quantity"
-          ></InputNumber>
+          <InputNumber v-model="data.quantity"></InputNumber>
         </FormItem>
 
         <FormItem label="金额" prop="amount">
-          <Input
-            v-model="data.amount"
-            disabled
-          ></Input>
+          <Input v-model="data.amount" disabled></Input>
         </FormItem>
 
         <FormItem label="折扣" prop="discount">
-          <InputNumber
-            :max="10" :min="0"
-            v-model="data.discount"
-          ></InputNumber>
+          <InputNumber :max="10" :min="0" v-model="data.discount"></InputNumber>
         </FormItem>
 
-        <FormItem label="折扣后金额" prop="amount_dis">
-          <Input
-            v-model="data.amount_dis"
-            disabled
-          ></Input>
+        <FormItem label="折扣后金额" prop="discount_amount">
+          <Input v-model="data.discount_amount" disabled></Input>
         </FormItem>
 
-        <FormItem label="结算方式" prop="warranty_months">
-          <Select :value="data.warranty_months">
-            <Option
-              v-for="(type, index) in select.settlementMothedList"
-              :key="index"
-              :value="index"
-            >{{type}}
-            </Option>
-          </Select>
+        <FormItem label="税率" prop="tax_rate">
+          <RadioGroup v-model="data.tax_rate">
+            <Radio :label="16">
+              <span>16%</span>
+            </Radio>
+            <Radio :label="10">
+              <span>10%</span>
+            </Radio>
+            <Radio :label="6">
+              <span>6%</span>
+            </Radio>
+            <Radio :label="0">
+              <span>不含税</span>
+            </Radio>
+          </RadioGroup>
         </FormItem>
 
-        <FormItem label="结算日期" prop="warranty_date">
+        <FormItem label="交货日期" prop="delivery_date">
           <DatePicker
             type="date"
-            placeholder="结算日期"
-            v-model="data.warranty_date"
-            @on-change="date => this.data.warranty_date = date"
+            placeholder="交货日期"
+            :value="data.delivery_date"
+            @on-change="date => this.data.delivery_date = date"
             :start-date="new Date()"
           ></DatePicker>
         </FormItem>
 
         <FormItem label="备注" prop="remark" style="width: 100%;">
-          <Input
-            type="textarea"
-            v-model="data.remark"
-          ></Input>
+          <Input type="textarea" v-model="data.remark"></Input>
         </FormItem>
       </Form>
     </div>
@@ -128,12 +93,10 @@
 </template>
 
 <script>
+import ModalMixin from "@/mixins/modal";
+import AreaMixin from "@/mixins/area";
 
-import ModalMixin from '@/mixins/modal'
-import AreaMixin from '@/mixins/area'
-
-import {updateRepairAction} from '@/api/order_flow/repair'
-import * as orderConst from '@/constants/order_flow'
+import { updateMaterielAction } from "@/api/customerquotation";
 
 export default {
   name: 'materiel-edit',
@@ -142,34 +105,25 @@ export default {
     return {
       data: {
         id: 0,
-        service_order_id: 0,
-        base_part_id: 0,
-        base_code_id: 0,
-        service_id: 0,
-        name: '',
-        code: '',
-        number: '',
-        model: '',
-        content: '',
-        workday: 0,
-        area: '',
+        quotation_id: 0,
+        item_id: 0,
+        name: "",
+        number: "",
+        model: "",
         price: 0,
-        unit: 'PCS',
+        unit: "PCS",
         quantity: 1,
         amount: 0,
         discount: 10,
-        amount_dis: 0,
-        warranty_months: 1,
-        warranty_date: '',
-        remark: '',
-        // serial_number: '',
-        code: {}
+        discount_amount: 0,
+        tax_rate: 6,
+        delivery_date: "",
+        remark: ""
       },
-      fault: {},
       rules: {
-        base_part_id: [
-          {required: true, message: '配件不能为空', trigger: 'blur'}
-        ],
+        // item_id: [
+        //   {required: true, message: '配件不能为空', trigger: 'blur'}
+        // ],
         number: [
           {required: true, message: '料号不能为空', trigger: 'blur'}
         ],
@@ -177,16 +131,7 @@ export default {
           {required: true, message: '品名不能为空', trigger: 'blur'}
         ]
       },
-      select: {
-        isLandList: orderConst.SERVICE_LAND_TRAFFIC,
-        isHotelList: orderConst.SERVICE_HOTEL,
-        isCompleteList: orderConst.SERVICE_COMPLETE,
-        settlementMothedList: orderConst.SERVICE_SETTLEMENT_METHOD
-      },
       init: {
-        department: [],
-        staff: [],
-        service: [],
         part: []
       }
     }
@@ -196,7 +141,7 @@ export default {
       this.$refs.addForm.validate(async (valid) => {
         if (valid) {
           try {
-            let data = await updateRepairAction(this.data, this.data.id, this.data.service_order_id, 'parts')
+            let data = await updateMaterielAction(this.data, this.data.id, this.data.quotation_id, 'materiel')
             console.log('data', data)
             this.withRefresh(e)
           } catch (e) {
@@ -208,8 +153,7 @@ export default {
       })
     },
     setDataBefore (data) {
-      this.fault = data.fault[0]
-      this.data.service_order_id = data.id
+      this.data.quotation_id = data.id
     },
     onCancel (e) {
       e()
@@ -221,30 +165,19 @@ export default {
       this.init.part = [{
         ...JSON.parse(JSON.stringify(this.data.part))
       }]
-      this.codeChangeData(this.data.code)
       this.data.number = this.data.part.number
     },
-    async codeChange (codeId) {
-      this.data.base_code_id = codeId
-    },
-    async codeChangeData (code) {
-      this.data.base_code_id = code.id
-      // this.data.staff_name = code.name
-      this.data.code = code
-      // this.data.serial_number = code.serial_number
-    },
     async partChange (partId) {
-      this.data.base_part_id = partId
+      this.data.item_id = partId
     },
     async partChangeData (part) {
-      this.data.base_part_id = part.id
+      this.data.item_id = part.id
       this.data.number = part.number
       this.data.name = part.name
       this.data.model = part.model
-      this.data.brand = part.brand
+      // this.data.brand = part.brand
       this.data.unit = part.unit
       this.data.price = part.price_sale_unified
-      this.codeChangeData(part.code)
     }
   },
   watch: {

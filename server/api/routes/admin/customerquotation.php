@@ -54,5 +54,25 @@ Route::group([
         'visible' => false,
     ]);
 
+    Route::post('/auditing', [
+        'uses' => 'QuotationController@auditing',
+        'as' => 'customerquotation_list_auditing',
+        'display_name' => '审核',
+        'visible' => false,
+    ]);
+
+    Route::post('/copy', [
+        'uses' => 'QuotationController@copy',
+        'as' => 'customerquotation_list_copy',
+        'display_name' => '复制',
+        'visible' => false,
+    ]);
+
+    Route::post('/toorder', [
+        'uses' => 'QuotationController@toorder',
+        'as' => 'customerquotation_list_toorder',
+        'display_name' => '转工单',
+        'visible' => false,
+    ]);
 
 });

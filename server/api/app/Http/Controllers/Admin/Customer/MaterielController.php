@@ -73,6 +73,7 @@ class MaterielController extends Controller
 
             $quotationentry = $quotationentry->quotationBy($quotationFieldArray[$quotationField], $quotationByArray[$quotationBy]);
         }*/
+        $quotationentry = $quotationentry->orderBy('id', 'desc');
         $quotationentry->with('part');
         return $quotationentry;
     }
@@ -86,9 +87,10 @@ class MaterielController extends Controller
      */
     public function store(CreateRequest $request, Quotation $quotation, QuotationEntry $quotationentry)
     {
+        $user = $request->user();
         $data = $request->only([
-            'base_quotationentry_id',
-            'base_code_id',
+            'quotation_id',
+            'item_id',
             'number',
             'name',
             'model',
@@ -97,24 +99,24 @@ class MaterielController extends Controller
             'price',
             'amount',
             'discount',
-            'amount_dis',
-            'warranty_months',
-            'warranty_date',
+            'discount_amount',
+            'tax_rate',
+            'delivery_date',
+            'remark',
         ]);
-        //$request['source'] = $request->get('source', 3);
 
-        $data['base_quotationentry_id'] = (int)$data['base_quotationentry_id'];
-        $data['base_code_id'] = (int)$data['base_code_id'];
-        $data['warranty_months'] = (int)$data['warranty_months'];
+        $data['item_id'] = (int)$data['item_id'];
+        $data['tax_rate'] = (int)$data['tax_rate'];
         $data['quantity'] = doubleval($data['quantity']);
         $data['price'] = doubleval($data['price']);
         $data['amount'] = doubleval($data['amount']);
         $data['discount'] = doubleval($data['discount']);
-        $data['warranty_date'] = format_date($data['warranty_date']);
+        $data['discount_amount'] = doubleval($data['discount_amount']);
+        $data['delivery_date'] = mydb_format_date($data['delivery_date'], 'Y-m-d', '1991-01-01');
 
         $data['quotation_id'] = (int)$quotation['id'];
-        $data['created_by'] = '新增';
-        $data['updated_by'] = '新增';
+//        $data['created_by'] = $user->userable_name;
+//        $data['updated_by'] = $user->userable_name;
 
         $ret = $quotationentry->forceFill($data)->save();
 
@@ -135,9 +137,9 @@ class MaterielController extends Controller
      */
     public function update(UpdateRequest $request, Quotation $quotation, QuotationEntry $quotationentry)
     {
+        $user = $request->user();
         $data = $request->only([
-            'base_quotationentry_id',
-            'base_code_id',
+            'item_id',
             'number',
             'name',
             'model',
@@ -146,21 +148,22 @@ class MaterielController extends Controller
             'price',
             'amount',
             'discount',
-            'amount_dis',
-            'warranty_months',
-            'warranty_date',
+            'discount_amount',
+            'tax_rate',
+            'delivery_date',
+            'remark',
         ]);
 
-        $data['base_quotationentry_id'] = (int)$data['base_quotationentry_id'];
-        $data['base_code_id'] = (int)$data['base_code_id'];
-        $data['warranty_months'] = (int)$data['warranty_months'];
+        $data['item_id'] = (int)$data['item_id'];
+        $data['tax_rate'] = (int)$data['tax_rate'];
         $data['quantity'] = doubleval($data['quantity']);
         $data['price'] = doubleval($data['price']);
         $data['amount'] = doubleval($data['amount']);
         $data['discount'] = doubleval($data['discount']);
-        $data['warranty_date'] = format_date($data['warranty_date']);
+        $data['discount_amount'] = doubleval($data['discount_amount']);
+        $data['delivery_date'] = mydb_format_date($data['delivery_date'], 'Y-m-d', '1991-01-01');
 
-        $data['updated_by'] = '修改';
+//        $data['updated_by'] = $user->userable_name;
 
         $ret = $quotationentry->forceFill($data)->save();
 

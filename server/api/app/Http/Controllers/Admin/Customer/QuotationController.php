@@ -180,6 +180,37 @@ class QuotationController extends Controller
         return error_json('修改失败，请检查');
     }
 
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function auditing(Request $request)
+    {
+        $user = $request->user();
+        foreach ($request->get('post', []) as $infoId) {
+            /*            \Log::info([
+                            'next next' => $infoId
+                        ]);*/
+            $quotation = Quotation::find($infoId);
+            if ($quotation) {
+                if ($quotation->status == 0) {
+                    $data['status'] = 1;
+                    $data['checked_by'] = $user->userable_name;
+                    $data['checked_date'] = date('Y-m-d H:i:s');
+                    $quotation->forceFill($data)->save();
+                }
+
+            }
+            unset($infoId);
+        }
+
+        return success_json('操作成功');
+    }
+
+
     /**
      * Remove the specified resource from storage.
      *

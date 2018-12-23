@@ -15,6 +15,34 @@
           刷新
           <Icon type="md-refresh"/>
         </Button>
+        <Button
+          type="success"
+          @click="handleAuditing"
+          v-if="accessAdd()"
+          class="ml-5"
+        >
+          审核
+          <Icon type="md-checkmark-circle"/>
+        </Button>
+
+        <Button
+          type="success"
+          @click="handleCopy"
+          v-if="accessAdd()"
+          class="ml-5"
+        >
+          复制
+          <Icon type="md-arrow-forward"/>
+        </Button>
+        <Button
+            type="success"
+            @click="handleToOrder"
+            v-if="accessAdd()"
+            class="ml-5"
+          >
+            转工单
+            <Icon type="md-arrow-forward"/>
+        </Button>
       </div>
       <customerquotation-search ref="search" @on-search="onSearch"></customerquotation-search>
       <tables
@@ -25,6 +53,7 @@
         v-model="list"
         :columns="columns"
         @on-delete="handleDelete"
+        @on-selection-change="selectionChangeHandler"
         :width="tableWidth"
       />
       <br/>
@@ -40,6 +69,7 @@
 <script>
 import Tables from '_c/tables'
 // import {getCustomerquotationList} from '@/api/customerquotation'
+import {customerquotationAuditing, customerquotationToOrder, customerquotationCopy} from '@/api/customerquotation'
 
 import search from './search'
 import add from './add'
@@ -68,6 +98,13 @@ export default {
         remove: 'customerquotation_remove'
       },
       columns: [
+        {
+          type: 'selection',
+          width: 45,
+          fixed: 'left',
+          align: 'center',
+          className: 'i-selection'
+        },
         {
           width: 60,
           fixed: 'left',
@@ -221,7 +258,8 @@ export default {
           ]
         }
       ],
-      tableData: []
+      tableData: [],
+      selected: []
     }
   },
   methods: {
@@ -231,6 +269,111 @@ export default {
     exportExcel () {
       this.$refs.tables.exportCsv({
         filename: `table-${new Date().valueOf()}.csv`
+      })
+    },
+    selectionChangeHandler (list) {
+      this.selected = list
+    },
+    handleAuditing () {
+      if (!this.selected.length) {
+        return this.$Message.error('请选择要审核的报价单[复选框选取]')
+      }
+
+      let post = this.selected.map(el => el.id)
+
+      this.$Modal.confirm({
+        title: '提示',
+        content: '确认审核报价单？',
+        loading: true,
+        onOk: () => {
+          customerquotationAuditing({
+            post
+          }).then(({data}) => {
+            this.$Notice.success({
+              title: '审核成功',
+              desc: data.message
+            })
+            this.$Modal.remove()
+            this.refresh()
+          }).catch(({message, response}) => {
+            this.$Notice.error({
+              title: '错误提示',
+              desc: (response && response.data && response.data.message) || message
+            })
+            this.$Modal.remove()
+          })
+        },
+        onCancel: () => {
+
+        }
+      })
+    },
+    handleCopy () {
+      if (!this.selected.length) {
+        return this.$Message.error('请选择要复制的报价单[复选框选取]')
+      }
+
+      let post = this.selected.map(el => el.id)
+
+      this.$Modal.confirm({
+        title: '提示',
+        content: '确认复制报价单？',
+        loading: true,
+        onOk: () => {
+          customerquotationCopy({
+            post
+          }).then(({data}) => {
+            this.$Notice.success({
+              title: '复制报价单完成',
+              desc: data.message
+            })
+            this.$Modal.remove()
+            this.refresh()
+          }).catch(({message, response}) => {
+            this.$Notice.error({
+              title: '错误提示',
+              desc: (response && response.data && response.data.message) || message
+            })
+            this.$Modal.remove()
+          })
+        },
+        onCancel: () => {
+
+        }
+      })
+    },
+    handleToOrder () {
+      if (!this.selected.length) {
+        return this.$Message.error('请选择要转工单的报价单[复选框选取]')
+      }
+
+      let post = this.selected.map(el => el.id)
+
+      this.$Modal.confirm({
+        title: '提示',
+        content: '确认转工单？',
+        loading: true,
+        onOk: () => {
+          customerquotationToOrder({
+            post
+          }).then(({data}) => {
+            this.$Notice.success({
+              title: '转工单完成',
+              desc: data.message
+            })
+            this.$Modal.remove()
+            this.refresh()
+          }).catch(({message, response}) => {
+            this.$Notice.error({
+              title: '错误提示',
+              desc: (response && response.data && response.data.message) || message
+            })
+            this.$Modal.remove()
+          })
+        },
+        onCancel: () => {
+
+        }
       })
     },
     onOpen () {
