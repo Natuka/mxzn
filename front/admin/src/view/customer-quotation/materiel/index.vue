@@ -1,7 +1,6 @@
 <template>
   <div>
     <Card>
-      {{showBtn}}
       <div slot="title" v-show="showBtn">
         <Button type="primary" @click="onAdd">新增
           <Icon type="md-add"/>
@@ -56,13 +55,16 @@ export default {
   },
   watch: {
     quotation_id(value, old) {
-      console.log("quotation_id", value, old);
+      console.log("quotation_id3434", value, old);
       this.showBtn = value > 0;
+      if (value > 0) {
+        this.setUrl(value)
+      }
     }
   },
   data() {
     return {
-      url: "customer-quotation/materiel",
+      url: "customerquotation/materiel",
       access: {
         add: "customerquotation_materiel_add",
         view: "customerquotation_materiel_view",
@@ -226,8 +228,10 @@ export default {
     onRowClick(data, index) {
       console.log("data", data, index);
     },
-    setUrl(data) {
-      this.url = `customerquotation/${data.id}/materiel`;
+    setUrl(quotation_id) {
+      console.log("quotation_id76867", quotation_id, this.url);
+      this.url = `customerquotation/`+ quotation_id + `/materiel`;
+      this.refresh()
     },
     onAddSetData() {
       // console.log('data', this.data)

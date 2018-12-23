@@ -7,8 +7,9 @@ use App\Http\Requests\Admin\CustomerQuotation\Materiel\UpdateRequest;
 use App\Models\Quotation;
 use App\Models\QuotationEntry;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class PartsController extends BaseController
+class MaterielController extends Controller
 {
     /**
      * Display a listing of the resource.

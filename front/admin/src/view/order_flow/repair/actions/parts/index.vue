@@ -239,6 +239,7 @@
         console.log('data', data, index)
       },
       setUrl (data) {
+        console.log('dataxdd2556', this.data)
         this.url = `order_flow/repair/${data.id}/parts`
       },
       onAddSetData () {

@@ -2,7 +2,8 @@
   <custom-modal
     ref="ref"
     width="1000px"
-    title="配件耗材-修改"
+    title="报价单-配件耗材-新增"
+    z-index="10000000"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
     class="mxcs-two-column"
