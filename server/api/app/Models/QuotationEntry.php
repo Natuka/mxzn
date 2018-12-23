@@ -9,6 +9,10 @@ class QuotationEntry extends Model
     //物料基础资料
     protected $table = 'quotation_entry';
 
-
+    //
+    public function part()
+    {
+        return $this->hasOne(Part::class, 'id', 'item_id');
+    }
 
 }

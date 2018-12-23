@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin\Customer;
 
 use App\Http\Requests\Admin\CustomerQuotation\CreateRequest;
 use App\Http\Requests\Admin\CustomerQuotation\UpdateRequest;
-use App\Models\Customer;
 use App\Models\Quotation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
