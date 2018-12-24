@@ -103,6 +103,7 @@ Route::group(['middleware' => [ ]], function () {
     Route::get('/machine/{machine}', 'Order\ConfirmController@get');
     // 机器
     Route::get('/equipment', 'Equipment\IndexController@index');
+    Route::post('/equipment/create', 'Equipment\IndexController@store');
 
     // 机器报修
     Route::get('/repair/machine', 'Order\ConfirmController@get');

@@ -184,6 +184,20 @@ let routes = [
         meta: {
             auth: true
         }
+    },
+    {
+        path: '/equipment/create',
+        component: () => import('./components/equipment/create'),
+        meta: {
+            auth: true
+        }
+    },
+    {
+        path: '/equipment/list',
+        component: () => import('./components/equipment/index'),
+        meta: {
+            auth: true
+        }
     }
 ]
 

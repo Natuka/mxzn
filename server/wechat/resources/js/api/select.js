@@ -5,10 +5,12 @@ export function fetchEquipmentList() {
     return getApi(`equipment`)
 }
 
+// 选择项目
 export function fetchProjectList(name = '', page = 1) {
     return getApi('select/project', { name, page })
 }
 
+// 选择部件
 export function fetchPartList(name = '', page = 1) {
     return getApi('select/part', { name, page })
 }
