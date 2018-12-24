@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin\Customer;
 use App\Http\Requests\Admin\CustomerQuotation\CreateRequest;
 use App\Http\Requests\Admin\CustomerQuotation\UpdateRequest;
 use App\Models\Quotation;
+use App\Models\QuotationEntry;
+use App\Models\ServiceOrder;
+use App\Models\ServiceOrderPart;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -210,6 +213,136 @@ class QuotationController extends Controller
         return success_json('操作成功');
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function copy(Request $request)
+    {
+        $user = $request->user();
+        foreach ($request->get('post', []) as $infoId) {
+            /*            \Log::info([
+                            'next next' => $infoId
+                        ]);*/
+            $quotation = Quotation::find($infoId);
+            if ($quotation) {
+                $new_quotation = $quotation->toArray();
+                $quotation_id = (int)$new_quotation['id'];
+                \Log::info([
+                    'new_quotation3534' => $new_quotation
+                ]);
+                unset($new_quotation['id'], $new_quotation['created_at'], $new_quotation['updated_at']);
+                $new_quotation['billno'] = $this->createNumber();
+                $new_quotation['status'] = 0;
+                $new_quotation['checked_by'] = '';
+                $new_quotation['checked_date'] = NULL;
+                $data['created_by'] = $user->userable_name;
+                $data['updated_by'] = $user->userable_name;
+                $ins_quotation = new Quotation();
+                $ret = $ins_quotation->forceFill($new_quotation)->save();
+                if ($ret) {
+                    if ($ins_quotation->id > 0) {
+                        //复制配件
+                        $materiels = QuotationEntry::where('quotation_id', $quotation_id)->get();
+                        $materielsArray = $materiels->toArray();
+                        if ($materielsArray) {
+                            foreach ($materielsArray as $materielData) {
+                                unset($materielData['id'], $materielData['created_at'], $materielData['updated_at']);
+                                $materielData['quotation_id'] = $ins_quotation->id;
+                                $ins_quotationentry = new QuotationEntry();
+                                $ins_quotationentry->forceFill($materielData)->save();
+                            }
+                        }
+                    }
+                }
+            }
+            unset($infoId);
+        }
+
+        return success_json('操作成功');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function toorder(Request $request)
+    {
+        $user = $request->user();
+        foreach ($request->get('post', []) as $infoId) {
+            /*            \Log::info([
+                            'next next' => $infoId
+                        ]);*/
+            $quotation = Quotation::find($infoId);
+            if ($quotation) {
+                //状态为已审核， 有关联工单
+                if ($quotation->service_order_id > 0 && $quotation->status == 1) {
+                    $service_order = ServiceOrder::find($quotation->service_order_id);
+                    if ($service_order) {
+                        //复制配件
+                        $materiels = QuotationEntry::where('quotation_id', $quotation->id)->get();
+                        $materielsArray = $materiels->toArray();
+                        if ($materielsArray) {
+                            foreach ($materielsArray as $materielData) {
+                                unset($materielData['id'], $materielData['quotation_id'], $materielData['created_at'], $materielData['updated_at'], $materielData['deleted_at']);
+                                $materielData['service_order_id'] = $service_order->id;
+                                $materielData['base_part_id'] = (int)$materielData['item_id'];
+                                $materielData['base_code_id'] = 0;
+                                $materielData['quantity'] = doubleval($materielData['quantity']);
+                                $materielData['price'] = doubleval($materielData['price']);
+                                $materielData['amount'] = doubleval($materielData['amount']);
+                                $materielData['discount'] = doubleval($materielData['discount']);
+                                $materielData['tax_rate'] = doubleval($materielData['tax_rate']);
+                                $materielData['amount_dis'] = doubleval($materielData['discount_amount']);
+                                unset($materielData['item_id'], $materielData['discount_amount'], $materielData['delivery_date']);
+                                $materielData['created_by'] = $user->userable_name;
+                                $materielData['updated_by'] = $user->userable_name;
+                                $ins_serviceorderpart = new ServiceOrderPart();
+                                $ins_serviceorderpart->forceFill($materielData)->save();
+                            }
+                        }
+                    }
+                }
+
+                $new_quotation = $quotation->toArray();
+                $quotation_id = (int)$new_quotation['id'];
+                \Log::info([
+                    'new_quotation3534' => $new_quotation
+                ]);
+                unset($new_quotation['id'], $new_quotation['created_at'], $new_quotation['updated_at']);
+                $new_quotation['billno'] = $this->createNumber();
+                $new_quotation['status'] = 0;
+                $new_quotation['checked_by'] = '';
+                $new_quotation['checked_date'] = NULL;
+                $data['created_by'] = $user->userable_name;
+                $data['updated_by'] = $user->userable_name;
+                $ins_quotation = new Quotation();
+                $ret = $ins_quotation->forceFill($new_quotation)->save();
+                if ($ret) {
+                    if ($ins_quotation->id > 0) {
+                        //复制配件
+                        $materiels = QuotationEntry::where('quotation_id', $quotation_id)->get();
+                        $materielsArray = $materiels->toArray();
+                        if ($materielsArray) {
+                            foreach ($materielsArray as $materielData) {
+                                unset($materielData['id'], $materielData['created_at'], $materielData['updated_at']);
+                                $materielData['quotation_id'] = $ins_quotation->id;
+                                $ins_quotationentry = new QuotationEntry();
+                                $ins_quotationentry->forceFill($materielData)->save();
+                            }
+                        }
+                    }
+                }
+            }
+            unset($infoId);
+        }
+
+        return success_json('操作成功');
+    }
 
     /**
      * Remove the specified resource from storage.

@@ -344,7 +344,7 @@ export default {
     },
     handleToOrder () {
       if (!this.selected.length) {
-        return this.$Message.error('请选择要转工单的报价单[复选框选取]')
+        return this.$Message.error('请选择要转工单的[已审核]报价单[复选框选取]')
       }
 
       let post = this.selected.map(el => el.id)
