@@ -28,7 +28,8 @@ export default {
             this.$router.push({
                 path: '/repair/action',
                 query: {
-                    from: this.from
+                    from: this.$route.fullPath,
+                    type: this.type === void 0 ? 0 : this.type
                 }
             })
         }
