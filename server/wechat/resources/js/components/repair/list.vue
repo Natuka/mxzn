@@ -64,6 +64,15 @@ export default {
     mounted() {
       this.$docTitle("工单列表");
     }
+  },
+  mounted() {
+    this.active = this.$store.getters.orderType;
+  },
+  watch: {
+    active(active) {
+      this.$store.commit("setOrderType", active);
+      console.log("watch active", active);
+    }
   }
 };
 </script>

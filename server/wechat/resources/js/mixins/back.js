@@ -1,6 +1,6 @@
 export default {
     methods: {
-        onClickLeft () {
+        onClickLeft() {
             const from = this.$route.query.from
             if (from) {
                 this.$router.push(from)

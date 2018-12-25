@@ -1,13 +1,6 @@
 <template>
   <div>
-    <van-nav-bar
-      title="签到"
-      left-text="返回"
-      right-text
-      left-arrow
-      @click-left="onClickLeft"
-      @click-right="onClickRight"
-    />
+    <van-nav-bar title="签到" left-text="返回" left-arrow @click-left="onClickLeft"/>
 
     <van-cell-group class="mx-sign-up">
       <van-cell title="姓名" :value="user.name"/>

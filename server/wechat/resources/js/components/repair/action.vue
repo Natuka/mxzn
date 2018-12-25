@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="工单处理" left-text="返回" left-arrow fixed @click-left="onClickLeft"/>
+    <van-nav-bar title="工单处理" left-text="返回" left-arrow @click-left="onClickLeft" fixed/>
 
     <van-cell-group class="mx-sign-up">
       <van-field
@@ -97,7 +97,6 @@ import MxUpload from "../common/mx-upload";
 export default {
   name: "attendance",
   components: { MxUpload },
-  mixins: [backMixin],
   data() {
     return {
       orderTypes: ORDER_TYPE,
@@ -129,6 +128,7 @@ export default {
     this.$refs.arrived_at.setDate(this.$store.getters.repair.arrived_at);
   },
   methods: {
+    ...backMixin.methods,
     onSign() {},
     async onSubmit() {
       const serviceOrder = this.$store.getters.serviceOrder;
@@ -137,12 +137,20 @@ export default {
         await this.$api.repairCreateRepair(serviceOrder.id, data);
         this.$store.commit("resetRepair");
         this.$toast.success("处理成功");
-        this.$router.push({
-          path: "/repair/list",
-          query: {
-            refresh: 1
-          }
-        });
+
+        let from = this.$router.query.from;
+        let type = this.$router.query.type;
+        if (from && from.indexOf("/repair/list")) {
+          this.$router.push({
+            path: "/repair/list",
+            query: {
+              refresh: 1,
+              type
+            }
+          });
+          return;
+        }
+        return this.$router.push(from);
       } catch (e) {
         console.log("onSubmit", e);
       }

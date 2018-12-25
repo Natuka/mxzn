@@ -2,7 +2,8 @@ import { order } from '../../const/service-order'
 const state = {
     info: {
         ...order
-    }
+    },
+    type: 2
 }
 
 const getters = {
@@ -23,6 +24,9 @@ const getters = {
             return info.fault[0].equipment || {}
         }
         return {}
+    },
+    orderType({ type }) {
+        return type
     }
 }
 
@@ -35,6 +39,9 @@ const actions = {
 const mutations = {
     set_service_order(state, info) {
         state.info = info
+    },
+    setOrderType(state, type) {
+        state.type = type
     }
 }
 
