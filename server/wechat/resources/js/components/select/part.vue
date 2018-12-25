@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="部件选择" left-text="返回" right-text left-arrow @click-left="onClickLeft"/>
+    <van-nav-bar title="部件选择" left-text="返回" left-arrow @click-left="onClickLeft"/>
     <van-search placeholder="请输入搜索关键词" v-model="name" @search="onSearch"/>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <van-list v-model="loading" :finished="finished" @load="onLoad">

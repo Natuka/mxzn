@@ -37,7 +37,7 @@ const getters = {
 const actions = {}
 
 const mutations = {
-    reset(state) {
+    resetRepair(state) {
         state.data = { ...repair }
         state.project = {}
         state.part = {}
@@ -50,6 +50,9 @@ const mutations = {
     },
     setProcessId(state, processId) {
         state.data.process_id = processId
+    },
+    setType(state, type) {
+        state.data.type = type
     },
     setProcess(state, process) {
         state.data.process = process

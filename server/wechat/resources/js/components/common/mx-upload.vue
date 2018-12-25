@@ -40,7 +40,11 @@ export default {
   },
   computed: {
     nameText() {
-      return "请选择";
+      if (!this.files.length) {
+        return "请选择";
+      }
+
+      return "已选择" + this.files.length + "张";
     }
   },
   data() {
@@ -126,6 +130,9 @@ export default {
         }
       }
     }
+  },
+  mounted() {
+    this.files = this.list;
   }
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="工单处理" left-text="返回" left-arrow @click-left="onClickLeft"/>
+    <van-nav-bar title="工单处理" left-text="返回" left-arrow fixed @click-left="onClickLeft"/>
 
     <van-cell-group class="mx-sign-up">
       <van-field
@@ -20,7 +20,7 @@
           :on-change="(value,index) => this.$store.commit('setCauseId', index)"
         />
       </van-cell>
-      <mx-upload ref="cause_doc" title="原因照片" @on-change="handleCauseChange"></mx-upload>
+      <mx-upload ref="cause_doc" title="原因照片" :list="causeDocs" @on-change="handleCauseChange"></mx-upload>
       <van-cell title="处理进度">
         <span @click="$refs.process.open()">{{selectFaultValue('process_id', '请选择',process)}}</span>
         <mx-select
@@ -29,18 +29,30 @@
           :on-change="(value,index) => this.$store.commit('setProcessId', index)"
         />
       </van-cell>
-      <van-cell title="处理措施" :value="currentDatetime">
-        <span @click="$refs.fault.open()">{{selectFaultValue('type', '请选择',faultType)}}</span>
-        <mx-select
-          ref="fault"
-          :columns="faultType"
-          :on-change="(value,index) => data.fault.type = index"
-        />
-      </van-cell>
-      <mx-upload ref="step_doc" title="处理照片" @on-change="handleProcessChange"></mx-upload>
-      <mx-datetime-picker title="到达时间" @on-change="handleArrivedChange" ref="arrived_at"></mx-datetime-picker>
-      <mx-datetime-picker title="完成时间" @on-change="handleCompleteChange" ref="complete_at"></mx-datetime-picker>
 
+      <van-field
+        :value="data.step_result"
+        label="故障描述"
+        type="textarea"
+        placeholder="故障描述"
+        rows="3"
+        :autosize="{ maxHeight: 100, minHeight: 50 }"
+        @input="handleStepResult"
+      />
+
+      <mx-upload ref="step_doc" title="处理照片" :list="stepDocs" @on-change="handleProcessChange"></mx-upload>
+      <mx-datetime-picker
+        title="到达时间"
+        @on-change="handleArrivedChange"
+        :value="data.arrived_at"
+        ref="arrived_at"
+      ></mx-datetime-picker>
+      <mx-datetime-picker
+        title="完成时间"
+        @on-change="handleCompleteChange"
+        :value="data.complete_at"
+        ref="complete_at"
+      ></mx-datetime-picker>
       <van-cell title="服务项目" @click="handleProject">
         <span>{{$store.getters.projectName || '请选择'}}</span>
       </van-cell>
@@ -57,8 +69,6 @@
           :on-change="(value,index) => this.$store.commit('setNextStep', index)"
         />
       </van-cell>
-
-      <!-- <mx-engineer></mx-engineer> -->
     </van-cell-group>
     <br>
     <br>
@@ -104,6 +114,12 @@ export default {
   computed: {
     data() {
       return this.$store.getters.repair;
+    },
+    causeDocs() {
+      return this.$store.getters.causeDocs;
+    },
+    stepDocs() {
+      return this.$store.getters.stepDocs;
     }
   },
   mounted() {
@@ -119,7 +135,8 @@ export default {
       const data = JSON.parse(JSON.stringify(this.data));
       try {
         await this.$api.repairCreateRepair(serviceOrder.id, data);
-        this.data = { ...defaultData };
+        this.$store.commit("resetRepair");
+        this.$toast.success("处理成功");
         this.$router.push({
           path: "/repair/list",
           query: {
@@ -171,6 +188,9 @@ export default {
     },
     handleCause(e) {
       this.$store.commit("setCause", e);
+    },
+    handleStepResult(value) {
+      this.$store.commit("setStepResult", value);
     }
   },
   mounted() {
@@ -180,4 +200,7 @@ export default {
 </script>
 
 <style scoped>
+.mx-sign-up {
+  margin-top: 50px;
+}
 </style>
