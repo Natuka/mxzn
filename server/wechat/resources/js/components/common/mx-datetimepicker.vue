@@ -40,8 +40,11 @@ export default {
       this.date = date;
     }
   },
+  mounted() {
+    this.setDate(this.value);
+  },
   watch: {
-    value() {
+    value(value) {
       this.date = value;
     }
   }
