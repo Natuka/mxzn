@@ -5,7 +5,7 @@
     title="客户联系人-修改"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
-    class="mxcs-three-column"
+    class="mxcs-three-column my-modal-parent"
   >
     <div>
       <Form :model="data" ref="addForm" :rules="rules" :label-width="90">
@@ -246,3 +246,5 @@ export default {
   }
 };
 </script>
+
+

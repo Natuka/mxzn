@@ -5,7 +5,7 @@
     title="报价单-配件耗材-新增"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
-    class="mxcs-two-column"
+    class="mxcs-two-column my-modal"
   >
     <div test="1245">
       <Form :model="data" ref="addForm" :rules="rules" :label-width="90" class="mxcs-two-column">
@@ -204,4 +204,5 @@ export default {
 
   margin-bottom: 20px;
 }
+.my-modal .ivu-modal-wrap {z-index:1002}
 </style>
