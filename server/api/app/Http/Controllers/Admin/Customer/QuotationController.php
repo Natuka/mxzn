@@ -22,7 +22,7 @@ class QuotationController extends Controller
     {
         $quotation = $this->search($request, $quotation);
         return success_json($quotation->with(['customer' => function( $query ){
-                $query->select(['id','name_short']);
+                $query->select(['id','name','name_short']);
             },
             'contact' => function( $query ){
                 $query->select(['id','name','mobile']);

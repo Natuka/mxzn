@@ -20,7 +20,13 @@ class PartController extends BaseController
     public function search(Request $request, Part $part)
     {
         if ($name = $request->get('name', '')) {
-            $part = $part->where('name', 'like', like($name));
+//            $part = $part->where('name', 'like', like($name));
+            $part = $part->where(function($query) use($name)
+            {
+                $query->where('name', 'like', like($name))
+                    ->orWhere('number', 'like', like($name))
+                    ->orWhere('model', 'like', like($name));
+            });
         }
 
         if ($id = $request->get('id', 0)) {

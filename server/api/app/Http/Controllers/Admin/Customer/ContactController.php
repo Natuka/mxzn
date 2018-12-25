@@ -20,7 +20,7 @@ class ContactController extends Controller
     {
         $customercontact = $this->search($request, $customercontact);
         return success_json($customercontact->with(['customer' => function( $query ){
-            $query->select(['id','name']);
+            $query->select(['id','name','name_short']);
         }])->paginate( config('pageinfo.per_page') ));
     }
 

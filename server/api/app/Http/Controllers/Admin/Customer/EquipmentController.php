@@ -21,7 +21,7 @@ class EquipmentController extends Controller
     {
         $customerequipment = $this->search($request, $customerequipment);
         return success_json($customerequipment->with(['customer' => function( $query ){
-            $query->select(['id','name']);
+            $query->select(['id','name','name_short']);
         }])->paginate( config('pageinfo.per_page') ));
     }
 

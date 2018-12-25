@@ -2,8 +2,7 @@
   <custom-modal
     ref="ref"
     width="1000px"
-    title="报价单-配件耗材-新增"
-    z-index="10000000"
+    title="报价单-配件耗材-修改"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
     class="mxcs-two-column"
@@ -34,7 +33,7 @@
         </FormItem>
 
         <FormItem label="单价" prop="price">
-          <Input v-model="data.price" disabled></Input>
+          <Input v-model="data.price"></Input>
         </FormItem>
 
         <FormItem label="单位" prop="unit">
@@ -168,16 +167,18 @@ export default {
       this.data.number = this.data.part.number
     },
     async partChange (partId) {
-      this.data.item_id = partId
+      // this.data.item_id = partId
     },
     async partChangeData (part) {
-      this.data.item_id = part.id
       this.data.number = part.number
       this.data.name = part.name
       this.data.model = part.model
       // this.data.brand = part.brand
       this.data.unit = part.unit
-      this.data.price = part.price_sale_unified
+      if (+this.data.item_id !== part.id) {
+        this.data.price = part.price_sale_unified
+      }
+      this.data.item_id = part.id
     }
   },
   watch: {

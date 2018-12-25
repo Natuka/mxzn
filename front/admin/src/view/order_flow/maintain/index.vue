@@ -126,7 +126,7 @@ export default {
           key: 'customer_id',
           sortable: false,
           render: (h, {row}) => {
-            return h('span', row.customer ? row.customer.name : '')
+            return h('span', row.customer ? row.customer.name_short : '')
           }
         },
         // {

@@ -3,7 +3,6 @@
     ref="ref"
     width="1000px"
     title="报价单-配件耗材-新增"
-    z-index="10000000"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
     class="mxcs-two-column"
@@ -34,7 +33,7 @@
         </FormItem>
 
         <FormItem label="单价" prop="price">
-          <Input v-model="data.price" disabled></Input>
+          <Input v-model="data.price"></Input>
         </FormItem>
 
         <FormItem label="单位" prop="unit">
@@ -97,6 +96,7 @@ import ModalMixin from "@/mixins/modal";
 import AreaMixin from "@/mixins/area";
 
 import { addMaterielAction } from "@/api/customerquotation";
+import {selectPart} from '../../../api/select/part'
 
 export default {
   name: "materiel-add",
@@ -160,6 +160,14 @@ export default {
     },
     async beforeOpen() {
       return true;
+    },
+    async afterOpen () {
+      let data = this.data
+
+      let parts = await selectPart({id: data.customer_id})
+      this.init.part = parts.data
+
+      return true
     },
     async partChange(partId) {
       this.data.item_id = partId;
