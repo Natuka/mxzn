@@ -53,9 +53,14 @@ export default {
     onViewSetData () {
     },
     onAdd () {
-      console.log('onAdd')
+      console.log('onAdd563')
       this.onAddSetData()
       this.$refs.add.open()
+    },
+    onAdd2 () {
+      console.log('onAdd2-96656')
+      this.onAddSetData()
+      this.$refs.add2.open()
     },
     async onEdit (data) {
       let edit = this.$refs.edit

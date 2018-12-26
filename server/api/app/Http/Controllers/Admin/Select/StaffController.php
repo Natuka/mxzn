@@ -19,6 +19,7 @@ class StaffController extends BaseController
 
     public function search(Request $request, Staff $staff)
     {
+        $staff = $staff->where('status', 1);
         if ($name = $request->get('name', '')) {
             $staff = $staff->where('name', 'like', like($name));
         }

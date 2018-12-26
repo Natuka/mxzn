@@ -38,7 +38,7 @@
         </FormItem>
 
         <FormItem label="服务类别" prop="type">
-          <Select v-model="data.type">
+          <Select v-model="data.type" disabled>
             <Option
               v-for="(type, index) in select.type"
               :key="index"
