@@ -13,7 +13,8 @@
           <remote-select
             :init="data.base_part_id"
             :initData="init.part"
-            label="name"
+            placeholder="模糊查询(料号,品名,规格)"
+            label="show_name"
             url="select/part"
             @on-change="partChange"
             @on-change-data="partChangeData"

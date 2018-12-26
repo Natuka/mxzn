@@ -13,7 +13,7 @@ class PartController extends BaseController
     public function index(Request $request, Part $part)
     {
         $part = $this->search($request, $part);
-
+        $part = $part->selectRaw("*,CONCAT(number,',',name,',',model) AS show_name");
         return $this->paginate($part);
     }
 

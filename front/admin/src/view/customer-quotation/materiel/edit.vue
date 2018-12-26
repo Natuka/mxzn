@@ -13,7 +13,8 @@
           <remote-select
             :init="data.item_id"
             :initData="init.part"
-            label="name"
+            placeholder="模糊查询(料号,品名,规格)"
+            label="show_name"
             url="select/part"
             @on-change="partChange"
             @on-change-data="partChangeData"
@@ -184,14 +185,14 @@ export default {
   watch: {
     'data.quantity' (quantity) {
       this.data.amount = quantity * this.data.price
-      this.data.amount_dis = this.data.amount * this.data.discount / 10
+      this.data.discount_amount = this.data.amount * this.data.discount / 10
     },
     'data.price' (price) {
       this.data.amount = price * this.data.quantity
-      this.data.amount_dis = this.data.amount * this.data.discount / 10
+      this.data.discount_amount = this.data.amount * this.data.discount / 10
     },
     'data.discount' (discount) {
-      this.data.amount_dis = this.data.amount * discount / 10
+      this.data.discount_amount = this.data.amount * discount / 10
     }
   }
 }

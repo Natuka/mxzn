@@ -2,7 +2,7 @@
   <custom-modal
     ref="ref"
     width="1000px"
-    title="客户联系人-修改"
+    title="报价单-修改"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
     class="mxcs-three-column my-modal-parent"
@@ -184,6 +184,7 @@ export default {
         customerConcatList: []
       },
       init: {
+        customer_contact_id: 0,
         customer: [],
         serviceorder: []
       }
@@ -222,6 +223,13 @@ export default {
       });
       this.init.serviceorder = serviceorders.data;
 
+      // 加载反馈人员
+      if (data.contact) {
+        this.init.customer_contact_id = data.contact.id
+        this.select.customerConcatList = [{...data.contact}]
+        await this.feedbackStaffChangeData(data.contact)
+      }
+
       this.$refs.materiel.showBtn = true;
       return true;
     },
@@ -240,8 +248,11 @@ export default {
       this.select.customerConcatList = data;
     },
     async feedbackStaffChangeData(contact) {
+      // console.log('contact5424', contact)
       this.data.customer_contact_id = contact.id;
+      this.init.customer_contact_id = contact.id;
       this.data.mobile = contact.mobile;
+      // console.log('contact5424', this.data)
     }
   }
 };

@@ -2,7 +2,7 @@
   <custom-modal
     ref="ref"
     width="1000px"
-    title="客户联系人-新增"
+    title="报价单-新增"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
     class="mxcs-three-column"

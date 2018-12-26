@@ -601,6 +601,7 @@ export default {
         customerEquipmentList: []
       },
       init: {
+        feedback_staff_id: 0,
         customer: [],
         organization: [],
         receiveStaff: [],
