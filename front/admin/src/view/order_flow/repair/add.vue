@@ -118,13 +118,15 @@
         </FormItem>
 
         <FormItem label="客户设备" prop="equipment_id">
-          <static-select
+          <remote-select
             :init="init.equipment_id"
-            :data="select.customerEquipmentList"
-            label="name"
+            :initData="select.customerEquipmentList"
+            label="show_name"
+            :url="'select/customer-equipment?customer_id=' + data.customer_id"
             @on-change-data="machineChange"
-          ></static-select>
+          ></remote-select>
         </FormItem>
+
         <FormItem label="型号规格" prop="equipment.model">
           <Input v-model="data.equipment.model" placeholder="型号规格" readonly></Input>
         </FormItem>
@@ -693,7 +695,7 @@ export default {
       // console.log('customer', customer)
       let {data} = await selectCustomerContact(customer.id)
       this.select.customerConcatList = data
-      let equipments = await selectCustomerEquipment(customer.id, '')
+      let equipments = await selectCustomerEquipment(customer.id, 0, '')
       this.select.customerEquipmentList = equipments.data
     },
     async feedbackStaffChangeData (contact) {

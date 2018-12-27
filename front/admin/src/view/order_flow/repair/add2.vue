@@ -325,9 +325,11 @@ export default {
   },
   methods: {
     onSubmit (e) {
+      console.log('onSubmit111')
       let refs = this.$refs
       let promises = ['', 2, 3, 4].map(i => {
         return new Promise((resolve, reject) => {
+          console.log('onSubmit222')
           refs['addForm' + i].validate(async (valid) => {
             if (valid) {
               resolve()
@@ -337,7 +339,7 @@ export default {
           })
         })
       })
-
+      console.log('onSubmit333')
       Promise.all(promises).then(async () => {
         console.log('success')
         await addInstall(this.data)

@@ -1,6 +1,6 @@
-export const INDUSTRY_LIST = '其他,汽车配件,机械加工,油漆喷涂'.split(',')
+export const INDUSTRY_LIST = '请选择,电气机械和器材制造业,汽车制造业,黑色金属冶炼和压延加工业,机动车电子产品和日用产品修理业,计算机通信和其他电子设备制造业,家具制造业,金属制品机械和设备修理业,金属制品业,科技推广和应用服务业,木材加工和木竹藤棕草制品业,农副食品加工业,商务服务业,铁路船舶航空航天和其他运输设备制造业,通用设备制造业,文教工美体育和娱乐用品制造业,橡胶和塑胶制品业,研究与实验发展,专用设备制造业,土木工程建筑业,房屋建筑业,学院,其他制造业,批发业,零售业'.split(',')
 export const TYPE_LIST = '请选择,代理商,终端客户'.split(',')
-export const LEVEL_LIST = '请选择,A重要客户,B普通客户,C低价值客户'.split(',')
+export const LEVEL_LIST = '请选择,重要客户,普通客户,低价值客户'.split(',')
 export const FOLLOW_UP_STATUS_LIST = '初访,意向,报价,成交,暂时搁置'.split(',')
 export const SOURCE_LIST = '其他,广告,社交推广,研讨会,搜索引擎,客户介绍,独立开发,代理商'.split(',')
 export const STAFF_SCALE_LIST = '未知,<10人,10-20人,20-50人,50-100人,100-500人,500人以上'.split(',')
