@@ -21,7 +21,7 @@ class EngineerController extends BaseController
     {
         $engineer = $engineer->where('status', 1);
 
-        if ($name = $request->get('name', '')) {
+        if ($name = $request->get('staff_name', '')) {
             $engineer = $engineer->where('staff_name', 'like', like($name));
         }
 

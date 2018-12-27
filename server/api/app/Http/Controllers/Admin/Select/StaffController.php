@@ -24,6 +24,9 @@ class StaffController extends BaseController
             $staff = $staff->where('name', 'like', like($name));
         }
 
+        if ($id = $request->get('id', 0)) {
+            $staff = $staff->where('id', $id);
+        }
         return $staff;
     }
 }
