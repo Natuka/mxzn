@@ -89,7 +89,7 @@
     <repair-add ref="add" @refresh="refresh"></repair-add>
     <repair-add2 ref="add2" @refresh="refresh"></repair-add2>
     <repair-edit ref="edit" @refresh="refreshWithPage"></repair-edit>
-
+    <repair-edit2 ref="edit2" @refresh="refreshWithPage"></repair-edit2>
     <mx-order-dispatch ref="dispatch" @refresh="refreshWithPage"></mx-order-dispatch>
     <mx-order-switch ref="switch" @refresh="refreshWithPage"></mx-order-switch>
     <mx-order-cancel ref="cancel" @refresh="refreshWithPage"></mx-order-cancel>
@@ -105,6 +105,7 @@ import search from './search'
 import add from './add'
 import add2 from './add2'
 import edit from './edit'
+import edit2 from './edit2'
 import relation from './relation'
 import orderCancel from './operation/cancel'
 import orderSwitch from './operation/switch'
@@ -123,6 +124,7 @@ export default {
     [add.name]: add,
     [add2.name]: add2,
     [edit.name]: edit,
+    [edit2.name]: edit2,
     [relation.name]: relation,
     [orderCancel.name]: orderCancel,
     [orderSwitch.name]: orderSwitch,
@@ -314,7 +316,13 @@ export default {
                   },
                   on: {
                     click: this.delayLock(() => {
-                      this.onEdit(params.row)
+                      // console.log('params3675', params.row)
+                      if (+params.row.type === 3) {
+                        // 维修工单编辑页面不一样
+                        this.onEdit(params.row)
+                      } else {
+                        this.onEdit2(params.row)
+                      }
                     })
                   }
                 },

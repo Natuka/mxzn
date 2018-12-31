@@ -2,7 +2,7 @@
   <custom-modal
     ref="ref"
     width="1200px"
-    title="其他工单-新增"
+    title="其他工单-修改"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
     class="mxcs-three-column"
@@ -211,7 +211,7 @@ import * as validate from '@/libs/validate'
 const currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss')
 
 export default {
-  name: 'repair-add2',
+  name: 'repair-edit2',
   mixins: [ModalMixin, AreaMixin],
   components: {
     [uploadDoc.name]: uploadDoc
@@ -363,13 +363,26 @@ export default {
     async afterOpen () {
       let data = this.data
 
+      // TODO 加载工程师
+      if (data.engineers && data.engineers.length) {
+        this.init.engineers = data.engineers
+        this.data.engineer_ids = data.engineers.map(info => info.id)
+      }
+
       let customers = await selectCustomer({id: data.customer_id})
       this.init.customer = customers.data
+
+      // 加载联系人
+      if (data.feedback_staff) {
+        this.init.feedback_staff_id = data.feedback_staff.id
+        this.select.customerConcatList = [{...data.feedback_staff}]
+        await this.feedbackStaffChangeData(data.feedback_staff)
+      }
 
       let staffs = await selectStaff({id: data.receive_staff_id})
       this.init.receiveStaff = staffs.data
 
-      let depts = await selectDepartment(0)
+      let depts = await selectDepartment({id: data.dep_id})
       this.select.department = depts.data
 
       return true

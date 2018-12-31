@@ -2,7 +2,7 @@
   <custom-modal
     ref="ref"
     width="1200px"
-    title="工单-新增"
+    title="维修工单-新增"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
     class="mxcs-three-column"
