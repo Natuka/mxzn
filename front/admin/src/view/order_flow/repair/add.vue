@@ -633,7 +633,7 @@ export default {
           })
         })
       })
-
+      // console.log('promises4352', promises)
       Promise.all(promises).then(async () => {
         console.log('success')
         await addRepair(this.data)

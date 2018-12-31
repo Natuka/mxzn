@@ -64,7 +64,7 @@ class InstallController extends OperationController
             'type',
             'source',
             'customer_id',
-            'equipment_id',
+            'dep_id',
             'emergency_degree',
             'level',
             'feedback_at',
@@ -84,7 +84,7 @@ class InstallController extends OperationController
             'attach_ids'    // 附件
         ]);
 
-        $equipment = $request->get('equipment', []);
+//        $equipment = $request->get('equipment', []);
 
         //$data['type'] = $this->type;
         $data['number'] = $this->createNumber();
@@ -95,17 +95,15 @@ class InstallController extends OperationController
         $data['plan_out_at'] = mydb_format_date($data['plan_out_at'], 'Y-m-d H:i:s', '1991-01-01 00:00:00');
         $data['plan_finish_at'] = mydb_format_date($data['plan_finish_at'], 'Y-m-d H:i:s', '1991-01-01 00:00:00');
 
-        if (!empty($equipment)) {
-            $data['equipment_id'] = $equipment['id'];
-        }
+        $data['equipment_id'] = 0;
         $data['created_by'] = $user->userable_name;
         $data['updated_by'] = $user->userable_name;
 
         $order->forceFill($data);
 
         if ($order->save()) {
-            //TODO 执行保存故障信息
-            $fault = array_only($request->input('fault', []), [
+            //TODO 执行保存设备信息
+/*            $fault = array_only($request->input('fault', []), [
                 'desc',
                 'type',
                 'sequence',
@@ -119,7 +117,7 @@ class InstallController extends OperationController
             // ....
 
             $orderFault = new ServiceOrderFault();
-            $orderFault->forceFill($fault)->save();
+            $orderFault->forceFill($fault)->save();*/
 
             //TODO 执行保存设备信息
 

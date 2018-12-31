@@ -247,7 +247,7 @@ export default {
         },
         {
           width: 160,
-          title: '报修人员',
+          title: '报修/联系人',
           key: 'feedback_staff_id',
           sortable: false,
           render: (h, {row}) => {

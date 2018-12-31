@@ -27,7 +27,7 @@ class RepairController extends OperationController
      * $type = 0; 为全部
      * @var integer
      */
-    protected $type = 3;
+    protected $type = 0;
 
     protected $typeWord = 'R';
 

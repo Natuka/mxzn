@@ -126,13 +126,14 @@
         </TabPane>
       </Tabs>
 
-      <Tabs type="card" v-model="tabsIndex" :index="tabsIndex" :animated="false" class="tabs">
+
+      <Tabs type="card" v-model="tabsIndex3" :index="tabsIndex3" :animated="false" class="tabs">
         <TabPane label="服务人员" name="0">
           <Form :model="data"
                 ref="addForm3"
                 :rules="rules"
                 :label-width="90"
-                v-show="tabsIndex === '0'"
+                v-show="tabsIndex3 === '0'"
           >
 
             <FormItem label="工程师" props="engineer_id">
@@ -147,10 +148,10 @@
               ></remote-select>
             </FormItem>
 
+
           </Form>
         </TabPane>
       </Tabs>
-
 
       <Tabs type="card" v-model="tabsIndex" :index="tabsIndex" :animated="false" class="tabs">
         <TabPane label="设备资料" name="0">
@@ -161,7 +162,7 @@
                 v-show="tabsIndex === '0'"
           >
 
-          <mx-order-materiel ref="materiel" :quotation_id="data.id"></mx-order-materiel>
+            <mx-order-materiel ref="materiel" :quotation_id="data.id"></mx-order-materiel>
 
           </Form>
         </TabPane>
@@ -172,13 +173,14 @@
             :rules="rules"
             :label-width="100"
       >
-        <FormItem label="故障附件">
+        <FormItem label="附件">
           <mx-upload-doc
             :multi="true"
-            @on-change="handleFaultChange"
+            @on-change="handleDocChange"
           ></mx-upload-doc>
         </FormItem>
       </Form>
+
 
     </div>
   </custom-modal>
@@ -189,7 +191,6 @@
 import ModalMixin from '@/mixins/modal'
 import AreaMixin from '@/mixins/area'
 import uploadDoc from '@/components/upload/doc'
-import materiel from '../materiel/index'
 
 import {addInstall} from '@/api/order_flow/install'
 import {selectDepartment} from '@/api/select/department'
@@ -213,12 +214,12 @@ export default {
   name: 'repair-add2',
   mixins: [ModalMixin, AreaMixin],
   components: {
-    [uploadDoc.name]: uploadDoc,
-    [materiel.name]: materiel
+    [uploadDoc.name]: uploadDoc
   },
   data () {
     return {
       tabsIndex: '0',
+      tabsIndex3: '0',
       data: {
         customer_id: 0,
         dep_id: 0,
@@ -325,23 +326,26 @@ export default {
   },
   methods: {
     onSubmit (e) {
-      console.log('onSubmit111')
       let refs = this.$refs
       let promises = ['', 2, 3, 4].map(i => {
         return new Promise((resolve, reject) => {
-          console.log('onSubmit222')
-          refs['addForm' + i].validate(async (valid) => {
-            if (valid) {
-              resolve()
-            } else {
-              reject(new Error('验证失败'))
-            }
-          })
+          if (+i == 3 || +i == 4) {
+            // 不验证
+            resolve()
+          } else {
+            refs['addForm' + i].validate(async (valid) => {
+              if (valid) {
+                resolve()
+              } else {
+                reject(new Error('验证失败'))
+              }
+            })
+          }
         })
       })
-      console.log('onSubmit333')
+      console.log('onSubmit333', promises)
       Promise.all(promises).then(async () => {
-        console.log('success')
+        console.log('successxx')
         await addInstall(this.data)
         this.withRefresh(e)
       }).catch(err => {
@@ -432,9 +436,6 @@ export default {
     },
     async handleDocChange (files) {
       this.data.attach_ids = files.map(file => file.id).join(',')
-    },
-    async handleFaultChange (files) {
-      this.data.fault.fault_doc_ids = files.map(file => file.id).join(',')
     }
   }
 }
