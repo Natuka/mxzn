@@ -68,6 +68,12 @@ export default {
       await edit.setData(data, this.accessEdit())
       edit.open()
     },
+    async onEdit2 (data) {
+      let edit = this.$refs.edit2
+      this.onEditSetData()
+      await edit.setData(data, this.accessEdit())
+      edit.open()
+    },
     async onView (data) {
       let view = this.$refs.view
       this.onViewSetData()

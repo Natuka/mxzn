@@ -39,8 +39,13 @@ class DepartmentController extends BaseController
                 return success_json(collect([]));
             }
         }
+        $Id = $request->get('id', 0);
+        if (intval($Id) > 0) {
+            return success_json(Department::where('id', $Id)->get());
+        }else{
+            return success_json(Department::getFlatByOrganizationId($orgId));
+        }
 
-        return success_json(Department::getFlatByOrganizationId($orgId));
 //        return $this->paginate($department);
     }
 

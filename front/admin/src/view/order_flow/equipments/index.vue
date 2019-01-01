@@ -22,8 +22,8 @@
       <br>
       <Page :current="page" :total="total" show-elevator @on-change="toPage"/>
     </Card>
-    <materiel-add ref="add" @refresh="refresh"></materiel-add>
-    <materiel-edit ref="edit" @refresh="refreshWithPage"></materiel-edit>
+    <equipment-add ref="add" @refresh="refresh"></equipment-add>
+    <equipment-edit ref="edit" @refresh="refreshWithPage"></equipment-edit>
   </div>
 </template>
 
@@ -40,7 +40,7 @@ import constsMixin from "@/mixins/consts";
 import baseMixin from "@/mixins/base";
 
 export default {
-  name: "mx-order-materiel",
+  name: "mx-order-equipment",
   components: {
     Tables,
     [add.name]: add,
@@ -67,7 +67,7 @@ export default {
       data: {
         id: 0,
       },
-      url: "customerquotation/materiel",
+      url: "customerquotation/equipment",
       access: {
         add: "customerquotation_materiel_add",
         view: "customerquotation_materiel_view",
@@ -79,76 +79,118 @@ export default {
         {
           width: 120,
           // fixed: 'left',
-          title: "料号",
-          key: "number",
+          title: "安装日期",
+          key: "installation_date",
           sortable: true
         },
         {
           width: 120,
-          title: "名称",
-          key: "name",
+          title: "保修日期",
+          key: "warranty_date",
           sortable: true
         },
         {
           width: 120,
-          title: "型号规格",
-          key: "model",
+          title: "备注",
+          key: "remark",
           sortable: false
         },
         {
           width: 80,
-          title: "单位",
+          title: "类别",
           key: "unit",
           sortable: false
         },
         {
           width: 60,
-          title: "数量",
+          title: "设备编号",
           key: "quantity",
           sortable: false
         },
         {
           width: 80,
-          title: "单价",
+          title: "设备名称",
           key: "price",
           sortable: false
         },
         {
           width: 100,
-          title: "小计",
+          title: "型号规格",
           key: "amount",
           sortable: false
         },
         {
           width: 60,
-          title: "折扣",
+          title: "本体编号",
           key: "discount",
           sortable: false
         },
         {
           width: 100,
-          title: "折扣后金额",
+          title: "本体型号",
           key: "discount_amount",
           sortable: false
         },
         {
           width: 60,
-          title: "税率",
+          title: "控制箱编号",
           key: "tax_rate",
           sortable: false
         },
         {
           width: 100,
-          title: "交货日期",
+          title: "控制箱型号",
           key: "delivery_date",
           sortable: false
         },
-        // {
-        //   width: 100,
-        //   title: "备注",
-        //   key: "remark",
-        //   sortable: false
-        // },
+        {
+          width: 60,
+          title: "焊机编号",
+          key: "tax_rate",
+          sortable: false
+        },
+        {
+          width: 100,
+          title: "焊机型号",
+          key: "delivery_date",
+          sortable: false
+        },
+        {
+          width: 100,
+          title: "1轴编号",
+          key: "delivery_date",
+          sortable: false
+        },
+        {
+          width: 100,
+          title: "2轴编号",
+          key: "delivery_date",
+          sortable: false
+        },
+        {
+          width: 100,
+          title: "3轴编号",
+          key: "delivery_date",
+          sortable: false
+        },
+        {
+          width: 100,
+          title: "4轴编号",
+          key: "delivery_date",
+          sortable: false
+        },
+        {
+          width: 100,
+          title: "5轴编号",
+          key: "delivery_date",
+          sortable: false
+        },
+        {
+          width: 100,
+          title: "6轴编号",
+          key: "delivery_date",
+          sortable: false
+        },
         {
           fixed: "right",
           width: 180,

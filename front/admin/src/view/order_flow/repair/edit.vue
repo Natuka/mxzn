@@ -2,7 +2,7 @@
   <custom-modal
     ref="ref"
     width="1200px"
-    title="工单-修改"
+    title="维修工单-修改"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
     class="mxcs-three-column"
@@ -116,6 +116,7 @@
             type="textarea"
             v-model="data.customer.address"
             placeholder="地址"
+            readonly="true"
           ></Input>
         </FormItem>
 
