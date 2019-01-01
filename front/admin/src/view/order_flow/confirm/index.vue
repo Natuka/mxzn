@@ -50,7 +50,7 @@
     </Card>
     <confirm-add ref="add" @refresh="refresh"></confirm-add>
     <repair-edit ref="edit" @refresh="refreshWithPage"></repair-edit>
-
+    <repair-edit2 ref="edit2" @refresh="refreshWithPage"></repair-edit2>
   </div>
 </template>
 
@@ -61,6 +61,7 @@ import {confirmBack, confirmNext} from '@/api/order_flow/confirm'
 import search from './search'
 import add from './add'
 import edit from '../repair/edit'
+import edit2 from '../repair/edit2'
 import relation from './relation'
 
 import listMixin from '../../../mixins/list'
@@ -75,6 +76,7 @@ export default {
     [search.name]: search,
     [add.name]: add,
     [edit.name]: edit,
+    [edit2.name]: edit2,
     [relation.name]: relation
   },
   mixins: [listMixin, constsMixin, baseMixin],
@@ -292,7 +294,12 @@ export default {
                   },
                   on: {
                     click: this.delayLock(() => {
-                      this.onEdit(params.row)
+                      if (+params.row.type === 3) {
+                        // 维修工单编辑页面不一样
+                        this.onEdit(params.row)
+                      } else {
+                        this.onEdit2(params.row)
+                      }
                     })
                   }
                 },

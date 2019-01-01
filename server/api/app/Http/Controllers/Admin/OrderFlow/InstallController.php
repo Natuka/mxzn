@@ -257,6 +257,8 @@ class InstallController extends OperationController
             //TODO 执行保存工程师信息
             $engineers = $request->get('engineers');
             if (!empty($engineers)) {
+                // 删除工程师，之后重新保存
+                $order->engineers()->delete();
                 foreach ($engineers as $engineer) {
                     $engineer_idarr = array_only($engineer, ['id']);
                     $engineer = $new_repair = array_only($engineer, ['staff_id', 'staff_name']);
