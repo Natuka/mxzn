@@ -24,8 +24,8 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\NotifyEvent::class => [
             \App\Listeners\NotifyListener::class,
         ],
-        \App\Events\NotifyEvaluateEventEvent::class => [
-            \App\Listeners\NotifyEvaluateEventListener::class,
+        \App\Events\NotifyEvaluateEvent::class => [
+            \App\Listeners\NotifyEvaluateListener::class,
         ],
     ];
 

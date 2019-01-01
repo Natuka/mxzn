@@ -94,6 +94,10 @@ class EvaluateController extends Controller
             ->orderBy('id', 'desc')
             ->first();
 
+        if (!$builder) {
+            return error_json('工单不存在或未完工', 404);
+        }
+
         return success_json($builder);
 
     }

@@ -56,6 +56,9 @@ class NotifyEvaluateEvent
 
     public function getFan()
     {
+        \Log::info([
+            'order' => 'log before'
+        ]);
         $feedbackCusomerContact = $this->order->feedbackStaff;
         if (!$feedbackCusomerContact) {
             \Log::info([
