@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\NotifyEvent;
+use App\Models\CustomerContact;
 use App\Models\Engineer;
 use App\Models\ServiceOrder;
 use Illuminate\Http\Request;
@@ -25,28 +26,30 @@ class DebugController extends Controller
 //
 //        event(new NotifyEvent($order, $engineer));
 
+        $model = CustomerContact::find(1);
+        return $model->user;
 
-        $data = collect([
-            [
-                'account_id' => 1,
-            ],
-            [
-                'account_id' => 1,
-            ],
-            [
-                'account_id' => 1,
-            ],
-            [
-                'account_id' => 2,
-            ]
-        ])->groupBy('account_id')->map(function ($item) {
-            return count($item);
-        });
-
-        $max = $data->max();
-
-        $id = $data->search($max);
-
-        return $id;
+//        $data = collect([
+//            [
+//                'account_id' => 1,
+//            ],
+//            [
+//                'account_id' => 1,
+//            ],
+//            [
+//                'account_id' => 1,
+//            ],
+//            [
+//                'account_id' => 2,
+//            ]
+//        ])->groupBy('account_id')->map(function ($item) {
+//            return count($item);
+//        });
+//
+//        $max = $data->max();
+//
+//        $id = $data->search($max);
+//
+//        return $id;
     }
 }
