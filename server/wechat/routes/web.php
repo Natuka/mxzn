@@ -14,7 +14,7 @@
 
 
 //
-Route::any('/wechat', 'WeChatController@serve');
+Route::any('/wechat', 'WechatController@serve');
 
 Route::post('/login', 'User\AuthController@login');
 Route::post('/user/create', 'User\CreateController@store');
@@ -22,12 +22,14 @@ Route::get('/user/info', 'User\IndexController@info');
 Route::get('/config', 'WechatController@config');
 
 Route::get('/debug', 'DebugController@index');
+Route::get('/menu/list', 'MenuController@index');
+Route::get('/menu/create', 'MenuController@create');
 
 Route::get('order/{order}', 'Order\IndexController@get');
 
 // 微信必须验证
 // 'wechat.oauth' 'wechat.oauth','auth'
-Route::group(['middleware' => [ ]], function () {
+Route::group(['middleware' => []], function () {
     Route::get('/', 'IndexController@index');
     Route::get('/geo', 'GeoController@get');
 
@@ -39,6 +41,11 @@ Route::group(['middleware' => [ ]], function () {
     // 机器码
     Route::get('machine/{code}', 'MachineController@get');
     Route::get('machine/{code}/info', 'MachineController@info');
+
+    Route::get('menu/equipment', 'MenuController@equipment');
+    Route::get('menu/service-orders', 'MenuController@serviceOrders');
+    Route::get('menu/evaluate', 'MenuController@evalute');
+    Route::get('menu/service-order-create', 'MenuController@serviceOrderCreate');
 
     Route::group([
         'prefix' => 'select',
@@ -121,7 +128,10 @@ Route::group(['middleware' => [ ]], function () {
         Route::post('{order}/attendance', 'AttendanceController@store');
         // 处理
         Route::get('action/{order}', 'ActionController@get');
+
+        Route::get('/{order}/repair', 'RepairController@index');
         Route::post('/{order}/repair', 'RepairController@store');
+        Route::post('/{order}/repair/{repair}', 'RepairController@update');
         // 附件
         Route::get('{order}/document', 'DocumentController@get');
         // 转派
@@ -139,6 +149,8 @@ Route::group(['middleware' => [ ]], function () {
 
         Route::post('create', 'CreateController@store');
         Route::post('{order}/evaluate', 'EvaluateController@store');
+        Route::get('evaluate/last', 'EvaluateController@last');
+        Route::get('evaluate/list', 'EvaluateController@index');
 
         Route::get('detail', 'RepairController@info');
     });
