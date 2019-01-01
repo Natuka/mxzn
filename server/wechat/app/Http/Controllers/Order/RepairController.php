@@ -9,6 +9,19 @@ use App\Models\ServiceOrderRepair;
 
 class RepairController extends Controller
 {
+    public function index(Request $request, $order, ServiceOrderRepair $repair)
+    {
+//        $user = $this->user();
+//        $staff = $this->staff();
+//        if (!$staff) {
+//            return success_json([]);
+//        }
+
+        $list = $repair->where('service_order_id', $order)->get();
+//        $list = $repair->where('staff_id', $staff->id)->where('service_order_id', $order)->get();
+        return success_json($list);
+    }
+
     /**
      * @param CreateRequest $request
      * @param ServiceOrder $order
@@ -17,6 +30,18 @@ class RepairController extends Controller
      */
     public function store(Request $request, ServiceOrder $order, ServiceOrderRepair $repair)
     {
+        $user = $this->user();
+
+        if (!$user) {
+            return error_json('请先登录');
+        }
+
+        $staff = $user->staff();
+
+        if (!$staff) {
+            return error_json('没有权限', 403);
+        }
+
         $data = $request->only([
             'staff_id',
             'staff_name',
@@ -31,6 +56,7 @@ class RepairController extends Controller
             'cause_doc_ids',
             'next_step',
         ]);
+
         $data['staff_id'] = (int)$data['staff_id'];
         $data['process_id'] = (int)$data['process_id'];
         $data['cause_id'] = (int)$data['cause_id'];
@@ -69,9 +95,14 @@ class RepairController extends Controller
         }
 
         return error_json('新增失败，请检查');
-
     }
 
+    /**
+     * 保存类型
+     * @param ServiceOrder $order
+     * @param int $type
+     * @param string $ids
+     */
     public function saveDocWithType(ServiceOrder $order, $type = 1, $ids = '')
     {
         if (!$ids) {
