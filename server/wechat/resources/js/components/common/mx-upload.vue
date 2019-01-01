@@ -2,7 +2,7 @@
   <div>
     <file-upload
       ref="upload"
-      post-action="/file/doc"
+      :post-action="url"
       :size="1024 * 1024 * 5"
       :maximum="10"
       @input-file="inputFile"
@@ -14,7 +14,13 @@
     <van-cell>
       <van-tag class="mx-tag" v-for="(file, index) in files" :key="'key-' + file.id">
         <div style="display: flex">
-          <span>{{file.name}}</span>
+          <div v-if="isImage(file.name)" @click="showImage(file)">
+            <img width="100" :src="fullUrl(file.url)" :alt="file.name">
+          </div>
+          <div v-else>
+            <span>{{file.name}}</span>
+          </div>
+
           <span class="mx-del" @click="remove(index)">x</span>
         </div>
       </van-tag>
@@ -23,6 +29,7 @@
 </template>
 
 <script>
+import { ImagePreview } from "vant";
 const maxSize = 1024 * 1024 * 5;
 export default {
   name: "mx-upload",
@@ -36,6 +43,10 @@ export default {
       default() {
         return [];
       }
+    },
+    image: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -45,6 +56,12 @@ export default {
       }
 
       return "已选择" + this.files.length + "张";
+    },
+    url() {
+      if (!this.image) {
+        return "/file/doc";
+      }
+      return "/file/image";
     }
   },
   data() {
@@ -55,6 +72,29 @@ export default {
     };
   },
   methods: {
+    fullUrl(url) {
+      return "https://mp.mxhj.net/file" + url;
+    },
+    showImage(file) {
+      ImagePreview([this.fullUrl(file.url)]);
+    },
+    // 判断是否是图片
+    isImage(path = "") {
+      if (!path) {
+        return false;
+      }
+      const ext = path
+        .split("?")[0]
+        .split(".")
+        .pop();
+      if (!ext) {
+        return false;
+      }
+
+      return (
+        ["jpg", "jpeg", "gif", "png"].indexOf(String(ext).toLowerCase()) >= 0
+      );
+    },
     setFiles(files) {
       this.files = files;
     },

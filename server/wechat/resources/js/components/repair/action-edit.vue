@@ -1,14 +1,6 @@
 <template>
   <div>
-    <van-nav-bar
-      title="工单处理"
-      left-text="返回"
-      right-text="返查看处理过程"
-      left-arrow
-      @click-left="onClickLeft"
-      @click-right="onClickRight"
-      fixed
-    />
+    <van-nav-bar title="工单处理" left-text="返回" left-arrow @click-left="onClickLeft" fixed/>
 
     <van-cell-group class="mx-sign-up">
       <van-field
@@ -17,7 +9,7 @@
         type="textarea"
         rows="2"
         autosize
-        :value="fault && fault.desc"
+        :value="fault.desc"
       />
       <van-cell title="故障原因">
         <span @click="$refs.cause.open()">{{selectFaultValue('cause_id', '请选择',faultType)}}</span>
@@ -140,10 +132,7 @@ export default {
       return this.$store.getters.stepDocs;
     },
     fault() {
-      return this.$store.getters.fault;
-    },
-    serviceOrder() {
-      return this.$store.getters.serviceOrder;
+      this.$store.getters.fault;
     }
   },
   mounted() {
@@ -225,24 +214,6 @@ export default {
     },
     handleStepResult(value) {
       this.$store.commit("setStepResult", value);
-    },
-    async onClickRight() {
-      this.$router.push("/repair/action-list");
-      // this.$toast.loading("正在获取数据中");
-      // try {
-      //   const list = await this.$api.fetchRepairRepairList(
-      //     this.serviceOrder.id,
-      //     {}
-      //   );
-
-      //   this.$store.commit("setRepairList", list);
-
-      //   console.log("list", list);
-      //   this.$toast.clear();
-      //   this.$router.push("/repair/action-list");
-      // } catch (e) {
-      //   this.$toast.fail((e && e.message) || e);
-      // }
     }
   },
   mounted() {

@@ -16,15 +16,37 @@ class DebugController extends Controller
      */
     public function index(Request $request)
     {
-        $orderId = $request->get('order_id', 0);
-        $engineerId = $request->get('engineer_id', 0);
 
-        $order = ServiceOrder::find($orderId);
-        $engineer = Engineer::find($engineerId);
+//        $orderId = $request->get('order_id', 0);
+//        $engineerId = $request->get('engineer_id', 0);
+//
+//        $order = ServiceOrder::find($orderId);
+//        $engineer = Engineer::find($engineerId);
+//
+//        event(new NotifyEvent($order, $engineer));
 
-        event(new NotifyEvent($order, $engineer));
 
+        $data = collect([
+            [
+                'account_id' => 1,
+            ],
+            [
+                'account_id' => 1,
+            ],
+            [
+                'account_id' => 1,
+            ],
+            [
+                'account_id' => 2,
+            ]
+        ])->groupBy('account_id')->map(function ($item) {
+            return count($item);
+        });
 
-        return '';
+        $max = $data->max();
+
+        $id = $data->search($max);
+
+        return $id;
     }
 }

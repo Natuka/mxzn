@@ -18,7 +18,7 @@ class Authenticate extends Middleware
         // 执行微信登录
         if ($user && !auth()->user()) {
             $this->checkOrCreate();
-            return redirect('/?#' + $request->getRequestUri());
+            return redirect('/?#' . $request->getRequestUri());
         }
 
         return parent::handle($request, $next, ...$guards);

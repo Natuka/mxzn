@@ -92,15 +92,15 @@ export const repair = {
     staff_id: 0,
     service_order_id: 0,
     staff_name: '',
-    process_id: 1, // 进度ID
-    process: '333', // 进度内容
-    step_result: '', // 处理措施结果
-    arrived_at: '',
-    complete_at: '',
+    process_id: 1,
+    process: '',
+    step_result: '',
+    arrived_at: currentDate,
+    complete_at: currentDate,
     cause_id: 1,
     next_step: 1,
-    cause: 'aaaa',
+    cause: '',
     step_doc_ids: '',
     cause_doc_ids: '',
-    remark: 'aaaaa'
-}
+    remark: ''
+} // 进度ID // 进度内容 // 处理措施结果

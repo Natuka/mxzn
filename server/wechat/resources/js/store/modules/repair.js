@@ -4,6 +4,7 @@ const state = {
     data: {
         ...repair
     },
+    list: [],
     part: {},
     project: {},
     causeDocs: [],
@@ -31,12 +32,18 @@ const getters = {
     },
     projectName({ project }) {
         return project.name || ''
+    },
+    repairList({ list }) {
+        return list
     }
 }
 
 const actions = {}
 
 const mutations = {
+    setRepairList(state, list) {
+        state.list = list
+    },
     resetRepair(state) {
         state.data = { ...repair }
         state.project = {}

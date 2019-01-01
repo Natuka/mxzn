@@ -3,11 +3,27 @@
     <van-nav-bar
       title="客户确认与评价"
       left-text="返回"
+      right-text="历史评价>"
       left-arrow
+      right-arrow
       @click-left="onClickLeft"
       @click-right="onClickRight"
     />
+
     <van-cell-group>
+      <van-cell :title="noText"></van-cell>
+      <van-cell title="处理过程"></van-cell>
+      <van-cell v-if="list.length" style="background-color: #EEFAFA">
+        <div v-for="info in list" :key="info.id">
+          <van-row type="flex" justify="start">
+            <van-col span="24">{{info.step_result || '无'}}</van-col>
+          </van-row>
+          <van-row type="flex" justify="end">
+            <van-col span="24" style="text-align:right">{{info.created_at}}</van-col>
+          </van-row>
+        </div>
+      </van-cell>
+
       <van-cell title="是否解决问题">
         <van-radio-group v-model="data.is_solve">
           <van-radio :name="1" class="inline-block">是</van-radio>
@@ -46,6 +62,8 @@
 import backMixin from "../../mixins/back";
 import Action from "../actions";
 import actionMixin from "../../mixins/action";
+import { repairEvaluateLast, fetchRepairRepairList } from "../../api/repair.js";
+
 import dayjs from "dayjs";
 
 const defaultData = {
@@ -67,11 +85,54 @@ export default {
     return {
       data: {
         ...defaultData
-      }
+      },
+      list: []
     };
   },
+  computed: {
+    serviceOrder() {
+      return this.$store.getters.serviceOrder;
+    },
+    noText() {
+      if (this.serviceOrder) {
+        return "工单号：" + this.serviceOrder.number;
+      }
+      return "工单号：";
+    }
+  },
+  async beforeRouteEnter(to, from, next) {
+    // 如果是有ID，那么说明需要重新获取工单内容
+    if (to.query.last) {
+      try {
+        const data = await repairEvaluateLast();
+        window.store.commit("set_service_order", data);
+        const list = await fetchRepairRepairList(data.id);
+        // window.store.commit("set_service_order_repairs", list);
+        next(vm => {
+          vm.list = list;
+        });
+      } catch (e) {
+        next("/403");
+        return;
+      }
+      return;
+    }
 
+    // 获取处理过程
+    try {
+      const serviceOrder = window.store.getters.serviceOrder;
+      const list = await fetchRepairRepairList(serviceOrder.id);
+      next(vm => {
+        vm.list = list;
+      });
+    } catch (e) {
+      next("/403");
+    }
+  },
   methods: {
+    onClickRight() {
+      this.$router.push("/evaluate/list");
+    },
     onMore(item) {
       this.data = item;
       this.$refs["action"].open();

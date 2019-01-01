@@ -27,6 +27,12 @@ const getters = {
     },
     orderType({ type }) {
         return type
+    },
+    orderEngineers({ info }) {
+        if (info && info.engineers && Array.isArray(info.engineers)) {
+            return info.engineers
+        }
+        return []
     }
 }
 

@@ -11,6 +11,7 @@ import {
     TYPE_LIST,
     DFROM_LIST
 } from '../const/repair'
+
 export default {
     computed: {
         order() {
@@ -21,6 +22,13 @@ export default {
         },
         equipment() {
             return this.$store.getters.equipment
+        },
+        engineers() {
+            return this.$store.getters.orderEngineers
+        },
+        // 服务工程师
+        engineerNames() {
+            return this.engineers.map(el => el.staff_name).join(', ')
         }
     },
     methods: {
@@ -33,7 +41,7 @@ export default {
             }
             switch (info.status) {
                 case 0:
-                    return ''
+                    return '制单中'
                 case 1:
                     return '正在派单中'
                 case 2:
@@ -99,7 +107,11 @@ export default {
         },
         // 保修电话
         orderFeedbackTel() {
-            return ''
+            return (
+                (this.order.feedback_staff &&
+                    this.order.feedback_staff.mobile) ||
+                ''
+            )
         },
         // 联系地址
         orderAddress() {
@@ -107,11 +119,12 @@ export default {
         },
         // 服务工程师
         serviceStaff() {
-            if (this.order.engineers && this.order.engineers.length) {
-                return this.order.engineers.map(el => el.name).join(', ')
-            }
+            return this.engineerNames
+            // if (this.order.engineers && this.order.engineers.length) {
+            //     return this.order.engineers.map(el => el.name).join(', ')
+            // }
 
-            return ''
+            // return ''
         },
         // 故障信息
         faultDesc() {
