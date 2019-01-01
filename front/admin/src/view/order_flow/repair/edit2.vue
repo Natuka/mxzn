@@ -163,7 +163,7 @@
                 v-show="tabsIndex === '0'"
           >
 
-            <mx-order-equipment ref="equipment" :data="data"></mx-order-equipment>
+            <mx-order-equipments ref="equipments" :data="data"></mx-order-equipments>
 
           </Form>
         </TabPane>
@@ -192,7 +192,7 @@
 import ModalMixin from '@/mixins/modal'
 import AreaMixin from '@/mixins/area'
 import uploadDoc from '@/components/upload/doc'
-import equipment from '../equipment/index'
+import equipments from '../equipments/index'
 
 import {updateInstall} from '@/api/order_flow/install'
 import {selectDepartment} from '@/api/select/department'
@@ -217,7 +217,7 @@ export default {
   mixins: [ModalMixin, AreaMixin],
   components: {
     [uploadDoc.name]: uploadDoc,
-    [equipment.name]: equipment
+    [equipments.name]: equipments
   },
   data () {
     return {

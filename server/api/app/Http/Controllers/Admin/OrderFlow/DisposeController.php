@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\OrderFlow;
 
+use App\Events\NotifyEvaluateEvent;
 use App\Http\Requests\Admin\OrderFlow\CreateRequest;
 use App\Http\Requests\Admin\OrderFlow\UpdateRequest;
 use App\Models\OrderEngineer;
@@ -223,6 +224,8 @@ class DisposeController extends BaseController
                 $data['status'] = 4;
                 //$data['progress_time'] = date('Y-m-d H:i:s', time());
                 $service_order->forceFill($data)->save();
+                // 通知给客户进行评价
+                event(new NotifyEvaluateEvent($service_order));
             }
             unset($info);
         }

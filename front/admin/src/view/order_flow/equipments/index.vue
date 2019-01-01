@@ -17,13 +17,13 @@
         :columns="columns"
         @on-delete="handleDelete"
         @on-row-click="onRowClick"
-        :width="935"
+        :width="1135"
       />
       <br>
       <Page :current="page" :total="total" show-elevator @on-change="toPage"/>
     </Card>
-    <equipment-add ref="add" @refresh="refresh"></equipment-add>
-    <equipment-edit ref="edit" @refresh="refreshWithPage"></equipment-edit>
+    <equipments-add ref="add" @refresh="refresh"></equipments-add>
+    <equipments-edit ref="edit" @refresh="refreshWithPage"></equipments-edit>
   </div>
 </template>
 
@@ -40,7 +40,7 @@ import constsMixin from "@/mixins/consts";
 import baseMixin from "@/mixins/base";
 
 export default {
-  name: "mx-order-equipment",
+  name: "mx-order-equipments",
   components: {
     Tables,
     [add.name]: add,
@@ -67,12 +67,12 @@ export default {
       data: {
         id: 0,
       },
-      url: "customerquotation/equipment",
+      url: "order_flow/equipments",
       access: {
-        add: "customerquotation_materiel_add",
-        view: "customerquotation_materiel_view",
-        edit: "customerquotation_materiel_edit",
-        remove: "customerquotation_materiel_remove"
+        add: "order_flow_equipments_add",
+        view: "order_flow_equipments_view",
+        edit: "order_flow_equipments_edit",
+        remove: "order_flow_equipments_remove"
       },
       showBtn: false,
       columns: [
@@ -102,13 +102,13 @@ export default {
           sortable: false
         },
         {
-          width: 60,
+          width: 100,
           title: "设备编号",
           key: "quantity",
           sortable: false
         },
         {
-          width: 80,
+          width: 100,
           title: "设备名称",
           key: "price",
           sortable: false
@@ -120,7 +120,7 @@ export default {
           sortable: false
         },
         {
-          width: 60,
+          width: 100,
           title: "本体编号",
           key: "discount",
           sortable: false
@@ -132,13 +132,13 @@ export default {
           sortable: false
         },
         {
-          width: 60,
+          width: 120,
           title: "控制箱编号",
           key: "tax_rate",
           sortable: false
         },
         {
-          width: 100,
+          width: 120,
           title: "控制箱型号",
           key: "delivery_date",
           sortable: false
@@ -188,6 +188,24 @@ export default {
         {
           width: 100,
           title: "6轴编号",
+          key: "delivery_date",
+          sortable: false
+        },
+        {
+          width: 100,
+          title: "中文编码",
+          key: "delivery_date",
+          sortable: false
+        },
+        {
+          width: 100,
+          title: "识别码",
+          key: "delivery_date",
+          sortable: false
+        },
+        {
+          width: 100,
+          title: "制造日期",
           key: "delivery_date",
           sortable: false
         },
@@ -275,7 +293,7 @@ export default {
     setUrl(quotation_id) {
       // console.log("quotation_id76867", quotation_id, this.url);
       this.data.id = quotation_id
-      this.url = `customerquotation/`+ quotation_id + `/materiel`;
+      this.url = `customerquotation/`+ quotation_id + `/equipments`;
       this.refresh()
     },
     onAddSetData() {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\OrderFlow\Action;
 
+use App\Events\NotifyEvaluateEvent;
 use App\Http\Requests\Admin\OrderAction\Repairs\CreateRequest;
 use App\Http\Requests\Admin\OrderAction\Repairs\UpdateRequest;
 use App\Models\ServiceOrder;
@@ -126,6 +127,9 @@ class RepairsController extends BaseController
                     $save_data['status'] = 4;
                     //$data['progress_time'] = date('Y-m-d H:i:s', time());
                     $order->forceFill($save_data)->save();
+
+                    // 通知给客户进行评价
+                    event(new NotifyEvaluateEvent($order));
                 }
             }elseif ($data['next_step'] ==2 || $data['next_step'] ==3) {
 //                TODO 通知新的服务工程师处理
