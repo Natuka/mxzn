@@ -124,7 +124,7 @@ let routes = [
     },
     {
         path: '/repair/followup',
-        component: () => import('./components/repair/followup.vue'),
+        component: () => import('./components/repair/followup'),
         meta: {
             auth: true
         }
@@ -139,6 +139,20 @@ let routes = [
     {
         path: '/repair/action',
         component: () => import('./components/repair/action'),
+        meta: {
+            auth: true
+        }
+    },
+    {
+        path: '/repair/action-list',
+        component: () => import('./components/repair/action-list'),
+        meta: {
+            auth: true
+        }
+    },
+    {
+        path: '/repair/action-edit',
+        component: () => import('./components/repair/action-edit'),
         meta: {
             auth: true
         }
@@ -195,6 +209,20 @@ let routes = [
     {
         path: '/equipment/list',
         component: () => import('./components/equipment/index'),
+        meta: {
+            auth: true
+        }
+    },
+    {
+        path: '/evaluate/last',
+        component: () => import('./components/repair/evaluate'),
+        meta: {
+            auth: true
+        }
+    },
+    {
+        path: '/evaluate/list',
+        component: () => import('./components/repair/evaluate-list'),
         meta: {
             auth: true
         }
