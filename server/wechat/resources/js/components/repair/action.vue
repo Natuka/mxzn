@@ -1,6 +1,14 @@
 <template>
   <div>
-    <van-nav-bar title="工单处理" left-text="返回" left-arrow @click-left="onClickLeft" fixed/>
+    <van-nav-bar
+      title="工单处理"
+      left-text="返回"
+      right-text="返查看处理过程"
+      left-arrow
+      @click-left="onClickLeft"
+      @click-right="onClickRight"
+      fixed
+    />
 
     <van-cell-group class="mx-sign-up">
       <van-field
@@ -9,8 +17,7 @@
         type="textarea"
         rows="2"
         autosize
-        :value="data.cause"
-        @input="handleCause"
+        :value="fault && fault.desc"
       />
       <van-cell title="故障原因">
         <span @click="$refs.cause.open()">{{selectFaultValue('cause_id', '请选择',faultType)}}</span>
@@ -20,7 +27,13 @@
           :on-change="(value,index) => this.$store.commit('setCauseId', index)"
         />
       </van-cell>
-      <mx-upload ref="cause_doc" title="原因照片" :list="causeDocs" @on-change="handleCauseChange"></mx-upload>
+      <mx-upload
+        ref="cause_doc"
+        title="原因照片"
+        :list="causeDocs"
+        @on-change="handleCauseChange"
+        image
+      ></mx-upload>
       <van-cell title="处理进度">
         <span @click="$refs.process.open()">{{selectFaultValue('process_id', '请选择',process)}}</span>
         <mx-select
@@ -32,15 +45,21 @@
 
       <van-field
         :value="data.step_result"
-        label="故障描述"
+        label="处理措施"
         type="textarea"
-        placeholder="故障描述"
+        placeholder="处理措施"
         rows="3"
         :autosize="{ maxHeight: 100, minHeight: 50 }"
         @input="handleStepResult"
       />
 
-      <mx-upload ref="step_doc" title="处理照片" :list="stepDocs" @on-change="handleProcessChange"></mx-upload>
+      <mx-upload
+        ref="step_doc"
+        title="处理照片"
+        :list="stepDocs"
+        @on-change="handleProcessChange"
+        image
+      ></mx-upload>
       <mx-datetime-picker
         title="到达时间"
         @on-change="handleArrivedChange"
@@ -119,6 +138,12 @@ export default {
     },
     stepDocs() {
       return this.$store.getters.stepDocs;
+    },
+    fault() {
+      return this.$store.getters.fault;
+    },
+    serviceOrder() {
+      return this.$store.getters.serviceOrder;
     }
   },
   mounted() {
@@ -133,6 +158,7 @@ export default {
     async onSubmit() {
       const serviceOrder = this.$store.getters.serviceOrder;
       const data = JSON.parse(JSON.stringify(this.data));
+
       try {
         await this.$api.repairCreateRepair(serviceOrder.id, data);
         this.$store.commit("resetRepair");
@@ -199,6 +225,24 @@ export default {
     },
     handleStepResult(value) {
       this.$store.commit("setStepResult", value);
+    },
+    async onClickRight() {
+      this.$router.push("/repair/action-list");
+      // this.$toast.loading("正在获取数据中");
+      // try {
+      //   const list = await this.$api.fetchRepairRepairList(
+      //     this.serviceOrder.id,
+      //     {}
+      //   );
+
+      //   this.$store.commit("setRepairList", list);
+
+      //   console.log("list", list);
+      //   this.$toast.clear();
+      //   this.$router.push("/repair/action-list");
+      // } catch (e) {
+      //   this.$toast.fail((e && e.message) || e);
+      // }
     }
   },
   mounted() {
