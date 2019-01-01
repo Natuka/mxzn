@@ -9,6 +9,10 @@ export function repairCreate(params = {}) {
     return postApi('repair/create', params)
 }
 
+// 获取工单处理列表
+export const fetchRepairRepairList = (serviceOrderId, params) =>
+    getApi(`repair/${serviceOrderId}/repair`, params)
+
 // 工单处理
 export function repairCreateRepair(serviceOrderId, params = {}) {
     return postApi(`repair/${serviceOrderId}/repair`, params)
@@ -17,6 +21,16 @@ export function repairCreateRepair(serviceOrderId, params = {}) {
 // 获取信息
 export function repairInfo(serviceOrderId, params) {
     return getApi(`repair/${serviceOrderId}/info`, params)
+}
+
+// 获取最后一笔评价信息
+export function repairEvaluateLast() {
+    return getApi(`repair/evaluate/last`)
+}
+
+// 评价列表
+export function repairEvaluateList(params) {
+    return getApi(`repair/evaluate/list`, params)
 }
 
 // 编辑
