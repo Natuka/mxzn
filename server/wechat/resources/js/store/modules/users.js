@@ -60,7 +60,8 @@ const actions = {
                         province,
                         street
                     },
-                    formatted_address: address
+                    formatted_address: address,
+                    sematic_description
                 }
             } = data
 
