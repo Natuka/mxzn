@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin\OrderFlow;
 
+use App\Events\NotifyEvent;
 use App\Http\Requests\Admin\OrderFlow\CreateRequest;
 use App\Http\Requests\Admin\OrderFlow\UpdateRequest;
-use App\Models\OrderEngineer;
+use App\Models\Engineer;
 use App\Models\OrderMachineFault;
 use App\Models\ServiceOrder;
 use App\Models\ServiceOrderEngineer;
@@ -58,10 +59,12 @@ class InstallController extends OperationController
     public function store(Request $request, ServiceOrder $order)
     {
         //
+        $user = $request->user();
         $data = $request->only([
+            'type',
             'source',
             'customer_id',
-            'equipment_id',
+            'dep_id',
             'emergency_degree',
             'level',
             'feedback_at',
@@ -78,11 +81,12 @@ class InstallController extends OperationController
             'remark',
             'settle_status',
             'status',
+            'attach_ids'    // 附件
         ]);
 
-        $equipment = $request->get('equipment', []);
+//        $equipment = $request->get('equipment', []);
 
-        $data['type'] = $this->type;
+        //$data['type'] = $this->type;
         $data['number'] = $this->createNumber();
 
         $data['feedback_at'] = mydb_format_date($data['feedback_at'], 'Y-m-d H:i:s', '1991-01-01 00:00:00');
@@ -91,15 +95,15 @@ class InstallController extends OperationController
         $data['plan_out_at'] = mydb_format_date($data['plan_out_at'], 'Y-m-d H:i:s', '1991-01-01 00:00:00');
         $data['plan_finish_at'] = mydb_format_date($data['plan_finish_at'], 'Y-m-d H:i:s', '1991-01-01 00:00:00');
 
-        if (!empty($equipment)) {
-            $data['equipment_id'] = $equipment['id'];
-        }
+        $data['equipment_id'] = 0;
+        $data['created_by'] = $user->userable_name;
+        $data['updated_by'] = $user->userable_name;
 
         $order->forceFill($data);
 
         if ($order->save()) {
-            //TODO 执行保存故障信息
-            $fault = array_only($request->input('fault', []), [
+            //TODO 执行保存设备信息
+/*            $fault = array_only($request->input('fault', []), [
                 'desc',
                 'type',
                 'sequence',
@@ -113,7 +117,7 @@ class InstallController extends OperationController
             // ....
 
             $orderFault = new ServiceOrderFault();
-            $orderFault->forceFill($fault)->save();
+            $orderFault->forceFill($fault)->save();*/
 
             //TODO 执行保存设备信息
 
@@ -122,15 +126,38 @@ class InstallController extends OperationController
             $engineers = $request->get('engineers');
             if (!empty($engineers)) {
                 foreach ($engineers as $engineer) {
-                    $engineer = array_only($engineer, ['staff_id', 'staff_name']);
+                    $engineer_idarr = array_only($engineer, ['id']);
+                    $engineer = $new_repair = array_only($engineer, ['staff_id', 'staff_name']);
                     $orderEngineer = new ServiceOrderEngineer();
                     $engineer['service_order_id'] = $order->id;
                     $engineer['type'] = 0;
                     $engineer['is_change'] = 0;
                     $orderEngineer->forceFill($engineer)->save();
+
+                    //产生一笔处理过程
+                    $orderRepair = new ServiceOrderRepair();
+                    $new_repair['service_order_id'] = $order->id;
+                    $orderRepair->forceFill($new_repair)->save();
+
+                    // 微信端通知工程师
+//                    \Log::info([
+//                        'orderEngineer769558' => $engineer_idarr
+//                    ]);
+                    $base_engineer = Engineer::find($engineer_idarr['id']);
+                    if ($base_engineer) {
+                        event(new NotifyEvent($order, $base_engineer));
+                    }
+                    unset($engineer, $new_repair);
                 }
             }
             //TODO 执行保存确认工程师信息
+
+            // 创建附件
+            $attach_ids = isset($data['attach_ids']) ? explode(',', $data['attach_ids']) : [];
+            // 保存附件
+            if ($attach_ids) {
+                $order->documents()->withTimestamps()->sync($attach_ids);
+            }
 
             return success_json('创建成功');
         }

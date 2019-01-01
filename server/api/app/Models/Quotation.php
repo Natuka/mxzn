@@ -61,6 +61,6 @@ class Quotation extends Model
      */
     public function entrys()
     {
-        return $this->hasMany(QuotationEntry::class);
+        return $this->hasMany(QuotationEntry::class, 'quotation_id');
     }
 }

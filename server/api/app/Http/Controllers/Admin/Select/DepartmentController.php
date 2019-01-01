@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin\Select;
 
 use App\Http\Controllers\Admin\BaseController;
 use App\Models\Department;
+use App\Models\Staff;
+use App\Models\Organization;
 use Illuminate\Http\Request;
 
 class DepartmentController extends BaseController
@@ -19,7 +21,23 @@ class DepartmentController extends BaseController
         $orgId = $request->get('org_id', 0);
 
         if (!$orgId) {
-            return success_json(collect([]));
+//            return success_json(collect([]));
+            //取登录者组织
+            $user = $request->user();
+//            \Log::info([
+//                'next next45634' => $user
+//            ]);
+//            $orgId = Organization::first()->value('id');
+//            \Log::info([
+//                'next23453452' => $orgId
+//            ]);
+            if ($user->userable_type == 'App\Models\Staff') {
+                $orgId = Staff::where('id', (int)$user->userable_id)->value('org_id');
+            } elseif ($user->id == 1) {
+                $orgId = Organization::first()->value('id');
+            } else {
+                return success_json(collect([]));
+            }
         }
 
         return success_json(Department::getFlatByOrganizationId($orgId));

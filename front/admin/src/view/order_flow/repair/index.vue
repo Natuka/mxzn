@@ -3,7 +3,11 @@
     <Card>
       <div slot="title">
         <Button type="primary" @click="onAdd" v-if="accessAdd()">
-          新增
+          新增维修工单
+          <Icon type="md-add"/>
+        </Button>
+        <Button type="warning" @click="onAdd2" v-if="accessAdd()" style="margin-left: 10px;">
+          新增其他工单
           <Icon type="md-add"/>
         </Button>
         <Button
@@ -83,6 +87,7 @@
       <mx-relation ref="relation"></mx-relation>
     </Card>
     <repair-add ref="add" @refresh="refresh"></repair-add>
+    <repair-add2 ref="add2" @refresh="refresh"></repair-add2>
     <repair-edit ref="edit" @refresh="refreshWithPage"></repair-edit>
 
     <mx-order-dispatch ref="dispatch" @refresh="refreshWithPage"></mx-order-dispatch>
@@ -98,6 +103,7 @@ import Tables from '_c/tables'
 import {repairNext, repairFinished} from '@/api/order_flow/repair'
 import search from './search'
 import add from './add'
+import add2 from './add2'
 import edit from './edit'
 import relation from './relation'
 import orderCancel from './operation/cancel'
@@ -115,6 +121,7 @@ export default {
     Tables,
     [search.name]: search,
     [add.name]: add,
+    [add2.name]: add2,
     [edit.name]: edit,
     [relation.name]: relation,
     [orderCancel.name]: orderCancel,
@@ -173,7 +180,7 @@ export default {
           key: 'customer_id',
           sortable: false,
           render: (h, {row}) => {
-            return h('span', row.customer ? row.customer.name : '')
+            return h('span', row.customer ? row.customer.name_short : '')
           }
         },
         // {
@@ -240,7 +247,7 @@ export default {
         },
         {
           width: 160,
-          title: '报修人员',
+          title: '报修/联系人',
           key: 'feedback_staff_id',
           sortable: false,
           render: (h, {row}) => {

@@ -113,13 +113,6 @@ export default {
           sortable: false
         },
         {
-          width: 150,
-          fixed: 'left',
-          title: '制单日期',
-          key: 'created_at',
-          sortable: false
-        },
-        {
           width: 120,
           fixed: 'left',
           title: '报价单号',
@@ -127,17 +120,16 @@ export default {
           sortable: false
         },
         {
-          width: 120,
-          title: '单据状态',
-          key: 'status',
-          sortable: true,
-          render: this.constRender('status', customerquotationConst.STATUS_LIST)
+          width: 100,
+          title: '起始日期',
+          key: 'effective_date',
+          sortable: false
         },
         {
-          width: 120,
-          title: '有效日期',
+          width: 100,
+          title: '截止日期',
           key: 'expiration_date',
-          sortable: true
+          sortable: false
         },
         {
           width: 120,
@@ -200,6 +192,19 @@ export default {
             }
             return h('span', {}, order.number)
           }
+        },
+        {
+          width: 120,
+          title: '单据状态',
+          key: 'status',
+          sortable: true,
+          render: this.constRender('status', customerquotationConst.STATUS_LIST)
+        },
+        {
+          width: 150,
+          title: '制单日期',
+          key: 'created_at',
+          sortable: false
         },
         {
           title: ' ',

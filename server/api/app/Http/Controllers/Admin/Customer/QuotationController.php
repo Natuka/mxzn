@@ -22,7 +22,7 @@ class QuotationController extends Controller
     {
         $quotation = $this->search($request, $quotation);
         return success_json($quotation->with(['customer' => function( $query ){
-                $query->select(['id','name_short']);
+                $query->select(['id','name','name_short']);
             },
             'contact' => function( $query ){
                 $query->select(['id','name','mobile']);
@@ -49,6 +49,20 @@ class QuotationController extends Controller
                 if ($sch_field == 'cust_id') {
                     $quotation = $quotation->whereHas('customer', function ($query) use ($sch_value) {
                         $query->where('name', 'like', '%'.$sch_value.'%');
+                    });
+                }elseif ($sch_field == 'name') {
+                    $quotation = $quotation->whereHas('contact', function ($query) use ($sch_value) {
+                        $query->where('name', 'like', '%'.$sch_value.'%');
+                    });
+                }elseif ($sch_field == 'mobile') {
+                    $quotation = $quotation->whereHas('contact', function ($query) use ($sch_value) {
+                        $query->where('mobile', 'like', '%'.$sch_value.'%');
+                    });
+                }elseif ($sch_field == 'part') {
+                    $quotation = $quotation->whereHas('entrys', function ($query) use ($sch_value) {
+                        $query->where('number', 'like', '%'.$sch_value.'%')
+                            ->orWhere('name', 'like', '%'.$sch_value.'%')
+                            ->orWhere('model', 'like', '%'.$sch_value.'%');
                     });
                 }else{
                     $quotation = $quotation->where($sch_field, 'like', '%'.$sch_value.'%');

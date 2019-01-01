@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin\CustomerContact\Materiel;
+namespace App\Http\Requests\Admin\CustomerQuotation\Materiel;
 
 use App\Traits\RequestTrait;
 use Illuminate\Foundation\Http\FormRequest;
