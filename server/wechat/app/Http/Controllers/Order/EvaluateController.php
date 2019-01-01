@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Order;
 
+use App\Events\NotifyEvaluateEvent;
 use App\Models\ServiceOrder;
 use App\Models\ServiceOrderConfirm;
 use Illuminate\Http\Request;
@@ -59,7 +60,7 @@ class EvaluateController extends Controller
         $builder = ServiceOrder::with([
             'fault',
         ])
-            ->where('customer_id', $customer->id)
+            ->where('customer_id', $customer->cust_id)
             ->where('status', 5)
             ->orderBy('id', 'desc')
             ->first();
@@ -88,7 +89,7 @@ class EvaluateController extends Controller
             'fault',
             'repairs',
         ])
-            ->where('customer_id', $customer->id)
+            ->where('customer_id', $customer->cust_id)
             ->where('status', 5)
             ->orderBy('id', 'desc')
             ->first();

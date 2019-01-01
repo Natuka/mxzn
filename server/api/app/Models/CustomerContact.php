@@ -23,4 +23,14 @@ class CustomerContact extends Model
     {
         return $this->morphOne(User::class, 'userable');
     }
+
+
+    /**
+     * 用户信息
+     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
+     */
+    public function fan()
+    {
+        return $this->morphOne(Fan::class, 'userable');
+    }
 }

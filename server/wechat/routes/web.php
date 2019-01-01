@@ -29,7 +29,7 @@ Route::get('order/{order}', 'Order\IndexController@get');
 
 // 微信必须验证
 // 'wechat.oauth' 'wechat.oauth','auth'
-Route::group(['middleware' => []], function () {
+Route::group(['middleware' => ['wechat.oauth','auth']], function () {
     Route::get('/', 'IndexController@index');
     Route::get('/geo', 'GeoController@get');
 
@@ -45,6 +45,7 @@ Route::group(['middleware' => []], function () {
     Route::get('menu/equipment', 'MenuController@equipment');
     Route::get('menu/service-orders', 'MenuController@serviceOrders');
     Route::get('menu/evaluate', 'MenuController@evalute');
+    Route::get('menu/evaluate/{order_id}', 'MenuController@evaluteByServiceOrderId');
     Route::get('menu/service-order-create', 'MenuController@serviceOrderCreate');
 
     Route::group([
@@ -150,6 +151,7 @@ Route::group(['middleware' => []], function () {
         Route::post('create', 'CreateController@store');
         Route::post('{order}/evaluate', 'EvaluateController@store');
         Route::get('evaluate/last', 'EvaluateController@last');
+        Route::get('evaluate/list', 'EvaluateController@index');
         Route::get('evaluate/list', 'EvaluateController@index');
 
         Route::get('detail', 'RepairController@info');

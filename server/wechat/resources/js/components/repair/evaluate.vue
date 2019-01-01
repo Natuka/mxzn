@@ -62,7 +62,11 @@
 import backMixin from "../../mixins/back";
 import Action from "../actions";
 import actionMixin from "../../mixins/action";
-import { repairEvaluateLast, fetchRepairRepairList } from "../../api/repair.js";
+import {
+  repairEvaluateLast,
+  fetchRepairRepairList,
+  repairInfo
+} from "../../api/repair.js";
 
 import dayjs from "dayjs";
 
@@ -108,6 +112,22 @@ export default {
         window.store.commit("set_service_order", data);
         const list = await fetchRepairRepairList(data.id);
         // window.store.commit("set_service_order_repairs", list);
+        next(vm => {
+          vm.list = list;
+        });
+      } catch (e) {
+        next("/403");
+        return;
+      }
+      return;
+    }
+
+    // 如果有ID
+    if (to.query.order_id) {
+      try {
+        const data = await repairInfo(to.query.order_id);
+        window.store.commit("set_service_order", data);
+        const list = await fetchRepairRepairList(data.id);
         next(vm => {
           vm.list = list;
         });

@@ -116,6 +116,15 @@ class MenuController extends Controller
     {
         return redirect('/?#/evaluate/last?last=1');
     }
+    /**
+     * 工单评价
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function evaluteByServiceOrderId(Request $request, $order_id)
+    {
+        return redirect('/?#/evaluate/last?order_id=' . $order_id);
+    }
 
     /**
      * 工单创建
