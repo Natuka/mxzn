@@ -82,4 +82,10 @@ class ServiceOrder extends Model
     {
         return $this->hasMany(ServiceOrderFault::class, 'service_order_id')->with('equipment');
     }
+
+    public function repairs()
+    {
+        return $this->hasMany(ServiceOrderRepair::class, 'service_order_id')
+            ->orderBy('service_order_repairs.id', 'desc');
+    }
 }
