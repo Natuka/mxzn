@@ -39,7 +39,7 @@
         </FormItem>
 
         <FormItem label="服务类别" prop="type">
-          <Select v-model="data.type">
+          <Select v-model="data.type" disabled>
             <Option
               v-for="(type, index) in select.type"
               :key="index"
@@ -119,6 +119,7 @@
                 type="textarea"
                 v-model="data.customer.address"
                 placeholder="地址"
+                readonly="true"
               ></Input>
             </FormItem>
 
@@ -162,7 +163,7 @@
                 v-show="tabsIndex === '0'"
           >
 
-            <mx-order-materiel ref="materiel" :quotation_id="data.id"></mx-order-materiel>
+            <mx-order-equipment ref="equipment" :data="data"></mx-order-equipment>
 
           </Form>
         </TabPane>
@@ -191,8 +192,9 @@
 import ModalMixin from '@/mixins/modal'
 import AreaMixin from '@/mixins/area'
 import uploadDoc from '@/components/upload/doc'
+import equipment from '../equipment/index'
 
-import {addInstall} from '@/api/order_flow/install'
+import {updateInstall} from '@/api/order_flow/install'
 import {selectDepartment} from '@/api/select/department'
 import {selectStaff} from '@/api/select/staff'
 import {selectEngineer} from '@/api/select/engineer'
@@ -214,7 +216,8 @@ export default {
   name: 'repair-edit2',
   mixins: [ModalMixin, AreaMixin],
   components: {
-    [uploadDoc.name]: uploadDoc
+    [uploadDoc.name]: uploadDoc,
+    [equipment.name]: equipment
   },
   data () {
     return {
@@ -345,8 +348,7 @@ export default {
       })
       console.log('onSubmit333', promises)
       Promise.all(promises).then(async () => {
-        console.log('successxx')
-        await addInstall(this.data)
+        await updateInstall(this.data, this.data.id)
         this.withRefresh(e)
       }).catch(err => {
         console.log('failed', err)
@@ -382,8 +384,12 @@ export default {
       let staffs = await selectStaff({id: data.receive_staff_id})
       this.init.receiveStaff = staffs.data
 
-      let depts = await selectDepartment({id: data.dep_id})
+      let depts = await selectDepartment(0, data.dep_id)
       this.select.department = depts.data
+
+      if (data.documents && data.documents.length) {
+        this.$refs.doc.initData(data.documents)
+      }
 
       return true
     },
@@ -437,8 +443,12 @@ export default {
       this.data.receive_staff = staff
 
       // 关联出同个组织架构的工程师,ID有问题
-      let engineers = await selectEngineer(staff.org_id)
-      this.init.engineers = engineers.data
+      if (data.engineers && data.engineers.length) {
+
+      } else {
+        let engineers = await selectEngineer(staff.org_id)
+        this.init.engineers = engineers.data
+      }
     },
     async engineerChange () {
     },

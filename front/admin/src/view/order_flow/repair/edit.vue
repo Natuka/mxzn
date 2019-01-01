@@ -116,6 +116,7 @@
             type="textarea"
             v-model="data.customer.address"
             placeholder="地址"
+            readonly="true"
           ></Input>
         </FormItem>
 
