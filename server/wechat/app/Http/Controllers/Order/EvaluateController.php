@@ -37,4 +37,63 @@ class EvaluateController extends Controller
 
         return success_json('感谢您的评价');
     }
+
+    /**
+     * 评价列表
+     * @param Request $request
+     */
+    public function index(Request $request)
+    {
+
+        $user = $this->user();
+        if (!$user) {
+            return error_json('没有权限', 403);
+        }
+
+        $customer = $this->customer();
+
+        if (!$customer) {
+            return error_json('没有权限', 403);
+        }
+
+        $builder = ServiceOrder::with([
+            'fault',
+        ])
+            ->where('customer_id', $customer->id)
+            ->where('status', 5)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        return success_json($builder);
+    }
+
+    /**
+     * 最近一笔待评价工单
+     * @param Request $request
+     */
+    public function last(Request $request)
+    {
+        $user = $this->user();
+        if (!$user) {
+            return error_json('没有权限', 403);
+        }
+
+        $customer = $this->customer();
+
+        if (!$customer) {
+            return error_json('没有权限', 403);
+        }
+
+        $builder = ServiceOrder::with([
+            'fault',
+            'repairs',
+        ])
+            ->where('customer_id', $customer->id)
+            ->where('status', 5)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        return success_json($builder);
+
+    }
 }
