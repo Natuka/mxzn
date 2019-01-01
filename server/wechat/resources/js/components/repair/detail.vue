@@ -15,6 +15,8 @@
       <van-cell title="报修人电话" :value="orderFeedbackTel()"/>
       <van-cell title="联系地址" :value="orderAddress()"/>
       <van-cell title="服务工程师" :value="serviceStaff()"/>
+      <van-cell title="预计上门时间" :value="order.plan_out_at"/>
+      <van-cell title="预计完成时间" :value="order.plan_finish_at"/>
     </van-cell-group>
 
     <van-collapse v-model="faultModel" class="mt-20">
@@ -111,8 +113,6 @@ export default {
     if (to.query.id) {
       repairInfo(to.query.id)
         .then(data => {
-          console.log("dat", data);
-
           window.store.commit("set_service_order", data);
           next();
         })
