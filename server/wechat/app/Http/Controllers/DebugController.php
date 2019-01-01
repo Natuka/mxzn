@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NotifyEvaluateEvent;
 use App\Events\NotifyEvent;
 use App\Models\CustomerContact;
 use App\Models\Engineer;
@@ -26,8 +27,14 @@ class DebugController extends Controller
 //
 //        event(new NotifyEvent($order, $engineer));
 
-        $model = CustomerContact::find(1);
-        return $model->user;
+        $order = ServiceOrder::find(58);
+
+        event(new NotifyEvaluateEvent($order));
+
+        return 'true';
+
+//        $model = CustomerContact::find(1);
+//        return $model->user;
 
 //        $data = collect([
 //            [
