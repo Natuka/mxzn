@@ -5,6 +5,8 @@
  * Date: 2018/10/6
  * Time: 11:47
  */
+ALTER TABLE  `service_order_parts` ADD  `tax_rate` INT( 11 ) NOT NULL DEFAULT  '6' COMMENT  '16，10% 10，6% 6，不含税 0' AFTER  `amount_dis`
+ALTER TABLE  `service_order_parts` ADD  `remark` TEXT NULL COMMENT  '备注' AFTER  `warranty_date`
 
 php artisan make:model Models\ServiceOrderAttendance
 php artisan make:model Models\ServiceOrderDocument
@@ -26,6 +28,11 @@ php artisan make:migration alert_table_service_order_attendances_add_confirm_sta
 
 php artisan make:migration alert_table_service_orders_add_cancel_cause --table=service_orders
 
+php artisan make:migration alert_table_service_orders_add_dep_id --table=service_orders
+
+php artisan make:migration alert_table_service_order_faults_add_date_remark --table=service_order_faults
+
+php artisan make:migration alert_table_service_order_attendances_add_remark2 --table=service_order_attendances
 
 11     console.time('serialFn')
 12     console.log(await asyncAwaitFn('string 1'));

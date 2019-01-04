@@ -70,6 +70,14 @@
           ></remote-select>
         </FormItem>
 
+        <FormItem label="任务描述" prop="remark" style="width: 99%;">
+          <Input
+            type="textarea"
+            v-model="data.remark"
+            placeholder="任务描述"
+          ></Input>
+        </FormItem>
+
       </Form>
 
       <Tabs type="card" v-model="tabsIndex" :index="tabsIndex" :animated="false" class="tabs">
@@ -280,10 +288,13 @@ export default {
         ],
         plan_finish_at: [
           validate.notEmpty('预计完成时间不能为空')
+        ],
+        remark: [
+          validate.notEmpty('任务描述不能为空')
         ]
       },
       select: {
-        type: orderConst.ORDER_TYPE2,
+        type: orderConst.ORDER_TYPE,
         degree: orderConst.ORDER_DEGREE,
         quote: orderConst.ORDER_QUOTE,
         charge: orderConst.ORDER_CHARGE,
