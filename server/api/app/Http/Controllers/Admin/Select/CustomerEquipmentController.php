@@ -12,7 +12,10 @@ class CustomerEquipmentController extends BaseController
     public function index(Request $request, CustomerEquipment $customer)
     {
         $customer = $this->search($request, $customer);
-        $customer = $customer->selectRaw("*,CONCAT(number,',',name,',',IF(sets IS NULL, '', sets)) AS show_name");
+//        列表显示改为：主体编号，控制箱编号，焊机编号，设备配置
+//        $customer = $customer->selectRaw("*,CONCAT(IF(main_no IS NULL, '', main_no),',',IF(control_box_no IS NULL, '', control_box_no),',',IF(welding_machine_no IS NULL, '', welding_machine_no),',',IF(sets IS NULL, '', sets)) AS show_name");
+//        控制箱编号，设备配置
+        $customer = $customer->selectRaw("*,CONCAT(IF(control_box_no IS NULL, '', control_box_no),',',IF(sets IS NULL, '', sets)) AS show_name");
         return $this->paginate($customer);
     }
 

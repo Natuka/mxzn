@@ -29,7 +29,7 @@ class InstallController extends OperationController
      */
     protected $type = 1;
 
-    protected $typeWord = 'I';
+    protected $typeWord = 'S';
     /**
      * Display a listing of the resource.
      *

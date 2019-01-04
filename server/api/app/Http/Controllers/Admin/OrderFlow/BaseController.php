@@ -33,7 +33,7 @@ class BaseController extends Controller
      * 每页20
      * @var integer
      */
-    protected $perPage = 20;
+    protected $perPage = 10;
 
     protected $order = null;
 

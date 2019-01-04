@@ -111,7 +111,7 @@
           ></DatePicker>
         </FormItem>
 
-        <FormItem label="地址" prop="address" style="width: 100%;">
+        <FormItem label="地址" prop="address" style="width: 99%;">
           <Input
             type="textarea"
             v-model="data.customer.address"
@@ -120,7 +120,7 @@
           ></Input>
         </FormItem>
 
-        <FormItem label="客户设备" prop="equipment_id">
+        <FormItem label="客户设备" prop="equipment_id" style="width: 66%;">
           <remote-select
             :init="init.equipment_id"
             :initData="select.customerEquipmentList"
