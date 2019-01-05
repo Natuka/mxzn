@@ -15,4 +15,8 @@ class QuotationEntry extends Model
         return $this->hasOne(Part::class, 'id', 'item_id');
     }
 
+    public function quotation()
+    {
+        return $this->belongsTo(Quotation::class);
+    }
 }

@@ -208,9 +208,12 @@ class BaseController extends Controller
         if (0 < $this->type) {
           $order = $order->where('type', $this->type);
         }
-
-        $ret = $order->where('status', $this->status)
-            ->paginate($this->perPage);
+        if ((int)$this->status == 99) {
+            //全部
+        }else{
+            $order = $order->where('status', (int)$this->status);
+        }
+        $ret = $order->paginate($this->perPage);
         // 渲染
         return $this->renderResource($ret);
     }

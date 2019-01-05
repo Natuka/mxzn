@@ -6,6 +6,7 @@ export default {
       if (list.length === 0) {
         return ''
       }
+      console.log('valuevaluevalue', value, list)
       return list[value]
     },
     constWithRender (h, value, list = [], color = false) {
@@ -23,6 +24,11 @@ export default {
     constRender (key, list = [], color = true) {
       return (h, {row}) => {
         return this.constWithRender(h, row[key], list, color)
+      }
+    },
+    constRenderValue (key, list = [], color = true) {
+      return (h, {row}) => {
+        return this.constWithRender(h, key, list, color)
       }
     },
     constRenderCustomData (key, list = [], color = true, data = {}) {

@@ -45,6 +45,7 @@ export default [
   },
   ...require('./pcweixin').default,
   ...require('./order-flow').default,
+  ...require('./quotation').default,
   ...require('./customer').default,
   ...require('./machine').default,
   ...require('./staff').default,

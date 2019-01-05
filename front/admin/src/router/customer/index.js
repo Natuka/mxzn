@@ -14,11 +14,11 @@ export default [
     children: [
       {
         path: '/',
-        name: 'customer_list',
+        name: 'customerquotation_materiel_list',
         meta: {
           icon: '_qq',
           title: '客户管理',
-          access: ['customer_list']
+          access: ['customerquotation_materiel_list']
         },
         component: () => import('@/view/customer/index.vue')
       },
@@ -41,17 +41,18 @@ export default [
           access: ['customercontact_list']
         },
         component: () => import('@/view/customer-contact/index.vue')
-      },
-      {
-        path: '/customer-quotation',
-        name: 'customerquotation_list',
-        meta: {
-          icon: '_qq',
-          title: '报价单',
-          access: ['customerquotation_list']
-        },
-        component: () => import('@/view/customer-quotation/index.vue')
       }
+      // ,
+      // {
+      //   path: '/customer-quotation',
+      //   name: 'customerquotation_list',
+      //   meta: {
+      //     icon: '_qq',
+      //     title: '报价单',
+      //     access: ['customerquotation_list']
+      //   },
+      //   component: () => import('@/view/customer-quotation/index.vue')
+      // }
     ]
   }
 ]

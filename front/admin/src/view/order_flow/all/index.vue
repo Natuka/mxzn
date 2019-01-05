@@ -2,72 +2,18 @@
   <div>
     <Card>
       <div slot="title">
-        <Button type="primary" @click="onAdd" v-if="accessAdd()">
-          新增维修工单
-          <Icon type="md-add"/>
-        </Button>
-        <Button type="warning" @click="onAdd2" v-if="accessAdd()" style="margin-left: 10px;">
-          新增其他工单
-          <Icon type="md-add"/>
-        </Button>
         <Button
           type="info"
           @click="refresh"
-          v-if="accessView()"
+          v-if="accessAdd()"
           class="ml-5"
         >
           刷新
           <Icon type="md-refresh"/>
         </Button>
 
-        <Button
-          type="error"
-          @click="handleCancel"
-          v-if="accessAdd()"
-          class="ml-5"
-        >
-          取消
-          <Icon type="md-backspace"/>
-        </Button>
-        <Button
-          type="info"
-          @click="handleDispatch"
-          v-if="accessAdd()"
-          class="ml-5"
-        >
-          派工
-          <Icon type="md-return-right"/>
-        </Button>
-        <Button
-          type="info"
-          @click="handleSwitch"
-          v-if="accessAdd()"
-          class="ml-5"
-        >
-          转派
-          <Icon type="md-repeat"/>
-        </Button>
-        <Button
-          type="success"
-          @click="handleComplete"
-          v-if="accessAdd()"
-          class="ml-5"
-        >
-          完工
-          <Icon type="md-checkmark-circle"/>
-        </Button>
-
-        <Button
-          type="success"
-          @click="next"
-          v-if="accessAdd()"
-          class="ml-5"
-        >
-          下一站
-          <Icon type="md-arrow-forward"/>
-        </Button>
       </div>
-      <repair-search ref="search" @on-search="onSearch"></repair-search>
+      <all-search ref="search" @on-search="onSearch"></all-search>
       <tables
         ref="tables"
         :loading="loading"
@@ -86,13 +32,9 @@
       <br>
       <mx-relation ref="relation"></mx-relation>
     </Card>
-    <repair-add ref="add" @refresh="refresh"></repair-add>
-    <repair-add2 ref="add2" @refresh="refresh"></repair-add2>
+    <all-add ref="add" @refresh="refresh"></all-add>
     <repair-edit ref="edit" @refresh="refreshWithPage"></repair-edit>
     <repair-edit2 ref="edit2" @refresh="refreshWithPage"></repair-edit2>
-    <mx-order-dispatch ref="dispatch" @refresh="refreshWithPage"></mx-order-dispatch>
-    <mx-order-switch ref="switch" @refresh="refreshWithPage"></mx-order-switch>
-    <mx-order-cancel ref="cancel" @refresh="refreshWithPage"></mx-order-cancel>
 
   </div>
 </template>
@@ -100,16 +42,12 @@
 <script>
 import Tables from '_c/tables'
 
-import {repairNext, repairFinished} from '@/api/order_flow/repair'
+import {allNext} from '@/api/order_flow/all'
 import search from './search'
 import add from './add'
-import add2 from './add2'
-import edit from './edit'
-import edit2 from './edit2'
+import edit from '../repair/edit'
+import edit2 from '../repair/edit2'
 import relation from './relation'
-import orderCancel from './operation/cancel'
-import orderSwitch from './operation/switch'
-import orderDispatch from './operation/dispatch'
 
 import listMixin from '../../../mixins/list'
 import constsMixin from '../../../mixins/consts'
@@ -117,28 +55,24 @@ import baseMixin from '../../../mixins/base'
 import * as orderConst from '../../../constants/order_flow'
 
 export default {
-  name: 'repair_list',
+  name: 'all_list',
   components: {
     Tables,
     [search.name]: search,
     [add.name]: add,
-    [add2.name]: add2,
     [edit.name]: edit,
     [edit2.name]: edit2,
-    [relation.name]: relation,
-    [orderCancel.name]: orderCancel,
-    [orderSwitch.name]: orderSwitch,
-    [orderDispatch.name]: orderDispatch
+    [relation.name]: relation
   },
   mixins: [listMixin, constsMixin, baseMixin],
   data () {
     return {
-      url: 'order_flow/repair',
+      url: 'order_flow/all',
       access: {
-        add: 'order_flow_repair_add',
-        view: 'order_flow_repair_view',
-        edit: 'order_flow_repair_edit',
-        remove: 'order_flow_repair_remove'
+        add: 'order_flow_all_add',
+        view: 'order_flow_all_view',
+        edit: 'order_flow_all_edit',
+        remove: 'order_flow_all_remove'
       },
       columns: [
         {
@@ -249,7 +183,7 @@ export default {
         },
         {
           width: 160,
-          title: '报修/联系人',
+          title: '报修人员',
           key: 'feedback_staff_id',
           sortable: false,
           render: (h, {row}) => {
@@ -301,6 +235,35 @@ export default {
           key: 'handle',
           // options: ['delete'],
           button: [
+            // (h, params, vm) => {
+            //   return h(
+            //     'Poptip',
+            //     {
+            //       props: {
+            //         confirm: true,
+            //         title: '你确定要删除吗?'
+            //       },
+            //       on: {
+            //         'on-ok': () => {
+            //           vm.$emit('on-delete', params)
+            //           vm.$emit(
+            //             'input',
+            //             params.tableData.filter(
+            //               (item, index) => index !== params.row.initRowIndex
+            //             )
+            //           )
+            //         }
+            //       }
+            //     },
+            //     [h('Button', {
+            //       nativeOn: {
+            //         click: this.delayLock((e) => {
+            //           console.log('open poper-show')
+            //         })
+            //       }
+            //     }, '删除')]
+            //   )
+            // },
             (h, params, vm) => {
               if (!this.accessView()) {
                 return
@@ -316,7 +279,6 @@ export default {
                   },
                   on: {
                     click: this.delayLock(() => {
-                      // console.log('params3675', params.row)
                       if (+params.row.type === 3) {
                         // 维修工单编辑页面不一样
                         this.onEdit(params.row)
@@ -333,71 +295,12 @@ export default {
         }
       ],
       tableData: [],
-      selected: [],
-      selectedData: {
-        data: {},
-        index: -1
-      }
+      selected: []
     }
   },
   methods: {
     handleDelete (params) {
       console.log(params)
-    },
-    handleCancel () {
-      if (this.selectedData.index < 0) {
-        return this.$Message.info('请选择要操作的工单')
-      }
-      this.$refs.cancel.setData(this.selectedData.data, true)
-      this.$refs.cancel.open()
-    },
-    handleSwitch () {
-      if (this.selectedData.index < 0) {
-        return this.$Message.info('请选择要操作的工单')
-      }
-      this.$refs.switch.setData(this.selectedData.data, true)
-      this.$refs.switch.open()
-    },
-    handleDispatch () {
-      if (this.selectedData.index < 0) {
-        return this.$Message.info('请选择要操作的工单')
-      }
-      this.$refs.dispatch.setData(this.selectedData.data, true)
-      this.$refs.dispatch.open()
-    },
-    handleComplete () {
-      if (!this.selected.length) {
-        return this.$Message.error('请选择要操作的工单[复选框选取]')
-      }
-
-      let post = this.selected.map(el => el.id)
-
-      this.$Modal.confirm({
-        title: '提示',
-        content: '确认送往下一站[审核关闭]？',
-        loading: true,
-        onOk: () => {
-          repairFinished({
-            post
-          }).then(({data}) => {
-            this.$Notice.success({
-              title: '下一站',
-              desc: data.message
-            })
-            this.$Modal.remove()
-            this.refresh()
-          }).catch(({message, response}) => {
-            this.$Notice.error({
-              title: '错误提示',
-              desc: (response && response.data && response.data.message) || message
-            })
-            this.$Modal.remove()
-          })
-        },
-        onCancel: () => {
-
-        }
-      })
     },
     exportExcel () {
       this.$refs.tables.exportCsv({
@@ -416,16 +319,12 @@ export default {
       e()
     },
     onRowClick (data, index) {
-      this.selectedData = {
-        data,
-        index
-      }
       // console.log('EditData', data)
       this.$refs.relation.setData(data, index)
     },
     next () {
       if (!this.selected.length) {
-        return this.$Message.error('请选择要操作的工单[复选框选取]')
+        return this.$Message.error('请选择要操作的项次')
       }
 
       let post = this.selected.map(el => el.id)
@@ -435,7 +334,7 @@ export default {
         content: '确认送往下一站？',
         loading: true,
         onOk: () => {
-          repairNext({
+          allNext({
             post
           }).then(({data}) => {
             this.$Notice.success({

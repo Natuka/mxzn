@@ -515,4 +515,49 @@ Route::group([
             'visible' => false,
         ]);
     });
+
+    Route::group(['prefix' => 'all'], function () {
+        Route::get('default', [
+            'uses' => 'AllController@default',
+            'as' => 'order_all_default',
+            'display_name' => '全部工单',
+            'visible' => true,
+            'alias' => 'order_all_list',
+        ]);
+
+        Route::get('/', [
+            'uses' => 'AllController@index',
+            'as' => 'order_all_list',
+            'display_name' => '待审核关闭表',
+            'visible' => true,
+        ]);
+
+        Route::post('/next', [
+            'uses' => 'AllController@next',
+            'as' => 'order_all_next',
+            'display_name' => '下一步',
+            'visible' => false,
+        ]);
+
+        Route::post('/cancel', [
+            'uses' => 'AllController@cancel',
+            'as' => 'order_all_cancel',
+            'display_name' => '取消',
+            'visible' => false,
+        ]);
+
+        Route::post('/back', [
+            'uses' => 'AllController@back',
+            'as' => 'order_all_back',
+            'display_name' => '退回',
+            'visible' => false,
+        ]);
+
+        Route::put('/{order}', [
+            'uses' => 'AllController@update',
+            'as' => 'order_all_update',
+            'display_name' => '修改',
+            'visible' => false,
+        ]);
+    });
 });

@@ -13,6 +13,16 @@ export default [
     component: Main,
     children: [
       {
+        path: 'all',
+        name: 'order_flow_all_list',
+        meta: {
+          icon: '_qq',
+          title: '全部工单',
+          access: ['order_flow_all_list']
+        },
+        component: () => import('@/view/order_flow/all/index.vue')
+      },
+      {
         path: 'repair',
         name: 'order_flow_repair_list',
         meta: {
