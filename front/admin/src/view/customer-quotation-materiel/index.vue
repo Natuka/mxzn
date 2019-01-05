@@ -66,25 +66,14 @@ export default {
           width: 120,
           title: '报价单号',
           key: 'billno',
-          sortable: false,
-          render: (h, {row: {quotation}}) => {
-            if (!quotation) {
-              return h('span')
-            }
-            return h('span', {}, quotation.billno)
-          }
+          sortable: false
         },
         {
           width: 120,
           title: '单据状态',
           key: 'status',
           sortable: true,
-          render: (h, {row: {quotation}}) => {
-            if (!quotation) {
-              return h('span')
-            }
-            return this.constRender('status', customerquotationConst.STATUS_LIST)
-          }
+          render: this.constRender('status', customerquotationConst.STATUS_LIST)
         },
         {
           width: 120,
@@ -203,7 +192,8 @@ export default {
         {
           width: 100,
           title: '备注',
-          key: 'remark'
+          key: 'remark',
+          sortable: false
         },
         {
           title: ' ',

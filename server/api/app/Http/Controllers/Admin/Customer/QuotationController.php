@@ -48,7 +48,8 @@ class QuotationController extends Controller
             }else{
                 if ($sch_field == 'cust_id') {
                     $quotation = $quotation->whereHas('customer', function ($query) use ($sch_value) {
-                        $query->where('name', 'like', '%'.$sch_value.'%');
+                        $query->where('name', 'like', '%'.$sch_value.'%')
+                              ->orWhere('name_short', 'like', '%'.$sch_value.'%');
                     });
                 }elseif ($sch_field == 'name') {
                     $quotation = $quotation->whereHas('contact', function ($query) use ($sch_value) {

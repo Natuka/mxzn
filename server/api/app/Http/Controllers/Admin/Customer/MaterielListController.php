@@ -18,63 +18,46 @@ class MaterielListController extends Controller
      */
     public function index(Request $request, QuotationEntry $quotationentry)
     {
+        $quotationentry = QuotationEntry::builderWithQuotation();
         $quotationentry = $this->search($request, $quotationentry);
         return success_json($quotationentry->paginate(config('pageinfo.per_page')));
     }
 
-    public function search(Request $request, QuotationEntry $quotationentry)
+    public function search(Request $request, $quotationentry)
     {
-        if (0) {
-            $quotationentry = $quotationentry->where('quotation_id', (int)$quotation['id']);
+        $sch_field = $request->get('schField', ''); //查询字段或模糊查询
+        $sch_value = $request->get('schValue', ''); //查询字段或模糊查询
+        //$sch_field = 'fuzzy_query';
+        if ($sch_value && $sch_field) {
+            if ($sch_field == 'fuzzy_query') {
+//                $quotationentry = $quotationentry->where(function($query) use($sch_field, $sch_value)
+//                {
+//                    $query->where('name', 'like', '%'.$sch_value.'%')
+//                        ->orWhere('mobile', 'like', '%'.$sch_value.'%')
+//                        ->orWhere('job', 'like', '%'.$sch_value.'%');
+//                });
+            }else{
+                if ($sch_field == 'cust_id') {
+                    $quotationentry = $quotationentry->whereHas('hasCustomer', function ($query) use ($sch_value) {
+                        $query->where('name', 'like', '%'.$sch_value.'%')
+                              ->orWhere('name_short', 'like', '%'.$sch_value.'%');
+                    });
+                }elseif ($sch_field == 'contacts') {
+                    $quotationentry = $quotationentry->whereHas('hasContact', function ($query) use ($sch_value) {
+                        $query->where('name', 'like', '%'.$sch_value.'%');
+                    });
+                }elseif ($sch_field == 'mobile') {
+                    $quotationentry = $quotationentry->whereHas('hasContact', function ($query) use ($sch_value) {
+                        $query->where('mobile', 'like', '%'.$sch_value.'%');
+                    });
+                }else{
+                    $quotationentry = $quotationentry->where($sch_field, 'like', '%'.$sch_value.'%');
+                }
+            }
         }
 
-        /*$industry = $request->get('industry', 0); //所属行业
-        $type = $request->get('type', 0); //客户类别
-        $level = $request->get('level', 0); //客户级别
-        $source = $request->get('source', 0); //客户来源
-        $follow_up_status = $request->get('follow_up_status', 0); //跟进状态
-        $quotationentry_number = $request->get('number', ''); // 客户编号
-        $quotationentry_name = $request->get('name', ''); // 客户名称
-        $short_name = $request->get('name_short', ''); // 客户简称
-        $quotationField = $request->get('quotationField', 0); // 排序栏位
-        $quotationBy = $request->get('quotationBy', 1); // 排序顺序
-
-        if ($industry) {
-            $quotationentry = $quotationentry->where('industry', (int)$industry);
-        }
-        if ($type) {
-            $quotationentry = $quotationentry->where('type', (int)$type);
-        }
-        if ($level) {
-            $quotationentry = $quotationentry->where('level', (int)$level);
-        }
-        if ($source) {
-            $quotationentry = $quotationentry->where('source', (int)$source);
-        }
-        if ($follow_up_status) {
-            $quotationentry = $quotationentry->where('follow_up_status', (int)$follow_up_status);
-        }
-        // 公司编号
-        if ($quotationentry_number) {
-            $quotationentry = $quotationentry->where('number', 'like', $quotationentry_number . '%');
-        }
-        // 客户名称
-        if ($quotationentry_name) {
-            $quotationentry = $quotationentry->where('name', 'like', '%' . $quotationentry_name . '%');
-        }
-        // 公司简称
-        if ($short_name) {
-            $quotationentry = $quotationentry->where('name_short', 'like', '%' . $short_name . '%');
-        }
-
-        $quotationFieldArray = array('0' => 'number', '1' => 'name', '2' => 'industry', '3' => 'type', '4' => 'level', '5' => 'follow_up_status', '6' => 'source');
-        $quotationByArray = array('0' => 'ASC', '1' => 'DESC',);
-        if (!empty($quotationFieldArray[$quotationField]) && !empty($quotationByArray[$quotationBy])) {
-
-            $quotationentry = $quotationentry->quotationBy($quotationFieldArray[$quotationField], $quotationByArray[$quotationBy]);
-        }*/
-        $quotationentry = $quotationentry->orderBy('id', 'desc');
-        $quotationentry->with(['part', 'quotation']);
+        $quotationentry = $quotationentry->orderBy('quotation.id', 'desc')->orderBy('quotation_entry.id', 'desc');
+        $quotationentry->with(['customer', 'contact']);
         return $quotationentry;
     }
 

@@ -2,11 +2,13 @@
   <Form ref="search" :model="data" :rules="ruleInline" inline>
     <FormItem prop="schField">
       <Select v-model="data.schField" style="width:90px" placeholder="栏位">
-        <Option value="fuzzy_query" >模糊查询</Option>
         <Option value="number">料号</Option>
         <Option value="name">品名</Option>
         <Option value="model">型号规格</Option>
-        <Option value="brand">品牌</Option>
+        <Option value="billno">报价单号</Option>
+        <Option value="cust_id">客户名称</Option>
+        <Option value="contacts">联系人</Option>
+        <Option value="mobile">手机</Option>
       </Select>
     </FormItem>
     <FormItem prop="schValue">
