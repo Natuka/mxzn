@@ -3,7 +3,7 @@
     <van-nav-bar
       title="工单处理"
       left-text="返回"
-      right-text="返查看处理过程"
+      right-text="查看处理过程"
       left-arrow
       @click-left="onClickLeft"
       @click-right="onClickRight"

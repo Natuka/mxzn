@@ -18,7 +18,7 @@ class RepairController extends Controller
 //            return success_json([]);
 //        }
 
-        $list = $repair->where('service_order_id', $order)->get();
+        $list = $repair->where('service_order_id', $order)->orderBy('id', 'desc')->get();
 //        $list = $repair->where('staff_id', $staff->id)->where('service_order_id', $order)->get();
         return success_json($list);
     }

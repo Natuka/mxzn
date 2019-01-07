@@ -40,9 +40,5 @@ class NotifyEvaluateListener
             ],
         ]);
 
-        \Log::info([
-            'type' => 'send template',
-            'info' => $ret,
-        ]);
     }
 }

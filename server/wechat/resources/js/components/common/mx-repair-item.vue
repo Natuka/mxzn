@@ -1,21 +1,60 @@
 <template>
   <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
     <van-list v-model="loading" :finished="finished" @load="onLoad">
-      <van-panel
-        :key="key"
-        v-for="(item, key) in data"
-        :title="getServiceTitle(item)"
-        :status="getServiceStatus(item)"
-      >
+      <van-panel :key="key" v-for="(item, key) in data" :title="getServiceTitle(item)">
         <div slot="header" class="pt-20 pr-20 pl-20 mx-flex">
+          <van-row type="flex" justify="space-between">
+            <span class="mx-flex-1">{{getCreatedDate(item)}}</span>
+            <!-- <span class="mx-text-danger">{{getServiceStatus(item)}}</span> -->
+          </van-row>
+        </div>
+
+        <!-- <div slot="header" class="pt-20 pr-20 pl-20 mx-flex">
           <van-row type="flex" justify="space-between">
             <span class="mx-flex-1">{{getServiceTitle(item)}}</span>
             <span class="mx-text-danger">{{getServiceStatus(item)}}</span>
           </van-row>
-        </div>
-
+        </div>-->
         <div class="p-20">
           <van-row type="flex" justify="space-between">
+            <van-col :span="24">
+              <span class="mx-label">反馈单号</span>
+              {{info.number}}
+            </van-col>
+          </van-row>
+          <van-row type="flex" justify="space-between">
+            <van-col :span="24">
+              <span class="mx-label">单据状态</span>
+              {{getServiceStatus(item)}}
+            </van-col>
+          </van-row>
+          <van-row type="flex" justify="space-between">
+            <van-col :span="24">
+              <span class="mx-label">客户</span>
+              {{getCustomerName(item)}}
+            </van-col>
+          </van-row>
+          <van-row type="flex" justify="space-between">
+            <van-col :span="24">
+              <span class="mx-label">反馈人员</span>
+              {{getFeedbackInfoString(item)}}
+            </van-col>
+          </van-row>
+          <van-row type="flex" justify="space-between">
+            <van-col :span="24">
+              <span class="mx-label">设备</span>
+              {{getServiceEquipmentName(item)}}
+            </van-col>
+          </van-row>
+
+          <van-row type="flex" justify="space-between">
+            <van-col :span="24">
+              <span class="mx-label">故障</span>
+              <span>{{getServiceFaultDesc(item)}}</span>
+            </van-col>
+          </van-row>
+
+          <!-- <van-row type="flex" justify="space-between">
             <van-col :span="24">
               <span class="mx-label">报修</span>
             </van-col>
@@ -59,7 +98,7 @@
               <span class="mx-label">预约时间</span>
               <span>{{getServicePlanOoutAt(item)}}</span>
             </van-col>
-          </van-row>
+          </van-row>-->
           <van-row type="flex" justify="space-between">
             <van-col :span="6">
               <span class="mx-label">配件费</span>

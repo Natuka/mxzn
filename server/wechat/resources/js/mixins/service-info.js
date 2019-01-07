@@ -43,19 +43,49 @@ export default {
             let text = ORDER_STATUS[info.status]
             return `【${text}】单号：${info.number}`
         },
+        getCreatedDate(info) {
+            return dayjs(info.created_at).format('YYYY-MM-DD')
+        },
+        getCustomerName(info) {
+            if (info.customer) {
+                return info.customer.name
+            }
+            return ''
+        },
+        getFeedbackInfoString({ feedback_staff }) {
+            if (feedback_staff) {
+                return [
+                    feedback_staff.name,
+                    feedback_staff.mobile,
+                    feedback_staff.post_name
+                ]
+                    .filter(el => el)
+                    .join(' ')
+            }
+            return ''
+        },
         getServiceAddr(info) {
             return 'wwww'
         },
         getServiceArea() {
             return 'aaaa'
         },
-        getServiceEquipmentName(info) {
+        getServiceEquipmentName({ fault }) {
+            if (fault) {
+                const equipment = fault[0] ? fault[0].equipment : null
+                if (equipment) {
+                    return equipment.main_model + ', ' + equipment.model
+                }
+            }
             return ''
         },
         getServiceEquipmentSerializeNo(info) {
             return '2222'
         },
         getServiceFaultDesc(info) {
+            if (fault) {
+                return fault[0].desc
+            }
             return ''
         },
         getServiceEngineer(info) {
