@@ -82,7 +82,7 @@ export default {
         getServiceEquipmentSerializeNo(info) {
             return '2222'
         },
-        getServiceFaultDesc(info) {
+        getServiceFaultDesc({ fault }) {
             if (fault) {
                 return fault[0].desc
             }
