@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Customer;
 
+//use PDF;
 use App\Http\Requests\Admin\CustomerQuotation\CreateRequest;
 use App\Http\Requests\Admin\CustomerQuotation\UpdateRequest;
 use App\Models\Quotation;
@@ -20,6 +21,17 @@ class QuotationController extends Controller
      */
     public function index(Request $request, Quotation $quotation)
     {
+/*        $html = '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><style>
+.page-break {
+    page-break-after: always;
+}
+</style>
+<h1>Page 1</h1>
+<div class="page-break"></div>
+<h1>Page 2</h1><h1>Test我来测试的</h1>';
+        $PdfFileName = 'quotation/myfile.pdf';
+        PDF::loadHTML($html)->setPaper('a4', 'landscape')->setWarnings(false)->save(public_path($PdfFileName));
+        */
         $quotation = $this->search($request, $quotation);
         return success_json($quotation->with(['customer' => function( $query ){
                 $query->select(['id','name','name_short']);
@@ -352,6 +364,36 @@ class QuotationController extends Controller
                         }
                     }
                 }
+            }
+            unset($infoId);
+        }
+
+        return success_json('操作成功');
+    }
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function downloadPdf(Request $request)
+    {
+        $user = $request->user();
+        foreach ($request->get('post', []) as $infoId) {
+            /*            \Log::info([
+                            'next next' => $infoId
+                        ]);*/
+            $quotation = Quotation::find($infoId);
+            if ($quotation) {
+                if ($quotation->status == 0) {
+                    $data['status'] = 1;
+                    $data['checked_by'] = $user->userable_name;
+                    $data['checked_date'] = date('Y-m-d H:i:s');
+                    $quotation->forceFill($data)->save();
+                }
+
             }
             unset($infoId);
         }

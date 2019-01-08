@@ -94,12 +94,12 @@
             key: 'coordinate',
             sortable: true
           },
-          {
-            width: 120,
-            title: '备注',
-            key: 'remark',
-            sortable: false
-          },
+          // {
+          //   width: 120,
+          //   title: '备注',
+          //   key: 'remark',
+          //   sortable: false
+          // },
           {
             width: 120,
             title: '确认人员',

@@ -48,12 +48,12 @@ class OperationController extends BaseController
                 $new_engineer['is_change'] = 0;
                 $orderEngineer->forceFill($new_engineer)->save();
 
-                //产生一笔处理过程
-                $orderRepair = new ServiceOrderRepair();
-                $new_repair['service_order_id'] = $order->id;
-                $new_repair['staff_id'] = $engineer->staff_id;
-                $new_repair['staff_name'] = $engineer->staff_name;
-                $orderRepair->forceFill($new_repair)->save();
+                //产生一笔处理过程，前端有产生
+//                $orderRepair = new ServiceOrderRepair();
+//                $new_repair['service_order_id'] = $order->id;
+//                $new_repair['staff_id'] = $engineer->staff_id;
+//                $new_repair['staff_name'] = $engineer->staff_name;
+//                $orderRepair->forceFill($new_repair)->save();
 
                 //送到工单处理
                 $order->status = 3;
@@ -125,12 +125,12 @@ class OperationController extends BaseController
                 $new_engineer['is_change'] = 0;
                 $orderEngineer->forceFill($new_engineer)->save();
 
-                //产生一笔处理过程
-                $orderRepair = new ServiceOrderRepair();
-                $new_repair['service_order_id'] = $order->id;
-                $new_repair['staff_id'] = $engineer->staff_id;
-                $new_repair['staff_name'] = $engineer->staff_name;
-                $orderRepair->forceFill($new_repair)->save();
+                //产生一笔处理过程，前端有产生
+//                $orderRepair = new ServiceOrderRepair();
+//                $new_repair['service_order_id'] = $order->id;
+//                $new_repair['staff_id'] = $engineer->staff_id;
+//                $new_repair['staff_name'] = $engineer->staff_name;
+//                $orderRepair->forceFill($new_repair)->save();
 
                 //送到工单处理
                 $order->status = 3;

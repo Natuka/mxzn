@@ -128,10 +128,10 @@ class RepairController extends OperationController
                     $engineer['is_change'] = 0;
                     $orderEngineer->forceFill($engineer)->save();
 
-                    //产生一笔处理过程
-                    $orderRepair = new ServiceOrderRepair();
-                    $new_repair['service_order_id'] = $order->id;
-                    $orderRepair->forceFill($new_repair)->save();
+                    //产生一笔处理过程，前端有产生
+//                    $orderRepair = new ServiceOrderRepair();
+//                    $new_repair['service_order_id'] = $order->id;
+//                    $orderRepair->forceFill($new_repair)->save();
 
                     // 微信端通知工程师
 //                    \Log::info([
