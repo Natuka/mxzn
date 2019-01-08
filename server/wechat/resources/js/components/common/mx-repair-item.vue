@@ -19,7 +19,7 @@
           <van-row type="flex" justify="space-between">
             <van-col :span="24">
               <span class="mx-label">反馈单号</span>
-              {{info.number}}
+              {{item.number}}
             </van-col>
           </van-row>
           <van-row type="flex" justify="space-between">
