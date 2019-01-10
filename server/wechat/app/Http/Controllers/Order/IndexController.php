@@ -21,14 +21,25 @@ class IndexController extends Controller
             'feedbackStaff',
             'receiveStaff',
             'confirmStaff',
-        ]);
+        ])->orderBy('id', 'desc');
 
         if ($type === 1) {
+            // 待处理
             $builder = $builder->whereIn('status', [0, 1, 2])->where('cancel_status', 0);
         } else if ($type === 2) {
-            $builder = $builder->whereIn('status', [3])->where('cancel_status', 0);
+            // 处理中
+            $builder = $builder->whereIn('status', [3])
+                ->where('cancel_status', 0);
         } else if ($type === 3) {
-            $builder = $builder->whereIn('status', [3])->where('cancel_status', 0);
+            // 待结算
+            $builder = $builder->whereIn('status', [ 5])
+                ->where('settle_status', 0)
+                ->where('cancel_status', 0);
+        } else if ($type === 4) {
+            // 已完成
+            $builder = $builder->whereIn('status', [5])
+                ->where('settle_status', 1)
+                ->where('cancel_status', 0);
         }
 
         $data = $builder->paginate();
