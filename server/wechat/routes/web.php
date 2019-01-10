@@ -29,7 +29,8 @@ Route::get('order/{order}', 'Order\IndexController@get');
 
 // 微信必须验证
 // 'wechat.oauth' 'wechat.oauth','auth'
-Route::group(['middleware' => ['wechat.oauth','auth']], function () {
+// 调试时，可以先删除，在正式环境上，在加回去 'wechat.oauth','auth'
+Route::group(['middleware' => []], function () {
     Route::get('/', 'IndexController@index');
     Route::get('/geo', 'GeoController@get');
 
