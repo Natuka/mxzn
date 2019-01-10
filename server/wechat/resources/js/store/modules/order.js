@@ -14,7 +14,7 @@ const getters = {
         return info
     },
     fault({ info }) {
-        if (info.fault.length) {
+        if (info.fault && info.fault.length) {
             return info.fault[0]
         }
         return {}

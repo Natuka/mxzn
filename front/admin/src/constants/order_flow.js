@@ -1,4 +1,4 @@
-export const ORDER_STATUS = '制单中,已受理,待派单,处理中,已取消,已关闭,无法处理'.split(',')
+export const ORDER_STATUS = '制单中,已受理,待派单,处理中,结算收费,已关闭,已回访'.split(',')
 export const ORDER_SETTLE_STATUS = '未结算,结算中,已结算,免费'.split(',')
 export const ORDER_QUOTE = '否,是,待定'.split(',')
 export const ORDER_CHARGE = '否,是,待定'.split(',')

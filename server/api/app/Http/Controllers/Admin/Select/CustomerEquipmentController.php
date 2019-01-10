@@ -40,9 +40,6 @@ class CustomerEquipmentController extends BaseController
                     ->orWhere('welding_machine_model', 'like', like($name));
             });
         }
-        if ($name = $request->get('show_name', '')) {
-            $customer = $customer->where('name', 'like', like($name));
-        }
 
         $id = $request->get('id', 0);
         if ((int)$id > 0) {
