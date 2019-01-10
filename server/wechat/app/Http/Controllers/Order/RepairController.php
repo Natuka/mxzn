@@ -37,7 +37,7 @@ class RepairController extends Controller
             return error_json('请先登录');
         }
 
-        $staff = $user->staff();
+        $staff = $user->staff;
 
         if (!$staff) {
             return error_json('没有权限', 403);
@@ -59,6 +59,7 @@ class RepairController extends Controller
         ]);
 
         $data['staff_id'] = $staff->id;
+        $data['staff_name'] = $staff->name;
         $data['process_id'] = (int)$data['process_id'];
         $data['cause_id'] = (int)$data['cause_id'];
         $data['arrived_at'] = format_date($data['arrived_at'], 'Y-m-d H:i:s');
