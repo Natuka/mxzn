@@ -7,6 +7,7 @@ export default {
     methods: {
         // 文档
         onDocument(item) {
+            this.$store.commit('set_service_order', item)
             this.$router.push({
                 path: '/repair/document',
                 query: {
@@ -16,6 +17,7 @@ export default {
         },
         // 处理
         onAttendance(item) {
+            this.$store.commit('set_service_order', item)
             this.$router.push({
                 path: '/repair/attendance',
                 query: {
@@ -25,6 +27,7 @@ export default {
         },
         // 处理
         onAction(item) {
+            this.$store.commit('set_service_order', item)
             this.$router.push({
                 path: '/repair/action',
                 query: {
