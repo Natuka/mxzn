@@ -124,7 +124,7 @@ class RepairsController extends BaseController
 //                下步处理，选择完工关闭，工单状态修改为：待结算
                 if ($order) {
                     //$this->assignToContact($info['id'], $user->id);
-                    $save_data['status'] = 4;
+                    $save_data['status'] = 5;
                     //$data['progress_time'] = date('Y-m-d H:i:s', time());
                     $order->forceFill($save_data)->save();
 
@@ -191,7 +191,7 @@ class RepairsController extends BaseController
 //                下步处理，选择完工关闭，工单状态修改为：待结算
                 if ($order) {
                     //$this->assignToContact($info['id'], $user->id);
-                    $save_data['status'] = 4;
+                    $save_data['status'] = 5;
                     //$data['progress_time'] = date('Y-m-d H:i:s', time());
                     $order->forceFill($save_data)->save();
                 }

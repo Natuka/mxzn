@@ -20,13 +20,13 @@ export default {
     minDate: {
       type: Date,
       default() {
-        return Date(1900, 1, 1);
+        return new Date(1900, 1, 1);
       }
     },
     maxDate: {
       type: Date,
       default() {
-        return Date(2100, 1, 1);
+        return new Date(2100, 1, 1);
       }
     },
     columns: {

@@ -14,11 +14,11 @@ export default [
     children: [
       {
         path: '/',
-        name: 'customerquotation_materiel_list',
+        name: 'customer_list',
         meta: {
           icon: '_qq',
           title: '客户管理',
-          access: ['customerquotation_materiel_list']
+          access: ['customer_list']
         },
         component: () => import('@/view/customer/index.vue')
       },

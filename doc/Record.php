@@ -5,6 +5,9 @@
  * Date: 2018/10/6
  * Time: 11:47
  */
+
+'PDF' => Barryvdh\DomPDF\Facade::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 ALTER TABLE  `service_order_parts` ADD  `tax_rate` INT( 11 ) NOT NULL DEFAULT  '6' COMMENT  '16，10% 10，6% 6，不含税 0' AFTER  `amount_dis`
 ALTER TABLE  `service_order_parts` ADD  `remark` TEXT NULL COMMENT  '备注' AFTER  `warranty_date`
 
