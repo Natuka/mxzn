@@ -76,9 +76,9 @@
           <van-col span="6">
             <van-button size="small" @click="onAction(order)">处理</van-button>
           </van-col>
-          <van-col span="6">
+         <!-- <van-col span="6">
             <van-button size="small" @click="onDocument(order)">附件</van-button>
-          </van-col>
+          </van-col>-->
           <van-col span="6">
             <van-button size="small" @click="onMore(order)">更多</van-button>
           </van-col>

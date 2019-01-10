@@ -121,7 +121,7 @@
         <div slot="footer" class="text-right">
           <van-button size="small" @click="onAttendance(item)">签到</van-button>
           <van-button size="small" @click="onAction(item)">处理</van-button>
-          <van-button size="small" @click="onDocument(item)">附件</van-button>
+          <!--<van-button size="small" @click="onDocument(item)">附件</van-button>-->
           <van-button size="small" type="danger" @click="onClick(item)">更多</van-button>
         </div>
       </van-panel>
