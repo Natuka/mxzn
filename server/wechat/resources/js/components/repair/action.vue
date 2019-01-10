@@ -19,14 +19,24 @@
         autosize
         :value="fault && fault.desc"
       />
-      <van-cell title="故障原因">
+      <!--<van-cell title="故障原因">
         <span @click="$refs.cause.open()">{{selectFaultValue('cause_id', '请选择',faultType)}}</span>
         <mx-select
           ref="cause"
           :columns="faultType"
           :on-change="(value,index) => this.$store.commit('setCauseId', index)"
         />
-      </van-cell>
+      </van-cell>-->
+        <van-field
+            :value="data.cause"
+            type="textarea"
+            label="故障原因"
+            placeholder="处理措施"
+            rows="3"
+            :autosize="{ maxHeight: 100, minHeight: 50 }"
+            @input="handleCause"
+        />
+
       <mx-upload
         ref="cause_doc"
         title="原因照片"
@@ -72,13 +82,13 @@
         :value="data.complete_at"
         ref="complete_at"
       ></mx-datetime-picker>
-      <van-cell title="服务项目" @click="handleProject">
+     <!-- <van-cell title="服务项目" @click="handleProject">
         <span>{{$store.getters.projectName || '请选择'}}</span>
       </van-cell>
       <van-cell title="配件耗材" @click="handlePart">
         <span>{{$store.getters.partName || '请选择'}}</span>
-      </van-cell>
-      <van-cell title="查看历史维修记录" is-link @click="handleHistory"></van-cell>
+      </van-cell>-->
+      <!--<van-cell title="查看历史维修记录" is-link @click="handleHistory"></van-cell>-->
 
       <van-cell title="下步处理">
         <span @click="$refs.next.open()">{{selectFaultValue('next_step', '请选择',repairNext)}}</span>
@@ -158,14 +168,15 @@ export default {
     async onSubmit() {
       const serviceOrder = this.$store.getters.serviceOrder;
       const data = JSON.parse(JSON.stringify(this.data));
+      data.process = this.process[data.process_id] || this.process[0]
 
       try {
         await this.$api.repairCreateRepair(serviceOrder.id, data);
         this.$store.commit("resetRepair");
         this.$toast.success("处理成功");
 
-        let from = this.$router.query.from;
-        let type = this.$router.query.type;
+        let from = this.$route.query.from;
+        let type = this.$route.query.type;
         if (from && from.indexOf("/repair/list")) {
           this.$router.push({
             path: "/repair/list",
