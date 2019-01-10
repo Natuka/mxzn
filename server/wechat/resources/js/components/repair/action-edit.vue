@@ -153,8 +153,8 @@ export default {
         this.$store.commit("resetRepair");
         this.$toast.success("处理成功");
 
-        let from = this.$router.query.from;
-        let type = this.$router.query.type;
+        let from = this.$route.query.from;
+        let type = this.$route.query.type;
         if (from && from.indexOf("/repair/list")) {
           this.$router.push({
             path: "/repair/list",
