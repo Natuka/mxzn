@@ -17,6 +17,10 @@ import dayjs from "dayjs";
 export default {
   name: "mx-datetime",
   props: {
+    value: {
+      type: String,
+      default: ''
+    },
     minDate: {
       type: Date,
       default() {
@@ -43,9 +47,12 @@ export default {
   data() {
     return {
       show: false,
-      currentDate: ""
+      currentDate: new Date()
     };
   },
+    mounted () {
+      this.currentDate = dayjs(this.value).toDate()
+    },
   methods: {
     handleChange(picker, value, index) {},
     onConfirm(value, index) {
@@ -63,7 +70,13 @@ export default {
       this.show = false;
       console.log("this.show", this.show);
     }
-  }
+  },
+    watch: {
+      value (value) {
+          console.log('watch value', this.value)
+          this.currentDate = dayjs(value).toDate()
+      }
+    }
 };
 </script>
 

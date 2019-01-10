@@ -58,11 +58,11 @@ class RepairController extends Controller
             'next_step',
         ]);
 
-        $data['staff_id'] = (int)$data['staff_id'];
+        $data['staff_id'] = $staff->id;
         $data['process_id'] = (int)$data['process_id'];
         $data['cause_id'] = (int)$data['cause_id'];
-        $data['arrived_at'] = format_date($data['arrived_at']);
-        $data['complete_at'] = format_date($data['complete_at']);
+        $data['arrived_at'] = format_date($data['arrived_at'], 'Y-m-d H:i:s');
+        $data['complete_at'] = format_date($data['complete_at'], 'Y-m-d H:i:s');
         $data['next_step'] = (int)$data['next_step'];
 
         $data['service_order_id'] = (int)$order['id'];

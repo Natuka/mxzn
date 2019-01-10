@@ -4,7 +4,7 @@
       <span v-if="!date">请选择</span>
       <span v-else v-text="date"></span>
     </van-cell>
-    <mx-datetime ref="date" :on-change="handleChange"/>
+    <mx-datetime ref="date" :value="value" :on-change="handleChange"/>
   </div>
 </template>
 
