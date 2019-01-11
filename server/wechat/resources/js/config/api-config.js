@@ -3,6 +3,7 @@ let config = {
 }
 
 if (process.env.NODE_ENV === 'development') {
+    // 'http://wx.mxcs.com/'
     config.host = 'http://wx.mxcs.com/'
 }
 

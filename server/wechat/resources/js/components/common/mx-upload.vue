@@ -3,7 +3,7 @@
     <file-upload
       ref="upload"
       :post-action="url"
-      :size="1024 * 1024 * 5"
+      :size="1024 * 1024 * 10"
       :maximum="10"
       @input-file="inputFile"
       :input-id="inputId"
@@ -30,7 +30,7 @@
 
 <script>
 import { ImagePreview } from "vant";
-const maxSize = 1024 * 1024 * 5;
+const maxSize = 1024 * 1024 * 10;
 export default {
   name: "mx-upload",
   props: {
@@ -116,7 +116,7 @@ export default {
 
         // 开始上传
         if (newFile.active !== oldFile.active) {
-          console.log("Start upload", newFile.active, newFile);
+          console.log("Start upload372342", maxSize, newFile.active, newFile);
 
           // 限定最小字节
           if (newFile.size >= 0 && newFile.size < maxSize) {

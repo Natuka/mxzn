@@ -57,9 +57,14 @@ class RepairController extends Controller
             'cause_doc_ids',
             'next_step',
         ]);
+        if ($staff) {
+            $data['staff_id'] = $staff->id;
+            $data['staff_name'] = $staff->name;
+        }else{
+            $data['staff_id'] = 0;
+            $data['staff_name'] = '';
+        }
 
-        $data['staff_id'] = $staff->id;
-        $data['staff_name'] = $staff->name;
         $data['process_id'] = (int)$data['process_id'];
         $data['cause_id'] = (int)$data['cause_id'];
         $data['arrived_at'] = format_date($data['arrived_at'], 'Y-m-d H:i:s');

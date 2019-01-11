@@ -84,7 +84,12 @@ export default {
         },
         getServiceFaultDesc({ fault }) {
             if (fault) {
-                return fault[0].desc
+                // console.log('fault_desc32534', fault[0])
+                if (fault[0] === undefined) {
+                    return ''
+                } else {
+                    return fault[0].desc
+                }
             }
             return ''
         },

@@ -2,7 +2,7 @@
     <file-upload
         ref="upload"
         post-action="/file/doc"
-        :size="1024 * 1024 * 5"
+        :size="1024 * 1024 * 10"
         :maximum="10"
         @input-file="inputFile"
 
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-    const maxSize = 1024 * 1024 * 5;
+    const maxSize = 1024 * 1024 * 10;
     export default {
         name: 'mx-upload',
         props: {
@@ -38,7 +38,7 @@
 
                     // 开始上传
                     if (newFile.active !== oldFile.active) {
-                        console.log('Start upload', newFile.active, newFile)
+                        console.log('Start upload68967', maxSize, newFile.active, newFile)
 
                         // 限定最小字节
                         if (newFile.size >= 0 && newFile.size < maxSize) {

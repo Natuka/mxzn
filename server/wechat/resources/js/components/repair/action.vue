@@ -30,8 +30,8 @@
         <van-field
             :value="data.cause"
             type="textarea"
-            label="故障原因"
-            placeholder="处理措施"
+            label="故障原因*"
+            placeholder="故障原因"
             rows="3"
             :autosize="{ maxHeight: 100, minHeight: 50 }"
             @input="handleCause"
@@ -44,7 +44,7 @@
         @on-change="handleCauseChange"
         image
       ></mx-upload>
-      <van-cell title="处理进度">
+      <van-cell title="处理进度*">
         <span @click="$refs.process.open()">{{selectFaultValue('process_id', '请选择',process)}}</span>
         <mx-select
           ref="process"
@@ -55,7 +55,7 @@
 
       <van-field
         :value="data.step_result"
-        label="处理措施"
+        label="处理措施*"
         type="textarea"
         placeholder="处理措施"
         rows="3"
@@ -65,7 +65,7 @@
 
       <mx-upload
         ref="step_doc"
-        title="处理照片"
+        title="处理照片*"
         :list="stepDocs"
         @on-change="handleProcessChange"
         image
@@ -169,27 +169,31 @@ export default {
       const serviceOrder = this.$store.getters.serviceOrder;
       const data = JSON.parse(JSON.stringify(this.data));
       data.process = this.process[data.process_id] || this.process[0]
+      console.log('data64313253', data)
+      if (data.cause === '' || data.process === '' || data.process === '请选择' || data.process === 'step_result' || data.step_doc_ids === '') {
+          this.$toast('[故障原因、处理进度，处理措施，处理照片] 必填!!!');
+      } else {
+          try {
+              await this.$api.repairCreateRepair(serviceOrder.id, data);
+              this.$store.commit("resetRepair");
+              this.$toast.success("处理成功!!!");
 
-      try {
-        await this.$api.repairCreateRepair(serviceOrder.id, data);
-        this.$store.commit("resetRepair");
-        this.$toast.success("处理成功");
-
-        let from = this.$route.query.from;
-        let type = this.$route.query.type;
-        if (from && from.indexOf("/repair/list")) {
-          this.$router.push({
-            path: "/repair/list",
-            query: {
-              refresh: 1,
-              type
-            }
-          });
-          return;
-        }
-        return this.$router.push(from);
-      } catch (e) {
-        console.log("onSubmit", e);
+              let from = this.$route.query.from;
+              let type = this.$route.query.type;
+              if (from && from.indexOf("/repair/list")) {
+                  this.$router.push({
+                      path: "/repair/list",
+                      query: {
+                          refresh: 1,
+                          type
+                      }
+                  });
+                  return;
+              }
+              return this.$router.push(from);
+          } catch (e) {
+              console.log("onSubmit", e);
+          }
       }
     },
 
