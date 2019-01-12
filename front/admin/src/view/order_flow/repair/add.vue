@@ -519,6 +519,7 @@ export default {
           remark: '' // 备注
         }
       },
+      initData: {},
       rules: {
         name: [
           validate.notEmpty('姓名不能为空')
@@ -619,6 +620,11 @@ export default {
       return ''
     }
   },
+  // 数据初始化
+  created () {
+    this.initData = {...this.data}
+    // console.log('initData4563', this.initData)
+  },
   methods: {
     onSubmit (e) {
       let refs = this.$refs
@@ -637,6 +643,8 @@ export default {
       Promise.all(promises).then(async () => {
         console.log('success')
         await addRepair(this.data)
+        this.data = {...this.initData}
+        console.log('this.data344', this.data)
         this.withRefresh(e)
       }).catch(err => {
         console.log('failed', err)

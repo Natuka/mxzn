@@ -130,6 +130,7 @@ export default {
     return {
       data: {
         cust_id: 0,
+        dep_id: 0,
         name: '',
         sex: 1,
         birthday: '',
@@ -145,6 +146,7 @@ export default {
         address: '',
         remark: ''
       },
+      initData: {},
       rules: {
         name: [
           {required: true, message: '姓名不能为空', trigger: 'blur'}
@@ -162,13 +164,20 @@ export default {
       }
     }
   },
+  // 数据初始化
+  created () {
+    this.initData = {...this.data}
+    console.log('initData4563', this.initData)
+  },
   methods: {
     onSubmit (e) {
       this.$refs.addForm.validate(async (valid) => {
         if (valid) {
           try {
             let data = await addCustomercontact(this.data)
-            console.log('data', data)
+            this.data = {...this.initData}
+            console.log('this.data344', this.data)
+            // console.log('data', data)
             this.withRefresh(e)
           } catch (e) {
             this.closeLoading()
@@ -179,6 +188,7 @@ export default {
       })
     },
     onCancel (e) {
+      this.data = {...this.initData}
       e()
     },
     async beforeOpen () {
@@ -186,14 +196,15 @@ export default {
     },
     async afterOpen () {
       let data = this.data
-
-      let customers = await selectCustomer({id: data.cust_id})
+      console.log('data584435', data)
+      let customers = await selectCustomer({id: 0})
       this.init.customer = customers.data
-
+      console.log('data555555555', this.data)
       return true
     },
     async customerChange (customerId) {
       this.data.cust_id = customerId
+      console.log('cust_id342345', this.data.cust_id)
     }
   }
 }

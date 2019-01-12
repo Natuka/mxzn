@@ -48,6 +48,7 @@ export default {
         org_id: 0,
         type: 1
       },
+      initData: {},
       rules: {
         name: [
           {required: true, message: '名称不能为空', trigger: 'blur'}
@@ -55,12 +56,19 @@ export default {
       }
     }
   },
+  // 数据初始化
+  created () {
+    this.initData = {...this.data}
+    // console.log('initData4563', this.initData)
+  },
   methods: {
     onSubmit (e) {
       this.$refs.addForm.validate(async (valid) => {
         if (valid) {
           try {
             await addJob(this.data)
+            this.data = {...this.initData}
+            // console.log('this.data344', this.data)
             this.withRefresh(e)
           } catch (e) {
             this.closeLoading()

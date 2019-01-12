@@ -271,6 +271,7 @@ export default {
           purchasing_power: 0
         }
       },
+      initData: {},
       rules: {
         customer_id: [
           validate.number('请选择客户')
@@ -336,6 +337,11 @@ export default {
       return ''
     }
   },
+  // 数据初始化
+  created () {
+    this.initData = {...this.data}
+    // console.log('initData4563', this.initData)
+  },
   methods: {
     onSubmit (e) {
       let refs = this.$refs
@@ -359,6 +365,7 @@ export default {
       Promise.all(promises).then(async () => {
         console.log('successxx')
         await addInstall(this.data)
+        this.data = {...this.initData}
         this.withRefresh(e)
       }).catch(err => {
         console.log('failed', err)

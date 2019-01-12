@@ -6,7 +6,7 @@ export default {
       if (list.length === 0) {
         return ''
       }
-      console.log('valuevaluevalue', value, list)
+      // console.log('valuevaluevalue', value, list)
       return list[value]
     },
     constWithRender (h, value, list = [], color = false) {
