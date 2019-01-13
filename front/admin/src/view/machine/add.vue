@@ -136,6 +136,7 @@ export default {
         syn_datetime: '',
         remark: ''
       },
+      initData: {},
       rules: {
         number: [
           {required: true, message: '料号不能为空', trigger: 'blur'}
@@ -149,6 +150,11 @@ export default {
       }
     }
   },
+  // 数据初始化
+  created () {
+    this.initData = {...this.data}
+    // console.log('initData4563', this.initData)
+  },
   methods: {
     onSubmit (e) {
       this.$refs.addForm.validate(async (valid) => {
@@ -156,6 +162,7 @@ export default {
           try {
             let data = await addMachine(this.data)
             console.log('data', data)
+            this.data = {...this.initData}
             this.withRefresh(e)
           } catch (e) {
             this.closeLoading()
@@ -166,6 +173,7 @@ export default {
       })
     },
     onCancel (e) {
+      this.data = {...this.initData}
       e()
     }
   }

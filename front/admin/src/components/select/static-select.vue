@@ -19,7 +19,7 @@ export default {
   name: 'static-select',
   props: {
     init: {
-      type: [Number, String],
+      type: [Number, String, Array],
       default: 0
     },
     data: {
@@ -49,10 +49,16 @@ export default {
   },
   methods: {
     onChange (value, info) {
+      console.log('static-select_info44', value, info)
       this.$emit('on-change', value)
       this.$emit('on-change-data', info)
     },
     setInfo (value) {
+      console.log('static-select_info88', value)
+      if (!value) {
+        this.info = {}
+        return
+      }
       let info = this.data.find(info => +info.id === +value)
       if (!info) {
         this.info = {}
@@ -63,9 +69,11 @@ export default {
   },
   watch: {
     init (value) {
+      console.log('static-select_info77', value)
       this.setInfo(value)
     },
     info (info) {
+      console.log('static-select_info11', info)
       if (info) {
         let keyName = this.keyName
         this.onChange(info[keyName], info)
@@ -75,6 +83,7 @@ export default {
     },
     // 如果值有初始化时,那么也可以进行操作
     data (data) {
+      console.log('static-select_info33', info)
       if (data && data.length && this.init) {
         this.setInfo(this.init)
       } else if (data && !data.length) {

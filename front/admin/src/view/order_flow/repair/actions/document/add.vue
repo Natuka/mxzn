@@ -210,6 +210,7 @@ export default {
         address: '',
         remark: ''
       },
+      initData: {},
       rules: {
         name: [
           {required: true, message: '姓名不能为空', trigger: 'blur'}
@@ -227,6 +228,11 @@ export default {
       }
     }
   },
+  // 数据初始化
+  created () {
+    this.initData = {...this.data}
+    // console.log('initData4563', this.initData)
+  },
   methods: {
     onSubmit (e) {
       this.$refs.addForm.validate(async (valid) => {
@@ -234,6 +240,7 @@ export default {
           try {
             let data = await addRepair(this.data)
             console.log('data', data)
+            this.data = {...this.initData}
             this.withRefresh(e)
           } catch (e) {
             this.closeLoading()
@@ -244,6 +251,7 @@ export default {
       })
     },
     onCancel (e) {
+      this.data = {...this.initData}
       e()
     },
     async beforeOpen () {

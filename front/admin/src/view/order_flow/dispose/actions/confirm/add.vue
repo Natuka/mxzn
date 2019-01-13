@@ -87,6 +87,7 @@
           created_by: '',
           updated_by: ''
         },
+        initData: {},
         fault: {},
         rules: {
           opinions_suggestions: [
@@ -97,6 +98,11 @@
         }
       }
     },
+    // 数据初始化
+    created () {
+      this.initData = {...this.data}
+      // console.log('initData4563', this.initData)
+    },
     methods: {
       onSubmit (e) {
         this.$refs.addForm.validate(async (valid) => {
@@ -104,6 +110,7 @@
             try {
               let data = await addDisposeAction(this.data, this.data.service_order_id, 'confirm')
               console.log('data', data)
+              this.data = {...this.initData}
               this.withRefresh(e)
             } catch (e) {
               this.closeLoading()
@@ -117,6 +124,7 @@
         this.data.service_order_id = data.id
       },
       onCancel (e) {
+        this.data = {...this.initData}
         e()
       },
       async beforeOpen () {

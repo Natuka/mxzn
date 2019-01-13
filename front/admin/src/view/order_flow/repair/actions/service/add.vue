@@ -190,6 +190,7 @@ export default {
         staff_name: '',
         remark: ''
       },
+      initData: {},
       fault: {},
       rules: {
         content: [
@@ -210,6 +211,11 @@ export default {
       }
     }
   },
+  // 数据初始化
+  created () {
+    this.initData = {...this.data}
+    // console.log('initData4563', this.initData)
+  },
   methods: {
     onSubmit (e) {
       this.$refs.addForm.validate(async (valid) => {
@@ -218,6 +224,7 @@ export default {
           try {
             let data = await addRepairAction(this.data, this.data.service_order_id, 'service')
             console.log('data', data)
+            this.data = {...this.initData}
             this.withRefresh(e)
           } catch (e) {
             this.closeLoading()
@@ -232,6 +239,7 @@ export default {
       this.data.service_order_id = data.id
     },
     onCancel (e) {
+      this.data = {...this.initData}
       e()
     },
     async beforeOpen () {

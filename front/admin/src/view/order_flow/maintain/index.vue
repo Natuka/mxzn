@@ -58,7 +58,7 @@ import {maintainNext} from '@/api/order_flow/maintain'
 import search from './search'
 import add from './add'
 import edit from './edit'
-import relation from './relation'
+import relation from '../repair/relation'
 
 import listMixin from '../../../mixins/list'
 import constsMixin from '../../../mixins/consts'

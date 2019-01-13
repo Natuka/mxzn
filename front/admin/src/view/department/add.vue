@@ -80,6 +80,7 @@ export default {
         parent_id: 0,
         type: 1
       },
+      initData: {},
       rules: {
         org_id: [
           {
@@ -112,6 +113,11 @@ export default {
       }
     }
   },
+  // 数据初始化
+  created () {
+    this.initData = {...this.data}
+    // console.log('initData4563', this.initData)
+  },
   methods: {
     onSubmit (e) {
       console.log('on submit')
@@ -120,6 +126,7 @@ export default {
           try {
             let data = await addDepartment(this.data)
             console.log('addForm data', data)
+            this.data = {...this.initData}
             this.withRefresh(e)
           } catch (e) {
             this.closeLoading()
@@ -147,6 +154,7 @@ export default {
       }
     },
     onCancel (e) {
+      this.data = {...this.initData}
       e()
     }
   }

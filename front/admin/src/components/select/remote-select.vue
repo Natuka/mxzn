@@ -97,8 +97,9 @@ export default {
   },
   methods: {
     setInfo (value) {
-      console.log('select_info---', value)
+      // console.log('select_info---', value)
       if (!value) {
+        this.info = null
         return
       }
       let name = this.name
@@ -108,22 +109,21 @@ export default {
       } else {
         info = this.options.filter(info => value.indexOf(+info[name]) !== -1)
       }
-      console.log('select_info54634', info)
+      // console.log('select_info54634', info)
       if (!info) {
         return
       }
-
       this.info = info
     },
     async onSearch (search, loading) {
-      console.log('select_info111')
+      // console.log('select_info111')
       loading(true)
       this.loading = true
       this.search(loading, search, this)
     },
     search: debonce((loading, search, vm) => {
       // 模拟API加载
-      console.log('select_info22')
+      // console.log('select_info22')
       setTimeout(async () => {
         await vm.getDataFromRemote(search)
         vm.loading = false
@@ -131,7 +131,7 @@ export default {
       }, 1000)
     }, 350),
     async getDataFromRemote (query) {
-      console.log('select_info33')
+      // console.log('select_info33')
       if (!query) {
         this.$emit('on-change', 0)
         return
@@ -140,7 +140,7 @@ export default {
       this.options = data
     },
     async getData (value = '') {
-      console.log('select_info44')
+      // console.log('select_info44')
       let {data} = await getApi(this.url, {
         ...this.params || {},
         [this.label]: value // 以label进行查询，跟界面上的一致
@@ -148,26 +148,27 @@ export default {
       return data.map(this.map)
     },
     onChange (value, info) {
-      console.log('select_info55')
+      // console.log('select_info55', value, info)
       this.$emit('on-change', value)
       this.$emit('on-change-data', info)
     }
   },
   watch: {
     init (value) {
-      console.log('select_info66')
+      // console.log('select_info66')
       this.setInfo(value)
     },
     info (info) {
-      console.log('select_info77')
+      // console.log('select_info77', info)
       if (info) {
+        // console.log('select_info77---', info)
         this.onChange(info.id, info)
       }
     },
     // 初始化数据
     initData (data) {
-      console.log('select_info88')
       this.options = data || []
+      console.log('select_info88', this.options)
       if (this.options.length) {
         this.setInfo(this.init)
       }

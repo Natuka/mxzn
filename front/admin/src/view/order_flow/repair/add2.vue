@@ -373,6 +373,7 @@ export default {
       })
     },
     onCancel (e) {
+      this.data = {...this.initData}
       e()
     },
     async beforeOpen () {

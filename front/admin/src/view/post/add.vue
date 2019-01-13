@@ -48,6 +48,7 @@ export default {
         org_id: 0,
         type: 1
       },
+      initData: {},
       rules: {
         name: [
           {
@@ -60,6 +61,11 @@ export default {
       }
     }
   },
+  // 数据初始化
+  created () {
+    this.initData = {...this.data}
+    // console.log('initData4563', this.initData)
+  },
   methods: {
     onSubmit (e) {
       this.$refs.addForm.validate(async (valid) => {
@@ -67,6 +73,7 @@ export default {
           try {
             let data = await addPost(this.data)
             console.log('data', data)
+            this.data = {...this.initData}
             this.withRefresh(e)
           } catch (e) {
             this.closeLoading()
@@ -77,6 +84,7 @@ export default {
       })
     },
     onCancel (e) {
+      this.data = {...this.initData}
       e()
     }
   }

@@ -72,7 +72,7 @@ import search from './search'
 import add from './add'
 import edit from '../repair/edit'
 import edit2 from '../repair/edit2'
-import relation from './relation'
+import relation from '../repair/relation'
 import orderSwitch from './operation/switch'
 
 import listMixin from '../../../mixins/list'
@@ -341,11 +341,12 @@ export default {
       this.$refs.switch.open()
     },
     onRowClick (data, index) {
+      // 工单关联作业
       this.selectedData = {
         data,
         index
       }
-      // console.log('EditData', data)
+      console.log('EditData', data)
       this.$refs.relation.setData(data, index)
     },
     exportExcel () {

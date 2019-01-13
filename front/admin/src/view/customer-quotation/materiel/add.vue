@@ -120,6 +120,7 @@ export default {
         delivery_date: "",
         remark: ""
       },
+      initData: {},
       rules: {
         // item_id: [
         //   {required: true, message: '配件不能为空', trigger: 'blur'}
@@ -131,6 +132,11 @@ export default {
         part: []
       }
     };
+  },
+  // 数据初始化
+  created () {
+    this.initData = {...this.data}
+    // console.log('initData4563', this.initData)
   },
   methods: {
     onSubmit(e) {
@@ -144,6 +150,7 @@ export default {
               "materiel"
             );
             console.log("data", data);
+            this.data = {...this.initData}
             this.withRefresh(e);
           } catch (e) {
             this.closeLoading();
@@ -157,6 +164,7 @@ export default {
       this.data.quotation_id = (data && data.id) || 0;
     },
     onCancel(e) {
+      this.data = {...this.initData}
       e();
     },
     async beforeOpen() {

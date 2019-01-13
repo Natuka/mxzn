@@ -224,6 +224,7 @@ export default {
         updated_by: '',
         remark: ''
       },
+      initData: {},
       rules: {
         // cust_id: [
         //   validate.number('请选择客户名称')
@@ -242,6 +243,11 @@ export default {
       }
     }
   },
+  // 数据初始化
+  created () {
+    this.initData = {...this.data}
+    // console.log('initData4563', this.initData)
+  },
   methods: {
     onSubmit (e) {
       this.$refs.addForm.validate(async (valid) => {
@@ -249,6 +255,7 @@ export default {
           try {
             let data = await addCustomerequipment(this.data)
             console.log('data', data)
+            this.data = {...this.initData}
             this.withRefresh(e)
           } catch (e) {
             this.closeLoading()
@@ -259,6 +266,7 @@ export default {
       })
     },
     onCancel (e) {
+      this.data = {...this.initData}
       e()
     },
     async beforeOpen () {

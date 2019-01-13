@@ -63,7 +63,7 @@ import search from './search'
 import add from './add'
 import edit from '../repair/edit'
 import edit2 from '../repair/edit2'
-import relation from './relation'
+import relation from '../repair/relation'
 
 import listMixin from '../../../mixins/list'
 import constsMixin from '../../../mixins/consts'

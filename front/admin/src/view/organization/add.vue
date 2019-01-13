@@ -52,6 +52,7 @@ export default {
         name_short: '',
         type: 1
       },
+      initData: {},
       rules: {
         name: [
           {required: true, message: '名称不能为空', trigger: 'blur'},
@@ -65,12 +66,18 @@ export default {
       }
     }
   },
+  // 数据初始化
+  created () {
+    this.initData = {...this.data}
+    // console.log('initData4563', this.initData)
+  },
   methods: {
     onSubmit (e) {
       this.$refs.addForm.validate(async (valid) => {
         if (valid) {
           try {
             let data = await addOrganization(this.data)
+            this.data = {...this.initData}
             this.withRefresh(e)
           } catch (e) {
             this.closeLoading()
@@ -81,6 +88,7 @@ export default {
       })
     },
     onCancel (e) {
+      this.data = {...this.initData}
       e()
     }
   }

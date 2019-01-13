@@ -14,7 +14,7 @@
             :label-width="90">
         <FormItem label="客户名称" prop="cust_id">
           <remote-select
-            :init="data.cust_id"
+            v-model="data.cust_id"
             :initData="init.customer"
             label="name"
             url="select/customer"
@@ -167,7 +167,7 @@ export default {
   // 数据初始化
   created () {
     this.initData = {...this.data}
-    console.log('initData4563', this.initData)
+    // console.log('initData4563', this.initData)
   },
   methods: {
     onSubmit (e) {
@@ -176,7 +176,7 @@ export default {
           try {
             let data = await addCustomercontact(this.data)
             this.data = {...this.initData}
-            console.log('this.data344', this.data)
+            // console.log('this.data344', this.data)
             // console.log('data', data)
             this.withRefresh(e)
           } catch (e) {
@@ -196,15 +196,15 @@ export default {
     },
     async afterOpen () {
       let data = this.data
-      console.log('data584435', data)
+      // console.log('data584435', data)
       let customers = await selectCustomer({id: 0})
       this.init.customer = customers.data
-      console.log('data555555555', this.data)
+      // console.log('data555555555', this.data)
       return true
     },
     async customerChange (customerId) {
       this.data.cust_id = customerId
-      console.log('cust_id342345', this.data.cust_id)
+      // console.log('cust_id342345', this.data.cust_id)
     }
   }
 }
