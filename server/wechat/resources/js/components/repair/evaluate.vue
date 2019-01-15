@@ -39,9 +39,9 @@
       <van-cell title="服务人员满意度">
         <van-rate v-model="data.service_staff_atisfaction"/>
       </van-cell>
-      <van-cell title="性价比满意度">
-        <van-rate v-model="data.cost_performance"/>
-      </van-cell>
+      <!--<van-cell title="性价比满意度">-->
+        <!--<van-rate v-model="data.cost_performance"/>-->
+      <!--</van-cell>-->
       <van-field
         v-model="data.opinions_suggestions"
         label="建议与意见"
@@ -164,6 +164,7 @@ export default {
           this.data
         );
         this.data = { ...defaultData };
+          this.$toast.success("评价成功!!!");
       } catch (e) {
         console.log("e", e);
       }

@@ -37,7 +37,18 @@ class EvaluateController extends Controller
 
 //        $confirm = $confirm->forceFill($data);
 //        $confirm->save();
-
+        // 把没有评论过维修过去一起 评价。
+        $ret = ServiceOrderRepair::where('service_order_id', $order->id)
+            ->whereNull('confirm_user_id')
+            ->update($data);
+        if (!$ret) {
+            // 如果没有未评价过，只评价最后一笔
+            $orderrepair = ServiceOrderRepair::where('service_order_id', $order->id)
+                ->orderBy('id', 'desc')
+                ->first();
+            $orderrepair = $orderrepair->forceFill($data);
+            $orderrepair->save();
+        }
         return success_json('感谢您的评价');
     }
 
@@ -97,7 +108,7 @@ class EvaluateController extends Controller
             ->first();
 
         if (!$builder) {
-            return error_json('工单不存在或未完工', 404);
+            return error_json('工单不存在或已评价', 404);
         }
 
         return success_json($builder);

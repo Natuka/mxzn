@@ -83,6 +83,7 @@ class ServiceController extends BaseController
      */
     public function store(CreateRequest $request, ServiceOrder $order, ServiceOrderService $service)
     {
+        $user = $request->user();
         $data = $request->only([
             'service_id',
             'name',
@@ -116,8 +117,8 @@ class ServiceController extends BaseController
         $data['is_hotel'] = (int)$data['is_hotel'];
 
         $data['service_order_id'] = (int)$order['id'];
-        $data['created_by'] = '新增';
-        $data['updated_by'] = '新增';
+        $data['created_by'] = $user->userable_name;
+        $data['updated_by'] = $user->userable_name;
 
         $ret = $service->forceFill($data)->save();
 
@@ -138,6 +139,7 @@ class ServiceController extends BaseController
      */
     public function update(UpdateRequest $request, ServiceOrder $order, ServiceOrderService $service)
     {
+        $user = $request->user();
         $data = $request->only([
             'service_id',
             'name',
@@ -170,7 +172,7 @@ class ServiceController extends BaseController
         $data['is_land_traffic'] = (int)$data['is_land_traffic'];
         $data['is_hotel'] = (int)$data['is_hotel'];
 
-        $data['updated_by'] = '修改';
+        $data['updated_by'] = $user->userable_name;
 
         $ret = $service->forceFill($data)->save();
 

@@ -85,6 +85,7 @@ class PartsController extends BaseController
      */
     public function store(CreateRequest $request, ServiceOrder $order, ServiceOrderPart $part)
     {
+        $user = $request->user();
         $data = $request->only([
             'base_part_id',
             'base_code_id',
@@ -112,8 +113,8 @@ class PartsController extends BaseController
         $data['warranty_date'] = format_date($data['warranty_date']);
 
         $data['service_order_id'] = (int)$order['id'];
-        $data['created_by'] = '新增';
-        $data['updated_by'] = '新增';
+        $data['created_by'] = $user->userable_name;
+        $data['updated_by'] = $user->userable_name;
 
         $ret = $part->forceFill($data)->save();
 
@@ -134,6 +135,7 @@ class PartsController extends BaseController
      */
     public function update(UpdateRequest $request, ServiceOrder $order, ServiceOrderPart $part)
     {
+        $user = $request->user();
         $data = $request->only([
             'base_part_id',
             'base_code_id',
@@ -159,7 +161,7 @@ class PartsController extends BaseController
         $data['discount'] = doubleval($data['discount']);
         $data['warranty_date'] = format_date($data['warranty_date']);
 
-        $data['updated_by'] = '修改';
+        $data['updated_by'] = $user->userable_name;
 
         $ret = $part->forceFill($data)->save();
 

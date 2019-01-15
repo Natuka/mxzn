@@ -150,7 +150,7 @@ Route::group(['middleware' => []], function () {
         Route::get('{order}/followup', 'FollowupController@get');
 
         Route::post('create', 'CreateController@store');
-        Route::post('{order}/evaluate', 'EvaluateController@store');
+        Route::post('evaluate/{order}', 'EvaluateController@store');
         Route::get('evaluate/last', 'EvaluateController@last');
         Route::get('evaluate/list', 'EvaluateController@index');
         Route::get('evaluate/list', 'EvaluateController@index');

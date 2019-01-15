@@ -87,6 +87,7 @@ class FollowupController extends BaseController
      */
     public function store(CreateRequest $request, ServiceOrder $order, ServiceOrderFollowup $followup)
     {
+        $user = $request->user();
         $data = $request->only([
             'followup_staff_id',
             'followup_staff_name',
@@ -100,8 +101,8 @@ class FollowupController extends BaseController
         $data['handle_staff_id'] = (int)$data['handle_staff_id'];
         $data['followup_time'] = format_date($data['followup_time'], 'Y-m-d H:i:s');
         $data['service_order_id'] = (int)$order['id'];
-        $data['created_by'] = '新增';
-        $data['updated_by'] = '新增';
+        $data['created_by'] = $user->userable_name;
+        $data['updated_by'] = $user->userable_name;
 
         $ret = $followup->forceFill($data)->save();
 
@@ -122,6 +123,7 @@ class FollowupController extends BaseController
      */
     public function update(UpdateRequest $request, ServiceOrder $order, ServiceOrderFollowup $followup)
     {
+        $user = $request->user();
         $data = $request->only([
             'followup_staff_id',
             'followup_staff_name',
@@ -135,7 +137,7 @@ class FollowupController extends BaseController
         $data['handle_staff_id'] = (int)$data['handle_staff_id'];
         $data['followup_time'] = format_date($data['followup_time'], 'Y-m-d H:i:s');
 
-        $data['updated_by'] = '修改';
+        $data['updated_by'] = $user->userable_name;
 
         $ret = $followup->forceFill($data)->save();
 

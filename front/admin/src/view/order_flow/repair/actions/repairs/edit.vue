@@ -65,7 +65,6 @@
       </Form>
 
       <br>
-      <br>
 
       <Form :model="data"
             ref="addForm"
@@ -157,6 +156,50 @@
         </FormItem>
 
       </Form>
+
+      <br>
+
+      <Form
+        :model="data"
+        ref="addForm2"
+        :label-width="100"
+        class="mxcs-two-column add-repairs"
+      >
+        <FormItem label="是否解决">
+          <RadioGroup v-model="data.is_solve" >
+            <Radio :label="1" disabled>
+              <Icon type="md-checkmark"></Icon>
+              <span>是</span>
+            </Radio>
+            <Radio :label="0" disabled>
+              <Icon type="md-close"></Icon>
+              <span>否</span>
+            </Radio>
+          </RadioGroup>
+        </FormItem>
+
+        <FormItem label="整体满意度" prop="overall_satisfaction">
+          <Rate disabled v-model="data.overall_satisfaction" />
+        </FormItem>
+
+        <FormItem label="服务及时性" prop="timeliness">
+          <Rate disabled v-model="data.timeliness" />
+        </FormItem>
+
+        <FormItem label="服务人员满意度" prop="service_staff_atisfaction">
+          <Rate v-model="data.service_staff_atisfaction" disabled />
+        </FormItem>
+
+        <FormItem label="建议与意见" prop="opinions_suggestions" style="height: 100px;">
+          <Input v-model="data.opinions_suggestions" type="textarea" :autosize="{minRows: 4,maxRows: 8}" placeholder="Enter 建议与意见..." disabled />
+        </FormItem>
+
+        <FormItem label="确认人员" prop="confirm_user_id">
+          <Input v-model="data.confirm_user_name" placeholder="确认人员" disabled></Input>
+        </FormItem>
+
+      </Form>
+
     </div>
   </custom-modal>
 </template>

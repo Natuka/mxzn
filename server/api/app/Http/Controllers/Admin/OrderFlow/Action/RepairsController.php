@@ -85,6 +85,7 @@ class RepairsController extends BaseController
      */
     public function store(CreateRequest $request, ServiceOrder $order, ServiceOrderRepair $repair)
     {
+        $user = $request->user();
         $data = $request->only([
             'staff_id',
             'staff_name',
@@ -107,8 +108,8 @@ class RepairsController extends BaseController
         $data['next_step'] = (int)$data['next_step'];
 
         $data['service_order_id'] = (int)$order['id'];
-        $data['created_by'] = '新增';
-        $data['updated_by'] = '新增';
+        $data['created_by'] = $user->userable_name;;
+        $data['updated_by'] = $user->userable_name;;
 
         $ret = $repair->forceFill($data)->save();
 
@@ -131,9 +132,10 @@ class RepairsController extends BaseController
                     // 通知给客户进行评价
                     event(new NotifyEvaluateEvent($order));
                 }
-            }elseif ($data['next_step'] ==2 || $data['next_step'] ==3) {
-//                TODO 通知新的服务工程师处理
-
+            }else {
+//                TODO 通知新的服务工程师处理 if ($data['next_step'] ==2 || $data['next_step'] ==3)
+                // 通知给客户进行评价
+                event(new NotifyEvaluateEvent($order));
             }
 
             return success_json($repair, '');
@@ -155,6 +157,7 @@ class RepairsController extends BaseController
 /*       \Log::info([
                 'next next' => $repair
         ]);*/
+        $user = $request->user();
         $data = $request->only([
             'staff_id',
             'staff_name',
@@ -175,7 +178,7 @@ class RepairsController extends BaseController
         $data['arrived_at'] = format_date($data['arrived_at']);
         $data['complete_at'] = format_date($data['complete_at']);
 
-        $data['updated_by'] = '修改';
+        $data['updated_by'] = $user->userable_name;
 
         $ret = $repair->forceFill($data)->save();
 

@@ -93,7 +93,7 @@ class ConfirmController extends BaseController
      */
     public function store(CreateRequest $request, ServiceOrder $order, ServiceOrderConfirm $confirm)
     {
-        dd($request);
+        $user = $request->user();
         $data = $request->only([
             'service_order_id',
             'is_solve',
@@ -113,8 +113,8 @@ class ConfirmController extends BaseController
         $data['confirm_user_id'] = (int)$data['confirm_user_id'];
 
         $data['service_order_id'] = (int)$order['id'];
-        $data['created_by'] = '新增';
-        $data['updated_by'] = '新增';
+        $data['created_by'] = $user->userable_name;
+        $data['updated_by'] = $user->userable_name;
         dd($data);
         $ret = $confirm->forceFill($data)->save();
 
@@ -135,6 +135,7 @@ class ConfirmController extends BaseController
      */
     public function update(UpdateRequest $request, ServiceOrder $order, ServiceOrderConfirm $confirm)
     {
+        $user = $request->user();
         $data = $request->only([
             'is_solve',
             'overall_satisfaction',
@@ -152,7 +153,7 @@ class ConfirmController extends BaseController
         $data['cost_performance'] = (int)$data['cost_performance'];
         $data['confirm_user_id'] = (int)$data['confirm_user_id'];
 
-        $data['updated_by'] = '修改';
+        $data['updated_by'] = $user->userable_name;
 
         $ret = $confirm->forceFill($data)->save();
 
