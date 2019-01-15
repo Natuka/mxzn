@@ -168,7 +168,7 @@ export default {
     // 初始化数据
     initData (data) {
       this.options = data || []
-      console.log('select_info88', this.options)
+      // console.log('select_info88', this.options)
       if (this.options.length) {
         this.setInfo(this.init)
       }

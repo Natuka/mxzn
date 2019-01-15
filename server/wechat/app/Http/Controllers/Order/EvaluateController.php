@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Order;
 use App\Events\NotifyEvaluateEvent;
 use App\Models\ServiceOrder;
 use App\Models\ServiceOrderConfirm;
+use App\Models\ServiceOrderRepair;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -15,7 +16,9 @@ class EvaluateController extends Controller
     {
         $user = $this->user();
         $customer = $this->customer();
-        $confirm = new ServiceOrderConfirm();
+//        需求改变，直接写在处理过程，BYERIC
+//        $confirm = new ServiceOrderConfirm();
+        //ServiceOrderRepair
 
         $data = $request->only([
             'is_solve',
@@ -30,11 +33,10 @@ class EvaluateController extends Controller
 
         $data['confirm_user_id'] = $user->userable_id;
         $data['confirm_user_name'] = $user->info->name;
-        $data['service_order_id'] = $order->id;
+//        $data['service_order_id'] = $order->id;
 
-        $confirm = $confirm->forceFill($data);
-
-        $confirm->save();
+//        $confirm = $confirm->forceFill($data);
+//        $confirm->save();
 
         return success_json('感谢您的评价');
     }

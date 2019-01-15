@@ -60,9 +60,11 @@ class RepairController extends Controller
         if ($staff) {
             $data['staff_id'] = $staff->id;
             $data['staff_name'] = $staff->name;
+            $created_by = $updated_by = $staff->name;
         }else{
             $data['staff_id'] = 0;
             $data['staff_name'] = '';
+            $created_by = $updated_by = '新增';
         }
 
         $data['process_id'] = (int)$data['process_id'];
@@ -72,8 +74,8 @@ class RepairController extends Controller
         $data['next_step'] = (int)$data['next_step'];
 
         $data['service_order_id'] = (int)$order['id'];
-        $data['created_by'] = '新增';
-        $data['updated_by'] = '新增';
+        $data['created_by'] = $created_by;
+        $data['updated_by'] = $updated_by;
 
         $ret = $repair->forceFill($data)->save();
 
@@ -95,9 +97,12 @@ class RepairController extends Controller
                     // 通知给客户进行评价
                     event(new NotifyEvaluateEvent($order));
                 }
-            }elseif ($data['next_step'] ==2 || $data['next_step'] ==3) {
-//                TODO 通知新的服务工程师处理
-
+            }else {
+//                TODO 通知新的服务工程师处理 if ($data['next_step'] ==2 || $data['next_step'] ==3)
+                if ($order) {
+                    // 通知给客户进行评价
+                    event(new NotifyEvaluateEvent($order));
+                }
             }
 
             return success_json($repair, '');

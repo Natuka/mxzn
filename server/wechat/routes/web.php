@@ -162,7 +162,6 @@ Route::group(['middleware' => []], function () {
         Route::get('info', 'UserController@info');
     });
 
-
     // 维修确认&评价
     Route::get('/repair/confirm', 'Order\ConfirmController@get');
     Route::post('/repair/confirm', 'Order\ConfirmController@post');

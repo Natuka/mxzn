@@ -112,6 +112,7 @@
             <FormItem label="联系人" prop="feedback_staff_id">
               <static-select
                 :init="init.feedback_staff_id"
+                :info="init.feedback_staff_info"
                 :data="select.customerConcatList"
                 label="name"
                 @on-change-data="feedbackStaffChangeData"
@@ -232,7 +233,8 @@ export default {
       data: {
         customer_id: 0,
         dep_id: 0,
-        feedback_staff_id: 0,
+        feedback_staff_id: 0 - parseInt(Math.random() * (9999 - 1000 + 1) + 1000, 10),
+        feedback_staff_info: null,
         receive_staff_id: 0,
         confirm_staff_id: 0,
         emergency_degree: 0,
@@ -340,7 +342,7 @@ export default {
   // 数据初始化
   created () {
     this.initData = {...this.data}
-    // console.log('initData4563', this.initData)
+    console.log('initData4563', this.initData)
   },
   methods: {
     onSubmit (e) {
@@ -365,6 +367,8 @@ export default {
       Promise.all(promises).then(async () => {
         console.log('successxx')
         await addInstall(this.data)
+        this.select.customerConcatList = []
+        this.initData.feedback_staff_id = 0 - parseInt(Math.random() * (9999 - 1000 + 1) + 1000, 10)
         this.data = {...this.initData}
         this.withRefresh(e)
       }).catch(err => {
@@ -373,6 +377,8 @@ export default {
       })
     },
     onCancel (e) {
+      this.select.customerConcatList = []
+      this.initData.feedback_staff_id = 0 - parseInt(Math.random() * (9999 - 1000 + 1) + 1000, 10)
       this.data = {...this.initData}
       e()
     },
