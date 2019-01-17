@@ -212,6 +212,11 @@ class BaseController extends Controller
             //全部
         }else{
             $order = $order->where('status', (int)$this->status);
+            if ((int)$this->charge == 1) {
+                //全部
+                $order = $order->where('settle_status', 0);
+                $order = $order->where('cancel_status', 0);
+            }
         }
         $ret = $order->paginate($this->perPage);
         // 渲染

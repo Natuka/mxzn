@@ -19,8 +19,8 @@ class ChargeController extends BaseController
      * 状态，单据状态: 制单中 0, 已受理 1,待派单 2,处理中 3,结算收费 4,已关闭 5,客户回访 6
      * @var integer
      */
-    protected $status = 4;
-
+    protected $status = 5;
+    protected $charge = 1;
     /**
      * 服务类别: 安装工单 1,保养工单 2,维修工单 3,投诉工单 4,巡检工单 5,移机调试 6，工艺调试 7，试焊申请 8，设备整改 9，培训工单 10
      * $type = 0; 为全部

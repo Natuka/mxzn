@@ -32,7 +32,7 @@ class IndexController extends Controller
                 ->where('cancel_status', 0);
         } else if ($type === 3) {
             // 待结算
-            $builder = $builder->whereIn('status', [ 5])
+            $builder = $builder->whereIn('status', [5])
                 ->where('settle_status', 0)
                 ->where('cancel_status', 0);
         } else if ($type === 4) {
