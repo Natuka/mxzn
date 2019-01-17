@@ -11,36 +11,18 @@
     />
 
     <van-cell-group class="mx-sign-up">
-      <van-field
-        label="故障描述"
-        placeholder="故障描述"
-        type="textarea"
-        rows="2"
-        autosize
-        :value="fault && fault.desc"
-        disabled
-      />
-      <!--<van-cell title="故障原因">
-        <span @click="$refs.cause.open()">{{selectFaultValue('cause_id', '请选择',faultType)}}</span>
-        <mx-select
-          ref="cause"
-          :columns="faultType"
-          :on-change="(value,index) => this.$store.commit('setCauseId', index)"
-        />
-      </van-cell>-->
         <van-field
-            :value="data.cause"
+            label="任务描述"
+            placeholder="任务描述"
             type="textarea"
-            label="故障原因*"
-            placeholder="故障原因"
-            rows="3"
-            :autosize="{ maxHeight: 100, minHeight: 50 }"
-            @input="handleCause"
+            rows="4"
+            autosize
+            :value="serviceOrder && serviceOrder.remark"
+            disabled
         />
-
       <mx-upload
         ref="cause_doc"
-        title="原因照片"
+        title="处理前照片"
         :list="causeDocs"
         @on-change="handleCauseChange"
         image
@@ -118,7 +100,7 @@ import {
   LINE_BROKEN,
   PART_BROKEN,
   MACHINE_TYPE,
-  REPAIR_PROCESS,
+  REPAIR_PROCESS2,
   REPAIR_NEXT
 } from "../../const/repair";
 import defaultData from "../../config/repair.js";
@@ -136,7 +118,7 @@ export default {
       sequenceType: SEQUENCE_TYPE,
       lineBroken: LINE_BROKEN,
       partBroken: PART_BROKEN,
-      process: REPAIR_PROCESS,
+      process: REPAIR_PROCESS2,
       repairNext: REPAIR_NEXT
     };
   },
@@ -171,8 +153,8 @@ export default {
       const data = JSON.parse(JSON.stringify(this.data));
       data.process = this.process[data.process_id] || this.process[0]
       // console.log('data64313253', data)
-      if (data.cause === '' || data.process === '' || data.process === '请选择' || data.process === 'step_result' || data.step_doc_ids === '') {
-          this.$toast('[故障原因、处理进度，处理措施，处理照片] 必填!!!');
+      if (data.process === '' || data.process === '请选择' || data.process === 'step_result' || data.step_doc_ids === '') {
+          this.$toast('[处理进度，处理措施，处理照片] 必填!!!');
       } else {
           let timeDiff = dayjs(data.complete_at).diff(dayjs(data.arrived_at), 'hours')
           // console.log('timeDiff64313253', timeDiff)

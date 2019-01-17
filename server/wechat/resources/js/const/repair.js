@@ -61,6 +61,9 @@ export const MACHINE_TYPE = '请选择,软件故障,硬件故障,软硬件故障
 export const REPAIR_PROCESS = '请选择,故障检测中,配件维修中,等待配件更换,测试观察中,已处理完成,不能处理,其他'.split(
     ','
 )
+export const REPAIR_PROCESS2 = '请选择,处理中,观察中,已处理'.split(
+    ','
+)
 export const REPAIR_NEXT = '暂不关闭,完工关闭,内部派工,派给网点'.split(',')
 export const ORDER_SOURCE = '请选择,公司计划安排,PC WEB,微信,400客服电话,其他'.split(
     ','

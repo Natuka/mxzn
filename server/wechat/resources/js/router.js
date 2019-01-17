@@ -144,6 +144,13 @@ let routes = [
         }
     },
     {
+        path: '/repair/action2',
+        component: () => import('./components/repair/action2'),
+        meta: {
+            auth: true
+        }
+    },
+    {
         path: '/repair/action-list',
         component: () => import('./components/repair/action-list'),
         meta: {

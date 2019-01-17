@@ -28,13 +28,23 @@ export default {
         // 处理
         onAction(item) {
             this.$store.commit('set_service_order', item)
-            this.$router.push({
-                path: '/repair/action',
-                query: {
-                    from: this.$route.fullPath,
-                    type: this.type === void 0 ? 0 : this.type
-                }
-            })
+            if (+item.type === 3) {
+                this.$router.push({
+                    path: '/repair/action',
+                    query: {
+                        from: this.$route.fullPath,
+                        type: this.type === void 0 ? 0 : this.type
+                    }
+                })
+            } else {
+                this.$router.push({
+                    path: '/repair/action2',
+                    query: {
+                        from: this.$route.fullPath,
+                        type: this.type === void 0 ? 0 : this.type
+                    }
+                })
+            }
         }
     }
 }
