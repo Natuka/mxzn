@@ -70,6 +70,33 @@ export default {
         getType() {
             return ORDER_TYPE[this.order.type] || ''
         },
+        getTypeRepair() {
+            return +this.order.type === 3
+        },
+        getTypeOther() {
+            return +this.order.type !== 3
+        },
+        getTypeTitle1Staff() {
+            if (+this.order.type === 3) {
+                return '报修人员'
+            }
+            return '联系人员'
+        },
+        getTypeTitleTel() {
+            if (+this.order.type === 3) {
+                return '报修人电话'
+            }
+            return '联系电话'
+        },
+        getTypeTitle1Out() {
+            if (+this.order.type === 3) {
+                return '预计上门时间'
+            }
+            return '预计开始时间'
+        },
+        orderRemark() {
+            return this.order.remark
+        },
         // 处理方式
         actionType() {
             if (+this.order.is_out === 1) {

@@ -5,21 +5,22 @@
       <van-cell title="工单单号" :value="orderNumber()"/>
       <van-cell title="当前状态" :value="getStatus()"/>
       <van-cell title="工单类型" :value="getType()"/>
+      <van-cell title="任务描述" v-if="getTypeOther()" :value="orderRemark()"></van-cell>
       <van-cell title="处理方式" :value="processMode()"/>
       <van-cell title="受理时间" :value="receiveAt()"/>
       <van-cell title="受理人员" :value="receiveStaff()"></van-cell>
-      <van-cell title="紧急程度" :value="orderDegree()"></van-cell>
-      <van-cell title="服务级别" :value="orderLevel()"/>
+      <van-cell title="紧急程度" v-if="getTypeRepair()" :value="orderDegree()"></van-cell>
+      <van-cell title="服务级别" v-if="getTypeRepair()" :value="orderLevel()"/>
       <van-cell title="客户名称" :value="orderCustomer()"/>
-      <van-cell title="报修人员" :value="orderFeedbackStaff()"/>
-      <van-cell title="报修人电话" :value="orderFeedbackTel()"/>
+      <van-cell :title="getTypeTitle1Staff()" :value="orderFeedbackStaff()"/>
+      <van-cell :title="getTypeTitleTel()" :value="orderFeedbackTel()"/>
       <van-cell title="联系地址" :value="orderAddress()"/>
       <van-cell title="服务工程师" :value="serviceStaff()"/>
-      <van-cell title="预计上门时间" :value="order.plan_out_at"/>
+      <van-cell :title="getTypeTitle1Out()" :value="order.plan_out_at"/>
       <van-cell title="预计完成时间" :value="order.plan_finish_at"/>
     </van-cell-group>
 
-    <van-collapse v-model="faultModel" class="mt-20">
+    <van-collapse v-model="faultModel" v-if="getTypeRepair()" class="mt-20">
       <van-collapse-item title="故障信息" name="1">
         <van-cell-group>
           <van-cell title="故障描述" :value="faultDesc()"/>
@@ -36,7 +37,7 @@
       </van-collapse-item>
     </van-collapse>
 
-    <van-collapse v-model="machineModel" class="mt-20">
+    <van-collapse v-model="machineModel" v-if="getTypeRepair()" class="mt-20">
       <van-collapse-item title="机器信息" name="1">
         <van-cell title="技术专管" :value="technologyStaff()"/>
         <van-cell title="安装人员" :value="installationStaff()"/>
