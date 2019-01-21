@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\Document;
+use foo\bar;
 use Illuminate\Http\Request;
 
 use Illuminate\Http\UploadedFile;
@@ -12,7 +13,7 @@ trait UploadTrait
 {
     protected function __getExt(UploadedFile $file)
     {
-        $ext = strtolower($file->getExtension());
+        $ext = strtolower($file->getClientOriginalExtension());
         if ($ext) {
             return $ext;
         }
@@ -30,7 +31,7 @@ trait UploadTrait
         $ext = $this->__getExt($file);
 
         if (!in_array($ext, ['pdf', 'doc', 'csv', 'xls', 'xlsx', 'zip', 'rar', 'txt'])) {
-            return error_json('文件上传格式错误，支持类型 pdf,doc,csv,xls,xlsx,zip,rar');
+            return error_json('文件上传格式错误['.$ext.']，支持类型 pdf,doc,csv,xls,xlsx,zip,rar');
         }
 
         $relativePath = date('Y/m');
@@ -63,6 +64,7 @@ trait UploadTrait
             'type' => $request->get('type', 1),
             'ext' => $ext,
             'size' => $file->getSize(),
+            'up_from' => 1,
             'source_name' => $file->getClientOriginalName()
         ];
 
@@ -89,7 +91,6 @@ trait UploadTrait
     public function uploadImage(Request $request)
     {
         $file = $request->file('file');
-
         if (!$file) {
             return error_json('请选择上传文件');
         }
@@ -97,7 +98,7 @@ trait UploadTrait
         $ext = $this->__getExt($file);
 
         if (!in_array($ext, ['png', 'jpg', 'gif', 'jpeg'])) {
-            return error_json('文件上传格式错误，支持类型 png,jpg,gif,jpeg');
+            return error_json('文件上传格式错误['.$ext.']，支持类型 png,jpg,gif,jpeg');
         }
 
         $relativePath = date('Y/m');
@@ -132,6 +133,7 @@ trait UploadTrait
             'type' => $request->get('type', 1),
             'ext' => $ext,
             'size' => $file->getSize(),
+            'up_from' => 1,
             'source_name' => $file->getClientOriginalName()
         ];
 

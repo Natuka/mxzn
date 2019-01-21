@@ -15,6 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/fileBack/image', 'File\ImageController@get');
 
 load_routes(__DIR__ . '/admin');
 
