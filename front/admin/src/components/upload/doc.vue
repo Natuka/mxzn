@@ -5,7 +5,10 @@
       <tr>
         <td v-if="list.length">
           <Button v-for="(info, index) in list" class="uploaded-file">
-            {{info.source_name}}
+            <a v-bind:href="getThisUrl(info)" target="_blank">
+              <img v-if="info.type === '1xxx'" data-v-f5c47720="" width="100" v-bind:src="getThisUrl(info)" v-bind:alt="info.source_name">
+              <span v-else>{{info.source_name}}</span>
+            </a>
             <Icon type="md-close-circle" size="20" title="删除" @click="remove(index, info)"/>
           </Button>
         </td>
@@ -45,7 +48,7 @@ export default {
   },
   data () {
     return {
-      url: `${baseUrl}/file/doc`,
+      url: `${baseUrl}/file/image`,
       list: []
     }
   },
@@ -81,6 +84,14 @@ export default {
     remove (index) {
       this.list.splice(index, 1)
       this.$emit('on-change', this.list)
+    },
+    getThisUrl (info) {
+      let linkUrl = 'https://mp.mxhj.net/fileBack/image/?id='
+      if (+info.up_from === 1) {
+        linkUrl = 'https://api.mxhj.net/fileBack/image/?id='
+      }
+      linkUrl = linkUrl + info.id + '&amp;time=' + info.created_at + '&amp;filename=' + info.name + '&amp;source_name' + info.source_name + info.up_from
+      return linkUrl
     },
     initData (list = []) {
       this.list = list

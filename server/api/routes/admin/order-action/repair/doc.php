@@ -7,7 +7,8 @@
  */
 Route::group([
     'prefix' => 'order_flow/repair/{order}/doc',
-    'namespace' => 'Admin\OrderFlow\Action'
+    'namespace' => 'Admin\OrderFlow\Action',
+    'middleware' => ['auth:api', 'admin.api'],
 ], function () {
     Route::get('default', [
         'uses' => 'DocController@default',

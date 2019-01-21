@@ -101,7 +101,7 @@ trait UploadTrait
         $ext = $this->__getExt($file);
 
         if (!in_array($ext, ['png', 'jpg', 'gif', 'jpeg'])) {
-            return error_json('文件上传格式错误，支持类型 png,jpg,gif,jpeg');
+            return error_json('文件上传格式错误['.$ext.']，支持类型 png,jpg,gif,jpeg');
         }
 
         $relativePath = date('Y/m');

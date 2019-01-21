@@ -7,7 +7,8 @@
  */
 Route::group([
     'prefix' => 'order_flow/repair/{order}/follow-up',
-    'namespace' => 'Admin\OrderFlow\Action'
+    'namespace' => 'Admin\OrderFlow\Action',
+    'middleware' => ['auth:api', 'admin.api'],
 ], function () {
     Route::get('default', [
         'uses' => 'FollowupController@default',

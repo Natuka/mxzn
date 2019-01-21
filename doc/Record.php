@@ -50,11 +50,21 @@ php artisan make:migration alert_table_service_order_attendances_add_remark2 --t
 
 php artisan make:migration alert_table_service_order_repairs_add_evaluate --table=service_order_repairs
 
+    php artisan make:migration alert_table_base_documents_add_up_from --table=base_documents
+
 11     console.time('serialFn')
 12     console.log(await asyncAwaitFn('string 1'));
 13     console.log(await asyncAwaitFn('string 2'));
 14     console.timeEnd('serialFn')
 
+图片上传实际目录api\storage\app\public\2019\01
+<img data-v-f5c47720="" width="100" src="
+
+            <a href=\"\" ><img data-v-f5c47720=\"\" width=\"100\" src=\"https://mp.mxhj.net/file/image/?id=106&amp;time=1548039808.0864&amp;filename=img_1548039808.1024.jpeg&amp;source_name=1000.jpg\" alt=\"img_1548039808.1024.jpeg\"></a>
+            
+https://mp.mxhj.net/file/image/?id=106&amp;time=1548039808.0864&amp;filename=img_1548039808.1024.jpeg&amp;source_name=1000.jpg" alt="img_1548039808.1024.jpeg">
+
+    https://mp.mxhj.net/fileBack/image/?id=106&amp;time=1548039808.0864&amp;filename=img_1548039808.1024.jpeg&amp;source_name=1000.jpg
 
 ALTER TABLE `service_order_repairs` ADD `is_solve` tinyint(4) DEFAULT NULL COMMENT '是否解决: 1是,0否' AFTER `next_step`,
 ADD  `overall_satisfaction` tinyint(4) DEFAULT NULL COMMENT '整体满意度,5星,10分制',

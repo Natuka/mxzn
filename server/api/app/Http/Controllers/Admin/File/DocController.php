@@ -33,7 +33,7 @@ class DocController extends Controller
         if (!$docIds) {
             return error_json('');
         }
-        $data = Document::findMany($docIds, ['id', 'source', 'source_name', 'type', 'size', 'ext', 'name', 'path']);
+        $data = Document::findMany($docIds, ['id', 'source', 'source_name', 'type', 'size', 'ext', 'name', 'path', 'thumbnail_name', 'up_from']);
         return success_json($data);
     }
 }

@@ -30,7 +30,7 @@ trait UploadTrait
 
         $ext = $this->__getExt($file);
 
-        if (!in_array($ext, ['pdf', 'doc', 'csv', 'xls', 'xlsx', 'zip', 'rar', 'txt'])) {
+        if (!in_array($ext, ['png', 'jpg', 'gif', 'jpeg', 'pdf', 'doc', 'csv', 'xls', 'xlsx', 'zip', 'rar', 'txt'])) {
             return error_json('文件上传格式错误['.$ext.']，支持类型 pdf,doc,csv,xls,xlsx,zip,rar');
         }
 
@@ -63,7 +63,7 @@ trait UploadTrait
             'path' => '/' . $relativePath . '/' . $fileName,
             'type' => $request->get('type', 1),
             'ext' => $ext,
-            'size' => $file->getSize(),
+            'size' => $file->getClientSize(),
             'up_from' => 1,
             'source_name' => $file->getClientOriginalName()
         ];
@@ -78,7 +78,8 @@ trait UploadTrait
             'name' => $fileName,
             'saveName' => $saveName,
             'ext' => $ext,
-            'size' => $file->getSize(),
+            'size' => $file->getClientSize(),
+            'up_from' => 1,
             'source_name' => $file->getClientOriginalName()
         ]);
     }
@@ -98,7 +99,9 @@ trait UploadTrait
         $ext = $this->__getExt($file);
 
         if (!in_array($ext, ['png', 'jpg', 'gif', 'jpeg'])) {
-            return error_json('文件上传格式错误['.$ext.']，支持类型 png,jpg,gif,jpeg');
+            $this->uploadFile($request);
+            exit;
+//            return error_json('文件上传格式错误['.$ext.']，支持类型 png,jpg,gif,jpeg');
         }
 
         $relativePath = date('Y/m');
@@ -148,6 +151,7 @@ trait UploadTrait
             'name' => $fileName,
             'ext' => $ext,
             'size' => $file->getSize(),
+            'up_from' => 1,
             'source_name' => $file->getClientOriginalName()
         ]);
     }
