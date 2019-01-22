@@ -19,10 +19,46 @@
         />
       </van-cell>
 
-      <van-cell title="客户名称" :value="customer && customer.name"/>
-      <van-cell title="地址" :value="customerAddr()"/>
+      <van-cell title="客户名称" v-if="customer" :value="customer && customer.name"/>
+      <van-cell title="地址" v-if="customer" :value="customerAddr()"/>
+      <van-field
+        v-if="!customer"
+        v-model="data.customer_name"
+        label="客户名称"
+        type="textarea"
+        placeholder="客户名称"
+        rows="1"
+        :autosize="{ maxHeight: 30, minHeight: 30 }"
+      />
+        <van-field
+            v-if="!customer"
+            v-model="data.customer_addr"
+            label="地址"
+            type="textarea"
+            placeholder="地址"
+            rows="1"
+            :autosize="{ maxHeight: 30, minHeight: 30 }"
+        />
+        <van-field
+            v-if="!customer"
+            v-model="data.customer_contact"
+            label="联系人员"
+            type="textarea"
+            placeholder="联系人员"
+            rows="1"
+            :autosize="{ maxHeight: 30, minHeight: 30 }"
+        />
+        <van-field
+            v-if="!customer"
+            v-model="data.customer_mobile"
+            label="联系人手机"
+            type="textarea"
+            placeholder="联系人手机"
+            rows="1"
+            :autosize="{ maxHeight: 30, minHeight: 30 }"
+        />
     </van-cell-group>
-    <van-collapse v-model="equipment" class="mt-20">
+    <van-collapse v-model="equipment" class="mt-20" v-if="customer">
       <van-collapse-item title="机器信息" name="equipment">
         <van-cell-group>
           <van-cell title="设备名称" :value="data.equipment.name"/>
@@ -48,7 +84,7 @@
             type="textarea"
             placeholder="故障描述"
             rows="3"
-            autosize="{ maxHeight: 100, minHeight: 50 }"
+            :autosize="{ maxHeight: 100, minHeight: 50 }"
           />
           <van-field label="故障代码" v-model="data.fault.code" placeholder="故障代码"/>
           <van-cell title="故障类型">

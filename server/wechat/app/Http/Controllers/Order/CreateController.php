@@ -21,9 +21,9 @@ class CreateController extends Controller
      */
     public function createNumber($type)
     {
-        $types = ['R', 'I', 'M'];
+        $types = ['R', 'S', 'S'];
 
-        $prefix = sprintf('%s%s', $types[$type] ?? '', date('ym'));
+        $prefix = sprintf('%s%s', $types[$type], date('ym'));
         return ServiceOrder::createNumber($prefix);
     }
 
@@ -37,9 +37,9 @@ class CreateController extends Controller
     {
         $user = $this->user();
         $customer = $this->customer();
-        if (!$customer) {
-            return error_json('没有权限建立工单');
-        }
+//        if (!$customer) {
+//            return error_json('没有权限建立工单');
+//        }
 
         //
         $data = $request->only([

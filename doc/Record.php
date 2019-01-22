@@ -6,6 +6,9 @@
  * Time: 11:47
  */
 
+http://wx.mxcs.com/#/repair/create
+
+
 initData: {},
 
 // 数据初始化
