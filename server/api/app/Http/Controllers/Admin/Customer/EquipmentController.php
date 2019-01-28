@@ -19,6 +19,23 @@ class EquipmentController extends Controller
      */
     public function index(Request $request, CustomerEquipment $customerequipment)
     {
+/*        CustomerEquipment::selectRaw('id,qrcode_key')
+            ->chunk(50, function($Equipments) {
+                foreach ($Equipments as $value) {
+                    if (empty($value['qrcode_key'])) {
+                        $qrcode_key = 'CEQ'.md5(microtime());
+                        $data['qrcode_key'] = $qrcode_key;
+                        $data['qrcode_url'] = 'https://mp.mxhj.net/machine/'.$qrcode_key;
+                        $data['qrcode_img'] = 'qrcodes/'.$qrcode_key.'.png';
+                        //产生QRCODE
+                        QrCode::format('png')->size(300)->generate($data['qrcode_url'], public_path($data['qrcode_img']));
+
+                        CustomerEquipment::where('id', (int)$value['id'])->update($data);
+                    }
+                }
+                unset($Equipments);
+        });*/
+
         $customerequipment = $this->search($request, $customerequipment);
         return success_json($customerequipment->with(['customer' => function( $query ){
             $query->select(['id','name','name_short']);
