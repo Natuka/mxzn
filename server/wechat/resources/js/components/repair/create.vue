@@ -3,7 +3,7 @@
     <van-nav-bar title="服务单提交" left-text="返回" left-arrow @click-left="onClickLeft"/>
     <van-cell-group>
       <van-cell title="服务类别">
-        <span @click="$refs.level.open()">{{selectValue('level', '请选择',orderTypes)}}</span>
+        <span @click="$refs.level.open()">{{selectValue('level', '请选择', orderTypes)}}</span>
         <mx-select
           ref="level"
           :columns="orderTypes"
@@ -63,7 +63,8 @@
         <van-cell-group>
           <van-cell title="设备名称" :value="data.equipment.name"/>
           <van-cell title="设备编号" :value="data.equipment.number"/>
-          <van-cell title="型号规格" :value="data.equipment.model">
+          <van-cell title="型号规格" v-if="hasEquipmentId" :value="data.equipment.model"/>
+          <van-cell title="型号规格" v-else :value="data.equipment.model">
             <span @click="onPickerEquipment">{{data.equipment.model || '请选择'}}</span>
             <mx-select ref="equipment" :columns="equipmentsText" :on-change="hanleSelectEquipment"/>
           </van-cell>
@@ -148,6 +149,7 @@ import equipmentMixin from "../../mixins/equipment";
 import dayjs from "dayjs";
 
 import defaultData from "../../config/repair.js";
+import { fetchEquipmentList } from "../../api/equipment";
 
 import {
   ORDER_TYPE,
@@ -176,6 +178,7 @@ export default {
       data: {
         ...defaultData
       },
+      equipmentId: 0,
       orderTypes: ORDER_TYPE,
       orderStatus: ORDER_STATUS,
       orderDegree: ORDER_DEGREE,
@@ -188,6 +191,9 @@ export default {
   computed: {
     machineType() {
       return MACHINE_TYPE[this.equipment.type] || "";
+    },
+    hasEquipmentId() {
+      return this.equipmentId || 0;
     }
   },
   methods: {
@@ -242,7 +248,21 @@ export default {
     }
   },
   mounted() {
-    this.fetchEquipmentList();
+    this.equipmentId = +this.$route.query.id;
+    this.data.level = 3
+    // console.log('equipmentId242534', this.equipmentId)
+    if (this.equipmentId) {
+        // 單筆
+        fetchEquipmentList(this.equipmentId)
+            .then(data => {
+                this.data.equipment = data;
+            })
+            .catch(e => {
+
+            });
+    } else {
+      this.fetchEquipmentList();
+    }
     this.$docTitle("提报");
   }
 };

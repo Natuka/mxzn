@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Order;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use App\Events\NotifyEvent;
 use App\Models\ServiceOrder;
 use App\Models\ServiceOrderFault;
+use App\Models\Engineer;
 
 /**
  * 工单创建
@@ -21,7 +22,7 @@ class CreateController extends Controller
      */
     public function createNumber($type)
     {
-        $types = ['R', 'S', 'S'];
+        $types = ['S', 'S', 'S', 'R', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S'];
 
         $prefix = sprintf('%s%s', $types[$type], date('ym'));
         return ServiceOrder::createNumber($prefix);
@@ -125,6 +126,21 @@ class CreateController extends Controller
             if ($attach_ids) {
                 $order->documents()->withTimestamps()->sync($attach_ids);
             }
+
+            //通知 所有工程师
+            // 微信端通知工程师
+            Engineer::where('status', 1)->selectRaw('*')
+                ->chunk(30, function($Engineers) use ($order) {
+                    foreach ($Engineers as $engineer) {
+                        if ($engineer) {
+                            \Log::info([
+                                'orderEngineer2222388' => $engineer
+                            ]);
+                            event(new NotifyEvent($order, $engineer));
+                        }
+                    }
+                    unset($Engineers);
+                });
 
             return success_json('创建成功');
         }

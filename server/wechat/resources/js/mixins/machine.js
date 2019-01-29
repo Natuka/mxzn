@@ -1,3 +1,7 @@
+import {
+    TYPE_LIST
+} from '../const/repair'
+
 export default {
     computed: {
         equipment() {
@@ -5,6 +9,10 @@ export default {
         }
     },
     methods: {
+        //ID
+        equipmentId() {
+            return this.equipment.id || 0
+        },
         //技术专管
         technologyStaff() {
             return this.equipment.technology_staff || ''
@@ -103,8 +111,8 @@ export default {
             return this.equipment.code_chinese || ''
         },
         //序列号
-        equipmentType() {
-            return this.equipment.maintenance_times || ''
+        equipmentSerialNumber() {
+            return this.equipment.number || ''
         },
         //维修次数
         maintenanceTimes() {

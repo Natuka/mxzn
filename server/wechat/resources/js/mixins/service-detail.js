@@ -301,8 +301,8 @@ export default {
             return this.equipment.code_chinese || ''
         },
         //序列号
-        equipmentType() {
-            return this.equipment.maintenance_times || ''
+        equipmentSerialNumber() {
+            return this.equipment.number || ''
         },
         //维修次数
         maintenanceTimes() {

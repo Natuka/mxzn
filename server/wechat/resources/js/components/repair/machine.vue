@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="设备详情" left-text="返回" left-arrow @click-left="onClickLeft"/>
+    <van-nav-bar title="设备详情" left-text="返回" left-arrow @click-left="onClickLeft" right-text="报修" right-arrow @click-right="onClickRight(equipmentId())" />
 
     <van-cell-group>
       <van-cell title="技术专管" :value="technologyStaff()"/>
@@ -27,9 +27,10 @@
       <van-cell title="5轴编号" :value="axis5No()"/>
       <van-cell title="6轴编号" :value="axis6No()"/>
       <van-cell title="中文编码" :value="codeChinese()"/>
-      <van-cell title="序列号" :value="equipmentType()"/>
+      <van-cell title="序列号" :value="equipmentSerialNumber()"/>
       <van-cell title="维修次数" :value="maintenanceTimes()"/>
     </van-cell-group>
+    <van-button @click="onClickRight(equipmentId())" type="primary" size="large">报修</van-button>
   </div>
 </template>
 

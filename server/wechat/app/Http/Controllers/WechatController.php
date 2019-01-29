@@ -172,6 +172,7 @@ class WechatController extends Controller
 
     public function config(Request $request)
     {
+//        TODO  本地端有误，cURL error 60: SSL certificate problem: unable to get local issuer certificate
         $app = app('wechat.official_account');
         $app->jssdk->setUrl($request->get('url', ''));
 

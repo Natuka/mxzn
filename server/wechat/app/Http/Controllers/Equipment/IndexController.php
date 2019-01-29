@@ -13,7 +13,7 @@ class IndexController extends Controller
 {
     //
 
-    public function index()
+    public function index(Request $request)
     {
         $user = $this->user();
 
@@ -27,7 +27,14 @@ class IndexController extends Controller
 
         $customer = $user->info->customer;
 
-        $list = CustomerEquipment::where('cust_id', $customer->id)->limit(30)->get();
+        $list = CustomerEquipment::where('cust_id', $customer->id);
+        $limitId = (int)$request->get('id', 0);
+        if ($limitId > 0) {
+            $list = $list->where('id', $limitId);
+            $list = $list->first();
+            return success_json($list);
+        }
+        $list = $list->limit(30)->get();
 
         return success_json($list);
     }

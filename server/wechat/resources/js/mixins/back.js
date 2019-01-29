@@ -7,6 +7,21 @@ export default {
                 return
             }
             this.$router.back()
+        },
+        onClickRight(id = 0) {
+            // console.log('43214324', id)
+            if (id) {
+                this.$router.push({
+                    path: '/repair/create',
+                    query: {
+                        id: id
+                    }
+                })
+                return
+            } else {
+                // 提示设备ID找不到
+                this.$router.back()
+            }
         }
     }
 }
