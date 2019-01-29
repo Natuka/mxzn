@@ -30,7 +30,7 @@
       <van-cell title="序列号" :value="equipmentSerialNumber()"/>
       <van-cell title="维修次数" :value="maintenanceTimes()"/>
     </van-cell-group>
-    <van-button @click="onClickRight(equipmentId())" type="primary" size="large">报修</van-button>
+    <van-button @click="onClickRight(equipmentId())" type="warning" size="large">报修</van-button>
   </div>
 </template>
 
