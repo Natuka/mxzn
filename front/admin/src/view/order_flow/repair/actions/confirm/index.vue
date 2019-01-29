@@ -84,6 +84,31 @@
             render: this.constRender('is_solve', orderConst.SERVICE_COMPLETE)
           },
           {
+            width: 120,
+            title: '工程师',
+            key: 'staff_name',
+            sortable: false
+          },
+          {
+            width: 150,
+            title: '到达时间',
+            key: 'arrived_at',
+            sortable: false
+          },
+          {
+            width: 120,
+            title: '处理措施/结果',
+            key: 'step_result',
+            sortable: false
+          },
+          {
+            width: 120,
+            title: '处理进度',
+            key: 'process_id',
+            sortable: false,
+            render: this.constRender('process_id', orderConst.REPAIR_PROCESS)
+          },
+          {
             width: 180,
             title: '整体满意度',
             key: 'overall_satisfaction',
@@ -128,21 +153,21 @@
               })
             }
           },
-          {
-            width: 180,
-            title: '性价比满意度',
-            key: 'cost_performance',
-            sortable: true,
-            render: (h, params) => {
-              let rateNums = params.row.cost_performance
-              return h('Rate', {
-                props: {
-                  disabled: true,
-                  value: rateNums
-                }
-              })
-            }
-          },
+          // {
+          //   width: 180,
+          //   title: '性价比满意度',
+          //   key: 'cost_performance',
+          //   sortable: true,
+          //   render: (h, params) => {
+          //     let rateNums = params.row.cost_performance
+          //     return h('Rate', {
+          //       props: {
+          //         disabled: true,
+          //         value: rateNums
+          //       }
+          //     })
+          //   }
+          // },
           {
             width: 160,
             title: '建议与意见',
@@ -163,34 +188,10 @@
           },
           {
             fixed: 'right',
-            width: 250,
+            width: 120,
             title: '操作',
             key: 'handle',
-            options: ['delete'],
             button: [
-              (h, params, vm) => {
-                return h(
-                  'Poptip',
-                  {
-                    props: {
-                      confirm: true,
-                      title: '你确定要删除吗?'
-                    },
-                    on: {
-                      'on-ok': () => {
-                        vm.$emit('on-delete', params)
-                        vm.$emit(
-                          'input',
-                          params.tableData.filter(
-                            (item, index) => index !== params.row.initRowIndex
-                          )
-                        )
-                      }
-                    }
-                  },
-                  [h('Button', '删除')]
-                )
-              },
               (h, params, vm) => {
                 if (!this.accessView()) {
                   return
@@ -210,7 +211,7 @@
                       }
                     }
                   },
-                  '修改'
+                  '查看'
                 )
               }
             ]

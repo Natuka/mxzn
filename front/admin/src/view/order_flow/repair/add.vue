@@ -545,9 +545,9 @@ export default {
         'init.equipment_id': [
           validate.number('请选择客户设备！')
         ],
-        'equipment.model': [
-          validate.number('请选择型号规格')
-        ],
+        // 'equipment.model': [
+        //   validate.number('请选择型号规格')
+        // ],
         // 'equipment.contract_number': [
         //   validate.number('请选择合同编号')
         // ],

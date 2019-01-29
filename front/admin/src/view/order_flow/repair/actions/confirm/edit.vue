@@ -7,7 +7,39 @@
     @on-cancel="onCancel"
   >
     <div test="1245">
+      <Form
+        :model="data"
+        ref="addForm1"
+        :label-width="90"
+        class="mxcs-two-column add-repairs"
+      >
+        <FormItem label="工程师" prop="data.staff_name" style="width: 100%;">
+          <Input v-model="data.staff_name" placeholder="工程师" disabled></Input>
+        </FormItem>
+        <FormItem label="作业时间" prop="data.arrived_at" style="width: 100%;">
+          <Input v-model="data.arrived_at" placeholder="到达时间" style="width: 180px;" disabled></Input>~<Input v-model="data.complete_at" style="width: 180px;" placeholder="离开时间" disabled></Input>
+        </FormItem>
+        <FormItem label="处理进度" prop="process_id" style="width: 100%;">
+          <Select v-model="data.process_id" disabled>
+            <Option
+              v-for="(type, index) in select.processList"
+              :key="index"
+              :value="index"
+            >{{type}}
+            </Option>
+          </Select>
+        </FormItem>
+        <FormItem label="处理措施/结果" prop="data.step_result" style="width: 100%;">
+          <Input
+            type="textarea"
+            :value="data.step_result"
+            disabled
+          ></Input>
+        </FormItem>
 
+      </Form>
+
+      <br>
       <Form :model="data"
             ref="addForm"
             :rules="rules"
@@ -38,9 +70,9 @@
           <Rate v-model="data.service_staff_atisfaction" />
         </FormItem>
 
-        <FormItem label="性价比满意度" prop="cost_performance">
-          <Rate v-model="data.cost_performance" />
-        </FormItem>
+        <!--<FormItem label="性价比满意度" prop="cost_performance">-->
+          <!--<Rate v-model="data.cost_performance" />-->
+        <!--</FormItem>-->
 
         <FormItem label="建议与意见" prop="opinions_suggestions" style="height: 100px;">
           <Input v-model="data.opinions_suggestions" type="textarea" :autosize="{minRows: 4,maxRows: 8}" placeholder="Enter 建议与意见..." />
@@ -69,6 +101,7 @@
 
   import {updateRepairAction} from '@/api/order_flow/repair'
   import * as orderConst from '@/constants/order_flow'
+  import * as orderFaultConst from '@/constants/order_fault'
 
   export default {
     name: 'confirm-edit',
@@ -93,6 +126,14 @@
           opinions_suggestions: [
             {required: true, message: '建议与意见不能为空', trigger: 'blur'}
           ]
+        },
+        select: {
+          faultType: orderFaultConst.FAULT_TYPE,
+          sequenceType: orderFaultConst.SEQUENCE_TYPE,
+          lineBroken: orderFaultConst.LINE_BROKEN,
+          partBroken: orderFaultConst.PART_BROKEN,
+          processList: orderConst.REPAIR_PROCESS,
+          nextList: orderConst.REPAIR_NEXT
         },
         init: {
           confirm_staff: []

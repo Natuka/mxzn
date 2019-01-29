@@ -39,14 +39,13 @@ class NotifyListener
             'template_id' => self::TEMPLATE_ID,
             'url' => 'https://mp.mxhj.net/repair/detail?id=' . $order->id,
             'data' => [
-                'first' => '您领取了新的工单！',
+                'first' => '有新的维修工单，请及时确认领取！',
                 'keyword1' => $order->number,
                 'keyword2' => $order->is_out ? '上门' : '',
                 'keyword3' => $customer->name,
                 'keyword4' => $fault ? $fault->desc : '',
                 'keyword5' => $engineer->name,
                 'remark' => '点击查看详情',
-
             ],
         ]);
 

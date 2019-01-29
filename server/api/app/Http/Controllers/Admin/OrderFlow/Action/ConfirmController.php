@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\OrderAction\Confirm\UpdateRequest;
 
 use App\Models\ServiceOrder;
 use App\Models\ServiceOrderConfirm;
+use App\Models\ServiceOrderRepair;
 use Illuminate\Http\Request;
 
 class ConfirmController extends BaseController
@@ -16,7 +17,7 @@ class ConfirmController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, ServiceOrder $order, ServiceOrderConfirm $confirm)
+    public function index(Request $request, ServiceOrder $order, ServiceOrderRepair $confirm)
     {
         $confirm = $this->search($request, $order, $confirm);
         return success_json($confirm->paginate(config('pageinfo.per_page')));
@@ -26,13 +27,14 @@ class ConfirmController extends BaseController
      * 查询
      * @param Request $request
      * @param ServiceOrder $order
-     * @param ServiceOrderConfirm $confirm
-     * @return ServiceOrderConfirm
+     * @param ServiceOrderRepair $confirm
+     * @return ServiceOrderRepair
      */
-    public function search(Request $request, ServiceOrder $order, ServiceOrderConfirm $confirm)
+    public function search(Request $request, ServiceOrder $order, ServiceOrderRepair $confirm)
     {
         if ($order) {
             $confirm = $confirm->where('service_order_id', (int)$order['id']);
+            $confirm = $confirm->where('confirm_user_id', '>', 0);
         }
 
         /*$industry = $request->get('industry', 0); //所属行业
@@ -80,6 +82,8 @@ class ConfirmController extends BaseController
 
             $confirm = $confirm->orderBy($orderFieldArray[$orderField], $orderByArray[$orderBy]);
         }*/
+        $confirm = $confirm->orderBy('id', 'desc');
+
         return $confirm;
     }
 
@@ -88,10 +92,10 @@ class ConfirmController extends BaseController
      * 创建
      * @param CreateRequest $request
      * @param ServiceOrder $order
-     * @param ServiceOrderConfirm $confirm
+     * @param ServiceOrderRepair $confirm
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(CreateRequest $request, ServiceOrder $order, ServiceOrderConfirm $confirm)
+    public function store(CreateRequest $request, ServiceOrder $order, ServiceOrderRepair $confirm)
     {
         $user = $request->user();
         $data = $request->only([
@@ -100,16 +104,16 @@ class ConfirmController extends BaseController
             'overall_satisfaction',
             'timeliness',
             'service_staff_atisfaction',
-            'cost_performance',
             'confirm_user_id',
             'confirm_user_name',
             'opinions_suggestions',
         ]);
+
         $data['is_solve'] = (int)$data['is_solve'];
         $data['overall_satisfaction'] = (int)$data['overall_satisfaction'];
         $data['timeliness'] = (int)$data['timeliness'];
         $data['service_staff_atisfaction'] = (int)$data['service_staff_atisfaction'];
-        $data['cost_performance'] = (int)$data['cost_performance'];
+//        $data['cost_performance'] = (int)$data['cost_performance'];             'cost_performance',
         $data['confirm_user_id'] = (int)$data['confirm_user_id'];
 
         $data['service_order_id'] = (int)$order['id'];
@@ -133,7 +137,7 @@ class ConfirmController extends BaseController
      * @param  \App\Models\ServiceOrder  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRequest $request, ServiceOrder $order, ServiceOrderConfirm $confirm)
+    public function update(UpdateRequest $request, ServiceOrder $order, ServiceOrderRepair $confirm)
     {
         $user = $request->user();
         $data = $request->only([
@@ -141,7 +145,6 @@ class ConfirmController extends BaseController
             'overall_satisfaction',
             'timeliness',
             'service_staff_atisfaction',
-            'cost_performance',
             'confirm_user_id',
             'confirm_user_name',
             'opinions_suggestions',
@@ -150,7 +153,7 @@ class ConfirmController extends BaseController
         $data['overall_satisfaction'] = (int)$data['overall_satisfaction'];
         $data['timeliness'] = (int)$data['timeliness'];
         $data['service_staff_atisfaction'] = (int)$data['service_staff_atisfaction'];
-        $data['cost_performance'] = (int)$data['cost_performance'];
+//        $data['cost_performance'] = (int)$data['cost_performance'];             'cost_performance',
         $data['confirm_user_id'] = (int)$data['confirm_user_id'];
 
         $data['updated_by'] = $user->userable_name;
@@ -170,7 +173,7 @@ class ConfirmController extends BaseController
      * @param  \App\Models\ServiceOrder  $order
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ServiceOrder $order, ServiceOrderConfirm $confirm)
+    public function destroy(ServiceOrder $order, ServiceOrderRepair $confirm)
     {
         $confirm->where('service_order_id', (int)$order['id'])->delete();
         return success_json($confirm, '删除成功');
