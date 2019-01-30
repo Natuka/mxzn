@@ -11,6 +11,8 @@ http://wx.mxcs.com/#/repair/create
 http://wx.mxcs.com/#/repair/create?id=2
 http://wx.mxcs.com/#/machine/info?id=CEQ43cba1d306b36252cabb372d0017c292
 
+
+https://mp.mxhj.net/?#/repair/create?id=2
 initData: {},
 
 // 数据初始化

@@ -81,7 +81,7 @@
         <van-cell-group>
           <van-field
             v-model="data.fault.desc"
-            label="故障描述"
+            label="故障描述*"
             type="textarea"
             placeholder="故障描述"
             rows="3"
@@ -126,11 +126,13 @@
               :on-change="(value, index) => data.fault.is_part_broken = index"
             />
           </van-cell>
-          <van-cell title="故障附件">
-            <van-uploader :after-read="onRead" accept="image/gif, image/jpeg" multiple>
-              <van-icon name="photograph"/>
-            </van-uploader>
-          </van-cell>
+            <mx-upload
+                ref="cause_doc"
+                title="故障附件*"
+                :list="causeDocs"
+                @on-change="handleCauseChange"
+                image
+            ></mx-upload>
         </van-cell-group>
       </van-collapse-item>
     </van-collapse>
@@ -204,21 +206,34 @@ export default {
     async onSubmit() {
       //   console.log("on submit");
       //   this.$toast.success("submited");
-      try {
-        await this.$api.repairCreate(this.data);
-        this.data = { ...defaultData };
-        this.$router.push({
-          path: "/repair/list",
-          query: {
-            refresh: 1
-          }
-        });
-      } catch (e) {
-        console.log("onSubmit", e);
-      }
+        const data = JSON.parse(JSON.stringify(this.data));
+        console.log('data64313253', data)
+        if (data.fault.desc === '' || +data.type === 0 || data.type === '请选择' || data.attach_ids === '') {
+            this.$toast('[服务类别、故障描述、故障附件] 必填!!!');
+        } else {
+            // try {
+            //     await this.$api.repairCreate(this.data);
+            //     this.data = {...defaultData};
+            //     this.$router.push({
+            //         path: "/repair/list",
+            //         query: {
+            //             refresh: 1
+            //         }
+            //     });
+            // } catch (e) {
+            //     console.log("onSubmit", e);
+            // }
+        }
     },
     onRead() {
-      console.log("upload");
+      console.log("upload8568");
+    },
+    handleCauseChange(files) {
+      this.$store.commit("setCauseDocs", files);
+      this.$store.commit(
+          "setCauseDocIds",
+          files.map(file => file.id).join(",")
+      );
     },
     selectValue(field, defaultValue, columns = []) {
       const data = this.data;
@@ -250,6 +265,7 @@ export default {
   mounted() {
     this.equipmentId = +this.$route.query.id;
     this.data.level = 3
+    this.data.emergency_degree = 3
     // console.log('equipmentId242534', this.equipmentId)
     if (this.equipmentId) {
         // 單筆

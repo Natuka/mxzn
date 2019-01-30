@@ -8,7 +8,8 @@ const state = {
     part: {},
     project: {},
     causeDocs: [],
-    stepDocs: []
+    stepDocs: [],
+    faultDocs: []
 }
 
 const getters = {
@@ -17,6 +18,9 @@ const getters = {
     },
     stepDocs({ stepDocs }) {
         return stepDocs
+    },
+    faultDocs({ faultDocs }) {
+        return faultDocs
     },
     repair({ data }) {
         return data
@@ -97,11 +101,17 @@ const mutations = {
     setCauseDocIds(state, docIds) {
         state.data.cause_doc_ids = docIds
     },
+    setFaultDocIds(state, docIds) {
+        state.data.fault_doc_ids = docIds
+    },
     setRemark(state, remark) {
         state.data.remark = remark
     },
     setCauseDocs(state, docs) {
         state.causeDocs = docs
+    },
+    setFaultDocs(state, docs) {
+        state.faultDocs = docs
     },
     setStepDocs(state, docs) {
         state.stepDocs = docs

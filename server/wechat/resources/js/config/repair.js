@@ -29,7 +29,6 @@ export default {
     engineers: [],
     engineer_ids: [], // 工程师列表
     machine_id: 0,
-    address: '',
     customer: {
         id: 0,
         erp_cust_id: 0,
@@ -102,5 +101,6 @@ export const repair = {
     cause: '',
     step_doc_ids: '',
     cause_doc_ids: '',
+    fault_doc_ids: '',
     remark: ''
 } // 进度ID // 进度内容 // 处理措施结果
