@@ -13,7 +13,7 @@ trait UploadTrait
 {
     protected function __getExt(UploadedFile $file)
     {
-        $ext = strtolower($file->getExtension());
+        $ext = strtolower($file->getClientOriginalExtension());
         if ($ext) {
             return $ext;
         }

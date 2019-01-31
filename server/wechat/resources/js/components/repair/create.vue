@@ -127,10 +127,10 @@
             />
           </van-cell>
             <mx-upload
-                ref="cause_doc"
+                ref="fault_doc"
                 title="故障附件*"
-                :list="causeDocs"
-                @on-change="handleCauseChange"
+                :list="faultDocs"
+                @on-change="handleFaultDocsChange"
                 image
             ></mx-upload>
         </van-cell-group>
@@ -151,6 +151,7 @@ import equipmentMixin from "../../mixins/equipment";
 import dayjs from "dayjs";
 
 import defaultData from "../../config/repair.js";
+import MxUpload from "../common/mx-upload";
 import { fetchEquipmentList } from "../../api/equipment";
 
 import {
@@ -169,7 +170,8 @@ const currentDate = dayjs().format("YYYY-MM-DD HH:mm:ss");
 export default {
   name: "mx-detail",
   components: {
-    [Action.name]: Action
+    [Action.name]: Action,
+    MxUpload
   },
   mixins: [backMixin, actionMixin, equipmentMixin],
   data() {
@@ -194,6 +196,9 @@ export default {
     machineType() {
       return MACHINE_TYPE[this.equipment.type] || "";
     },
+    faultDocs() {
+      return this.$store.getters.faultDocs;
+    },
     hasEquipmentId() {
       return this.equipmentId || 0;
     }
@@ -208,30 +213,31 @@ export default {
       //   this.$toast.success("submited");
         const data = JSON.parse(JSON.stringify(this.data));
         console.log('data64313253', data)
-        if (data.fault.desc === '' || +data.type === 0 || data.type === '请选择' || data.attach_ids === '') {
+        if (data.fault.desc === '' || +data.type === 0 || data.type === '请选择' || data.fault.fault_doc_ids === '') {
             this.$toast('[服务类别、故障描述、故障附件] 必填!!!');
         } else {
-            // try {
-            //     await this.$api.repairCreate(this.data);
-            //     this.data = {...defaultData};
-            //     this.$router.push({
-            //         path: "/repair/list",
-            //         query: {
-            //             refresh: 1
-            //         }
-            //     });
-            // } catch (e) {
-            //     console.log("onSubmit", e);
-            // }
+            try {
+                await this.$api.repairCreate(this.data);
+                this.data = {...defaultData};
+                this.$router.push({
+                    path: "/repair/list",
+                    query: {
+                        refresh: 1
+                    }
+                });
+            } catch (e) {
+                console.log("onSubmit", e);
+            }
         }
     },
     onRead() {
       console.log("upload8568");
     },
-    handleCauseChange(files) {
-      this.$store.commit("setCauseDocs", files);
+    handleFaultDocsChange(files) {
+      this.$store.commit("setFaultDocs", files);
+      this.data.fault.fault_doc_ids = files.map(file => file.id).join(",")
       this.$store.commit(
-          "setCauseDocIds",
+          "setFaultDocIds",
           files.map(file => file.id).join(",")
       );
     },
@@ -263,6 +269,7 @@ export default {
     }
   },
   mounted() {
+    this.$refs.fault_doc.setFiles(this.$store.getters.faultDocs);
     this.equipmentId = +this.$route.query.id;
     this.data.level = 3
     this.data.emergency_degree = 3

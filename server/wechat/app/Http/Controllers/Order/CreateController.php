@@ -107,6 +107,7 @@ class CreateController extends Controller
                 'type',
                 'sequence',
                 'code',
+                'fault_doc_ids',
                 'is_line_broken',
                 'is_part_broken',
             ]);
@@ -126,7 +127,11 @@ class CreateController extends Controller
             if ($attach_ids) {
                 $order->documents()->withTimestamps()->sync($attach_ids);
             }
-
+            $fault_doc_ids = isset($fault['fault_doc_ids']) ? explode(',', $fault['fault_doc_ids']) : [];
+            // 保存附件
+            if ($fault_doc_ids) {
+                $order->documents()->withTimestamps()->sync($fault_doc_ids);
+            }
             //通知 所有工程师
             // 微信端通知工程师
             Engineer::where('status', 1)->selectRaw('*')

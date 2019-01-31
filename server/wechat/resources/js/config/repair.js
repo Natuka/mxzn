@@ -81,7 +81,7 @@ export default {
         is_part_broken: 0, // 部品是否损坏
         desc: '',
         code: '', // 故障代码
-        file: '', // 故障附件
+        fault_doc_ids: '', // 故障附件
         remark: '' // 备注
     }
 }
@@ -101,6 +101,5 @@ export const repair = {
     cause: '',
     step_doc_ids: '',
     cause_doc_ids: '',
-    fault_doc_ids: '',
     remark: ''
 } // 进度ID // 进度内容 // 处理措施结果
