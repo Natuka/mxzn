@@ -63,7 +63,7 @@ php artisan make:migration alert_table_service_order_repairs_add_evaluate --tabl
 12     console.log(await asyncAwaitFn('string 1'));
 13     console.log(await asyncAwaitFn('string 2'));
 14     console.timeEnd('serialFn')
-
+        @unlink( storage_path('app/public/' . $relativePath).'/img_1548949628.4462.jpg' );
 图片上传实际目录api\storage\app\public\2019\01
 <img data-v-f5c47720="" width="100" src="
 

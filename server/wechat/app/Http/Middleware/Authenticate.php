@@ -39,9 +39,14 @@ class Authenticate extends Middleware
     {
         $user = session('wechat.oauth_user.default');
         $wechatUser = \EasyWeChat::officialAccount()->user->get($user->getId());
-
+        \Log::info([
+            'wechatUser769558' => $wechatUser
+        ]);
         $fan = User::findByOpenid($wechatUser['openid']);
         if (!$fan) {
+            if (!isset($wechatUser['nickname']) || empty($wechatUser['nickname'])) {
+                $wechatUser['nickname'] = $wechatUser['openid'];
+            }
             $fan = new User();
             $fan->forceFill([
                 'openid' => $wechatUser['openid'],

@@ -245,7 +245,7 @@ class EquipmentController extends Controller
             $data['qrcode_url'] = 'https://mp.mxhj.net/machine/'.$qrcode_key;
             $data['qrcode_img'] = 'qrcodes/'.$qrcode_key.'.png';
             //产生QRCODE
-            QrCode::format('png')->size(300)->generate($data['qrcode_url'], public_path($data['qrcode_img']));
+            QrCode::format('png')->size(300)->merge('/public/qrcodes/mx_logo.png',.15)->generate($data['qrcode_url'], public_path($data['qrcode_img']));
         }
 
         if ($customerequipment) {

@@ -31,8 +31,60 @@ Route::get('/fileBack/image', 'File\ImageController@get');
 
 // 微信必须验证
 // 'wechat.oauth' 'wechat.oauth','auth'
-// 调试时，可以先删除，在正式环境上，在加回去 'wechat.oauth','auth'
-Route::group(['middleware' => []], function () {
+// 调试时，可以先删除，在正式环境上，在加回去 'wechat.oauth'
+Route::group(['middleware' => ['wechat.oauth']], function () {
+
+//    需要验证登录，调试时可以先删除，在正式环境上，在加回去 'auth'
+    Route::group(['middleware' => ['auth']], function () {
+
+        Route::group(['prefix' => 'repair', 'namespace' => 'Order'], function () {
+            // 订单列表
+            Route::get('list', 'IndexController@index');
+            Route::get('{order}/info', 'IndexController@get');
+
+            // 签到
+            Route::get('{order}/attendances', 'AttendanceController@get');
+
+            // 签到提交
+            Route::post('{order}/attendance', 'AttendanceController@store');
+            // 处理
+            Route::get('action/{order}', 'ActionController@get');
+
+            Route::get('/{order}/repair', 'RepairController@index');
+            Route::post('/{order}/repair', 'RepairController@store');
+            Route::post('/{order}/repair/{repair}', 'RepairController@update');
+            // 附件
+            Route::get('{order}/document', 'DocumentController@get');
+            // 转派
+            Route::get('{order}/change', 'ChangeController@get');
+            // 完工
+            Route::get('{order}/complete', 'CompleteController@get');
+            // 配件耗材
+            Route::get('{order}/equipment', 'EquipmentController@get');
+            // 服务项目
+            Route::get('{order}/service', 'ServiceController@get');
+            // 操作记录
+            Route::get('{order}/log', 'LogController@get');
+            // 催单记录
+            Route::get('{order}/followup', 'FollowupController@get');
+
+            Route::post('create', 'CreateController@store');
+            Route::post('evaluate/{order}', 'EvaluateController@store');
+            Route::get('evaluate/last', 'EvaluateController@last');
+            Route::get('evaluate/list', 'EvaluateController@index');
+            Route::get('evaluate/list', 'EvaluateController@index');
+
+            Route::get('detail', 'RepairController@info');
+        });
+
+        // 维修确认&评价
+        Route::get('/repair/confirm', 'Order\ConfirmController@get');
+        Route::post('/repair/confirm', 'Order\ConfirmController@post');
+
+        // 机器
+        Route::get('/equipment', 'Equipment\IndexController@index');
+        Route::post('/equipment/create', 'Equipment\IndexController@store');
+    });
     Route::get('/', 'IndexController@index');
     Route::get('/geo', 'GeoController@get');
 
@@ -112,59 +164,13 @@ Route::group(['middleware' => []], function () {
 
     // 机器报修
     Route::get('/machine/{machine}', 'Order\ConfirmController@get');
-    // 机器
-    Route::get('/equipment', 'Equipment\IndexController@index');
-    Route::post('/equipment/create', 'Equipment\IndexController@store');
 
     // 机器报修
     Route::get('/repair/machine', 'Order\ConfirmController@get');
     Route::post('/repair/machine', 'Order\ConfirmController@post');
 
-    Route::group(['prefix' => 'repair', 'namespace' => 'Order'], function () {
-        // 订单列表
-        Route::get('list', 'IndexController@index');
-        Route::get('{order}/info', 'IndexController@get');
-
-        // 签到
-        Route::get('{order}/attendances', 'AttendanceController@get');
-
-        // 签到提交
-        Route::post('{order}/attendance', 'AttendanceController@store');
-        // 处理
-        Route::get('action/{order}', 'ActionController@get');
-
-        Route::get('/{order}/repair', 'RepairController@index');
-        Route::post('/{order}/repair', 'RepairController@store');
-        Route::post('/{order}/repair/{repair}', 'RepairController@update');
-        // 附件
-        Route::get('{order}/document', 'DocumentController@get');
-        // 转派
-        Route::get('{order}/change', 'ChangeController@get');
-        // 完工
-        Route::get('{order}/complete', 'CompleteController@get');
-        // 配件耗材
-        Route::get('{order}/equipment', 'EquipmentController@get');
-        // 服务项目
-        Route::get('{order}/service', 'ServiceController@get');
-        // 操作记录
-        Route::get('{order}/log', 'LogController@get');
-        // 催单记录
-        Route::get('{order}/followup', 'FollowupController@get');
-
-        Route::post('create', 'CreateController@store');
-        Route::post('evaluate/{order}', 'EvaluateController@store');
-        Route::get('evaluate/last', 'EvaluateController@last');
-        Route::get('evaluate/list', 'EvaluateController@index');
-        Route::get('evaluate/list', 'EvaluateController@index');
-
-        Route::get('detail', 'RepairController@info');
-    });
-
     Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
         Route::get('info', 'UserController@info');
     });
 
-    // 维修确认&评价
-    Route::get('/repair/confirm', 'Order\ConfirmController@get');
-    Route::post('/repair/confirm', 'Order\ConfirmController@post');
 });
