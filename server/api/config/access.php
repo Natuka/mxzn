@@ -149,6 +149,12 @@ return ['super_admin',
     'order_flow_equipments_edit',
     'order_flow_equipments_remove',
 
+    'knowledge_list',
+    'knowledge_add',
+    'knowledge_edit',
+    'knowledge_view',
+    'knowledge_remove',
+
     'machine_list',
     'machine_add',
     'machine_edit',
