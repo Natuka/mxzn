@@ -6,12 +6,12 @@
           新增
           <Icon type="md-add"/>
         </Button>
-        <Button type="primary" @click="refresh" v-if="accessAdd()" class="ml-5">
+        <Button type="primary" @click="refresh" class="ml-5">
           刷新
           <Icon type="md-refresh"/>
         </Button>
       </div>
-      <customer-search ref="search" @on-search="onSearch"></customer-search>
+      <knowledge-search ref="search" @on-search="onSearch"></knowledge-search>
       <tables
         ref="tables"
         :loading="loading"
@@ -26,8 +26,8 @@
       <Page :current="page" :total="total" show-elevator @on-change="toPage"/>
       <!--<Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>-->
     </Card>
-    <customer-add ref="add" @refresh="refresh"></customer-add>
-    <customer-edit ref="edit" @refresh="refreshWithPage"></customer-edit>
+    <knowledge-add ref="add" @refresh="refresh"></knowledge-add>
+    <knowledge-edit ref="edit" @refresh="refreshWithPage"></knowledge-edit>
   </div>
 </template>
 
@@ -38,7 +38,7 @@ import search from './search'
 import add from './add'
 import edit from './edit'
 
-import * as customerConst from '../../constants/customer'
+import * as knowledgeConst from '../../constants/knowledge'
 
 import listMixin from '../../mixins/list'
 import constsMixin from '../../mixins/consts'
@@ -54,113 +54,106 @@ export default {
   mixins: [listMixin, constsMixin],
   data () {
     return {
-      url: 'customer',
+      url: 'knowledge',
       access: {
-        add: 'customer_add',
-        view: 'customer_view',
-        edit: 'customer_edit',
-        remove: 'customer_remove'
+        add: 'knowledge_add',
+        view: 'knowledge_view',
+        edit: 'knowledge_edit',
+        remove: 'knowledge_remove'
       },
       columns: [
         {
           width: 120,
-          title: '客户编号',
-          key: 'number',
-          sortable: true
-        },
-        {
-          width: 150,
-          title: '公司简称',
-          key: 'name_short',
-          sortable: true
-        },
-        {
-          width: 120,
-          title: '客户类别',
+          title: '类别',
           key: 'type',
           sortable: true,
-          render: this.constRender('type', customerConst.TYPE_LIST)
+          render: this.constRender('type', knowledgeConst.TYPE_LIST)
         },
         {
-          width: 120,
-          title: '所属行业',
-          key: 'industry',
+          width: 180,
+          title: '子类别',
+          key: 'type1',
           sortable: true,
-          render: this.constRender('industry', customerConst.INDUSTRY_LIST)
+          render: this.constRender('type1', knowledgeConst.TYPE1_LIST)
         },
         {
-          width: 120,
-          title: '客户级别',
-          key: 'level',
-          sortable: true,
-          render: this.constRender('level', customerConst.LEVEL_LIST)
-        },
-        {
-          width: 120,
-          title: '客户来源',
-          key: 'source',
-          sortable: true,
-          render: this.constRender('source', customerConst.SOURCE_LIST)
-        },
-        {
-          width: 160,
-          title: '跟进状态',
-          key: 'follow_up_status',
-          sortable: true,
-          render: this.constRender('follow_up_status', customerConst.FOLLOW_UP_STATUS_LIST)
-        },
-        {
-          width: 120,
-          title: '人员规模',
-          key: 'staff_scale',
-          sortable: true,
-          render: this.constRender('staff_scale', customerConst.STAFF_SCALE_LIST)
-        },
-        {
-          width: 120,
-          title: '购买力',
-          key: 'purchasing_power',
-          sortable: true,
-          render: this.constRender('purchasing_power', customerConst.PURCHASING_POWER_LIST)
-        },
-        {
-          width: 150,
-          title: '所在地址',
-          key: 'address',
+          width: 300,
+          title: '主题',
+          key: 'subject_name',
           sortable: false
         },
         {
-          width: 120,
-          title: '所属业务员',
-          key: 'salesman_id',
+          width: 100,
+          title: '下载量',
+          key: 'downloads',
           sortable: true
         },
         {
-          width: 160,
-          title: '最近联系时间',
-          key: 'contact_lasttime',
+          width: 260,
+          title: '附件',
+          key: 'attach_file',
           sortable: false
         },
         {
-          width: 160,
-          title: '下次跟进时间',
-          key: 'follow_up_nexttime',
+          width: 180,
+          title: '备注',
+          key: 'remark',
           sortable: false
         },
+        // {
+        //   width: 200,
+        //   title: '主要内容',
+        //   key: 'text',
+        //   sortable: false
+        // },
         {
-          width: 120,
-          title: '是否黑名单',
-          key: 'blacklist',
-          // sortable: true,
-          render: this.constRender('blacklist', customerConst.BLACK_LIST)
+          width: 100,
+          title: '建立人员',
+          key: 'created_by'
+        },
+        {
+          width: 100,
+          title: '修改人员',
+          key: 'updated_by'
+        },
+        {
+          title: ' ',
+          key: ''
         },
         {
           fixed: 'right',
-          width: 120,
+          width: 160,
           title: '操作',
           key: 'handle',
           options: ['delete'],
           button: [
+            (h, params, vm) => {
+              let buttonTile = '查看'
+              if (!this.accessView()) {
+                return
+              } else {
+                if (this.accessEdit()) {
+                  buttonTile = '修改'
+                }
+              }
+              return h(
+                'Button',
+                {
+                  props: {
+                    type: 'primary'
+                  },
+                  style: {
+                    marginLeft: '.6rem'
+                  },
+                  on: {
+                    click: () => {
+                      this.onEdit(params.row)
+                    }
+                  }
+                },
+                buttonTile
+              )
+            },
             (h, params, vm) => {
               return h(
                 'Poptip',
@@ -175,28 +168,6 @@ export default {
                     }
                   }
                 }
-              )
-            },
-            (h, params, vm) => {
-              if (!this.accessView()) {
-                return
-              }
-              return h(
-                'Button',
-                {
-                  props: {
-                    type: 'primary'
-                  },
-                  style: {
-                    marginLeft: '.6rem'
-                  },
-                  on: {
-                    click: () => {
-                      this.onEdit()
-                    }
-                  }
-                },
-                '修改'
               )
             }
           ]

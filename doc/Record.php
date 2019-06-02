@@ -12,6 +12,12 @@ http://wx.mxcs.com/#/repair/create?id=2
 http://wx.mxcs.com/#/machine/info?id=CEQ43cba1d306b36252cabb372d0017c292
 
 
+ALTER TABLE `knowledge_base`
+ADD COLUMN `attach_ids`  varchar(252) NULL COMMENT '附件IDS' AFTER `attach_file`;
+
+
+
+
 https://mp.mxhj.net/?#/repair/create?id=2
 initData: {},
 

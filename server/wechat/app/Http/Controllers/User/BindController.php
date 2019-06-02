@@ -16,6 +16,10 @@ class BindController extends Controller
     {
         $mobile = e($request->get('mobile'));
         $user = auth()->user();
+//        \Log::info([
+//            'user7349558' => $user,
+//            'mobile7349558' => $mobile,
+//        ]);
         if ($user->mobile) {
             return error_json('您已经绑定手机号');
         }
@@ -55,6 +59,8 @@ class BindController extends Controller
             return success_json('绑定成功,已提交审核');
         }
 
+        $user->mobile = $mobile;
+        $user->save();
         return success_json('该手机号无效');
     }
 }

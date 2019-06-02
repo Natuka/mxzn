@@ -65,6 +65,7 @@ class IndexController extends Controller
             'downloads',
             'text',
             'attach_file',
+            'attach_ids',
             'remark',
         ]);
         $data['created_by'] = $user->userable_name;
@@ -137,6 +138,7 @@ class IndexController extends Controller
             'downloads',
             'text',
             'attach_file',
+            'attach_ids',
             'remark',
         ]);
         $data['updated_by'] = $user->userable_name;

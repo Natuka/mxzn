@@ -1,101 +1,175 @@
 <template>
   <custom-modal
     ref="ref"
-    width="800px"
-    title="2333"
+    width="1000px"
+    title="知识-修改"
     @on-submit="onSubmit"
     @on-cancel="onCancel"
-    :postable="access"
+    class="mxcs-three-column"
   >
-      <div>
-        <Form :model="formItem" :label-width="80">
-            <FormItem label="Input">
-                <Input v-model="formItem.input" placeholder="Enter something..."></Input>
-            </FormItem>
-            <FormItem label="Select">
-                <Select v-model="formItem.select">
-                    <Option value="beijing">New York</Option>
-                    <Option value="shanghai">London</Option>
-                    <Option value="shenzhen">Sydney</Option>
-                </Select>
-            </FormItem>
-            <FormItem label="DatePicker">
-                <Row>
-                    <Col span="11">
-                        <DatePicker type="date" placeholder="Select date" v-model="formItem.date"></DatePicker>
-                    </Col>
-                    <Col span="2" style="text-align: center">-</Col>
-                    <Col span="11">
-                        <TimePicker type="time" placeholder="Select time" v-model="formItem.time"></TimePicker>
-                    </Col>
-                </Row>
-            </FormItem>
-            <FormItem label="Radio">
-                <RadioGroup v-model="formItem.radio">
-                    <Radio label="male">Male</Radio>
-                    <Radio label="female">Female</Radio>
-                </RadioGroup>
-            </FormItem>
-            <FormItem label="Checkbox">
-                <CheckboxGroup v-model="formItem.checkbox">
-                    <Checkbox label="Eat"></Checkbox>
-                    <Checkbox label="Sleep"></Checkbox>
-                    <Checkbox label="Run"></Checkbox>
-                    <Checkbox label="Movie"></Checkbox>
-                </CheckboxGroup>
-            </FormItem>
-            <FormItem label="Switch">
-                <i-switch v-model="formItem.switch" size="large">
-                    <span slot="open">On</span>
-                    <span slot="close">Off</span>
-                </i-switch>
-            </FormItem>
-            <FormItem label="Slider">
-                <Slider v-model="formItem.slider" range></Slider>
-            </FormItem>
-            <FormItem label="Text">
-                <Input v-model="formItem.textarea" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..."></Input>
-            </FormItem>
-            <FormItem>
-                <Button type="primary">Submit</Button>
-                <Button style="margin-left: 8px">Cancel</Button>
-            </FormItem>
-        </Form>
-      </div>
+    <div>
+      <Form :model="data"
+            ref="addForm"
+            :rules="rules"
+            :label-width="100">
+
+        <FormItem label="主题:" prop="subject_name">
+          <Input v-model="data.subject_name" placeholder="主题"></Input>
+        </FormItem>
+
+        <FormItem label="类别:" prop="type">
+          <Select v-model="data.type">
+            <Option
+              v-for="(type, index) in typeList"
+              :key="index"
+              :value="index"
+            >{{type}}
+            </Option>
+          </Select>
+        </FormItem>
+
+        <FormItem label="子类别:" prop="type1">
+          <Select v-model="data.type1">
+            <Option
+              v-for="(type, index) in type1List"
+              :key="index"
+              :value="index"
+            >{{type}}
+            </Option>
+          </Select>
+        </FormItem>
+
+        <FormItem label="标签:" prop="label">
+          <Input v-model="data.label" placeholder="标签"></Input>
+        </FormItem>
+
+        <FormItem label="下载量:" prop="downloads">
+          <Input v-model="data.downloads" placeholder="下载量"></Input>
+        </FormItem>
+
+        <FormItem label="附件名">
+          <Input v-model="data.attach_file" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
+                 placeholder="附件名..."></Input>
+        </FormItem>
+
+        <FormItem label="主要内容" style="width: 99%">
+          <Input v-model="data.text" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
+                 placeholder="主要内容..."></Input>
+        </FormItem>
+
+        <FormItem label="附件" prop="data.attach_ids" style="width: 99%">
+          <mx-upload-doc
+            ref="attach"
+            :multi="true"
+            @on-change="handleDocChange"
+          ></mx-upload-doc>
+        </FormItem>
+
+        <FormItem label="备注" style="width: 66%">
+          <Input v-model="data.remark" type="textarea" :autosize="{minRows: 2,maxRows: 3}"
+                 placeholder="备注..."></Input>
+        </FormItem>
+
+        <FormItem label="建立人员">
+          <Input v-model="data.created_by" placeholder="建立人员" disabled></Input>
+        </FormItem>
+        <FormItem label="建立日期">
+          <Input v-model="data.created_at" placeholder="建立日期" disabled></Input>
+        </FormItem>
+        <FormItem label="最近修改人员">
+          <Input v-model="data.updated_by" placeholder="最近修改人员" disabled></Input>
+        </FormItem>
+        <FormItem label="最近修改日期">
+          <Input v-model="data.updated_at" placeholder="最近修改日期" disabled></Input>
+        </FormItem>
+      </Form>
+    </div>
   </custom-modal>
 </template>
 
 <script>
 
 import ModalMixin from '@/mixins/modal'
+import AreaMixin from '@/mixins/area'
+import uploadDoc from '@/components/upload/doc'
+
+import {updateKnowledge} from '../../api/knowledge'
+
+import * as knowledgeConst from '../../constants/knowledge'
 
 export default {
-  name: 'customer-edit',
-  mixins: [ModalMixin],
+  name: 'knowledge-edit',
+  mixins: [ModalMixin, AreaMixin],
+  components: {
+    [uploadDoc.name]: uploadDoc
+  },
   data () {
     return {
-      formItem: {
-        input: '',
-        select: '',
-        radio: 'male',
-        checkbox: [],
-        switch: true,
-        date: '',
-        time: '',
-        slider: [20, 50],
-        textarea: ''
+      data: {
+        attach_ids: '',
+        attach: '',
+        subject_name: '',
+        type: 0,
+        type1: 0,
+        downloads: 0,
+        label: '',
+        text: '',
+        remark: '',
+        attach_file: ''
       },
-      data: {},
+      rules: {
+        subject_name: [
+          {required: true, message: '主题不能为空', trigger: 'blur'}
+        ],
+        label: [
+          {required: true, message: '标签不能为空', trigger: 'blur'}
+        ]
+      },
+      typeList: knowledgeConst.TYPE_LIST,
+      type1List: knowledgeConst.TYPE1_LIST
     }
+  },
+  // 数据初始化
+  created () {
+    this.initData = {...this.data}
+    // console.log('initData4563', this.initData)
   },
   methods: {
     onSubmit (e) {
-      console.log('onsubmit', e)
-     this.withRefresh(e)
+      this.$refs.addForm.validate(async (valid) => {
+        if (valid) {
+          try {
+            let data = await updateKnowledge(this.data, this.data.id)
+            console.log('data', data)
+            this.withRefresh(e)
+          } catch (e) {
+            this.closeLoading()
+          }
+        } else {
+          this.closeLoading()
+        }
+      })
     },
     onCancel (e) {
-      console.log('oncancel', e)
       e()
+    },
+    async beforeOpen () {
+      return true
+    },
+    async afterOpen () {
+      let data = this.data
+
+      if (data.attach_ids) {
+        try {
+          let {data: attachDos} = await getDocList(data.attach_ids.split(','))
+          this.$refs.cause.initData(attachDos)
+        } catch (e) {
+          console.log('get attach ids fail', e)
+        }
+      }
+    },
+    async handleDocChange (files) {
+      this.data.attach_ids = files.map(file => file.id).join(',')
     }
   }
 }

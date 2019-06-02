@@ -32,7 +32,7 @@ Route::get('/fileBack/image', 'File\ImageController@get');
 // 微信必须验证
 // 'wechat.oauth' 'wechat.oauth','auth'
 // 调试时，可以先删除，在正式环境上，在加回去 'wechat.oauth'
-Route::group(['middleware' => ['wechat.oauth']], function () {
+Route::group(['middleware' => []], function () {
 
 //    需要验证登录，调试时可以先删除，在正式环境上，在加回去 'auth'
     Route::group(['middleware' => ['auth']], function () {

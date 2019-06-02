@@ -12,7 +12,7 @@
           <Icon type="md-add"/>
         </Button>
 
-        <Button type="primary" @click="refresh" v-if="accessAdd()" class="ml-5">
+        <Button type="primary" @click="refresh" class="ml-5">
           刷新
           <Icon type="md-refresh"/>
         </Button>
