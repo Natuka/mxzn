@@ -89,7 +89,7 @@ export default {
     getThisUrl (info) {
       let linkUrl = 'https://mp.mxhj.net/fileBack/image/?id='
       if (+info.up_from === 1) {
-        linkUrl = 'https://api.mxhj.net/fileBack/image/?id='
+        linkUrl = 'https://api.mxhj.net/fileBack/doc/?id='
       }
       linkUrl = linkUrl + info.id + '&amp;time=' + info.created_at + '&amp;filename=' + info.name + '&amp;source_name' + info.source_name
       return linkUrl

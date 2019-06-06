@@ -17,6 +17,8 @@ Route::get('/', function () {
 
 Route::get('/fileBack/image', 'Admin\File\ImageController@get');
 
+Route::get('/fileBack/doc', 'Admin\File\DocController@get');
+
 load_routes(__DIR__ . '/admin');
 
 
