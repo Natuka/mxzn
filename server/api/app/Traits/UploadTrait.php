@@ -63,7 +63,7 @@ trait UploadTrait
             'path' => '/' . $relativePath . '/' . $fileName,
             'type' => $request->get('type', 1),
             'ext' => $ext,
-            'size' => $file->getClientSize(),
+            'size' => $file->getSize(),
             'up_from' => 1,
             'source_name' => $file->getClientOriginalName()
         ];
@@ -78,7 +78,7 @@ trait UploadTrait
             'name' => $fileName,
             'saveName' => $saveName,
             'ext' => $ext,
-            'size' => $file->getClientSize(),
+            'size' => $file->getSize(),
             'up_from' => 1,
             'source_name' => $file->getClientOriginalName()
         ]);

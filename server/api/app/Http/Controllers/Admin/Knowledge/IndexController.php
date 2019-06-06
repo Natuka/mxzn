@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Knowledge;
 use App\Http\Requests\Admin\Knowledge\CreateRequest;
 use App\Http\Requests\Admin\Knowledge\UpdateRequest;
 use App\Models\KnowledgeBase;
+use App\Models\Document;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -73,6 +74,8 @@ class IndexController extends Controller
         $data['type'] = intval($data['type']);
         $data['type1'] = intval($data['type1']);
         $data['downloads'] = intval($data['downloads']);
+
+        $data['attach_file'] = Document::getDocumentNames($data['attach_ids']);
 
         //dd($data);
         $ret = $knowledge->forceFill($data)->save();
@@ -146,6 +149,8 @@ class IndexController extends Controller
         $data['type'] = intval($data['type']);
         $data['type1'] = intval($data['type1']);
         $data['downloads'] = intval($data['downloads']);
+
+        $data['attach_file'] = Document::getDocumentNames($data['attach_ids']);
 
         $ret = $knowledge->forceFill($data)->save();
 
