@@ -53,7 +53,8 @@ trait UploadTrait
         ];
 
         $fileName = 'doc_' . microtime(true) . '.' . $ext;
-        $file_size = $file->getSize();
+        $file_size = $file->getClientSize();
+        $OriginalName = $file->getClientOriginalName();
         $saveName = $file->move($appPath, $fileName);
 
         $data = [
@@ -65,7 +66,7 @@ trait UploadTrait
             'ext' => $ext,
             'size' => $file_size,
             'up_from' => 1,
-            'source_name' => $file->getClientOriginalName()
+            'source_name' => $OriginalName
         ];
 
         $document->forceFill($data)->save();
@@ -80,7 +81,7 @@ trait UploadTrait
             'ext' => $ext,
             'size' => $file_size,
             'up_from' => 1,
-            'source_name' => $file->getClientOriginalName()
+            'source_name' => $OriginalName
         ]);
     }
 
