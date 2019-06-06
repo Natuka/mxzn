@@ -172,6 +172,14 @@ trait UploadTrait
     {
         $id = $request->get('id', 0);
         $info = Document::find($id);
-        return success_json($info);
+//        return success_json($info);
+        if ($info) {
+            $file = 'app/public' . $info->path;
+            //判断文件是否存在
+            if(!file_exists(storage_path($file))) exit('File not find!');
+            return response()->download(storage_path($file));
+        } else {
+            exit('File not find!!');
+        }
     }
 }
