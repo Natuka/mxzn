@@ -53,7 +53,7 @@ trait UploadTrait
         ];
 
         $fileName = 'doc_' . microtime(true) . '.' . $ext;
-
+        $file_size = $file->getSize();
         $saveName = $file->move($appPath, $fileName);
 
         $data = [
@@ -63,7 +63,7 @@ trait UploadTrait
             'path' => '/' . $relativePath . '/' . $fileName,
             'type' => $request->get('type', 1),
             'ext' => $ext,
-            'size' => $file->getSize(),
+            'size' => $file_size,
             'up_from' => 1,
             'source_name' => $file->getClientOriginalName()
         ];
@@ -78,7 +78,7 @@ trait UploadTrait
             'name' => $fileName,
             'saveName' => $saveName,
             'ext' => $ext,
-            'size' => $file->getSize(),
+            'size' => $file_size,
             'up_from' => 1,
             'source_name' => $file->getClientOriginalName()
         ]);

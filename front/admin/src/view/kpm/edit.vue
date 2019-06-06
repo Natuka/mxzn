@@ -49,7 +49,7 @@
 
         <FormItem label="附件名">
           <Input v-model="data.attach_file" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
-                 placeholder="附件名..."></Input>
+                 placeholder="附件名..." readonly="true"></Input>
         </FormItem>
 
         <FormItem label="主要内容" style="width: 99%">
@@ -96,6 +96,8 @@ import uploadDoc from '@/components/upload/doc'
 import {updateKnowledge} from '../../api/knowledge'
 
 import * as knowledgeConst from '../../constants/knowledge'
+
+import {getDocList} from '@/api/upload/doc'
 
 export default {
   name: 'knowledge-edit',
@@ -162,10 +164,12 @@ export default {
       if (data.attach_ids) {
         try {
           let {data: attachDos} = await getDocList(data.attach_ids.split(','))
-          this.$refs.cause.initData(attachDos)
+          this.$refs.attach.initData(attachDos)
         } catch (e) {
           console.log('get attach ids fail', e)
         }
+      } else {
+        this.$refs.attach.initData([])
       }
     },
     async handleDocChange (files) {

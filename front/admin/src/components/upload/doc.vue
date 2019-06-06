@@ -48,7 +48,8 @@ export default {
   },
   data () {
     return {
-      url: `${baseUrl}/file/image`,
+      // url: `${baseUrl}/file/image`,
+      url: `${baseUrl}/file/doc`,
       list: []
     }
   },

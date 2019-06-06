@@ -49,12 +49,20 @@
 
         <FormItem label="附件名">
           <Input v-model="data.attach_file" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
-                 placeholder="附件名..."></Input>
+                 placeholder="附件名..." readonly="true"></Input>
         </FormItem>
 
         <FormItem label="主要内容" style="width: 98%">
           <Input v-model="data.text" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
                  placeholder="主要内容..."></Input>
+        </FormItem>
+
+        <FormItem label="附件" prop="data.attach_ids" style="width: 99%">
+          <mx-upload-doc
+            ref="attach"
+            :multi="true"
+            @on-change="handleDocChange"
+          ></mx-upload-doc>
         </FormItem>
 
         <FormItem label="备注" style="width: 66%">
@@ -82,17 +90,25 @@
 <script>
 
   import ModalMixin from '@/mixins/modal'
+  import AreaMixin from '@/mixins/area'
+  import uploadDoc from '@/components/upload/doc'
 
   import {addKnowledge} from '../../api/knowledge'
 
   import * as knowledgeConst from '../../constants/knowledge'
+  import {getDocList} from '@/api/upload/doc'
 
   export default {
     name: 'knowledge-add',
-    mixins: [ModalMixin],
+    mixins: [ModalMixin, AreaMixin],
+    components: {
+      [uploadDoc.name]: uploadDoc
+    },
     data () {
       return {
         data: {
+          attach_ids: '',
+          attach: '',
           subject_name: '',
           type: 0,
           type1: 0,
@@ -114,6 +130,11 @@
         type1List: knowledgeConst.TYPE1_LIST
       }
     },
+    // 数据初始化
+    created () {
+      this.initData = {...this.data}
+      // console.log('initData4563', this.initData)
+    },
     methods: {
       onSubmit (e) {
         this.$refs.addForm.validate(async (valid) => {
@@ -133,6 +154,26 @@
       },
       onCancel (e) {
         e()
+      },
+      async beforeOpen () {
+        return true
+      },
+      async afterOpen () {
+        let data = this.data
+
+        if (data.attach_ids) {
+          try {
+            let {data: attachDos} = await getDocList(data.attach_ids.split(','))
+            this.$refs.attach.initData(attachDos)
+          } catch (e) {
+            console.log('get attach ids fail', e)
+          }
+        } else {
+          this.$refs.attach.initData([])
+        }
+      },
+      async handleDocChange (files) {
+        this.data.attach_ids = files.map(file => file.id).join(',')
       }
     }
   }
